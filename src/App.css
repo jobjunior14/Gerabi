@@ -24,6 +24,56 @@
   color: white;
 }
 
+table, body
+{
+  text-align: center;
+}
+th 
+{
+  text-align: center;
+  border: 1px solid black;
+}
+
+table
+{
+  margin: auto;
+}
+
+input
+{
+  margin: 5px;
+  width: 100px;
+  height: 14px;
+  padding: 2px 0px;
+  padding-left: 5px;
+
+}
+
+input:active
+{
+  border:1px solid rgb(182, 174, 174);
+}
+
+input:hover
+{
+  border:1px solid rgb(45, 33, 112);
+}
+
+select
+{
+  margin-top: 20px;
+  margin-bottom: 10px;
+  width: 180px;
+  height: 20px;
+  border-radius: 5px;
+  border: 1px solid rgb(182, 174, 174);
+}
+
+.my-link 
+{
+  color: #61dafb;
+}
+
 .App-link {
   color: #61dafb;
 }
