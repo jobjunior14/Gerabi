@@ -1,4 +1,4 @@
-const AppError = require ( `${__dirname}/../utils/appError.js` );
+ const AppError = require ( `${__dirname}/../utils/appError.js` );
 const apiFeatures = require ( `${__dirname}/../utils/apiFutures.js`);
 const Brasimba = require ( `${__dirname}/../models/brasimbaModel.js`);
 const catchAssynch = require ( `${__dirname}/../utils/catchAssynch.js`);
