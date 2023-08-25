@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
 
-const BrasimbaSubSchema = new mongoose.Schema ({
+
+const arraySchema = new mongoose.Schema({
     achat_journalier:
     {
         qt_caisse: { 
@@ -131,12 +132,35 @@ const BrasimbaSubSchema = new mongoose.Schema ({
         type: Date,
         default: Date.now()
     }
+})
+const dataSchema = new mongoose.Schema({
+    mois:
+    {
+        type: Number,
+        default: Number ( new Date().toLocaleDateString().slice(3, 5))
+    },
+    data:[arraySchema]
+})
+const BrasimbaSubSchema = new mongoose.Schema ({
+    annee: 
+    {
+        type: Number,
+        default: Number (new Date().toLocaleDateString().slice(6))
+    },
+
+    data:[dataSchema]
 });
 
 
 const statsData = new mongoose.Schema ({
-    mois:{
+
+    name: {
         type: String,
+        require: true
+    },
+    
+    mois:{
+        type: Number,
         require: true,
         unique: true
     },
@@ -155,10 +179,101 @@ const statsData = new mongoose.Schema ({
 
 const statsArray = new mongoose.Schema ({
     annee: {
-        type: String,
+        type: Number,
     },
 
     data:[statsData]
+});
+
+const statsDataSuivi = new mongoose.Schema ({
+    name:
+    {
+        type: String,
+        require: true,
+    },
+    mois:{
+        type: Number,
+        require: true,
+        unique: true
+    },
+    qt_caisse:
+    {
+        type: Number,
+        require: true
+    },
+    valeur:
+    {
+        type: Number,
+        require: true
+    }
+});
+
+const statsArraySuivi = new mongoose.Schema ({
+    annee: {
+        type: Number,
+        require: true
+    },
+
+    data:[statsDataSuivi]
+});
+
+const suiviSub = new mongoose.Schema ({
+
+    createdAt: {
+        type: Date,
+        default: Date.now()
+    },
+    
+    mois:
+    {
+        type: Number,
+        require: true
+    },
+
+    qt_caisse:{
+        type: Number,
+        require: true
+    },
+    valeur:{
+        type: Number,
+        require: true
+    },
+    name: {
+        type: String,
+        require: true
+    }
+});
+
+const suivisubSubSchema = new mongoose.Schema ({
+    name:
+    {
+        type: String,
+        require: [true, 'Vous devez taper le nom ']
+    },
+    data: [suiviSub],
+    createdAt:{
+        type: Date,
+        default: Date.now()
+    },
+    stats: [statsArraySuivi]
+})
+const suiviSubSchema = new mongoose.Schema({
+    mois:
+    {
+        type: Number,
+        default: Number ( new Date().toLocaleDateString().slice(3, 5))
+    },
+
+    data:[suivisubSubSchema]
+})
+
+const suiviApprovisonnemntSchema = new mongoose.Schema ({
+    annee:
+    {
+        type: Number,
+        default: Number (new Date().toLocaleDateString().slice(6))
+    },
+    data:[suiviSubSchema]
 });
 
 
@@ -170,10 +285,11 @@ const BrasimbaSchema = new mongoose.Schema({
         unique: true
     },
    data:[ BrasimbaSubSchema ],
-   stats: [statsArray]
+   stats: [statsArray],
+   suiviApprovisionnement: [suiviApprovisonnemntSchema],
 });
 
-BrasimbaSubSchema.pre ( 'save', function (next)
+arraySchema.pre ( 'save', function (next)
 {
     this.achat_journalier.qt_btll = this.achat_journalier.qt_caisse * this.achat_journalier.nbr_btll;
     this.benefice_sur_achat.val_gros_approvisionnement = this.achat_journalier.qt_caisse * this.achat_journalier.prix_achat_gros

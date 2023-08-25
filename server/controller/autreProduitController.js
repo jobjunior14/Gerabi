@@ -59,7 +59,6 @@ exports.getAutreProduit = catchAssynch ( async (req, res, next) =>
     
     {
         monthData[i][0].data = await [ monthData[i][0].data[page] ];
-        
     }
     console.log (suiviMonthdata[0][0].name )
     res.status (200).json({
@@ -91,34 +90,78 @@ exports.createAutreProduit = catchAssynch ( async ( req, res, next) =>
     };
     const achat = Number ( newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].achat_journalier.prix_achat_gros);
 
-    const suivi = 
+    if (Array.isArray ( req.body.suiviApprovisionnement.data.data.data))
     {
-        annee: Number (new Date().toLocaleDateString().slice(6)),
-        data:
+        const data = []
+        for ( let i of req.body.suiviApprovisionnement.data.data.data )
         {
-            mois: Number ( new Date().toLocaleDateString().slice(3, 5)),
-            data:
+            const dataDetail = 
             {
-                name: req.body.suiviApprovisionnement.data.data.data.name,
-                data: [{
-                    mois: Number ( new Date().toLocaleDateString().slice(3, 5) ),
-                    qt_caisse: Number(req.body.suiviApprovisionnement.data.data.data.data.qt_caisse ),
-                    valeur: Number (req.body.suiviApprovisionnement.data.data.data.data.qt_caisse ) * achat
-                }],
+                name: i.name,
+                data:[
+                    {
+                        mois: Number ( new Date().toLocaleDateString().slice(3, 5) ),
+                        qt_caisse: Number (i.data.qt_caisse),
+                        valeur: Number (i.data.qt_caisse) * achat
+                    }
+                ],
                 stats: [{
                     annee: Number ( new Date().toLocaleDateString().slice(6) ),
                     data: [{
-                        name: req.body.suiviApprovisionnement.data.data.data.name,
+                        name: i.name,
+                        mois: Number ( new Date().toLocaleDateString().slice(3, 5) ),
+                        qt_caisse: Number (i.data.qt_caisse),
+                        valeur: Number (i.data.qt_caisse) * achat
+                    }]
+                }]
+            };
+            data.push(dataDetail);
+        };
+
+        const suivi = 
+        {
+            annee: Number (new Date().toLocaleDateString().slice(6)),
+            data:
+            {
+                mois: Number ( new Date().toLocaleDateString().slice(3, 5)),
+                data: data
+            }
+        };
+
+        newBralimaData.suiviApprovisionnement[0] = suivi
+    }
+    else
+    {
+        const suivi = 
+        {
+            annee: Number (new Date().toLocaleDateString().slice(6)),
+            data:
+            {
+                mois: Number ( new Date().toLocaleDateString().slice(3, 5)),
+                data:
+                {
+                    name: req.body.suiviApprovisionnement.data.data.data.name,
+                    data: [{
                         mois: Number ( new Date().toLocaleDateString().slice(3, 5) ),
                         qt_caisse: Number(req.body.suiviApprovisionnement.data.data.data.data.qt_caisse ),
                         valeur: Number (req.body.suiviApprovisionnement.data.data.data.data.qt_caisse ) * achat
+                    }],
+                    stats: [{
+                        annee: Number ( new Date().toLocaleDateString().slice(6) ),
+                        data: [{
+                            name: req.body.suiviApprovisionnement.data.data.data.name,
+                            mois: Number ( new Date().toLocaleDateString().slice(3, 5) ),
+                            qt_caisse: Number(req.body.suiviApprovisionnement.data.data.data.data.qt_caisse ),
+                            valeur: Number (req.body.suiviApprovisionnement.data.data.data.data.qt_caisse ) * achat
+                        }]
                     }]
-                }]
+                }
             }
-        }
-    };
+        };
 
     newBralimaData.suiviApprovisionnement[0] = suivi
+    }
+
     newBralimaData.stats.push(statsObj);
     await newBralimaData.save();
     res.status(201).json ({
@@ -249,156 +292,334 @@ exports.pushDataAutreProduit = catchAssynch ( async (req, res, next) =>
     if ( yearIndexsuivi !== -1)
     {
         const monthIndexSuvi = await bralima.suiviApprovisionnement[yearIndexsuivi].data.findIndex ( el => el.mois === Number ( new Date().toLocaleDateString().slice(3, 5)));
-        console.log (bralima.suiviApprovisionnement[yearIndexsuivi].data );
         
         if ( monthIndexSuvi !== -1)
         {
-            const index1SuiviName = await bralima.suiviApprovisionnement[yearIndexsuivi].data[monthIndexSuvi].data.findIndex ( el => el.name === req.body.suiviApprovisionnement.data.data.data.name);
-        
-            if (index1SuiviName !== -1)
+            if (Array.isArray ( req.body.suiviApprovisionnement.data.data.data))
             {
-                //for data of Name 
-                const objSuivi = 
+                
+                for ( let i of req.body.suiviApprovisionnement.data.data.data)
                 {
-                    qt_caisse: Number (req.body.suiviApprovisionnement.data.data.data.qt_caisse),
-                    valeur: Number (req.body.suiviApprovisionnement.data.data.data.qt_caisse) * Number (req.body.data.data.data.achat_journalier.prix_achat_gros)
-                };
-                bralima.suiviApprovisionnement[yearIndexsuivi].data[monthIndexSuvi].data[index1SuiviName].data.push(objSuivi);
-        
-                //for statistics
-                const indexStatsSuiviAnnee = bralima.suiviApprovisionnement[yearIndexsuivi].data[monthIndexSuvi].data[index1SuiviName].stats.findIndex(el => el.annee === Number ( new Date().toLocaleDateString().slice(6)));
-
-                if ( indexStatsSuiviAnnee !== -1 )
-                {
-                    const indexStatsSuiviMois = bralima.suiviApprovisionnement[yearIndexsuivi].data[monthIndexSuvi].data[index1SuiviName].stats[indexStatsSuiviAnnee].data.findIndex (el => el.mois === Number ( new Date().toLocaleDateString().slice (3, 5)));
-                    if ( indexStatsSuiviMois !== -1)
+                    const index1SuiviName = await bralima.suiviApprovisionnement[yearIndexsuivi].data[monthIndexSuvi].data.findIndex ( el => el.name === i.name);
+                    
+                    if (index1SuiviName !== -1)
                     {
-                        const objStatsSuivi = 
+                        //for data of Name 
+                        const objSuivi = 
                         {
-                            name: req.body.suiviApprovisionnement.data.data.data.name,
-                            mois: bralima.suiviApprovisionnement[yearIndexsuivi].data[monthIndexSuvi].data[index1SuiviName].stats[indexStatsSuiviAnnee].data[indexStatsSuiviMois].mois,
-                            qt_caisse:  Number (req.body.suiviApprovisionnement.data.data.data.qt_caisse) + bralima.suiviApprovisionnement[yearIndexsuivi].data[monthIndexSuvi].data[index1SuiviName].stats[indexStatsSuiviAnnee].data[indexStatsSuiviMois].qt_caisse,
-                            valeur: (Number (req.body.suiviApprovisionnement.data.data.data.qt_caisse) * Number (req.body.data.data.data.achat_journalier.prix_achat_gros)) + bralima.suiviApprovisionnement[yearIndexsuivi].data[monthIndexSuvi].data[index1SuiviName].stats[indexStatsSuiviAnnee].data[indexStatsSuiviMois].valeur
+                            qt_caisse: Number (i.qt_caisse),
+                            valeur: Number (i.qt_caisse) * Number (req.body.data.data.data.achat_journalier.prix_achat_gros)
                         };
-                        bralima.suiviApprovisionnement[yearIndexsuivi].data[monthIndexSuvi].data[index1SuiviName].stats[indexStatsSuiviAnnee].data[indexStatsSuiviMois] = objStatsSuivi;
+                        bralima.suiviApprovisionnement[yearIndexsuivi].data[monthIndexSuvi].data[index1SuiviName].data.push(objSuivi);
+                
+                        //for statistics
+                        const indexStatsSuiviAnnee = bralima.suiviApprovisionnement[yearIndexsuivi].data[monthIndexSuvi].data[index1SuiviName].stats.findIndex(el => el.annee === Number ( new Date().toLocaleDateString().slice(6)));
+    
+                        if ( indexStatsSuiviAnnee !== -1 )
+                        {
+                            const indexStatsSuiviMois = bralima.suiviApprovisionnement[yearIndexsuivi].data[monthIndexSuvi].data[index1SuiviName].stats[indexStatsSuiviAnnee].data.findIndex (el => el.mois === Number ( new Date().toLocaleDateString().slice (3, 5)));
+                            if ( indexStatsSuiviMois !== -1)
+                            {
+                                const objStatsSuivi = 
+                                {
+                                    name: i.name,
+                                    mois: bralima.suiviApprovisionnement[yearIndexsuivi].data[monthIndexSuvi].data[index1SuiviName].stats[indexStatsSuiviAnnee].data[indexStatsSuiviMois].mois,
+                                    qt_caisse:  Number (i.qt_caisse) + bralima.suiviApprovisionnement[yearIndexsuivi].data[monthIndexSuvi].data[index1SuiviName].stats[indexStatsSuiviAnnee].data[indexStatsSuiviMois].qt_caisse,
+                                    valeur: (Number (i.qt_caisse) * Number (req.body.data.data.data.achat_journalier.prix_achat_gros)) + bralima.suiviApprovisionnement[yearIndexsuivi].data[monthIndexSuvi].data[index1SuiviName].stats[indexStatsSuiviAnnee].data[indexStatsSuiviMois].valeur
+                                };
+                                bralima.suiviApprovisionnement[yearIndexsuivi].data[monthIndexSuvi].data[index1SuiviName].stats[indexStatsSuiviAnnee].data[indexStatsSuiviMois] = objStatsSuivi;
+                            }
+                            else
+                            {
+                                const objSuivi2 = 
+                                {
+                                    name: i.name,
+                                    mois: Number ( new Date().toLocaleDateString().slice (3, 5)) , 
+                                    qt_caisse: Number (i.qt_caisse),
+                                    valeur: Number (i.qt_caisse) * Number (req.body.data.data.data.achat_journalier.prix_achat_gros)
+                                };
+                                bralima.suiviApprovisionnement[yearIndexsuivi].data[monthIndexSuvi].data[index1SuiviName].stats[indexStatsSuiviAnnee].data.push(objSuivi2);
+                            };
+                            
+                        }
+                        else
+                        {
+                            const newStats = 
+                            {
+                                annee: Number ( new Date().toLocaleDateString().slice (6)) ,
+                                data: [{
+                                    name: i.name,
+                                    mois:  Number ( new Date().toLocaleDateString().slice (3, 5)),
+                                    qt_caisse: Number (i.qt_caisse),
+                                    valeur: Number (i.qt_caisse) * Number (req.body.data.data.data.achat_journalier.prix_achat_gros)
+                                }]
+                            };
+                            bralima.suiviApprovisionnement[yearIndexsuivi].data[monthIndexSuvi].data[index1SuiviName].stats.push(newStats);
+                        };
+                
                     }
                     else
                     {
-                        const objSuivi2 = 
+                        const suivi = 
                         {
-                            name: req.body.suiviApprovisionnement.data.data.data.name,
-                            mois: Number ( new Date().toLocaleDateString().slice (3, 5)) , 
-                            qt_caisse: Number (req.body.suiviApprovisionnement.data.data.data.qt_caisse),
-                            valeur: Number (req.body.suiviApprovisionnement.data.data.data.qt_caisse) * Number (req.body.data.data.data.achat_journalier.prix_achat_gros)
+                            
+                            name: i.name,
+                            data: [{
+                                mois: Number ( new Date().toLocaleDateString().slice (3, 5)) , 
+                                qt_caisse:  Number (i.qt_caisse),
+                                valeur:  Number (i.qt_caisse) * Number (req.body.data.data.data.achat_journalier.prix_achat_gros)
+                            }],
+                            stats: [{
+                                
+                                annee: Number ( new Date().toLocaleDateString().slice (6)),
+                                data: [{
+                                    name: i.name,
+                                    mois: Number ( new Date().toLocaleDateString().slice (3, 5)),
+                                    qt_caisse: Number (i.qt_caisse),
+                                    valeur:  Number (i.qt_caisse) * Number (req.body.data.data.data.achat_journalier.prix_achat_gros)
+                                }]
+                            }]
                         };
-                        bralima.suiviApprovisionnement[yearIndexsuivi].data[monthIndexSuvi].data[index1SuiviName].stats[indexStatsSuiviAnnee].data.push(objSuivi2);
+                        bralima.suiviApprovisionnement[yearIndexsuivi].data[monthIndexSuvi].data.push( suivi);
                     };
-                    
+
                 }
-                else
-                {
-                    const newStats = 
-                    {
-                        annee: Number ( new Date().toLocaleDateString().slice (6)) ,
-                        data: [{
-                            name: req.body.suiviApprovisionnement.name,
-                            mois:  Number ( new Date().toLocaleDateString().slice (3, 5)),
-                            qt_caisse: Number (req.body.suiviApprovisionnement.data.data.data.qt_caisse),
-                            valeur: Number (req.body.suiviApprovisionnement.data.data.data.qt_caisse) * Number (req.body.data.data.data.achat_journalier.prix_achat_gros)
-                        }]
-                    };
-                    bralima.suiviApprovisionnement[yearIndexsuivi].data[monthIndexSuvi].data[index1SuiviName].stats.push(newStats);
-                };
-        
             }
             else
             {
-                const suivi = 
+                const index1SuiviName = await bralima.suiviApprovisionnement[yearIndexsuivi].data[monthIndexSuvi].data.findIndex ( el => el.name === req.body.suiviApprovisionnement.data.data.data.name);
+                
+                if (index1SuiviName !== -1)
                 {
-                    
-                    name: req.body.suiviApprovisionnement.data.data.data.name,
-                    data: [{
-                        mois: Number ( new Date().toLocaleDateString().slice (3, 5)) , 
-                        qt_caisse:  Number (req.body.suiviApprovisionnement.data.data.data.qt_caisse),
-                        valeur:  Number (req.body.suiviApprovisionnement.data.data.data.qt_caisse) * Number (req.body.data.data.data.achat_journalier.prix_achat_gros)
-                    }],
-                    stats: [{
+                    //for data of Name 
+                    const objSuivi = 
+                    {
+                        qt_caisse: Number (req.body.suiviApprovisionnement.data.data.data.qt_caisse),
+                        valeur: Number (req.body.suiviApprovisionnement.data.data.data.qt_caisse) * Number (req.body.data.data.data.achat_journalier.prix_achat_gros)
+                    };
+                    bralima.suiviApprovisionnement[yearIndexsuivi].data[monthIndexSuvi].data[index1SuiviName].data.push(objSuivi);
+            
+                    //for statistics
+                    const indexStatsSuiviAnnee = bralima.suiviApprovisionnement[yearIndexsuivi].data[monthIndexSuvi].data[index1SuiviName].stats.findIndex(el => el.annee === Number ( new Date().toLocaleDateString().slice(6)));
+    
+                    if ( indexStatsSuiviAnnee !== -1 )
+                    {
+                        const indexStatsSuiviMois = bralima.suiviApprovisionnement[yearIndexsuivi].data[monthIndexSuvi].data[index1SuiviName].stats[indexStatsSuiviAnnee].data.findIndex (el => el.mois === Number ( new Date().toLocaleDateString().slice (3, 5)));
+                        if ( indexStatsSuiviMois !== -1)
+                        {
+                            const objStatsSuivi = 
+                            {
+                                name: req.body.suiviApprovisionnement.data.data.data.name,
+                                mois: bralima.suiviApprovisionnement[yearIndexsuivi].data[monthIndexSuvi].data[index1SuiviName].stats[indexStatsSuiviAnnee].data[indexStatsSuiviMois].mois,
+                                qt_caisse:  Number (req.body.suiviApprovisionnement.data.data.data.qt_caisse) + bralima.suiviApprovisionnement[yearIndexsuivi].data[monthIndexSuvi].data[index1SuiviName].stats[indexStatsSuiviAnnee].data[indexStatsSuiviMois].qt_caisse,
+                                valeur: (Number (req.body.suiviApprovisionnement.data.data.data.qt_caisse) * Number (req.body.data.data.data.achat_journalier.prix_achat_gros)) + bralima.suiviApprovisionnement[yearIndexsuivi].data[monthIndexSuvi].data[index1SuiviName].stats[indexStatsSuiviAnnee].data[indexStatsSuiviMois].valeur
+                            };
+                            bralima.suiviApprovisionnement[yearIndexsuivi].data[monthIndexSuvi].data[index1SuiviName].stats[indexStatsSuiviAnnee].data[indexStatsSuiviMois] = objStatsSuivi;
+                        }
+                        else
+                        {
+                            const objSuivi2 = 
+                            {
+                                name: req.body.suiviApprovisionnement.data.data.data.name,
+                                mois: Number ( new Date().toLocaleDateString().slice (3, 5)) , 
+                                qt_caisse: Number (req.body.suiviApprovisionnement.data.data.data.qt_caisse),
+                                valeur: Number (req.body.suiviApprovisionnement.data.data.data.qt_caisse) * Number (req.body.data.data.data.achat_journalier.prix_achat_gros)
+                            };
+                            bralima.suiviApprovisionnement[yearIndexsuivi].data[monthIndexSuvi].data[index1SuiviName].stats[indexStatsSuiviAnnee].data.push(objSuivi2);
+                        };
                         
-                        annee: Number ( new Date().toLocaleDateString().slice (6)),
+                    }
+                    else
+                    {
+                        const newStats = 
+                        {
+                            annee: Number ( new Date().toLocaleDateString().slice (6)) ,
+                            data: [{
+                                name: req.body.suiviApprovisionnement.name,
+                                mois:  Number ( new Date().toLocaleDateString().slice (3, 5)),
+                                qt_caisse: Number (req.body.suiviApprovisionnement.data.data.data.qt_caisse),
+                                valeur: Number (req.body.suiviApprovisionnement.data.data.data.qt_caisse) * Number (req.body.data.data.data.achat_journalier.prix_achat_gros)
+                            }]
+                        };
+                        bralima.suiviApprovisionnement[yearIndexsuivi].data[monthIndexSuvi].data[index1SuiviName].stats.push(newStats);
+                    };
+            
+                }
+                else
+                {
+                    const suivi = 
+                    {
+                        
+                        name: req.body.suiviApprovisionnement.data.data.data.name,
                         data: [{
-                            name: req.body.suiviApprovisionnement.data.data.data.name,
-                            mois: Number ( new Date().toLocaleDateString().slice (3, 5)),
-                            qt_caisse: Number (req.body.suiviApprovisionnement.data.data.data.qt_caisse),
+                            mois: Number ( new Date().toLocaleDateString().slice (3, 5)) , 
+                            qt_caisse:  Number (req.body.suiviApprovisionnement.data.data.data.qt_caisse),
                             valeur:  Number (req.body.suiviApprovisionnement.data.data.data.qt_caisse) * Number (req.body.data.data.data.achat_journalier.prix_achat_gros)
+                        }],
+                        stats: [{
+                            
+                            annee: Number ( new Date().toLocaleDateString().slice (6)),
+                            data: [{
+                                name: req.body.suiviApprovisionnement.data.data.data.name,
+                                mois: Number ( new Date().toLocaleDateString().slice (3, 5)),
+                                qt_caisse: Number (req.body.suiviApprovisionnement.data.data.data.qt_caisse),
+                                valeur:  Number (req.body.suiviApprovisionnement.data.data.data.qt_caisse) * Number (req.body.data.data.data.achat_journalier.prix_achat_gros)
+                            }]
                         }]
-                    }]
+                    };
+                    bralima.suiviApprovisionnement[yearIndexsuivi].data[monthIndexSuvi].data.push( suivi);
                 };
-                bralima.suiviApprovisionnement[yearIndexsuivi].data[monthIndexSuvi].data.push( suivi);
-            };
+
+            }
         }
         else
         {
-            const suivi = 
+            if (Array.isArray ( req.body.suiviApprovisionnement.data.data.data)) 
             {
-                mois: Number ( new Date().toLocaleTimeString().slice(3, 5)),
-                data:
+                const data = []
+
+                for ( let i of req.body.suiviApprovisionnement.data.data.data )
                 {
-                    name: req.body.suiviApprovisionnement.data.data.data.name,
-                    data: [{
-                        mois: Number ( new Date().toLocaleDateString().slice (3, 5)) , 
-                        qt_caisse:  Number (req.body.suiviApprovisionnement.data.data.data.qt_caisse),
-                        valeur:  Number (req.body.suiviApprovisionnement.data.data.data.qt_caisse) * Number (req.body.data.data.data.achat_journalier.prix_achat_gros)
-                    }],
-                    stats: [{
-                        
-                        annee: Number ( new Date().toLocaleDateString().slice (6)),
-                        data: [{
-                            name: req.body.suiviApprovisionnement.data.data.data.name,
-                            mois: Number ( new Date().toLocaleDateString().slice (3, 5)),
-                            qt_caisse: Number (req.body.suiviApprovisionnement.data.data.data.qt_caisse),
-                            valeur:  Number (req.body.suiviApprovisionnement.data.data.data.qt_caisse) * Number (req.body.data.data.data.achat_journalier.prix_achat_gros)
+                    const dataDetail = 
+                    {
+                        name: i.name,
+                        data:[
+                            {
+                                mois: Number ( new Date().toLocaleDateString().slice(3, 5) ),
+                                qt_caisse: Number (i.qt_caisse),
+                                valeur: Number (i.qt_caisse) * Number (req.body.data.data.data.achat_journalier.prix_achat_gros)
+                            }
+                        ],
+                        stats: [{
+                            annee: Number ( new Date().toLocaleDateString().slice(6) ),
+                            data: [{
+                                name: i.name,
+                                mois: Number ( new Date().toLocaleDateString().slice(3, 5) ),
+                                qt_caisse: Number (i.qt_caisse),
+                                valeur: Number (i.qt_caisse) * Number (req.body.data.data.data.achat_journalier.prix_achat_gros)
+                            }]
                         }]
-                    }]
-                }
+                    };
+                    data.push(dataDetail);
+                };
 
-            };
+                const suivi2 =
+                {
+                    mois: Number ( new Date().toLocaleTimeString().slice(3, 5)),
+                    data: data 
+                };
+                bralima.suiviApprovisionnement[indexStatsSuiviAnnee].data.push(suivi2);
+            }
+            else
+            {
 
-            bralima.suiviApprovisionnement[indexStatsSuiviAnnee].data.push(suivi2);
+                const suivi2 = 
+                {
+                    mois: Number ( new Date().toLocaleTimeString().slice(3, 5)),
+                    data:
+                    {
+                        name: req.body.suiviApprovisionnement.data.data.data.name,
+                        data: [{
+                            mois: Number ( new Date().toLocaleDateString().slice (3, 5)) , 
+                            qt_caisse:  Number (req.body.suiviApprovisionnement.data.data.data.qt_caisse),
+                            valeur:  Number (req.body.suiviApprovisionnement.data.data.data.qt_caisse) * Number (req.body.data.data.data.achat_journalier.prix_achat_gros)
+                        }],
+                        stats: [{
+                            
+                            annee: Number ( new Date().toLocaleDateString().slice (6)),
+                            data: [{
+                                name: req.body.suiviApprovisionnement.data.data.data.name,
+                                mois: Number ( new Date().toLocaleDateString().slice (3, 5)),
+                                qt_caisse: Number (req.body.suiviApprovisionnement.data.data.data.qt_caisse),
+                                valeur:  Number (req.body.suiviApprovisionnement.data.data.data.qt_caisse) * Number (req.body.data.data.data.achat_journalier.prix_achat_gros)
+                            }]
+                        }]
+                    }
+    
+                };
+    
+                bralima.suiviApprovisionnement[indexStatsSuiviAnnee].data.push(suivi2);
+            }
         }
-
     }
 
     else
     {
-        const suivi = 
+        if (Array.isArray ( req.body.suiviApprovisionnement.data.data.data))
         {
-            annee: Number (new Date().toLocaleDateString().slice(6)),
-            data:
+            const data = []
+            for ( let i of req.body.suiviApprovisionnement.data.data.data )
             {
-                mois: Number ( new Date().toLocaleTimeString().slice(3, 5)),
-                data:
+                const dataDetail = 
                 {
-                    name: req.body.suiviApprovisionnement.data.data.data.name,
-                    data: [{
-                        mois: Number ( new Date().toLocaleDateString().slice (3, 5)) , 
-                        qt_caisse:  Number (req.body.suiviApprovisionnement.data.data.data.qt_caisse),
-                        valeur:  Number (req.body.suiviApprovisionnement.data.data.data.qt_caisse) * Number (req.body.data.data.data.achat_journalier.prix_achat_gros)
-                    }],
+                    name: i.name,
+                    data:[
+                        {
+                            mois: Number ( new Date().toLocaleDateString().slice(3, 5) ),
+                            qt_caisse: Number (i.qt_caisse),
+                            valeur: Number (i.qt_caisse) * Number (req.body.data.data.data.achat_journalier.prix_achat_gros)
+                        }
+                    ],
                     stats: [{
-                        
-                        annee: Number ( new Date().toLocaleDateString().slice (6)),
+                        annee: Number ( new Date().toLocaleDateString().slice(6) ),
                         data: [{
-                            name: req.body.suiviApprovisionnement.data.data.data.name,
-                            mois: Number ( new Date().toLocaleDateString().slice (3, 5)),
-                            qt_caisse: Number (req.body.suiviApprovisionnement.data.data.data.qt_caisse),
-                            valeur:  Number (req.body.suiviApprovisionnement.data.data.data.qt_caisse) * Number (req.body.data.data.data.achat_journalier.prix_achat_gros)
+                            name: i.name,
+                            mois: Number ( new Date().toLocaleDateString().slice(3, 5) ),
+                            qt_caisse: Number (i.qt_caisse),
+                            valeur: Number (i.qt_caisse) * Number (req.body.data.data.data.achat_journalier.prix_achat_gros)
                         }]
                     }]
+                };
+                data.push(dataDetail);
+            };
+
+            const suivi = 
+            {
+                annee: Number (new Date().toLocaleDateString().slice(6)),
+                data:
+                {
+                    mois: Number ( new Date().toLocaleDateString().slice(3, 5)),
+                    data: data
+                }
+            };
+
+            bralima.suiviApprovisionnement.push(suivi);
+        }
+
+        else
+        {
+            const suivi = 
+            {
+                annee: Number (new Date().toLocaleDateString().slice(6)),
+                data:
+                {
+                    mois: Number ( new Date().toLocaleTimeString().slice(3, 5)),
+                    data:
+                    {
+                        name: req.body.suiviApprovisionnement.data.data.data.name,
+                        data: [{
+                            mois: Number ( new Date().toLocaleDateString().slice (3, 5)) , 
+                            qt_caisse:  Number (req.body.suiviApprovisionnement.data.data.data.qt_caisse),
+                            valeur:  Number (req.body.suiviApprovisionnement.data.data.data.qt_caisse) * Number (req.body.data.data.data.achat_journalier.prix_achat_gros)
+                        }],
+                        stats: [{
+                            
+                            annee: Number ( new Date().toLocaleDateString().slice (6)),
+                            data: [{
+                                name: req.body.suiviApprovisionnement.data.data.data.name,
+                                mois: Number ( new Date().toLocaleDateString().slice (3, 5)),
+                                qt_caisse: Number (req.body.suiviApprovisionnement.data.data.data.qt_caisse),
+                                valeur:  Number (req.body.suiviApprovisionnement.data.data.data.qt_caisse) * Number (req.body.data.data.data.achat_journalier.prix_achat_gros)
+                            }]
+                        }]
+                    }
                 }
             }
+            bralima.suiviApprovisionnement.push(suivi);
         }
     }
 
+    ///Statistics 
     if ( index1 !== -1 ) 
     {
         const index2 = await bralima.stats[index1].data.findIndex (el => el.mois === Number ( new Date().toLocaleDateString().slice (3, 5)));
