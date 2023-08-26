@@ -8,10 +8,10 @@ exports.getAutreProduit = catchAssynch ( async (req, res, next) =>
         
     let bralima = await AutreProduit.find();
 
-
     const year = Number ( req.query.date.slice(0, 4));
     const month = Number (req.query.date.slice(4, 6));
-    const page = Number (req.query.page) - 1;
+    const page = Number (req.query.page);
+    let nombrepage = 0;
 
     let monthData = [];
     let suiviMonthdata = [];
@@ -27,22 +27,20 @@ exports.getAutreProduit = catchAssynch ( async (req, res, next) =>
             );
         };
     
-
-
     bralima = await bralima.filter( el =>
         { 
             if ( el.data.filter( el => {return el.annee === year;}).length)
             {
                 el.data.filter( el =>
                     {
-                       monthData.push(el.data.filter(el => el.mois === month))
+                       monthData.push(el.data.filter(el => el.mois === month));
                     });
             };
             if ( el.suiviApprovisionnement.filter( el => {return el.annee === year;}).length)
             {
                 el.suiviApprovisionnement.filter( el =>
                     {
-                        suiviMonthdata.push(el.data.filter(el => el.mois === month))
+                        suiviMonthdata.push(el.data.filter(el => el.mois === month));
                     });
             };
         }
@@ -51,19 +49,31 @@ exports.getAutreProduit = catchAssynch ( async (req, res, next) =>
     for ( let i = 0; i < monthData.length; i++)
     {
         monthData[i][0].name = name[i];
-        suiviMonthdata[i][0].name = name[i];
-       
+        suiviMonthdata[i][0].name = name[i]; 
     };
+
+    
     
     for ( let i = 0; i < monthData.length; i++)
     
     {
-        monthData[i][0].data = await [ monthData[i][0].data[page] ];
-    }
-    console.log (suiviMonthdata[0][0].name )
+        nombrepage =monthData[i][0].data.length;
+        monthData[i][0].data = monthData[i][0].data.filter ( el => Number ( JSON.stringify (el.createdAt).slice(9, 11)) === page );
+
+
+        for ( let j = 0; j < suiviMonthdata[i][0].data.length; j++ ) 
+        {
+            for ( let k = 0; k < suiviMonthdata[i][0].data[j].data.length; k++ )
+            {
+                suiviMonthdata[i][0].data[j].data = suiviMonthdata[i][0].data[j].data.filter ( el => Number( JSON.stringify(el.createdAt).slice (9, 11)) === page )
+            };
+        };
+    };
+
     res.status (200).json({
         status: 'success',
         data:{
+            page: nombrepage,
             name: name,
             month: monthData,
             suivi: suiviMonthdata
