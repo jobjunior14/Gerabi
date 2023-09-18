@@ -3,6 +3,11 @@ const validator = require('validator');
 
 
 const arraySchema = new mongoose.Schema({
+    name: 
+    {
+        type: String,
+        require: true
+    },
     achat_journalier:
     {
         qt_caisse: { 
