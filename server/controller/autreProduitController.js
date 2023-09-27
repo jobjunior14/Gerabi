@@ -231,7 +231,7 @@ exports.pushDataAutreProduit = catchAssynch ( async (req, res, next) =>
 
     //loop of the request Body(All data )
 
-    if (bralima.lenght === 0 )
+    if (bralima.lenght != 0 )
     {
 
         for ( o = 0; o < req.body.length; o++)
@@ -241,8 +241,8 @@ exports.pushDataAutreProduit = catchAssynch ( async (req, res, next) =>
             if (bralima[o].name === req.body[o].name)
             {
 
-                    ///////////////////////////// stats For every object/////////////////////////////////////////
-                //
+                ///////////////////////////// stats For every object/////////////////////////////////////////
+
                 const yearindex =  await bralima[o].data.findIndex ( el => el.annee === Number (req.query.date.slice(0, 4)));
             
                 if ( yearindex !== -1)
@@ -735,17 +735,132 @@ exports.pushDataAutreProduit = catchAssynch ( async (req, res, next) =>
                 await bralima[o].save();
             };
         };
-    };
 
-    res.status(200).json
-    (
-        {
-            status: 'success',
-            data: {
-                dataBralima
+        res.status(200).json
+        (
+            {
+                status: 'success',
+                data: {
+                    dataBralima
+                }
             }
-        }
-    );
+        );
+
+    } else {
+
+        // initiaze the array of data 
+        //i didn't creat many data and save it once coz i need to work with every product apart
+        //and as a response we need to send all the data
+        const createadData =[];
+
+        for (let o of req.body)
+        {
+            
+            const newBralimaData = await AutreProduit.create(o);
+        
+            //initialize the stats object and doing some calcul
+            const statsObj = 
+            {
+                annee: Number ( new Date().toLocaleDateString().slice(6) ),
+                data:[{
+                    name: o.name,
+                    mois: Number ( new Date().toLocaleDateString().slice(3, 5) ),
+                    
+                    //working with the last data created in this product
+                    vente_bar: Number (newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].vente_journaliere.valeur),
+                    approvionnement: Number (newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].benefice_sur_achat.val_gros_approvisionnement) ,
+                    benefice:  Number (newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].benefice_sur_vente),
+                }]
+            };
+            const achat = Number ( newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].achat_journalier.prix_achat_gros);
+            
+            //Verify if data of SuiviAppro is an array or not (if most poeple give the same product)
+            if (Array.isArray ( o.suiviApprovisionnement.data.data.data))
+            {
+                const data = [];
+
+                //then loop it and apply some mathematic function
+                for ( let i of o.suiviApprovisionnement.data.data.data )
+                {
+                    const dataDetail = 
+                    {
+                        name: i.name,
+                        data:[
+                            {
+                                mois: Number ( new Date().toLocaleDateString().slice(3, 5) ),
+                                qt_caisse: Number (i.data.qt_caisse),
+                                valeur: Number (i.data.qt_caisse) * achat
+                            }
+                        ],
+                        stats: [{
+                            annee: Number ( new Date().toLocaleDateString().slice(6) ),
+                            data: [{
+                                name: i.name,
+                                mois: Number ( new Date().toLocaleDateString().slice(3, 5) ),
+                                qt_caisse: Number (i.data.qt_caisse),
+                                valeur: Number (i.data.qt_caisse) * achat
+                            }]
+                        }]
+                    };
+                    data.push(dataDetail);
+                };
+        
+                const suivi = 
+                {
+                    annee: Number (new Date().toLocaleDateString().slice(6)),
+                    data:
+                    {
+                        mois: Number ( new Date().toLocaleDateString().slice(3, 5)),
+                        data: data
+                    }
+                };
+        
+                newBralimaData.suiviApprovisionnement[0] = suivi
+            } else {
+
+                const suivi = 
+                {
+                    annee: Number (new Date().toLocaleDateString().slice(6)),
+                    data:
+                    {
+                        mois: Number ( new Date().toLocaleDateString().slice(3, 5)),
+                        data:
+                        {
+                            name: o.suiviApprovisionnement.data.data.data.name,
+                            data: [{
+                                mois: Number ( new Date().toLocaleDateString().slice(3, 5) ),
+                                qt_caisse: Number(o.suiviApprovisionnement.data.data.data.data.qt_caisse ),
+                                valeur: Number (o.suiviApprovisionnement.data.data.data.data.qt_caisse ) * achat
+                            }],
+                            stats: [{
+                                annee: Number ( new Date().toLocaleDateString().slice(6) ),
+                                data: [{
+                                    name: o.suiviApprovisionnement.data.data.data.name,
+                                    mois: Number ( new Date().toLocaleDateString().slice(3, 5) ),
+                                    qt_caisse: Number(o.suiviApprovisionnement.data.data.data.data.qt_caisse ),
+                                    valeur: Number (o.suiviApprovisionnement.data.data.data.data.qt_caisse ) * achat
+                                }]
+                            }]
+                        }
+                    }
+                };
+        
+                newBralimaData.suiviApprovisionnement[0] = suivi;
+            };
+            newBralimaData.stats.push(statsObj);
+            createadData.push(newBralimaData);
+            await newBralimaData.save();
+            
+        };
+
+        
+        res.status(201).json ({
+            status: "sucess",
+            data:{
+                createadData
+            }
+        });
+    };
 });
 
 exports.updateDataAutreProduit = catchAssynch ( async ( req, res, next) =>
