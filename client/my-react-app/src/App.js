@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import MensualRapHome from './components/pages/rapMensuel/homepage';
 import { YearMensRep } from './components/pages/rapMensuel/yearPage';
 import { MonthMensRep } from './components/pages/rapMensuel/month';
+import { Bralima } from './components/Daily-Report/Bralima';
 
 function App() {
   return ( 
@@ -14,7 +15,7 @@ function App() {
       </nav>
     </header>
     <Routes>
-      <Route path='/rapportMensuel' element= {<MensualRapHome/>}>
+      <Route path='/rapportMensuel' element= {<Bralima/>}>
         
       </Route>
 
