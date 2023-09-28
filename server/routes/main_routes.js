@@ -23,36 +23,32 @@ const { getLiqueurs, createLiqueurs, pushDataLiqueurs, getOneDataLiqueurs, updat
 router
     .route('/raportJournalier/autreProduit/:year/:month/:day')
     .get(getAutreProduit)
-    // .post (createAutreProduit) Must find a solution this link must creat and push data
     .post(updateDataAutreProduit);
 
 router
     .route('/raportJournalier/autreProduit/:year/:month')
     .post(pushDataAutreProduit)
-    // .get(getOneDataAutreProduit);
-
-    //update in one categorie
 
  // stats
 router
-    .route ('/raportMensuel/stastAutreProduit')
+    .route ('/raportMensuel/stastAutreProduit/:year/:month')
     .get (stastAutreProduit);
 
 router
-    .route('/raportMensuel/AllstastAutreProduit')
+    .route('/raportMensuel/AllstastAutreProduit/:year/:month')
     .get (AllProductStatsAutreProduit);
 
 router
-    .route('/raportMensuel/suiviAllStatsAutreProduit')
+    .route('/raportMensuel/suiviAllStatsAutreProduit/:year/:month')
     .get( suiviAllStatsAutreProduit);
 
     
 router
-    .route( '/raportMensuel/suiviDetailStatsAutreProduit')
+    .route( '/raportMensuel/suiviDetailStatsAutreProduit/:year/:month')
     .get (suiviDetailStatsAutreProduit);
     
 router 
-    .route('/raportMensuel/yearStatsAutreProduit')
+    .route('/raportMensuel/yearStatsAutreProduit/:year')
     .get (yearStatsAutreProduit)
 
 module.exports = router;

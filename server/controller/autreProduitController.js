@@ -97,139 +97,23 @@ exports.getAutreProduit = catchAssynch ( async (req, res, next) =>
     res.status (200).json({
         status: 'success',
         data:{
-            id: id,
-            month: dayData,
-            suivi: suiviDayData
+            // id: id,
+            // month: dayData,
+            // suivi: suiviDayData
+            bralima
         }
        
     });
 });
 
-// exports.createAutreProduit = catchAssynch ( async ( req, res, next) =>
-// {
-//     // initiaze the array of data 
-//     //i didn't creat many data and save it once coz i need to work with every product apart
-//     //and as a response we need to send all the data
-//     const createadData =[];
-
-//     for (let o of req.body)
-//     {
-        
-//         const newBralimaData = await AutreProduit.create(o);
-    
-//         //initialize the stats object and doing some calcul
-//         const statsObj = 
-//         {
-//             annee: Number ( new Date().toLocaleDateString().slice(6) ),
-//             data:[{
-//                 name: o.name,
-//                 mois: Number ( new Date().toLocaleDateString().slice(3, 5) ),
-                
-//                 //working with the last data created in this product
-//                 vente_bar: Number (newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].vente_journaliere.valeur),
-//                 approvionnement: Number (newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].benefice_sur_achat.val_gros_approvisionnement) ,
-//                 benefice:  Number (newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].benefice_sur_vente),
-//             }]
-//         };
-//         const achat = Number ( newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].achat_journalier.prix_achat_gros);
-        
-//         //Verify if data of SuiviAppro is an array or not (if most poeple give the same product)
-//         if (Array.isArray ( o.suiviApprovisionnement.data.data.data))
-//         {
-//             const data = [];
-
-//             //then loop it and apply some mathematic function
-//             for ( let i of o.suiviApprovisionnement.data.data.data )
-//             {
-//                 const dataDetail = 
-//                 {
-//                     name: i.name,
-//                     data:[
-//                         {
-//                             mois: Number ( new Date().toLocaleDateString().slice(3, 5) ),
-//                             qt_caisse: Number (i.data.qt_caisse),
-//                             valeur: Number (i.data.qt_caisse) * achat
-//                         }
-//                     ],
-//                     stats: [{
-//                         annee: Number ( new Date().toLocaleDateString().slice(6) ),
-//                         data: [{
-//                             name: i.name,
-//                             mois: Number ( new Date().toLocaleDateString().slice(3, 5) ),
-//                             qt_caisse: Number (i.data.qt_caisse),
-//                             valeur: Number (i.data.qt_caisse) * achat
-//                         }]
-//                     }]
-//                 };
-//                 data.push(dataDetail);
-//             };
-    
-//             const suivi = 
-//             {
-//                 annee: Number (new Date().toLocaleDateString().slice(6)),
-//                 data:
-//                 {
-//                     mois: Number ( new Date().toLocaleDateString().slice(3, 5)),
-//                     data: data
-//                 }
-//             };
-    
-//             newBralimaData.suiviApprovisionnement[0] = suivi
-//         }
-//         else
-//         {
-//             const suivi = 
-//             {
-//                 annee: Number (new Date().toLocaleDateString().slice(6)),
-//                 data:
-//                 {
-//                     mois: Number ( new Date().toLocaleDateString().slice(3, 5)),
-//                     data:
-//                     {
-//                         name: o.suiviApprovisionnement.data.data.data.name,
-//                         data: [{
-//                             mois: Number ( new Date().toLocaleDateString().slice(3, 5) ),
-//                             qt_caisse: Number(o.suiviApprovisionnement.data.data.data.data.qt_caisse ),
-//                             valeur: Number (o.suiviApprovisionnement.data.data.data.data.qt_caisse ) * achat
-//                         }],
-//                         stats: [{
-//                             annee: Number ( new Date().toLocaleDateString().slice(6) ),
-//                             data: [{
-//                                 name: o.suiviApprovisionnement.data.data.data.name,
-//                                 mois: Number ( new Date().toLocaleDateString().slice(3, 5) ),
-//                                 qt_caisse: Number(o.suiviApprovisionnement.data.data.data.data.qt_caisse ),
-//                                 valeur: Number (o.suiviApprovisionnement.data.data.data.data.qt_caisse ) * achat
-//                             }]
-//                         }]
-//                     }
-//                 }
-//             };
-    
-//             newBralimaData.suiviApprovisionnement[0] = suivi;
-//         };
-//         newBralimaData.stats.push(statsObj);
-//         createadData.push(newBralimaData);
-//         await newBralimaData.save();
-        
-//     };
-
-    
-//     res.status(201).json ({
-//         status: "sucess",
-//         data:{
-//             createadData
-//         }
-//     });
-// });
-
 exports.pushDataAutreProduit = catchAssynch ( async (req, res, next) =>
 {
     //first we need all data
     const bralima = await AutreProduit.find();
-    
+    console.log (bralima.length);
     //loop of the request Body(All data )
     
-    if (bralima.lenght != 0 )
+    if (bralima.length > 0 )
     {
         for ( o = 0; o < req.body.length; o++)
         {
@@ -889,8 +773,8 @@ exports.pushDataAutreProduit = catchAssynch ( async (req, res, next) =>
                         data:[
                             {
                                 mois: Number ( new Date().toLocaleDateString().slice(3, 5) ),
-                                qt_caisse: Number (i.data.qt_caisse),
-                                valeur: Number (i.data.qt_caisse) * achat
+                                qt_caisse: Number (i.qt_caisse),
+                                valeur: Number (i.qt_caisse) * achat
                             }
                         ],
                         stats: [{
@@ -898,8 +782,8 @@ exports.pushDataAutreProduit = catchAssynch ( async (req, res, next) =>
                             data: [{
                                 name: i.name,
                                 mois: Number ( new Date().toLocaleDateString().slice(3, 5) ),
-                                qt_caisse: Number (i.data.qt_caisse),
-                                valeur: Number (i.data.qt_caisse) * achat
+                                qt_caisse: Number (i.qt_caisse),
+                                valeur: Number (i.qt_caisse) * achat
                             }]
                         }]
                     };
@@ -966,64 +850,65 @@ exports.pushDataAutreProduit = catchAssynch ( async (req, res, next) =>
 
 exports.updateDataAutreProduit = catchAssynch ( async ( req, res, next) =>
 {
-    // we recieve data as an array....so we have to loop it ...
+    // we recieve data as an array....so we have to iterate it ...
 
     //firt we're gonna findById any data who is avaible
+    const updatedDocument = [];
 
-    for (let i = 0; i < req.body.id.lenght; i++) {
+    for (let i = 0; i < req.body.id.length; i++) {
 
         const bralima = await AutreProduit.findById( req.body.id[i]);
-
+        
         const yearIndex = await bralima.data.findIndex( el => el.annee === Number (req.params.year));
-
+        
         if (yearIndex !== -1) {
-
+            
             const monthIndex = await bralima.data[yearIndex].data.findIndex(el => el.mois === Number (req.params.month));
-
+            
             if ( monthIndex !== -1) {
                 
                 //index of it's an index of our data (suivi stock)
-                const indexof = await bralima.data[yearIndex].data[monthIndex].data.findIndex( el => Number (JSON.stringify(el.createdAt).slice(9, 11) === Number (req.params.day)));
+                const indexof = await bralima.data[yearIndex].data[monthIndex].data.findIndex( el => Number (JSON.stringify(el.createdAt).slice(9, 11)) === Number (req.params.day));
                 
                 //index1 it's an index of year in stats 
                 const index1 = await bralima.stats.findIndex ( el => el.annee === Number (req.params.year));
-
+                
                 //indexSuivi1 it's an index of year in suiviAppro
                 const indexSuivi1 = await bralima.suiviApprovisionnement.findIndex ( el => el.annee === Number ( req.params.year));
-
+                
                 if ( indexof !== -1 && index1 !== -1 && indexSuivi1 !== -1) {
-
+                    
                     //Month index Stats
                     const index2 = await bralima.stats[index1].data.findIndex ( el => el.mois === Number (req.params.month));
-
+                    
                     //month index suivi Appro
                     const indexSuivi2 = await bralima.suiviApprovisionnement[indexSuivi1].data.findIndex (el => el.mois === Number (req.params.month));
-
+                    
                     if ( indexSuivi2 !== -1 && index2 !== -1) {
-
+                        
                         //sub the previous value to our accumulator stats 
-
-                        for (let y = 0; y < req.body.data[i].suiviApprovisionnement.data.data.data.lenght; y++) {
-
-
+                        
+                        for (let y = 0; y < req.body.data[i].suiviApprovisionnement.data.data.data.length; y++) {
+                            
+                            
                             //index Of the data in suiviAppr
-                            const indexSuiviName = await bralima.suiviApprovisionnement[indexSuivi1].data[indexSuivi2].data.findIndex ( el => el.name === req.body.data[i].suiviApprovisionnement.data.data.data[y]);
+                            const indexSuiviName = await bralima.suiviApprovisionnement[indexSuivi1].data[indexSuivi2].data.findIndex ( el => el.name === req.body.data[i].suiviApprovisionnement.data.data.data[y].name);
                             
                             //index of data correnspondant au nom///
-                            const indexSuiviOf = await bralima.suiviApprovisionnement[indexSuivi1].data[indexSuivi2].data[indexSuiviName].data.findIndex(el => Number ( JSON.stringify (el.createdAt).slice( 9, 11) === Number (req.params.day)));
-
+                            const indexSuiviOf = await bralima.suiviApprovisionnement[indexSuivi1].data[indexSuivi2].data[indexSuiviName].data.findIndex(el => Number ( JSON.stringify (el.createdAt).slice( 9, 11)) === Number (req.params.day));
+                            
                             //index of stats correspondant au nom//////
                             const indexSuiviOfStatsYear = await bralima.suiviApprovisionnement[indexSuivi1].data[indexSuivi2].data[indexSuiviName].stats.findIndex (el => el.annee === Number (req.params.year));
                             const indexSuiviOfStatsMonth = await bralima.suiviApprovisionnement[indexSuivi1].data[indexSuivi2].data[indexSuiviName].stats[indexSuiviOfStatsYear].data.findIndex ( el => el.mois === Number(req.params.month));
                             
-                            if ( indexSuiviOfStatsYear !== -1 && indexSuiviOfStatsMonth !== -1) {
+                            if ( indexSuiviOfStatsYear !== -1 && indexSuiviOfStatsMonth !== -1 && indexSuiviName !== -1 && indexSuiviOf !== -1 ) {
 
                                 const statsObjSuivi1 = {
                                     
                                     name: req.body.data[i].suiviApprovisionnement.data.data.data[y].name,
                                     mois: Number (req.params.month),
                                     qt_caisse: Number (bralima.suiviApprovisionnement[indexSuivi1].data[indexSuivi2].data[indexSuiviName].stats[indexSuiviOfStatsYear].data[indexSuiviOfStatsMonth].qt_caisse) - Number (bralima.suiviApprovisionnement[indexSuivi1].data[indexSuivi2].data[indexSuiviName].data[indexSuiviOf].qt_caisse),
-                                    valeur: Number (bralima.suiviApprovisionnement[indexSuivi1].data[indexSuivi2].data[indexSuiviName].stats[indexSuiviOfStatsYear].data[indexSuiviOfStatsMonth].valeur) - Number (bralima.suiviApprovisionnement[indexSuivi1].data[indexSuivi2].data[indexSuiviName].data[indexSuiviOf].valeur)
+                                    valeur: Number (bralima.suiviApprovisionnement[indexSuivi1].data[indexSuivi2].data[indexSuiviName].stats[indexSuiviOfStatsYear].data[indexSuiviOfStatsMonth].valeur) - (Number (bralima.data[yearIndex].data[monthIndex].data[indexof].achat_journalier.prix_achat_gros) * Number (bralima.suiviApprovisionnement[indexSuivi1].data[indexSuivi2].data[indexSuiviName].data[indexSuiviOf].qt_caisse) )
                                 };
 
                                 bralima.suiviApprovisionnement[indexSuivi1].data[indexSuivi2].data[indexSuiviName].data[indexSuiviOf] = req.body.data[i].suiviApprovisionnement.data.data.data[y];
@@ -1036,10 +921,10 @@ exports.updateDataAutreProduit = catchAssynch ( async ( req, res, next) =>
                                     name: statsObjSuivi1.name,
                                     mois: statsObjSuivi1.mois,
                                     qt_caisse: Number (bralima.suiviApprovisionnement[indexSuivi1].data[indexSuivi2].data[indexSuiviName].data[indexSuiviOf].qt_caisse) + statsObjSuivi1.qt_caisse,
-                                    valeur: Number (bralima.suiviApprovisionnement[indexSuivi1].data[indexSuivi2].data[indexSuiviName].data[indexSuiviOf].valeur) + statsObjSuivi1.valeur
+                                    valeur: ( Number (bralima.data[yearIndex].data[monthIndex].data[indexof].achat_journalier.prix_achat_gros) * Number (bralima.suiviApprovisionnement[indexSuivi1].data[indexSuivi2].data[indexSuiviName].data[indexSuiviOf].qt_caisse)) + statsObjSuivi1.valeur
                                 }
                                 bralima.suiviApprovisionnement[indexSuivi1].data[indexSuivi2].data[indexSuiviName].stats[indexSuiviOfStatsYear].data[indexSuiviOfStatsMonth] = statsObjSuivi2;
-                                
+                                console.log (statsObjSuivi2.valeur);
                                 ////Save Again the data///////////////////
                                 await bralima.save();
                             } else {
@@ -1072,26 +957,36 @@ exports.updateDataAutreProduit = catchAssynch ( async ( req, res, next) =>
                         bralima.stats[index1].data[index2] = statsObj2;
                         await bralima.save();
 
+                        
                     } else {
-
+                        
                         return ( next (new AppError ('Cette donnee est inexistante', 404)));
                     };
-
+                    
                 } else {
-
+                    
                     return ( next (new AppError ('Cette donnee est inexistante', 404)));
                 };
-
+                
             } else {
 
                 return ( next (new AppError ('Cette donnee est inexistante', 404)));
             };
 
         } else {
-
+            
             return ( next (new AppError ('Cette donnee est inexistante', 404)));
         };
+
+        updatedDocument.push(bralima);
     };
+    res.status(200).json({
+        
+        status: 'Success',
+        data: {
+            updatedDocument
+        }
+    })
 });
 
 exports.getOneDataAutreProduit = catchAssynch ( async  ( req, res, next) =>
@@ -1116,8 +1011,8 @@ exports.getOneDataAutreProduit = catchAssynch ( async  ( req, res, next) =>
 // A voir si l'on pourra l'utiliser pour les stats////////////////////////////////////////////////
 exports.stastAutreProduit  = catchAssynch ( async ( req, res, next) =>
 {
-    const year = Number (req.query.date.slice(0, 4));
-    const mois = Number ( req.query.date.slice (4, 6));
+    const year = Number (req.params.year);
+    const mois = Number ( req.params.month);
 
     let stats = await AutreProduit.aggregate ([
         {
@@ -1172,8 +1067,8 @@ exports.stastAutreProduit  = catchAssynch ( async ( req, res, next) =>
 
 exports.AllProductStatsAutreProduit = catchAssynch ( async ( req, res, next) =>
 {
-    const year = Number (req.query.date.slice(0, 4));
-    const mois = Number ( req.query.date.slice (4, 6));
+    const year = Number (req.params.year);
+    const mois = Number ( req.params.month);
 
     let stats = await AutreProduit.aggregate ([
         {
@@ -1241,8 +1136,8 @@ exports.AllProductStatsAutreProduit = catchAssynch ( async ( req, res, next) =>
 
 exports.suiviAllStatsAutreProduit = catchAssynch ( async ( req, res, next) =>
 {
-    const year = Number (req.query.date.slice(0, 4));
-    const mois = Number ( req.query.date.slice (4, 6));
+    const year = Number (req.params.year);
+    const mois = Number ( req.params.month);
 
     const stats = await AutreProduit.aggregate([
 
@@ -1325,8 +1220,8 @@ exports.suiviAllStatsAutreProduit = catchAssynch ( async ( req, res, next) =>
 
 exports.suiviDetailStatsAutreProduit = catchAssynch ( async ( req, res, next) =>
 {
-    const year = Number (req.query.date.slice(0, 4));
-    const mois = Number ( req.query.date.slice (4, 6));
+    const year = Number (req.params.year);
+    const mois = Number ( req.params.month);
 
     const stats = await AutreProduit.aggregate([
         {
@@ -1407,7 +1302,7 @@ exports.suiviDetailStatsAutreProduit = catchAssynch ( async ( req, res, next) =>
 
 exports.yearStatsAutreProduit = catchAssynch ( async ( req, res, next ) => 
 {
-    const year = Number (req.query.date);
+   const year = Number (req.params.year);
 
     const stats = await AutreProduit.aggregate([
         {
