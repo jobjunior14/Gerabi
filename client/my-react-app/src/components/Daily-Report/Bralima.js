@@ -20,7 +20,7 @@ const data =
             val_det: 34234,
             benefice: 4400,
         },
-        no_name:
+        business_projection:
         {
             stock_gen: 128,
             val_stock_det: 234,
@@ -74,7 +74,7 @@ const data =
             val_det: 34234,
             benefice: 4400,
         },
-        no_name:
+        business_projection:
         {
             stock_gen: 128,
             val_stock_det: 234,
@@ -128,7 +128,7 @@ const data =
             val_det: 34234,
             benefice: 4400,
         },
-        no_name:
+        business_projection:
         {
             stock_gen: 128,
             val_stock_det: 234,

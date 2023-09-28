@@ -155,6 +155,10 @@ exports.pushDataAutreProduit = catchAssynch ( async (req, res, next) =>
                                     {
                                         "ref_prix_det": req.body[o].data.data.data.vente_journaliere.ref_prix_det,
                                     },
+                                    "business_projection":
+                                    {
+                                        "sortie_cave": req.body[o].data.data.data.business_projection.sortie_cave
+                                    },
                                     "stock_consignaions":
                                     {
                                         "qt": req.body[o].data.data.data.stock_consignaions.qt
@@ -201,6 +205,10 @@ exports.pushDataAutreProduit = catchAssynch ( async (req, res, next) =>
                                     "vente_journaliere":
                                     {
                                         "ref_prix_det": req.body[o].data.data.data.vente_journaliere.ref_prix_det,
+                                    },
+                                    "business_projection":
+                                    {
+                                        "sortie_cave": req.body[o].data.data.data.business_projection.sortie_cave
                                     },
                                     "stock_consignaions":
                                     {

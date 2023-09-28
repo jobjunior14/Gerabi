@@ -150,9 +150,9 @@ export function ExcelMain(props)
             {
                 <td id = {props.prev.id} name = { `stock_gen${props.prev.id}`}>
                     <input 
-                        value = { props.prev.no_name.stock_gen}
+                        value = { props.prev.business_projection.stock_gen}
                         id = { props.prev.id }
-                        name = 'no_name'
+                        name = 'business_projection'
                         modvalue = 'stock_gen'
                         type = 'number'
                         placeholder = ' Taper la qt des stock_gen '
@@ -168,9 +168,9 @@ export function ExcelMain(props)
             {
                 <td id = {props.prev.id} name = { `val_stock_det${props.prev.id}`}>
                     <input 
-                        value = { props.prev.no_name.val_stock_det}
+                        value = { props.prev.business_projection.val_stock_det}
                         id = { props.prev.id }
-                        name = 'no_name'
+                        name = 'business_projection'
                         modvalue = 'val_stock_det'
                         type = 'number'
                         placeholder = ' Taper la qt des val_stock_det '
@@ -186,9 +186,9 @@ export function ExcelMain(props)
             {
                 <td id = {props.prev.id} name = { `ref_prix_gros${props.prev.id}`}>
                     <input 
-                        value = { props.prev.no_name.ref_prix_gros}
+                        value = { props.prev.business_projection.ref_prix_gros}
                         id = { props.prev.id }
-                        name = 'no_name'
+                        name = 'business_projection'
                         modvalue = 'ref_prix_gros'
                         type = 'number'
                         placeholder = ' Taper la qt des ref_prix_gros '
@@ -204,9 +204,9 @@ export function ExcelMain(props)
             {
                 <td id = {props.prev.id} name = { `val_stock_gros${props.prev.id}`}>
                     <input 
-                        value = { props.prev.no_name.ref_prix_gros}
+                        value = { props.prev.business_projection.ref_prix_gros}
                         id = { props.prev.id }
-                        name = 'no_name'
+                        name = 'business_projection'
                         modvalue = 'val_stock_gros'
                         type = 'number'
                         placeholder = ' Taper la qt des ref_prix_gros '
@@ -220,11 +220,11 @@ export function ExcelMain(props)
                 </td>
             }
             {
-                <td id = {props.prev.id} name = { `no_name${props.prev.id}`}>
+                <td id = {props.prev.id} name = { `business_projection${props.prev.id}`}>
                     <input 
-                        value = { props.prev.no_name.marge_beneficiaire}
+                        value = { props.prev.business_projection.marge_beneficiaire}
                         id = { props.prev.id }
-                        name = 'no_name'
+                        name = 'business_projection'
                         modvalue = 'marge_beneficiaire'
                         type = 'number'
                         placeholder = ' Taper la qt des marge_beneficiaire '
