@@ -1,5 +1,4 @@
 const AppError = require ( `${__dirname}/../utils/appError.js` );
-const apiFeatures = require ( `${__dirname}/../utils/apiFutures.js`);
 const AutreProduit = require ( `${__dirname}/../models/autreProduitModel.js`);
 const catchAssynch = require ( `${__dirname}/../utils/catchAssynch.js`);
 
@@ -1000,53 +999,69 @@ exports.updateDataAutreProduit = catchAssynch ( async ( req, res, next) =>
                     //month index suivi Appro
                     const indexSuivi2 = await bralima.suiviApprovisionnement[indexSuivi1].data.findIndex (el => el.mois === Number (req.params.month));
 
-                }
-            }
-        } 
-    }
+                    if ( indexSuivi2 !== -1 && index2 !== -1) {
+
+                        //sub the previous value to our accumulator stats 
+
+                        for (let y = 0; y < req.body.data[i].suiviApprovisionnement.data.data.data.lenght; y++) {
 
 
+                            //index Of the data in suiviAppr
+                            const indexSuiviName = await bralima.suiviApprovisionnement[indexSuivi1].data[indexSuivi2].data.findIndex ( el => el.name === req.body.data[i].suiviApprovisionnement.data.data.data[y]);
+                            
+                            //index of data correnspondant au nom///
+                            const indexSuiviOf = await bralima.suiviApprovisionnement[indexSuivi1].data[indexSuivi2].data[indexSuiviName].data.findIndex(el => Number ( JSON.stringify (el.createdAt).slice( 9, 11) === Number (req.params.day)));
 
+                            //index of stats correspondant au nom//////
+                            const indexSuiviOfStatsYear = await bralima.suiviApprovisionnement[indexSuivi1].data[indexSuivi2].data[indexSuiviName].stats.findIndex (el => el.annee === Number (req.params.year));
+                            const indexSuiviOfStatsMonth = await bralima.suiviApprovisionnement[indexSuivi1].data[indexSuivi2].data[indexSuiviName].stats[indexSuiviOfStatsYear].data.findIndex ( el => el.mois === Number(req.params.month));
+                            
+                            if ( indexSuiviOfStatsYear !== -1 && indexSuiviOfStatsMonth !== -1) {
 
+                                const statsObjSuivi1 = {
+                                    
+                                    name: req.body.data[i].suiviApprovisionnement.data.data.data[y].name,
+                                    mois: Number (req.params.month),
+                                    qt_caisse: Number (bralima.suiviApprovisionnement[indexSuivi1].data[indexSuivi2].data[indexSuiviName].stats[indexSuiviOfStatsYear].data[indexSuiviOfStatsMonth].qt_caisse) - Number (bralima.suiviApprovisionnement[indexSuivi1].data[indexSuivi2].data[indexSuiviName].data[indexSuiviOf].qt_caisse),
+                                    valeur: Number (bralima.suiviApprovisionnement[indexSuivi1].data[indexSuivi2].data[indexSuiviName].stats[indexSuiviOfStatsYear].data[indexSuiviOfStatsMonth].valeur) - Number (bralima.suiviApprovisionnement[indexSuivi1].data[indexSuivi2].data[indexSuiviName].data[indexSuiviOf].valeur)
+                                };
 
-    const bralima = await AutreProduit.findById ( req.params.id1);
-    
-    const yearIndex = await bralima.data.findIndex ( el => el.annee === req.query.date.slice(0, 4));
+                                bralima.suiviApprovisionnement[indexSuivi1].data[indexSuivi2].data[indexSuiviName].data[indexSuiviOf] = req.body.data[i].suiviApprovisionnement.data.data.data[y];
+                                
+                                //saving to allow mongo to return new value with calcul already done
+                                await bralima.save();
+                                
+                                const statsObjSuivi2 = {
+                                    
+                                    name: statsObjSuivi1.name,
+                                    mois: statsObjSuivi1.mois,
+                                    qt_caisse: Number (bralima.suiviApprovisionnement[indexSuivi1].data[indexSuivi2].data[indexSuiviName].data[indexSuiviOf].qt_caisse) + statsObjSuivi1.qt_caisse,
+                                    valeur: Number (bralima.suiviApprovisionnement[indexSuivi1].data[indexSuivi2].data[indexSuiviName].data[indexSuiviOf].valeur) + statsObjSuivi1.valeur
+                                }
+                                bralima.suiviApprovisionnement[indexSuivi1].data[indexSuivi2].data[indexSuiviName].stats[indexSuiviOfStatsYear].data[indexSuiviOfStatsMonth] = statsObjSuivi2;
+                                
+                                ////Save Again the data///////////////////
+                                await bralima.save();
+                            } else {
 
-    if ( yearIndex !== -1 ) 
-    {
-        const monthIndex = await bralima.data[yearIndex].data.findIndex( el => el.mois === req.query.date.slice(4, 6));
-
-        if ( monthIndex !== -1 )
-        {
-
-            const indexof = await bralima.data[yearIndex].data[monthIndex].data.findIndex( el => el.id === req.params.id2);
-            let index1 = await bralima.stats.findIndex (el => el.annee === Number (JSON.stringify(bralima.data[yearIndex].data[monthIndex].data[indexof].createdAt).slice (1, 5) ));
-        
-            if ( indexof !== -1)
-            {
-                if ( index1 !== -1 )
-                {
-                    let index2 = await bralima.stats[index1].data.findIndex (el => el.mois === Number (JSON.stringify (bralima.data[yearIndex].data[monthIndex].data[indexof].createdAt).slice (6, 8)));
-        
-                    if ( index2 !== -1)
-                    {
-                        const statsObj1 =  
-                        {
+                                return ( next (new AppError ('Cette donnee est inexistante', 404)));
+                            };
+                        };
+                        
+                        const statsObj1 = {
+                            
                             name: bralima.name,
                             mois: bralima.stats[index1].data[index2].mois,
-                            vente_bar: Number (bralima.stats[index1].data[index2].vente_bar) - Number (bralima.data[yearIndex].data[monthIndex].data[indexof].vente_journaliere.valeur),
+                            vente_bar: Number ( bralima.stats[index1].data[index2].vente_bar) - Number (bralima.data[yearIndex].data[monthIndex].data[indexof].vente_journaliere.valeur),
                             approvionnement: Number ( bralima.stats[index1].data[index2].approvionnement) - Number ( bralima.data[yearIndex].data[monthIndex].data[indexof].benefice_sur_achat.val_gros_approvisionnement),
                             benefice: Number (bralima.stats[index1].data[index2].benefice) -  Number (bralima.data[yearIndex].data[monthIndex].data[indexof].benefice_sur_vente)
                         };
-        
-                        bralima.data[yearIndex].data[monthIndex].data[indexof] = req.body;
-                        await bralima.save();
-         /////////////////////////////////////recherche d'Id apres la modificaton du document///////////////////////////////////////////////////////////
-                       
                         
-                        const statsObj2 =  
-                        {
+                        bralima.data[yearIndex].data[monthIndex].data[indexof] = req.body.data[i].data.data.data;
+                        await bralima.save();
+                        
+                        const statsObj2 = {
+                            
                             name: bralima.name,
                             mois: statsObj1.mois,
                             vente_bar: Number (bralima.data[yearIndex].data[monthIndex].data[indexof].vente_journaliere.valeur) + Number (statsObj1.vente_bar),
@@ -1056,49 +1071,26 @@ exports.updateDataAutreProduit = catchAssynch ( async ( req, res, next) =>
                         
                         bralima.stats[index1].data[index2] = statsObj2;
                         await bralima.save();
-                        
-                        res.status(200).json
-                        ({
-                            status: 'success',
-                            data: bralima.data[yearIndex].data[monthIndex].data[indexof]
-                        });
-                    }
-                    else
-                    {
-                        res.status(404).json(
-                            {
-                                message: 'Invalid id input'
-                            }
-                        )
-                        next();
-                    }
-                }
-                else
-                {
-                    res.status(404).json(
-                        {
-                            message: 'Invalid id input'
-                        }
-                    )
-                    next();
+
+                    } else {
+
+                        return ( next (new AppError ('Cette donnee est inexistante', 404)));
+                    };
+
+                } else {
+
+                    return ( next (new AppError ('Cette donnee est inexistante', 404)));
                 };
-            }
-            else
-            {
-                res.status(404).json(
-                    {
-                        message: 'Invalid id input'
-                    }
-                )
-                next();
+
+            } else {
+
+                return ( next (new AppError ('Cette donnee est inexistante', 404)));
             };
-        }
-    }
-    else
-    {
-        res.status(404).json({
-            message: 'Bad request, cette donnée n"exist pas '
-        })
+
+        } else {
+
+            return ( next (new AppError ('Cette donnee est inexistante', 404)));
+        };
     };
 });
 
