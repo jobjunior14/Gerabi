@@ -9,7 +9,7 @@ export function ExcelSecLayout ( props)
                 <th rowspan = '3' style = {tbaleTh}> Name </th>
                 <th colspan = '4' style = {tbaleTh}>ACHAT JOURNALIER </th>
                 <th colspan = '3' style = {tbaleTh}> BENEFICE SUR ACHAT </th>
-                <th colspan = '5' style = {tbaleTh}> Projection </th>
+                <th colspan = '7' style = {tbaleTh}> Business Projection </th>
                 <th colspan = '3' style = {tbaleTh}> VENTE JOURNALIERE </th>
                 <th rowspan = '2' style = {tbaleTh}> BENEFICE SUR VENTE </th>
                 <th colspan = '2' style = {tbaleTh}> STOCK CONSIGNATION </th>
@@ -30,6 +30,8 @@ export function ExcelSecLayout ( props)
             
             
                 <th style = {tbaleTh}>STOCK GEN</th>
+                <th style = {tbaleTh}>Sortie Cave</th>
+                <th style = {tbaleTh}> Stock Degobar</th>
                 <th style = {tbaleTh}>Valeur stock Det</th>
                 <th style = {tbaleTh}> Ref prix Gros</th>
                 <th style = {tbaleTh}>Val stock Gros</th>

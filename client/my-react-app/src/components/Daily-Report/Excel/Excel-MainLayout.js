@@ -166,6 +166,43 @@ export function ExcelMain(props)
                 </td>
             }
             {
+                <td id = {props.prev.id} name = { `stock_gen${props.prev.id}`}>
+                    <input 
+                        defaultValue = { props.prev.business_projection.sortie_cave}
+                        id = { props.prev.id }
+                        name = 'business_projection'
+                        modvalue = 'sortie_cave'
+                        type = 'number'
+                        placeholder = ' Taper la qt des stock_gen '
+                        onChange = { (e) =>
+                        {
+                            const { name, value, type, modvalue } = e.target
+                            return props.onchange( props.prev.id, name, value, type, modvalue, "")
+                        }}
+                    />
+
+                </td>
+            }
+
+            {
+                <td id = {props.prev.id} name = { `stock_gen${props.prev.id}`}>
+                    <input 
+                        value = { props.prev.business_projection.stock_dego}
+                        id = { props.prev.id }
+                        name = 'business_projection'
+                        modvalue = 'stock_dego'
+                        type = 'number'
+                        placeholder = ' Taper la qt des stock_gen '
+                        onChange = { (e) =>
+                        {
+                            const { name, value, type, modvalue } = e.target
+                            return props.onchange( props.prev.id, name, value, type, modvalue, "")
+                        }}
+                    />
+
+                </td>
+            }
+            {
                 <td id = {props.prev.id} name = { `val_stock_det${props.prev.id}`}>
                     <input 
                         value = { props.prev.business_projection.val_stock_det}

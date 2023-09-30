@@ -23,6 +23,8 @@ const data =
         business_projection:
         {
             stock_gen: 128,
+            sortie_cave: 23,
+            stock_dego: 20,
             val_stock_det: 234,
             ref_prix_gros: 2500,
             marge_beneficiaire: 48920,
