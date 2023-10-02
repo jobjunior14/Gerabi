@@ -65,28 +65,25 @@ exports.getAutreProduit = catchAssynch ( async (req, res, next) =>
 
                         for (let p of o.data)
                         {
-                            let g = null;
 
                             for ( let m of p.data)
                             {
                                 if ( Number( JSON.stringify(m.createdAt).slice (9, 11)) === day)
                                 {
-                                    //keep the data in a variable coz we have to work with out of our scoop
-                                    g = m;
+                                    //push the data and the name of a delevery
+                                    d.push(
+                                        {
+                                            name: p.name,
+                                            data: m
+                                        }
+                                    );
                                 };
-
+                                
                                 //add the main name in our data for fast reading in front end
-                                d.push(
-                                    {
-                                        name: p.name,
-                                        data: g
-                                    }
-                                );
                             };
-
+                            
                         };
-                        // push the data now 
-                        suiviDayData.push(d);
+                        if (d.length !== 0) suiviDayData.push(d);
                     };
                 };
             };
@@ -97,10 +94,10 @@ exports.getAutreProduit = catchAssynch ( async (req, res, next) =>
     res.status (200).json({
         status: 'success',
         data:{
-            // id: id,
-            // month: dayData,
-            // suivi: suiviDayData
-            bralima
+            id: id,
+            month: dayData,
+            suivi: suiviDayData
+            // bralima
         }
        
     });
@@ -110,14 +107,13 @@ exports.pushDataAutreProduit = catchAssynch ( async (req, res, next) =>
 {
     //first we need all data
     const bralima = await AutreProduit.find();
-    console.log (bralima.length);
     //loop of the request Body(All data )
+    const dataBralima =[];
     
     if (bralima.length > 0 )
     {
         for ( o = 0; o < req.body.length; o++)
         {
-            const dataBralima =[];
 
             //have to check if new data was adding or not by checking the name
             if (bralima[o].name === req.body[o].name)
@@ -126,11 +122,11 @@ exports.pushDataAutreProduit = catchAssynch ( async (req, res, next) =>
 
                 ///////////////////////////// stats For every object/////////////////////////////////////////
 
-                const yearindex =  await bralima[o].data.findIndex ( el => el.annee === Number (req.query.date.slice(0, 4)));
+                const yearindex =  await bralima[o].data.findIndex ( el => el.annee === Number (new Date().toLocaleDateString().slice(6)));
             
                 if ( yearindex !== -1)
                 {
-                    const monthindex = await bralima[o].data[yearindex].data.findIndex( el => el.mois === Number (req.query.date.slice(4, 6)));
+                    const monthindex = await bralima[o].data[yearindex].data.findIndex( el => el.mois === Number (new Date().toLocaleDateString().slice(3, 5)));
             
                     if ( monthindex !== -1)
                     {
@@ -661,8 +657,8 @@ exports.pushDataAutreProduit = catchAssynch ( async (req, res, next) =>
                             data:[
                                 {
                                     mois: Number ( new Date().toLocaleDateString().slice(3, 5) ),
-                                    qt_caisse: Number (i.data.qt_caisse),
-                                    valeur: Number (i.data.qt_caisse) * achat
+                                    qt_caisse: Number (i.qt_caisse),
+                                    valeur: Number (i.qt_caisse) * achat
                                 }
                             ],
                             stats: [{
@@ -670,8 +666,8 @@ exports.pushDataAutreProduit = catchAssynch ( async (req, res, next) =>
                                 data: [{
                                     name: i.name,
                                     mois: Number ( new Date().toLocaleDateString().slice(3, 5) ),
-                                    qt_caisse: Number (i.data.qt_caisse),
-                                    valeur: Number (i.data.qt_caisse) * achat
+                                    qt_caisse: Number (i.qt_caisse),
+                                    valeur: Number (i.qt_caisse) * achat
                                 }]
                             }]
                         };
@@ -702,16 +698,16 @@ exports.pushDataAutreProduit = catchAssynch ( async (req, res, next) =>
                                 name: o.suiviApprovisionnement.data.data.data.name,
                                 data: [{
                                     mois: Number ( new Date().toLocaleDateString().slice(3, 5) ),
-                                    qt_caisse: Number(o.suiviApprovisionnement.data.data.data.data.qt_caisse ),
-                                    valeur: Number (o.suiviApprovisionnement.data.data.data.data.qt_caisse ) * achat
+                                    qt_caisse: Number(o.suiviApprovisionnement.data.data.data.qt_caisse ),
+                                    valeur: Number (o.suiviApprovisionnement.data.data.data.qt_caisse ) * achat
                                 }],
                                 stats: [{
                                     annee: Number ( new Date().toLocaleDateString().slice(6) ),
                                     data: [{
                                         name: o.suiviApprovisionnement.data.data.data.name,
                                         mois: Number ( new Date().toLocaleDateString().slice(3, 5) ),
-                                        qt_caisse: Number(o.suiviApprovisionnement.data.data.data.data.qt_caisse ),
-                                        valeur: Number (o.suiviApprovisionnement.data.data.data.data.qt_caisse ) * achat
+                                        qt_caisse: Number(o.suiviApprovisionnement.data.data.data.qt_caisse ),
+                                        valeur: Number (o.suiviApprovisionnement.data.data.data.qt_caisse ) * achat
                                     }]
                                 }]
                             }

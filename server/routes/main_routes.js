@@ -26,7 +26,7 @@ router
     .post(updateDataAutreProduit);
 
 router
-    .route('/raportJournalier/autreProduit/:year/:month')
+    .route('/raportJournalier/autreProduit')
     .post(pushDataAutreProduit)
 
  // stats
