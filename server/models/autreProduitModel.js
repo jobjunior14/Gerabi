@@ -143,10 +143,208 @@ const arraySchema = new mongoose.Schema({
             // validate: [validator.isNumeric, "dois contenir que des chiffres"]
         }
     },
+
     createdAt: {
         type: Date,
         default: Date.now()
-    }
+    },
+
+    suivi1: {
+        name: {
+            type: String,
+        },
+
+        qt_caisse: {
+            type: Number,
+        },
+
+        valeur: {
+            type: Number
+        }
+    },
+
+    suivi2: {
+        name: {
+            type: String,
+        },
+
+        qt_caisse: {
+            type: Number,
+        },
+
+        valeur: {
+            type: Number
+        }
+    },
+
+    suivi3: {
+        name: {
+            type: String,
+        },
+
+        qt_caisse: {
+            type: Number,
+        },
+
+        valeur: {
+            type: Number
+        }
+    },
+
+    suivi4: {
+        name: {
+            type: String,
+        },
+
+        qt_caisse: {
+            type: Number,
+        },
+
+        valeur: {
+            type: Number
+        }
+    },
+
+    suivi5: {
+        name: {
+            type: String,
+        },
+
+        qt_caisse: {
+            type: Number,
+        },
+
+        valeur: {
+            type: Number
+        }
+    },
+
+    suivi6: {
+        name: {
+            type: String,
+        },
+
+        qt_caisse: {
+            type: Number,
+        },
+
+        valeur: {
+            type: Number
+        }
+    },
+
+    suivi7: {
+        name: {
+            type: String,
+        },
+
+        qt_caisse: {
+            type: Number,
+        },
+
+        valeur: {
+            type: Number
+        }
+    },
+
+    suivi8: {
+        name: {
+            type: String,
+        },
+
+        qt_caisse: {
+            type: Number,
+        },
+
+        valeur: {
+            type: Number
+        }
+    },
+
+    suivi9: {
+        name: {
+            type: String,
+        },
+
+        qt_caisse: {
+            type: Number,
+        },
+
+        valeur: {
+            type: Number
+        }
+    },
+
+    suivi10: {
+        name: {
+            type: String,
+        },
+
+        qt_caisse: {
+            type: Number,
+        },
+
+        valeur: {
+            type: Number
+        }
+    },
+
+    suivi11: {
+        name: {
+            type: String,
+        },
+
+        qt_caisse: {
+            type: Number,
+        },
+
+        valeur: {
+            type: Number
+        }
+    },
+
+    suivi12: {
+        name: {
+            type: String,
+        },
+
+        qt_caisse: {
+            type: Number,
+        },
+
+        valeur: {
+            type: Number
+        }
+    },
+
+    suivi13: {
+        name: {
+            type: String,
+        },
+
+        qt_caisse: {
+            type: Number,
+        },
+
+        valeur: {
+            type: Number
+        }
+    },
+
+    suivi14: {
+        name: {
+            type: String,
+        },
+
+        qt_caisse: {
+            type: Number,
+        },
+
+        valeur: {
+            type: Number
+        }
+    },
+
 })
 const dataSchema = new mongoose.Schema({
     mois:
@@ -200,96 +398,6 @@ const statsArray = new mongoose.Schema ({
     data:[statsData]
 });
 
-const statsDataSuivi = new mongoose.Schema ({
-    name:
-    {
-        type: String,
-        require: true,
-    },
-    mois:{
-        type: Number,
-        require: true,
-        unique: true
-    },
-    qt_caisse:
-    {
-        type: Number,
-        require: true
-    },
-    valeur:
-    {
-        type: Number,
-        require: true
-    }
-});
-
-const statsArraySuivi = new mongoose.Schema ({
-    annee: {
-        type: Number,
-        require: true
-    },
-
-    data:[statsDataSuivi]
-});
-
-const suiviSub = new mongoose.Schema ({
-
-    createdAt: {
-        type: Date,
-        default: Date.now()
-    },
-    
-    mois:
-    {
-        type: Number,
-        require: true
-    },
-
-    qt_caisse:{
-        type: Number,
-        require: true
-    },
-    valeur:{
-        type: Number,
-        require: true
-    },
-    name: {
-        type: String,
-        require: true
-    }
-});
-
-const suivisubSubSchema = new mongoose.Schema ({
-    name:
-    {
-        type: String,
-        require: [true, 'Vous devez taper le nom ']
-    },
-    data: [suiviSub],
-    createdAt:{
-        type: Date,
-        default: Date.now()
-    },
-    stats: [statsArraySuivi]
-})
-const suiviSubSchema = new mongoose.Schema({
-    mois:
-    {
-        type: Number,
-        default: Number ( new Date().toLocaleDateString().slice(3, 5))
-    },
-
-    data:[suivisubSubSchema]
-})
-
-const suiviApprovisonnemntSchema = new mongoose.Schema ({
-    annee:
-    {
-        type: Number,
-        default: Number (new Date().toLocaleDateString().slice(6))
-    },
-    data:[suiviSubSchema]
-});
 
 
 const AutreProduitSchema = new mongoose.Schema({
@@ -324,6 +432,20 @@ arraySchema.pre ( 'save', function (next)
     this.stock_apres_vente.reste_stock_comptoir.valeur = this.stock_apres_vente.reste_stock_comptoir.qt_btll * this.vente_journaliere.ref_prix_det;
     this.stock_apres_vente.reste_stock_depot.valeur = this.stock_apres_vente.reste_stock_depot.qt_btll * this.vente_journaliere.ref_prix_det;
     this.stock_apres_vente.valeur_stock = this.stock_apres_vente.reste_stock_depot.valeur + this.stock_apres_vente.reste_stock_comptoir.valeur;
+    this.suivi1.valeur = this.suivi1.qt_caisse * this.achat_journalier.prix_achat_gros;
+    this.suivi2.valeur = this.suivi2.qt_caisse * this.achat_journalier.prix_achat_gros;
+    this.suivi3.valeur = this.suivi3.qt_caisse * this.achat_journalier.prix_achat_gros;
+    this.suivi4.valeur = this.suivi4.qt_caisse * this.achat_journalier.prix_achat_gros;
+    this.suivi5.valeur = this.suivi5.qt_caisse * this.achat_journalier.prix_achat_gros;
+    this.suivi6.valeur = this.suivi6.qt_caisse * this.achat_journalier.prix_achat_gros;
+    this.suivi7.valeur = this.suivi7.qt_caisse * this.achat_journalier.prix_achat_gros;
+    this.suivi8.valeur = this.suivi8.qt_caisse * this.achat_journalier.prix_achat_gros;
+    this.suivi9.valeur = this.suivi9.qt_caisse * this.achat_journalier.prix_achat_gros;
+    this.suivi10.valeur = this.suivi10.qt_caisse * this.achat_journalier.prix_achat_gros;
+    this.suivi11.valeur = this.suivi11.qt_caisse * this.achat_journalier.prix_achat_gros;
+    this.suivi12.valeur = this.suivi12.qt_caisse * this.achat_journalier.prix_achat_gros;
+    this.suivi13.valeur = this.suivi13.qt_caisse * this.achat_journalier.prix_achat_gros;
+    this.suivi14.valeur = this.suivi14.qt_caisse * this.achat_journalier.prix_achat_gros;
     
     next();
 });

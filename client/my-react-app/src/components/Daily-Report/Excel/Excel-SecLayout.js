@@ -6,14 +6,14 @@ export function ExcelSecLayout ( props)
         <table className = 'table1' style = {table}>
             <thead>
             <tr> 
-                <th rowspan = '3' style = {tbaleTh}> Name </th>
-                <th colspan = '4' style = {tbaleTh}>ACHAT JOURNALIER </th>
-                <th colspan = '3' style = {tbaleTh}> BENEFICE SUR ACHAT </th>
-                <th colspan = '7' style = {tbaleTh}> Business Projection </th>
-                <th colspan = '3' style = {tbaleTh}> VENTE JOURNALIERE </th>
-                <th rowspan = '2' style = {tbaleTh}> BENEFICE SUR VENTE </th>
-                <th colspan = '2' style = {tbaleTh}> STOCK CONSIGNATION </th>
-                <th colspan = '3' style = {tbaleTh} rowspan = '1'> STOCK APRES VENTE </th>
+                <th rowSpan = '3' style = {tbaleTh}> Name </th>
+                <th colSpan = '4' style = {tbaleTh}>ACHAT JOURNALIER </th>
+                <th colSpan = '3' style = {tbaleTh}> BENEFICE SUR ACHAT </th>
+                <th colSpan = '7' style = {tbaleTh}> Business Projection </th>
+                <th colSpan = '3' style = {tbaleTh}> VENTE JOURNALIERE </th>
+                <th rowSpan = '2' style = {tbaleTh}> BENEFICE SUR VENTE </th>
+                <th colSpan = '2' style = {tbaleTh}> STOCK CONSIGNATION </th>
+                <th colSpan = '3' style = {tbaleTh} rowSpan = '1'> STOCK APRES VENTE </th>
             </tr>
 
             <tr>
@@ -49,13 +49,13 @@ export function ExcelSecLayout ( props)
                
                   
                 <tr>
-                    <th colspan = '2' style = {{
+                    <th colSpan = '2' style = {{
                          padding: '0.5rem 1rem',
                          fontWeight: 'normal',
                          borderRight: 'solid thin',
                          width: '33.3%'
                     }}>Reste comptoir</th>
-                    <th colspan = '3' style = {
+                    <th colSpan = '3' style = {
                         {
                             padding: '0.5rem 1rem',
                             fontWeight: 'normal',
@@ -63,7 +63,7 @@ export function ExcelSecLayout ( props)
                             width: '33.3%'
                         }
                     }> Reste stock Depot</th>
-                    <th rowspan = '2' style = {
+                    <th rowSpan = '2' style = {
                         {
                             padding: '0.5rem 1rem',
                             fontWeight: 'normal',

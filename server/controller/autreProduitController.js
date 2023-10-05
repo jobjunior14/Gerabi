@@ -16,7 +16,6 @@ exports.getAutreProduit = catchAssynch ( async (req, res, next) =>
 
     //add data to a new array for fast reading
     let dayData = [];
-    let suiviDayData = [];
 
     //pushing id of every Product in a new array for just "delete" Option
     const id = [];
@@ -52,42 +51,6 @@ exports.getAutreProduit = catchAssynch ( async (req, res, next) =>
 
         // doing the same thing to suivi appro
         //check days, month, year...
-
-        for ( let j of i.suiviApprovisionnement)
-        {
-            if (j.annee === year)
-            {
-                for (let o of j.data)
-                {
-                    if ( o.mois === month)
-                    { 
-                        let d = [];
-
-                        for (let p of o.data)
-                        {
-
-                            for ( let m of p.data)
-                            {
-                                if ( Number( JSON.stringify(m.createdAt).slice (9, 11)) === day)
-                                {
-                                    //push the data and the name of a delevery
-                                    d.push(
-                                        {
-                                            name: p.name,
-                                            data: m
-                                        }
-                                    );
-                                };
-                                
-                                //add the main name in our data for fast reading in front end
-                            };
-                            
-                        };
-                        if (d.length !== 0) suiviDayData.push(d);
-                    };
-                };
-            };
-        };
     };
 
     // then the response ....
@@ -96,7 +59,6 @@ exports.getAutreProduit = catchAssynch ( async (req, res, next) =>
         data:{
             id: id,
             month: dayData,
-            suivi: suiviDayData
             // bralima
         }
        
@@ -118,7 +80,6 @@ exports.pushDataAutreProduit = catchAssynch ( async (req, res, next) =>
             //have to check if new data was adding or not by checking the name
             if (bralima[o].name === req.body[o].name)
             {
-
 
                 ///////////////////////////// stats For every object/////////////////////////////////////////
 
@@ -174,7 +135,92 @@ exports.pushDataAutreProduit = catchAssynch ( async (req, res, next) =>
                                     {
                                         "stock_apres_ventente_rest_stock_comptoir_qt_btll": req.body[o].data.data.data.val_precedente.stock_apres_ventente_rest_stock_comptoir_qt_btll,
                                         "stock_apres_ventente_rest_stock_depot_qt_btll": req.body[o].data.data.data.val_precedente.stock_apres_ventente_rest_stock_depot_qt_btll
-                                    }
+                                    },
+
+                                    "suivi1": {
+
+                                        "name": req.body[o].data.data.data.suivi1.name,
+                                        "qt_caisse": req.body[o].data.data.data.suivi1.qt_caisse
+                                    },
+                                
+                                    "suivi2": {
+
+                                        "name": req.body[o].data.data.data.suivi2.name,
+                                        "qt_caisse": req.body[o].data.data.data.suivi2.qt_caisse
+                                    },
+                                
+                                    "suivi3": {
+
+                                        "name": req.body[o].data.data.data.suivi3.name,
+                                        "qt_caisse": req.body[o].data.data.data.suivi3.qt_caisse
+                                    },
+                                
+                                    "suivi4": {
+
+                                        "name": req.body[o].data.data.data.suivi4.name,
+                                        "qt_caisse": req.body[o].data.data.data.suivi4.qt_caisse
+                                    },
+                                
+                                    "suivi5": {
+
+                                        "name": req.body[o].data.data.data.suivi5.name,
+                                        "qt_caisse": req.body[o].data.data.data.suivi5.qt_caisse
+                                    },
+                                
+                                    "suivi6": {
+
+                                        "name": req.body[o].data.data.data.suivi6.name,
+                                        "qt_caisse": req.body[o].data.data.data.suivi6.qt_caisse
+                                    },
+                                
+                                    "suivi7": {
+
+                                        "name": req.body[o].data.data.data.suivi7.name,
+                                        "qt_caisse": req.body[o].data.data.data.suivi7.qt_caisse
+                                    },
+                                
+                                    "suivi8": {
+
+                                        "name": req.body[o].data.data.data.suivi8.name,
+                                        "qt_caisse": req.body[o].data.data.data.suivi8.qt_caisse
+                                    },
+                                
+                                    "suivi9": {
+
+                                        "name": req.body[o].data.data.data.suivi9.name,
+                                        "qt_caisse": req.body[o].data.data.data.suivi9.qt_caisse
+                                    },
+                                
+                                    "suivi10": {
+
+                                        "name": req.body[o].data.data.data.suivi10.name,
+                                        "qt_caisse": req.body[o].data.data.data.suivi10.qt_caisse
+                                    },
+                                
+                                    "suivi11": {
+
+                                        "name": req.body[o].data.data.data.suivi11.name,
+                                        "qt_caisse": req.body[o].data.data.data.suivi11.qt_caisse
+                                    },
+                                
+                                    "suivi12": {
+
+                                        "name": req.body[o].data.data.data.suivi12.name,
+                                        "qt_caisse": req.body[o].data.data.data.suivi12.qt_caisse
+                                    },
+                                
+                                    "suivi13": {
+
+                                        "name": req.body[o].data.data.data.suivi13.name,
+                                        "qt_caisse": req.body[o].data.data.data.suivi13.qt_caisse
+                                    },
+                                
+                                    "suivi14": {
+
+                                        "name": req.body[o].data.data.data.suivi14.name,
+                                        "qt_caisse": req.body[o].data.data.data.suivi14.qt_caisse
+                                    },
+
                                 }
                             }
                         );
