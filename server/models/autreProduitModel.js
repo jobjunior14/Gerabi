@@ -152,10 +152,12 @@ const arraySchema = new mongoose.Schema({
     suivi1: {
         name: {
             type: String,
+            default: ""
         },
 
         qt_caisse: {
             type: Number,
+            default: 0
         },
 
         valeur: {
@@ -166,10 +168,12 @@ const arraySchema = new mongoose.Schema({
     suivi2: {
         name: {
             type: String,
+            default: ""
         },
 
         qt_caisse: {
             type: Number,
+            default: 0
         },
 
         valeur: {
@@ -180,10 +184,12 @@ const arraySchema = new mongoose.Schema({
     suivi3: {
         name: {
             type: String,
+            default: ""
         },
 
         qt_caisse: {
             type: Number,
+            default: 0
         },
 
         valeur: {
@@ -194,10 +200,12 @@ const arraySchema = new mongoose.Schema({
     suivi4: {
         name: {
             type: String,
+            default: ""
         },
 
         qt_caisse: {
             type: Number,
+            default: 0
         },
 
         valeur: {
@@ -208,10 +216,12 @@ const arraySchema = new mongoose.Schema({
     suivi5: {
         name: {
             type: String,
+            default: ""
         },
 
         qt_caisse: {
             type: Number,
+            default: 0
         },
 
         valeur: {
@@ -222,10 +232,12 @@ const arraySchema = new mongoose.Schema({
     suivi6: {
         name: {
             type: String,
+            default: ""
         },
 
         qt_caisse: {
             type: Number,
+            default: 0
         },
 
         valeur: {
@@ -236,10 +248,12 @@ const arraySchema = new mongoose.Schema({
     suivi7: {
         name: {
             type: String,
+            default: ""
         },
 
         qt_caisse: {
             type: Number,
+            default: 0
         },
 
         valeur: {
@@ -250,10 +264,12 @@ const arraySchema = new mongoose.Schema({
     suivi8: {
         name: {
             type: String,
+            default: ""
         },
 
         qt_caisse: {
             type: Number,
+            default: 0
         },
 
         valeur: {
@@ -264,10 +280,12 @@ const arraySchema = new mongoose.Schema({
     suivi9: {
         name: {
             type: String,
+            default: ""
         },
 
         qt_caisse: {
             type: Number,
+            default: 0
         },
 
         valeur: {
@@ -278,10 +296,12 @@ const arraySchema = new mongoose.Schema({
     suivi10: {
         name: {
             type: String,
+            default: ""
         },
 
         qt_caisse: {
             type: Number,
+            default: 0
         },
 
         valeur: {
@@ -292,10 +312,12 @@ const arraySchema = new mongoose.Schema({
     suivi11: {
         name: {
             type: String,
+            default: ""
         },
 
         qt_caisse: {
             type: Number,
+            default: 0
         },
 
         valeur: {
@@ -306,10 +328,12 @@ const arraySchema = new mongoose.Schema({
     suivi12: {
         name: {
             type: String,
+            default: ""
         },
 
         qt_caisse: {
             type: Number,
+            default: 0
         },
 
         valeur: {
@@ -320,10 +344,12 @@ const arraySchema = new mongoose.Schema({
     suivi13: {
         name: {
             type: String,
+            default: ""
         },
 
         qt_caisse: {
             type: Number,
+            default: 0
         },
 
         valeur: {
@@ -334,10 +360,12 @@ const arraySchema = new mongoose.Schema({
     suivi14: {
         name: {
             type: String,
+            default: ""
         },
 
         qt_caisse: {
             type: Number,
+            default: 0
         },
 
         valeur: {

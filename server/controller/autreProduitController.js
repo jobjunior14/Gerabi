@@ -390,6 +390,14 @@ exports.pushDataAutreProduit = catchAssynch ( async (req, res, next) =>
                                     name: bralima[o].suiviApprovisionnement[index1].data[index2].data[indexDataSuivi1].name,
                                     valeur: Number (bralima[o].suiviApprovisionnement[index1].data[index2].data[indexDataSuivi1].valeur) + Number (bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data[bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data.length -1].suivi1.valeur)
                                 };
+                            } else {
+
+                                bralima[o].suiviApprovisionnement[index1].data[index2].data.push ({
+                                    
+                                    name: bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data[bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data.length -1].suivi1.name ,
+                                    valeur: Number (bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data[bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data.length -1].suivi1.valeur)
+
+                                });
                             };
                             
                         };
@@ -404,6 +412,14 @@ exports.pushDataAutreProduit = catchAssynch ( async (req, res, next) =>
                                     name: bralima[o].suiviApprovisionnement[index1].data[index2].data[indexDataSuivi1].name,
                                     valeur: Number (bralima[o].suiviApprovisionnement[index1].data[index2].data[indexDataSuivi1].valeur) + Number (bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data[bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data.length -1].suivi2.valeur)
                                 };
+                            } else {
+
+                                bralima[o].suiviApprovisionnement[index1].data[index2].data.push ({
+                                    
+                                    name: bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data[bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data.length -1].suivi2.name ,
+                                    valeur: Number (bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data[bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data.length -1].suivi2.valeur)
+
+                                });
                             };
                             
                         };
@@ -418,6 +434,14 @@ exports.pushDataAutreProduit = catchAssynch ( async (req, res, next) =>
                                     name: bralima[o].suiviApprovisionnement[index1].data[index2].data[indexDataSuivi1].name,
                                     valeur: Number (bralima[o].suiviApprovisionnement[index1].data[index2].data[indexDataSuivi1].valeur) + Number (bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data[bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data.length -1].suivi3.valeur)
                                 };
+                            } else {
+
+                                bralima[o].suiviApprovisionnement[index1].data[index2].data.push ({
+                                    
+                                    name: bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data[bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data.length -1].suivi3.name ,
+                                    valeur: Number (bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data[bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data.length -1].suivi3.valeur)
+
+                                });
                             };
                             
                         };
@@ -432,6 +456,13 @@ exports.pushDataAutreProduit = catchAssynch ( async (req, res, next) =>
                                     name: bralima[o].suiviApprovisionnement[index1].data[index2].data[indexDataSuivi1].name,
                                     valeur: Number (bralima[o].suiviApprovisionnement[index1].data[index2].data[indexDataSuivi1].valeur) + Number (bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data[bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data.length -1].suivi4.valeur)
                                 };
+                            } else {
+
+                                bralima[o].suiviApprovisionnement[index1].data[index2].data.push ({
+                                    name: bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data[bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data.length -1].suivi4.name ,
+                                    valeur: Number (bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data[bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data.length -1].suivi4.valeur)
+
+                                });
                             };
                             
                         };
@@ -446,6 +477,14 @@ exports.pushDataAutreProduit = catchAssynch ( async (req, res, next) =>
                                     name: bralima[o].suiviApprovisionnement[index1].data[index2].data[indexDataSuivi1].name,
                                     valeur: Number (bralima[o].suiviApprovisionnement[index1].data[index2].data[indexDataSuivi1].valeur) + Number (bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data[bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data.length -1].suivi5.valeur)
                                 };
+                            } else {
+
+                                bralima[o].suiviApprovisionnement[index1].data[index2].data.push ({
+                                    
+                                    name: bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data[bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data.length -1].suivi5.name ,
+                                    valeur: Number (bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data[bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data.length -1].suivi5.valeur)
+
+                                });
                             };
                             
                         };
@@ -460,6 +499,14 @@ exports.pushDataAutreProduit = catchAssynch ( async (req, res, next) =>
                                     name: bralima[o].suiviApprovisionnement[index1].data[index2].data[indexDataSuivi1].name,
                                     valeur: Number (bralima[o].suiviApprovisionnement[index1].data[index2].data[indexDataSuivi1].valeur) + Number (bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data[bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data.length -1].suivi6.valeur)
                                 };
+                            } else {
+
+                                bralima[o].suiviApprovisionnement[index1].data[index2].data.push ({
+                                    
+                                    name: bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data[bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data.length -1].suivi6.name ,
+                                    valeur: Number (bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data[bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data.length -1].suivi6.valeur)
+
+                                });
                             };
                             
                         };
@@ -474,6 +521,14 @@ exports.pushDataAutreProduit = catchAssynch ( async (req, res, next) =>
                                     name: bralima[o].suiviApprovisionnement[index1].data[index2].data[indexDataSuivi1].name,
                                     valeur: Number (bralima[o].suiviApprovisionnement[index1].data[index2].data[indexDataSuivi1].valeur) + Number (bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data[bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data.length -1].suivi7.valeur)
                                 };
+                            } else {
+
+                                bralima[o].suiviApprovisionnement[index1].data[index2].data.push ({
+                                    
+                                    name: bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data[bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data.length -1].suivi7.name ,
+                                    valeur: Number (bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data[bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data.length -1].suivi7.valeur)
+
+                                });
                             };
                             
                         };
@@ -488,6 +543,14 @@ exports.pushDataAutreProduit = catchAssynch ( async (req, res, next) =>
                                     name: bralima[o].suiviApprovisionnement[index1].data[index2].data[indexDataSuivi1].name,
                                     valeur: Number (bralima[o].suiviApprovisionnement[index1].data[index2].data[indexDataSuivi1].valeur) + Number (bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data[bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data.length -1].suivi8.valeur)
                                 };
+                            } else {
+
+                                bralima[o].suiviApprovisionnement[index1].data[index2].data.push ({
+                                    
+                                    name: bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data[bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data.length -1].suivi8.name ,
+                                    valeur: Number (bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data[bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data.length -1].suivi8.valeur)
+
+                                });
                             };
                             
                         };
@@ -502,6 +565,14 @@ exports.pushDataAutreProduit = catchAssynch ( async (req, res, next) =>
                                     name: bralima[o].suiviApprovisionnement[index1].data[index2].data[indexDataSuivi1].name,
                                     valeur: Number (bralima[o].suiviApprovisionnement[index1].data[index2].data[indexDataSuivi1].valeur) + Number (bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data[bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data.length -1].suivi9.valeur)
                                 };
+                            } else {
+
+                                bralima[o].suiviApprovisionnement[index1].data[index2].data.push ({
+                                    
+                                    name: bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data[bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data.length -1].suivi9.name ,
+                                    valeur: Number (bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data[bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data.length -1].suivi9.valeur)
+
+                                });
                             };
                             
                         };
@@ -516,6 +587,14 @@ exports.pushDataAutreProduit = catchAssynch ( async (req, res, next) =>
                                     name: bralima[o].suiviApprovisionnement[index1].data[index2].data[indexDataSuivi1].name,
                                     valeur: Number (bralima[o].suiviApprovisionnement[index1].data[index2].data[indexDataSuivi1].valeur) + Number (bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data[bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data.length -1].suivi10.valeur)
                                 };
+                            } else {
+
+                                bralima[o].suiviApprovisionnement[index1].data[index2].data.push ({
+                                    
+                                    name: bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data[bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data.length -1].suivi10.name ,
+                                    valeur: Number (bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data[bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data.length -1].suivi10.valeur)
+
+                                });
                             };
                             
                         };
@@ -530,6 +609,14 @@ exports.pushDataAutreProduit = catchAssynch ( async (req, res, next) =>
                                     name: bralima[o].suiviApprovisionnement[index1].data[index2].data[indexDataSuivi1].name,
                                     valeur: Number (bralima[o].suiviApprovisionnement[index1].data[index2].data[indexDataSuivi1].valeur) + Number (bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data[bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data.length -1].suivi11.valeur)
                                 };
+                            } else {
+
+                                bralima[o].suiviApprovisionnement[index1].data[index2].data.push ({
+                                    
+                                    name: bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data[bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data.length -1].suivi11.name ,
+                                    valeur: Number (bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data[bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data.length -1].suivi11.valeur)
+
+                                });
                             };
                             
                         };
@@ -544,6 +631,13 @@ exports.pushDataAutreProduit = catchAssynch ( async (req, res, next) =>
                                     name: bralima[o].suiviApprovisionnement[index1].data[index2].data[indexDataSuivi1].name,
                                     valeur: Number (bralima[o].suiviApprovisionnement[index1].data[index2].data[indexDataSuivi1].valeur) + Number (bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data[bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data.length -1].suivi12.valeur)
                                 };
+                            } else {
+
+                                bralima[o].suiviApprovisionnement[index1].data[index2].data.push ({
+                                    name: bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data[bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data.length -1].suivi12.name ,
+                                    valeur: Number (bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data[bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data.length -1].suivi12.valeur)
+
+                                });
                             };
                             
                         };
@@ -558,6 +652,14 @@ exports.pushDataAutreProduit = catchAssynch ( async (req, res, next) =>
                                     name: bralima[o].suiviApprovisionnement[index1].data[index2].data[indexDataSuivi1].name,
                                     valeur: Number (bralima[o].suiviApprovisionnement[index1].data[index2].data[indexDataSuivi1].valeur) + Number (bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data[bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data.length -1].suivi13.valeur)
                                 };
+                            } else {
+
+                                bralima[o].suiviApprovisionnement[index1].data[index2].data.push({
+
+                                    name: bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data[bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data.length -1].suivi13.name ,
+                                    valeur: Number (bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data[bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data.length -1].suivi13.valeur)
+
+                                });
                             };
                             
                         };
@@ -572,6 +674,12 @@ exports.pushDataAutreProduit = catchAssynch ( async (req, res, next) =>
                                     name: bralima[o].suiviApprovisionnement[index1].data[index2].data[indexDataSuivi1].name,
                                     valeur: Number (bralima[o].suiviApprovisionnement[index1].data[index2].data[indexDataSuivi1].valeur) + Number (bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data[bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data.length -1].suivi14.valeur)
                                 };
+                            } else {
+
+                                bralima[o].suiviApprovisionnemnt[index1].data[index2].data.push({
+                                    name: bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data[bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data.length -1].suivi14.name ,
+                                    valeur: Number (bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data[bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data.length -1].suivi14.valeur)
+                                });
                             };
                             
                         };
@@ -1392,7 +1500,7 @@ exports.updateDataAutreProduit = catchAssynch ( async ( req, res, next) =>
             
             if ( monthIndex !== -1) {
                 
-                //index of it's an index of our data (suivi stock)
+                //indexof it's an index of our data (suivi stock)
                 const indexof = await bralima.data[yearIndex].data[monthIndex].data.findIndex( el => Number (JSON.stringify(el.createdAt).slice(9, 11)) === Number (req.params.day));
                 
                 //index1 it's an index of year in stats 
@@ -1405,9 +1513,195 @@ exports.updateDataAutreProduit = catchAssynch ( async ( req, res, next) =>
                     //Month index Stats
                     const index2 = await bralima.stats[index1].data.findIndex ( el => el.mois === Number (req.params.month));
                     
+                    let  suiviObj1 = null;
+                    let  suiviObj2 = null;
+                    let  suiviObj3 = null;
+                    let  suiviObj4 = null;
+                    let  suiviObj5 = null;
+                    let  suiviObj6 = null;
+                    let  suiviObj7 = null;
+                    let  suiviObj8 = null;
+                    let  suiviObj9 = null;
+                    let  suiviObj10 = null;
+                    let  suiviObj11 = null;
+                    let  suiviObj12 = null;
+                    let  suiviObj13 = null;
+                    let  suiviObj14 = null;
+
+                    if ( bralima.data[yearIndex].data[monthIndex].data[indexof].suivi1.name !== "" ) {
+
+                        const indexSuivi = bralima.suiviApprovisionnement[index1].data[index2].data.findIndex (el => el.name === bralima.data[yearIndex].data[monthIndex].data[indexof].suivi1.name);
+
+                        if (indexSuivi !== -1)
+                        {
+                            suiviObj1 = {
+                                name: bralima.data[yearIndex].data[monthIndex].data[indexof].suivi1.name,
+                                valeur: Number (bralima.data[yearIndex].data[monthIndex].data[indexof].suivi1.valeur) - Number ( bralima.suiviApprovisionnement[index1].data[index2].data[indexSuivi])
+                            };
+                        };
+                    };
+                    if ( bralima.data[yearIndex].data[monthIndex].data[indexof].suivi2.name !== '' ) {
+
+                        const indexSuivi = bralima.suiviApprovisionnement[index1].data[index2].data.findIndex (el => el.name === bralima.data[yearIndex].data[monthIndex].data[indexof].suivi2.name);
+
+                        if (indexSuivi !== -1)
+                        {
+                            suiviObj2 = {
+                                name: bralima.data[yearIndex].data[monthIndex].data[indexof].suivi2.name,
+                                valeur: Number (bralima.data[yearIndex].data[monthIndex].data[indexof].suivi2.valeur) - Number ( bralima.suiviApprovisionnement[index1].data[index2].data[indexSuivi])
+                            };
+                        };
+                    };
+                    if ( bralima.data[yearIndex].data[monthIndex].data[indexof].suivi3.name !== '' ) {
+
+                        const indexSuivi = bralima.suiviApprovisionnement[index1].data[index2].data.findIndex (el => el.name === bralima.data[yearIndex].data[monthIndex].data[indexof].suivi3.name);
+
+                        if (indexSuivi !== -1)
+                        {
+                            suiviObj3 = {
+                                name: bralima.data[yearIndex].data[monthIndex].data[indexof].suivi3.name,
+                                valeur: Number (bralima.data[yearIndex].data[monthIndex].data[indexof].suivi3.valeur) - Number ( bralima.suiviApprovisionnement[index1].data[index2].data[indexSuivi])
+                            };
+                        };
+                    };
+                    if ( bralima.data[yearIndex].data[monthIndex].data[indexof].suivi4.name !== '' ) {
+
+                        const indexSuivi = bralima.suiviApprovisionnement[index1].data[index2].data.findIndex (el => el.name === bralima.data[yearIndex].data[monthIndex].data[indexof].suivi4.name);
+
+                        if (indexSuivi !== -1)
+                        {
+                            suiviObj4 = {
+                                name: bralima.data[yearIndex].data[monthIndex].data[indexof].suivi4.name,
+                                valeur: Number (bralima.data[yearIndex].data[monthIndex].data[indexof].suivi4.valeur) - Number ( bralima.suiviApprovisionnement[index1].data[index2].data[indexSuivi])
+                            };
+                        };
+                    };
+                    if ( bralima.data[yearIndex].data[monthIndex].data[indexof].suivi5.name !== '' ) {
+
+                        const indexSuivi = bralima.suiviApprovisionnement[index1].data[index2].data.findIndex (el => el.name === bralima.data[yearIndex].data[monthIndex].data[indexof].suivi5.name);
+
+                        if (indexSuivi !== -1)
+                        {
+                            suiviObj5 = {
+                                name: bralima.data[yearIndex].data[monthIndex].data[indexof].suivi5.name,
+                                valeur: Number (bralima.data[yearIndex].data[monthIndex].data[indexof].suivi5.valeur) - Number ( bralima.suiviApprovisionnement[index1].data[index2].data[indexSuivi])
+                            };
+                        };
+                    };
+                    if ( bralima.data[yearIndex].data[monthIndex].data[indexof].suivi6.name !== '' ) {
+
+                        const indexSuivi = bralima.suiviApprovisionnement[index1].data[index2].data.findIndex (el => el.name === bralima.data[yearIndex].data[monthIndex].data[indexof].suivi6.name);
+
+                        if (indexSuivi !== -1)
+                        {
+                            suiviObj6 = {
+                                name: bralima.data[yearIndex].data[monthIndex].data[indexof].suivi6.name,
+                                valeur: Number (bralima.data[yearIndex].data[monthIndex].data[indexof].suivi6.valeur) - Number ( bralima.suiviApprovisionnement[index1].data[index2].data[indexSuivi])
+                            };
+                        };
+                    };
+                    if ( bralima.data[yearIndex].data[monthIndex].data[indexof].suivi7.name !== '' ) {
+
+                        const indexSuivi = bralima.suiviApprovisionnement[index1].data[index2].data.findIndex (el => el.name === bralima.data[yearIndex].data[monthIndex].data[indexof].suivi7.name);
+
+                        if (indexSuivi !== -1)
+                        {
+                            suiviObj7 = {
+                                name: bralima.data[yearIndex].data[monthIndex].data[indexof].suivi7.name,
+                                valeur: Number (bralima.data[yearIndex].data[monthIndex].data[indexof].suivi7.valeur) - Number ( bralima.suiviApprovisionnement[index1].data[index2].data[indexSuivi])
+                            };
+                        };
+                    };
+                    if ( bralima.data[yearIndex].data[monthIndex].data[indexof].suivi8.name !== '' ) {
+
+                        const indexSuivi = bralima.suiviApprovisionnement[index1].data[index2].data.findIndex (el => el.name === bralima.data[yearIndex].data[monthIndex].data[indexof].suivi8.name);
+
+                        if (indexSuivi !== -1)
+                        {
+                            suiviObj8 = {
+                                name: bralima.data[yearIndex].data[monthIndex].data[indexof].suivi8.name,
+                                valeur: Number (bralima.data[yearIndex].data[monthIndex].data[indexof].suivi8.valeur) - Number ( bralima.suiviApprovisionnement[index1].data[index2].data[indexSuivi])
+                            };
+                        };
+                    };
+                    if ( bralima.data[yearIndex].data[monthIndex].data[indexof].suivi9.name !== '' ) {
+
+                        const indexSuivi = bralima.suiviApprovisionnement[index1].data[index2].data.findIndex (el => el.name === bralima.data[yearIndex].data[monthIndex].data[indexof].suivi9.name);
+
+                        if (indexSuivi !== -1)
+                        {
+                            suiviObj9 = {
+                                name: bralima.data[yearIndex].data[monthIndex].data[indexof].suivi9.name,
+                                valeur: Number (bralima.data[yearIndex].data[monthIndex].data[indexof].suivi9.valeur) - Number ( bralima.suiviApprovisionnement[index1].data[index2].data[indexSuivi])
+                            };
+                        };
+                    };
+                    if ( bralima.data[yearIndex].data[monthIndex].data[indexof].suivi10.name !== '' ) {
+
+                        const indexSuivi = bralima.suiviApprovisionnement[index1].data[index2].data.findIndex (el => el.name === bralima.data[yearIndex].data[monthIndex].data[indexof].suivi10.name);
+
+                        if (indexSuivi !== -1)
+                        {
+                            suiviObj10 = {
+                                name: bralima.data[yearIndex].data[monthIndex].data[indexof].suivi10.name,
+                                valeur: Number (bralima.data[yearIndex].data[monthIndex].data[indexof].suivi10.valeur) - Number ( bralima.suiviApprovisionnement[index1].data[index2].data[indexSuivi])
+                            };
+                        };
+                    };
+                    if ( bralima.data[yearIndex].data[monthIndex].data[indexof].suivi11.name !== '' ) {
+
+                        const indexSuivi = bralima.suiviApprovisionnement[index1].data[index2].data.findIndex (el => el.name === bralima.data[yearIndex].data[monthIndex].data[indexof].suivi11.name);
+
+                        if (indexSuivi !== -1)
+                        {
+                            suiviObj11 = {
+                                name: bralima.data[yearIndex].data[monthIndex].data[indexof].suivi11.name,
+                                valeur: Number (bralima.data[yearIndex].data[monthIndex].data[indexof].suivi11.valeur) - Number ( bralima.suiviApprovisionnement[index1].data[index2].data[indexSuivi])
+                            };
+                        };
+                    };
+                    if ( bralima.data[yearIndex].data[monthIndex].data[indexof].suivi12.name !== '' ) {
+
+                        const indexSuivi = bralima.suiviApprovisionnement[index1].data[index2].data.findIndex (el => el.name === bralima.data[yearIndex].data[monthIndex].data[indexof].suivi12.name);
+
+                        if (indexSuivi !== -1)
+                        {
+                            suiviObj12 = {
+                                name: bralima.data[yearIndex].data[monthIndex].data[indexof].suivi12.name,
+                                valeur: Number (bralima.data[yearIndex].data[monthIndex].data[indexof].suivi12.valeur) - Number ( bralima.suiviApprovisionnement[index1].data[index2].data[indexSuivi])
+                            };
+                        };
+                    };
+                    if ( bralima.data[yearIndex].data[monthIndex].data[indexof].suivi13.name !== '' ) {
+
+                        const indexSuivi = bralima.suiviApprovisionnement[index1].data[index2].data.findIndex (el => el.name === bralima.data[yearIndex].data[monthIndex].data[indexof].suivi13.name);
+
+                        if (indexSuivi !== -1)
+                        {
+                            suiviObj13 = {
+                                name: bralima.data[yearIndex].data[monthIndex].data[indexof].suivi13.name,
+                                valeur: Number (bralima.data[yearIndex].data[monthIndex].data[indexof].suivi13.valeur) - Number ( bralima.suiviApprovisionnement[index1].data[index2].data[indexSuivi])
+                            };
+                        };
+                    };
+                    if ( bralima.data[yearIndex].data[monthIndex].data[indexof].suivi14.name !== '' ) {
+
+                        const indexSuivi = bralima.suiviApprovisionnement[index1].data[index2].data.findIndex (el => el.name === bralima.data[yearIndex].data[monthIndex].data[indexof].suivi14.name);
+
+                        if (indexSuivi !== -1)
+                        {
+                            suiviObj13 = {
+                                name: bralima.data[yearIndex].data[monthIndex].data[indexof].suivi14.name,
+                                valeur: Number (bralima.data[yearIndex].data[monthIndex].data[indexof].suivi14.valeur) - Number ( bralima.suiviApprovisionnement[index1].data[index2].data[indexSuivi])
+                            };
+                        };
+                    };
+                    
                         
                     if ( index2 !== -1) {
-                        
+
+
+                        ////////stats/////////////////////////
                         const statsObj1 = {
                             
                             name: bralima.name,
@@ -1418,8 +1712,222 @@ exports.updateDataAutreProduit = catchAssynch ( async ( req, res, next) =>
                         };
                         
                         bralima.data[yearIndex].data[monthIndex].data[indexof] = req.body.data[i].data.data.data;
+
                         await bralima.save();
+
+                        if ( bralima.data[yearIndex].data[monthIndex].data[indexof].suivi1.name !== "" ) {
+
+                            const indexSuivi = bralima.suiviApprovisionnement[index1].data[index2].data.findIndex (el => el.name.toUpperCase() === bralima.data[yearIndex].data[monthIndex].data[indexof].suivi1.name.toUpperCase());
+    
+                            if (indexSuivi !== -1)
+                            {
+                                
+                                bralima.suiviApprovisionnement[index1].data[index2].data[indexSuivi] = {
+    
+                                    name: bralima.data[yearIndex].data[monthIndex].data[indexof].suivi1.name,
+                                    valeur: Number (bralima.data[yearIndex].data[monthIndex].data[indexof].suivi1.name) + suiviObj1.valeur
+                                };
+                            };
+
+                        };
+                        if ( bralima.data[yearIndex].data[monthIndex].data[indexof].suivi2.name !== "" ) {
+
+                            const indexSuivi = bralima.suiviApprovisionnement[index1].data[index2].data.findIndex (el => el.name.toUpperCase() === bralima.data[yearIndex].data[monthIndex].data[indexof].suivi2.name.toUpperCase());
+    
+                            if (indexSuivi !== -1)
+                            {
+                                
+                                bralima.suiviApprovisionnement[index1].data[index2].data[indexSuivi] = {
+    
+                                    name: bralima.data[yearIndex].data[monthIndex].data[indexof].suivi2.name,
+                                    valeur: Number (bralima.data[yearIndex].data[monthIndex].data[indexof].suivi2.name) + suiviObj2.valeur
+                                };
+                            };
+
+                        };
+                        if ( bralima.data[yearIndex].data[monthIndex].data[indexof].suivi3.name !== "" ) {
+
+                            const indexSuivi = bralima.suiviApprovisionnement[index1].data[index2].data.findIndex (el => el.name.toUpperCase() === bralima.data[yearIndex].data[monthIndex].data[indexof].suivi3.name.toUpperCase());
+    
+                            if (indexSuivi !== -1)
+                            {
+                                
+                                bralima.suiviApprovisionnement[index1].data[index2].data[indexSuivi] = {
+    
+                                    name: bralima.data[yearIndex].data[monthIndex].data[indexof].suivi3.name,
+                                    valeur: Number (bralima.data[yearIndex].data[monthIndex].data[indexof].suivi3.name) + suiviObj3.valeur
+                                };
+                            };
+
+                        };
+                        if ( bralima.data[yearIndex].data[monthIndex].data[indexof].suivi4.name !== "" ) {
+
+                            const indexSuivi = bralima.suiviApprovisionnement[index1].data[index2].data.findIndex (el => el.name.toUpperCase() === bralima.data[yearIndex].data[monthIndex].data[indexof].suivi4.name.toUpperCase());
+    
+                            if (indexSuivi !== -1)
+                            {
+                                
+                                bralima.suiviApprovisionnement[index1].data[index2].data[indexSuivi] = {
+    
+                                    name: bralima.data[yearIndex].data[monthIndex].data[indexof].suivi4.name,
+                                    valeur: Number (bralima.data[yearIndex].data[monthIndex].data[indexof].suivi4.name) + suiviObj4.valeur
+                                };
+                            };
+
+                        };
+                        if ( bralima.data[yearIndex].data[monthIndex].data[indexof].suivi5.name !== "" ) {
+
+                            const indexSuivi = bralima.suiviApprovisionnement[index1].data[index2].data.findIndex (el => el.name.toUpperCase() === bralima.data[yearIndex].data[monthIndex].data[indexof].suivi5.name.toUpperCase());
+    
+                            if (indexSuivi !== -1)
+                            {
+                                
+                                bralima.suiviApprovisionnement[index1].data[index2].data[indexSuivi] = {
+    
+                                    name: bralima.data[yearIndex].data[monthIndex].data[indexof].suivi5.name,
+                                    valeur: Number (bralima.data[yearIndex].data[monthIndex].data[indexof].suivi5.name) + suiviObj5.valeur
+                                };
+                            };
+
+                        };
+                        if ( bralima.data[yearIndex].data[monthIndex].data[indexof].suivi6.name !== "" ) {
+
+                            const indexSuivi = bralima.suiviApprovisionnement[index1].data[index2].data.findIndex (el => el.name.toUpperCase() === bralima.data[yearIndex].data[monthIndex].data[indexof].suivi6.name.toUpperCase());
+    
+                            if (indexSuivi !== -1)
+                            {
+                                
+                                bralima.suiviApprovisionnement[index1].data[index2].data[indexSuivi] = {
+    
+                                    name: bralima.data[yearIndex].data[monthIndex].data[indexof].suivi6.name,
+                                    valeur: Number (bralima.data[yearIndex].data[monthIndex].data[indexof].suivi6.name) + suiviObj6.valeur
+                                };
+                            };
+
+                        };
+                        if ( bralima.data[yearIndex].data[monthIndex].data[indexof].suivi7.name !== "" ) {
+
+                            const indexSuivi = bralima.suiviApprovisionnement[index1].data[index2].data.findIndex (el => el.name.toUpperCase() === bralima.data[yearIndex].data[monthIndex].data[indexof].suivi7.name.toUpperCase());
+    
+                            if (indexSuivi !== -1)
+                            {
+                                
+                                bralima.suiviApprovisionnement[index1].data[index2].data[indexSuivi] = {
+    
+                                    name: bralima.data[yearIndex].data[monthIndex].data[indexof].suivi7.name,
+                                    valeur: Number (bralima.data[yearIndex].data[monthIndex].data[indexof].suivi7.name) + suiviObj7.valeur
+                                };
+                            };
+
+                        };
+                        if ( bralima.data[yearIndex].data[monthIndex].data[indexof].suivi8.name !== "" ) {
+
+                            const indexSuivi = bralima.suiviApprovisionnement[index1].data[index2].data.findIndex (el => el.name.toUpperCase() === bralima.data[yearIndex].data[monthIndex].data[indexof].suivi8.name.toUpperCase());
+    
+                            if (indexSuivi !== -1)
+                            {
+                                
+                                bralima.suiviApprovisionnement[index1].data[index2].data[indexSuivi] = {
+    
+                                    name: bralima.data[yearIndex].data[monthIndex].data[indexof].suivi8.name,
+                                    valeur: Number (bralima.data[yearIndex].data[monthIndex].data[indexof].suivi8.name) + suiviObj8.valeur
+                                };
+                            };
+
+                        };
+                        if ( bralima.data[yearIndex].data[monthIndex].data[indexof].suivi9.name !== "" ) {
+
+                            const indexSuivi = bralima.suiviApprovisionnement[index1].data[index2].data.findIndex (el => el.name.toUpperCase() === bralima.data[yearIndex].data[monthIndex].data[indexof].suivi9.name.toUpperCase());
+    
+                            if (indexSuivi !== -1)
+                            {
+                                
+                                bralima.suiviApprovisionnement[index1].data[index2].data[indexSuivi] = {
+    
+                                    name: bralima.data[yearIndex].data[monthIndex].data[indexof].suivi9.name,
+                                    valeur: Number (bralima.data[yearIndex].data[monthIndex].data[indexof].suivi9.name) + suiviObj9.valeur
+                                };
+                            };
+
+                        };
+                        if ( bralima.data[yearIndex].data[monthIndex].data[indexof].suivi10.name !== "" ) {
+
+                            const indexSuivi = bralima.suiviApprovisionnement[index1].data[index2].data.findIndex (el => el.name.toUpperCase() === bralima.data[yearIndex].data[monthIndex].data[indexof].suivi10.name.toUpperCase());
+    
+                            if (indexSuivi !== -1)
+                            {
+                                
+                                bralima.suiviApprovisionnement[index1].data[index2].data[indexSuivi] = {
+    
+                                    name: bralima.data[yearIndex].data[monthIndex].data[indexof].suivi10.name,
+                                    valeur: Number (bralima.data[yearIndex].data[monthIndex].data[indexof].suivi10.name) + suiviObj10.valeur
+                                };
+                            };
+
+                        };
+                        if ( bralima.data[yearIndex].data[monthIndex].data[indexof].suivi11.name !== "" ) {
+
+                            const indexSuivi = bralima.suiviApprovisionnement[index1].data[index2].data.findIndex (el => el.name.toUpperCase() === bralima.data[yearIndex].data[monthIndex].data[indexof].suivi11.name.toUpperCase());
+    
+                            if (indexSuivi !== -1)
+                            {
+                                
+                                bralima.suiviApprovisionnement[index1].data[index2].data[indexSuivi] = {
+    
+                                    name: bralima.data[yearIndex].data[monthIndex].data[indexof].suivi11.name,
+                                    valeur: Number (bralima.data[yearIndex].data[monthIndex].data[indexof].suivi11.name) + suiviObj11.valeur
+                                };
+                            };
+
+                        };
+                        if ( bralima.data[yearIndex].data[monthIndex].data[indexof].suivi12.name !== "" ) {
+
+                            const indexSuivi = bralima.suiviApprovisionnement[index1].data[index2].data.findIndex (el => el.name.toUpperCase() === bralima.data[yearIndex].data[monthIndex].data[indexof].suivi12.name.toUpperCase());
+    
+                            if (indexSuivi !== -1)
+                            {
+                                
+                                bralima.suiviApprovisionnement[index1].data[index2].data[indexSuivi] = {
+    
+                                    name: bralima.data[yearIndex].data[monthIndex].data[indexof].suivi12.name,
+                                    valeur: Number (bralima.data[yearIndex].data[monthIndex].data[indexof].suivi12.name) + suiviObj12.valeur
+                                };
+                            };
+
+                        };
+                        if ( bralima.data[yearIndex].data[monthIndex].data[indexof].suivi13.name !== "" ) {
+
+                            const indexSuivi = bralima.suiviApprovisionnement[index1].data[index2].data.findIndex (el => el.name.toUpperCase() === bralima.data[yearIndex].data[monthIndex].data[indexof].suivi13.name.toUpperCase());
+    
+                            if (indexSuivi !== -1)
+                            {
+                                
+                                bralima.suiviApprovisionnement[index1].data[index2].data[indexSuivi] = {
+    
+                                    name: bralima.data[yearIndex].data[monthIndex].data[indexof].suivi13.name,
+                                    valeur: Number (bralima.data[yearIndex].data[monthIndex].data[indexof].suivi13.name) + suiviObj13.valeur
+                                };
+                            };
+
+                        };
+                        if ( bralima.data[yearIndex].data[monthIndex].data[indexof].suivi14.name !== "" ) {
+
+                            const indexSuivi = bralima.suiviApprovisionnement[index1].data[index2].data.findIndex (el => el.name.toUpperCase() === bralima.data[yearIndex].data[monthIndex].data[indexof].suivi14.name.toUpperCase());
+    
+                            if (indexSuivi !== -1)
+                            {
+                                
+                                bralima.suiviApprovisionnement[index1].data[index2].data[indexSuivi] = {
+    
+                                    name: bralima.data[yearIndex].data[monthIndex].data[indexof].suivi14.name,
+                                    valeur: Number (bralima.data[yearIndex].data[monthIndex].data[indexof].suivi14.name) + suiviObj14.valeur
+                                };
+                            };
+
+                        };
                         
+                        
+                        //////stats////////////////////////
                         const statsObj2 = {
                             
                             name: bralima.name,
