@@ -399,6 +399,43 @@ const statsArray = new mongoose.Schema ({
 });
 
 
+const suivisubSubSchema = new mongoose.Schema ({
+    name:
+    {
+        type: String,
+        require: true,
+    },
+
+    valeur:
+    {
+        type: Number,
+        require: true
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now()
+    }
+})
+
+const suiviSubSchema = new mongoose.Schema({
+    mois:
+    {
+        type: Number,
+        default: Number ( new Date().toLocaleDateString().slice(3, 5))
+    },
+
+    data:[suivisubSubSchema]
+});
+
+const suiviApprovisonnemntSchema = new mongoose.Schema ({
+    annee:
+    {
+        type: Number,
+        default: Number (new Date().toLocaleDateString().slice(6))
+    },
+    data:[suiviSubSchema]
+});
+
 
 const AutreProduitSchema = new mongoose.Schema({
 
