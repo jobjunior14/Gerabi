@@ -17,7 +17,7 @@ function App() {
           <Route  path='bralima' index element = {<Bralima/>}/>
           <Route path='brasimba' element = {<h1>Hey Brasimba</h1>}/>
           <Route path='autreProdut' element = {<h1>Hey Autre Produit</h1>}/>
-          <Route path='liqueurs' element = {<TableSuivi/>}/>
+          <Route path='liqueurs' element = {<h1> Hey liqueurs</h1>}/>
         </Route>
 
         <Route path='rapportMensuel' element = {<MensualRapHome/>}/>

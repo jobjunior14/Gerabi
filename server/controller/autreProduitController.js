@@ -57,9 +57,9 @@ exports.getAutreProduit = catchAssynch ( async (req, res, next) =>
     res.status (200).json({
         status: 'success',
         data:{
-            // id: id,
-            // month: dayData,
-            bralima
+            id: id,
+            month: dayData,
+            // bralima
         }
        
     });
