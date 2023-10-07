@@ -2434,22 +2434,10 @@ exports.suiviAllStatsAutreProduit = catchAssynch ( async ( req, res, next) =>
         },
 
         {
-            $unwind: { path: "$suivi.data"}
-        },
-
-        {
-            $unwind: { path: "$suivi.data.stats"}
-        },
-
-        {
-            $unwind: {path: "$suivi.data.stats.data"}
-        },
-
-        {
             $group:
             {
                 _id: null,
-                valeur: { $sum: "$suivi.data.stats.data.valeur"}
+                valeur: { $sum: "$suivi.data.valeur"}
             }
         }
     ]);
@@ -2517,19 +2505,10 @@ exports.suiviDetailStatsAutreProduit = catchAssynch ( async ( req, res, next) =>
         },
 
         {
-            $unwind: {path: "$suivi.data.stats"}
-        },
-
-        {
-            $unwind: {path: "$suivi.data.stats.data"}
-        },
-
-        {
             $group: 
             {
-                _id: {name: {$toUpper: "$suivi.data.stats.data.name"}, mois: "$suivi.data.stats.data.mois" },
-                qt_caisse: { $sum: `$suivi.data.stats.data.qt_caisse` },
-                valeur: { $sum: `$suivi.data.stats.data.valeur` },
+                _id: {name: {$toUpper: "$suivi.data.name"}, mois: "$suivi.mois" },
+                valeur: { $sum: `$suivi.data.valeur` },
             }
         }
        
