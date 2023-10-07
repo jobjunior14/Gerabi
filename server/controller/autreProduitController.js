@@ -1164,6 +1164,8 @@ exports.pushDataAutreProduit = catchAssynch ( async (req, res, next) =>
                     }]
                 };
 
+
+                ///////////////////////////////////////////
                 if (newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi1.name !== '')
                 {
                     const suiviStatsObj = {
@@ -1174,7 +1176,7 @@ exports.pushDataAutreProduit = catchAssynch ( async (req, res, next) =>
                             data: [{
                                 
                                 name: newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi1.name,
-                                valeur: newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi1.valeur
+                                valeur: Number (newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi1.valeur)
                             }]
                         }]
                     };
@@ -1191,7 +1193,7 @@ exports.pushDataAutreProduit = catchAssynch ( async (req, res, next) =>
                             data: [{
                                 
                                 name: newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi2.name,
-                                valeur: newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi2.valeur
+                                valeur: Number (newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi2.valeur)
                             }]
                         }]
                     };
@@ -1208,7 +1210,7 @@ exports.pushDataAutreProduit = catchAssynch ( async (req, res, next) =>
                             data: [{
                                 
                                 name: newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi3.name,
-                                valeur: newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi3.valeur
+                                valeur: Number (newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi3.valeur)
                             }]
                         }]
                     };
@@ -1225,7 +1227,7 @@ exports.pushDataAutreProduit = catchAssynch ( async (req, res, next) =>
                             data: [{
                                 
                                 name: newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi3.name,
-                                valeur: newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi3.valeur
+                                valeur:Number  (newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi3.valeur)
                             }]
                         }]
                     };
@@ -1242,7 +1244,7 @@ exports.pushDataAutreProduit = catchAssynch ( async (req, res, next) =>
                             data: [{
                                 
                                 name: newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi4.name,
-                                valeur: newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi4.valeur
+                                valeur: Number (newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi4.valeur)
                             }]
                         }]
                     };
@@ -1259,7 +1261,7 @@ exports.pushDataAutreProduit = catchAssynch ( async (req, res, next) =>
                             data: [{
                                 
                                 name: newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi5.name,
-                                valeur: newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi5.valeur
+                                valeur: Number (newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi5.valeur)
                             }]
                         }]
                     };
@@ -1276,7 +1278,7 @@ exports.pushDataAutreProduit = catchAssynch ( async (req, res, next) =>
                             data: [{
                                 
                                 name: newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi6.name,
-                                valeur: newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi6.valeur
+                                valeur: Number (newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi6.valeur)
                             }]
                         }]
                     };
@@ -1293,7 +1295,7 @@ exports.pushDataAutreProduit = catchAssynch ( async (req, res, next) =>
                             data: [{
                                 
                                 name: newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi7.name,
-                                valeur: newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi7.valeur
+                                valeur: Number (newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi7.valeur)
                             }]
                         }]
                     };
@@ -1310,7 +1312,7 @@ exports.pushDataAutreProduit = catchAssynch ( async (req, res, next) =>
                             data: [{
                                 
                                 name: newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi8.name,
-                                valeur: newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi8.valeur
+                                valeur: Number (newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi8.valeur)
                             }]
                         }]
                     };
@@ -1327,7 +1329,7 @@ exports.pushDataAutreProduit = catchAssynch ( async (req, res, next) =>
                             data: [{
                                 
                                 name: newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi9.name,
-                                valeur: newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi9.valeur
+                                valeur: Number (newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi9.valeur)
                             }]
                         }]
                     };
@@ -1344,7 +1346,7 @@ exports.pushDataAutreProduit = catchAssynch ( async (req, res, next) =>
                             data: [{
                                 
                                 name: newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi10.name,
-                                valeur: newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi10.valeur
+                                valeur: Number (newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi10.valeur)
                             }]
                         }]
                     };
@@ -1361,7 +1363,7 @@ exports.pushDataAutreProduit = catchAssynch ( async (req, res, next) =>
                             data: [{
                                 
                                 name: newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi11.name,
-                                valeur: newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi11.valeur
+                                valeur: Number (newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi11.valeur)
                             }]
                         }]
                     };
@@ -1378,7 +1380,7 @@ exports.pushDataAutreProduit = catchAssynch ( async (req, res, next) =>
                             data: [{
                                 
                                 name: newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi12.name,
-                                valeur: newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi12.valeur
+                                valeur: Number (newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi12.valeur)
                             }]
                         }]
                     };
@@ -1395,7 +1397,7 @@ exports.pushDataAutreProduit = catchAssynch ( async (req, res, next) =>
                             data: [{
                                 
                                 name: newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi13.name,
-                                valeur: newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi13.valeur
+                                valeur: Number (newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi13.valeur)
                             }]
                         }]
                     };
@@ -1412,7 +1414,7 @@ exports.pushDataAutreProduit = catchAssynch ( async (req, res, next) =>
                             data: [{
                                 
                                 name: newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi14.name,
-                                valeur: newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi14.valeur
+                                valeur: Number (newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi14.valeur)
                             }]
                         }]
                     };
@@ -1450,6 +1452,264 @@ exports.pushDataAutreProduit = catchAssynch ( async (req, res, next) =>
             
             const newBralimaData = await AutreProduit.create(o);
         
+
+            if (newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi1.name !== '')
+                {
+                    const suiviStatsObj = {
+                        annee: Number ( new Date().toLocaleDateString().slice (6) ),
+                        data: [{
+                            
+                            mois: Number ( new Date().toLocaleDateString().slice (3, 5)),
+                            data: [{
+                                
+                                name: newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi1.name,
+                                valeur: Number (newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi1.valeur)
+                            }]
+                        }]
+                    };
+
+                    newBralimaData.suiviApprovisionnement.push(suiviStatsObj);
+                };
+                if (newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi2.name !== '')
+                {
+                    const suiviStatsObj = {
+                        annee: Number ( new Date().toLocaleDateString().slice (6) ),
+                        data: [{
+                            
+                            mois: Number ( new Date.toLocaleDateString().slice (3, 5)),
+                            data: [{
+                                
+                                name: newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi2.name,
+                                valeur: Number (newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi2.valeur)
+                            }]
+                        }]
+                    };
+
+                    newBralimaData.suiviApprovisionnement.push(suiviStatsObj);
+                };
+                if (newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi3.name !== '')
+                {
+                    const suiviStatsObj = {
+                        annee: Number ( new Date().toLocaleDateString().slice (6) ),
+                        data: [{
+                            
+                            mois: Number ( new Date.toLocaleDateString().slice (3, 5)),
+                            data: [{
+                                
+                                name: newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi3.name,
+                                valeur: Number (newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi3.valeur)
+                            }]
+                        }]
+                    };
+
+                    newBralimaData.suiviApprovisionnement.push(suiviStatsObj);
+                };
+                if (newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi3.name !== '')
+                {
+                    const suiviStatsObj = {
+                        annee: Number ( new Date().toLocaleDateString().slice (6) ),
+                        data: [{
+                            
+                            mois: Number ( new Date.toLocaleDateString().slice (3, 5)),
+                            data: [{
+                                
+                                name: newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi3.name,
+                                valeur: Number (newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi3.valeur)
+                            }]
+                        }]
+                    };
+
+                    newBralimaData.suiviApprovisionnement.push(suiviStatsObj);
+                };
+                if (newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi4.name !== '')
+                {
+                    const suiviStatsObj = {
+                        annee: Number ( new Date().toLocaleDateString().slice (6) ),
+                        data: [{
+                            
+                            mois: Number ( new Date.toLocaleDateString().slice (3, 5)),
+                            data: [{
+                                
+                                name: newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi4.name,
+                                valeur: Number (newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi4.valeur)
+                            }]
+                        }]
+                    };
+
+                    newBralimaData.suiviApprovisionnement.push(suiviStatsObj);
+                };
+                if (newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi5.name !== '')
+                {
+                    const suiviStatsObj = {
+                        annee: Number ( new Date().toLocaleDateString().slice (6) ),
+                        data: [{
+                            
+                            mois: Number ( new Date.toLocaleDateString().slice (3, 5)),
+                            data: [{
+                                
+                                name: newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi5.name,
+                                valeur: Number (newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi5.valeur)
+                            }]
+                        }]
+                    };
+
+                    newBralimaData.suiviApprovisionnement.push(suiviStatsObj);
+                };
+                if (newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi6.name !== '')
+                {
+                    const suiviStatsObj = {
+                        annee: Number ( new Date().toLocaleDateString().slice (6) ),
+                        data: [{
+                            
+                            mois: Number ( new Date.toLocaleDateString().slice (3, 5)),
+                            data: [{
+                                
+                                name: newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi6.name,
+                                valeur: Number (newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi6.valeur)
+                            }]
+                        }]
+                    };
+
+                    newBralimaData.suiviApprovisionnement.push(suiviStatsObj);
+                };
+                if (newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi7.name !== '')
+                {
+                    const suiviStatsObj = {
+                        annee: Number ( new Date().toLocaleDateString().slice (6) ),
+                        data: [{
+                            
+                            mois: Number ( new Date.toLocaleDateString().slice (3, 5)),
+                            data: [{
+                                
+                                name: newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi7.name,
+                                valeur: Number (newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi7.valeur)
+                            }]
+                        }]
+                    };
+
+                    newBralimaData.suiviApprovisionnement.push(suiviStatsObj);
+                };
+                if (newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi8.name !== '')
+                {
+                    const suiviStatsObj = {
+                        annee: Number ( new Date().toLocaleDateString().slice (6) ),
+                        data: [{
+                            
+                            mois: Number ( new Date.toLocaleDateString().slice (3, 5)),
+                            data: [{
+                                
+                                name: newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi8.name,
+                                valeur: Number (newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi8.valeur)
+                            }]
+                        }]
+                    };
+
+                    newBralimaData.suiviApprovisionnement.push(suiviStatsObj);
+                };
+                if (newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi9.name !== '')
+                {
+                    const suiviStatsObj = {
+                        annee: Number ( new Date().toLocaleDateString().slice (6) ),
+                        data: [{
+                            
+                            mois: Number ( new Date.toLocaleDateString().slice (3, 5)),
+                            data: [{
+                                
+                                name: newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi9.name,
+                                valeur: Number (newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi9.valeur)
+                            }]
+                        }]
+                    };
+
+                    newBralimaData.suiviApprovisionnement.push(suiviStatsObj);
+                };
+                if (newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi10.name !== '')
+                {
+                    const suiviStatsObj = {
+                        annee: Number ( new Date().toLocaleDateString().slice (6) ),
+                        data: [{
+                            
+                            mois: Number ( new Date.toLocaleDateString().slice (3, 5)),
+                            data: [{
+                                
+                                name: newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi10.name,
+                                valeur: Number (newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi10.valeur)
+                            }]
+                        }]
+                    };
+
+                    newBralimaData.suiviApprovisionnement.push(suiviStatsObj);
+                };
+                if (newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi11.name !== '')
+                {
+                    const suiviStatsObj = {
+                        annee: Number ( new Date().toLocaleDateString().slice (6) ),
+                        data: [{
+                            
+                            mois: Number ( new Date.toLocaleDateString().slice (3, 5)),
+                            data: [{
+                                
+                                name: newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi11.name,
+                                valeur: Number (newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi11.valeur)
+                            }]
+                        }]
+                    };
+
+                    newBralimaData.suiviApprovisionnement.push(suiviStatsObj);
+                };
+                if (newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi12.name !== '')
+                {
+                    const suiviStatsObj = {
+                        annee: Number ( new Date().toLocaleDateString().slice (6) ),
+                        data: [{
+                            
+                            mois: Number ( new Date.toLocaleDateString().slice (3, 5)),
+                            data: [{
+                                
+                                name: newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi12.name,
+                                valeur: Number (newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi12.valeur)
+                            }]
+                        }]
+                    };
+
+                    newBralimaData.suiviApprovisionnement.push(suiviStatsObj);
+                };
+                if (newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi13.name !== '')
+                {
+                    const suiviStatsObj = {
+                        annee: Number ( new Date().toLocaleDateString().slice (6) ),
+                        data: [{
+                            
+                            mois: Number ( new Date.toLocaleDateString().slice (3, 5)),
+                            data: [{
+                                
+                                name: newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi13.name,
+                                valeur: Number (newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi13.valeur)
+                            }]
+                        }]
+                    };
+
+                    newBralimaData.suiviApprovisionnement.push(suiviStatsObj);
+                };
+                if (newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi14.name !== '')
+                {
+                    const suiviStatsObj = {
+                        annee: Number ( new Date().toLocaleDateString().slice (6) ),
+                        data: [{
+                            
+                            mois: Number ( new Date.toLocaleDateString().slice (3, 5)),
+                            data: [{
+                                
+                                name: newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi14.name,
+                                valeur: Number (newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].suivi14.valeur)
+                            }]
+                        }]
+                    };
+
+                    newBralimaData.suiviApprovisionnement.push(suiviStatsObj);
+                };
+
+
             //initialize the stats object and doing some calcul
             const statsObj = 
             {
@@ -1464,6 +1724,7 @@ exports.pushDataAutreProduit = catchAssynch ( async (req, res, next) =>
                     benefice:  Number (newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].benefice_sur_vente),
                 }]
             };
+
             
             newBralimaData.stats.push(statsObj);
             createadData.push(newBralimaData);
@@ -1491,7 +1752,7 @@ exports.updateDataAutreProduit = catchAssynch ( async ( req, res, next) =>
     for (let i = 0; i < req.body.id.length; i++) {
 
         const bralima = await AutreProduit.findById( req.body.id[i]);
-        
+        console.log(req.body.id[i]);
         const yearIndex = await bralima.data.findIndex( el => el.annee === Number (req.params.year));
         
         if (yearIndex !== -1) {
@@ -1506,7 +1767,6 @@ exports.updateDataAutreProduit = catchAssynch ( async ( req, res, next) =>
                 //index1 it's an index of year in stats 
                 const index1 = await bralima.stats.findIndex ( el => el.annee === Number (req.params.year));
                 
-
                 
                 if ( indexof !== -1 && index1 !== -1) {
                     
@@ -1531,12 +1791,13 @@ exports.updateDataAutreProduit = catchAssynch ( async ( req, res, next) =>
                     if ( bralima.data[yearIndex].data[monthIndex].data[indexof].suivi1.name !== "" ) {
 
                         const indexSuivi = bralima.suiviApprovisionnement[index1].data[index2].data.findIndex (el => el.name === bralima.data[yearIndex].data[monthIndex].data[indexof].suivi1.name);
+                        console.log ( Number (bralima.data[yearIndex].data[monthIndex].data[indexof].suivi1.valeur) )
 
                         if (indexSuivi !== -1)
                         {
                             suiviObj1 = {
                                 name: bralima.data[yearIndex].data[monthIndex].data[indexof].suivi1.name,
-                                valeur: Number (bralima.data[yearIndex].data[monthIndex].data[indexof].suivi1.valeur) - Number ( bralima.suiviApprovisionnement[index1].data[index2].data[indexSuivi])
+                                valeur:Number ( bralima.suiviApprovisionnement[index1].data[index2].data[indexSuivi].valeur) - Number (bralima.data[yearIndex].data[monthIndex].data[indexof].suivi1.valeur)
                             };
                         };
                     };
@@ -1548,7 +1809,7 @@ exports.updateDataAutreProduit = catchAssynch ( async ( req, res, next) =>
                         {
                             suiviObj2 = {
                                 name: bralima.data[yearIndex].data[monthIndex].data[indexof].suivi2.name,
-                                valeur: Number (bralima.data[yearIndex].data[monthIndex].data[indexof].suivi2.valeur) - Number ( bralima.suiviApprovisionnement[index1].data[index2].data[indexSuivi])
+                                valeur: Number (bralima.data[yearIndex].data[monthIndex].data[indexof].suivi2.valeur) - Number ( bralima.suiviApprovisionnement[index1].data[index2].data[indexSuivi].valeur)
                             };
                         };
                     };
@@ -1560,7 +1821,7 @@ exports.updateDataAutreProduit = catchAssynch ( async ( req, res, next) =>
                         {
                             suiviObj3 = {
                                 name: bralima.data[yearIndex].data[monthIndex].data[indexof].suivi3.name,
-                                valeur: Number (bralima.data[yearIndex].data[monthIndex].data[indexof].suivi3.valeur) - Number ( bralima.suiviApprovisionnement[index1].data[index2].data[indexSuivi])
+                                valeur: Number (bralima.data[yearIndex].data[monthIndex].data[indexof].suivi3.valeur) - Number ( bralima.suiviApprovisionnement[index1].data[index2].data[indexSuivi].valeur)
                             };
                         };
                     };
@@ -1572,7 +1833,7 @@ exports.updateDataAutreProduit = catchAssynch ( async ( req, res, next) =>
                         {
                             suiviObj4 = {
                                 name: bralima.data[yearIndex].data[monthIndex].data[indexof].suivi4.name,
-                                valeur: Number (bralima.data[yearIndex].data[monthIndex].data[indexof].suivi4.valeur) - Number ( bralima.suiviApprovisionnement[index1].data[index2].data[indexSuivi])
+                                valeur: Number (bralima.data[yearIndex].data[monthIndex].data[indexof].suivi4.valeur) - Number ( bralima.suiviApprovisionnement[index1].data[index2].data[indexSuivi].valeur)
                             };
                         };
                     };
@@ -1584,7 +1845,7 @@ exports.updateDataAutreProduit = catchAssynch ( async ( req, res, next) =>
                         {
                             suiviObj5 = {
                                 name: bralima.data[yearIndex].data[monthIndex].data[indexof].suivi5.name,
-                                valeur: Number (bralima.data[yearIndex].data[monthIndex].data[indexof].suivi5.valeur) - Number ( bralima.suiviApprovisionnement[index1].data[index2].data[indexSuivi])
+                                valeur: Number (bralima.data[yearIndex].data[monthIndex].data[indexof].suivi5.valeur) - Number ( bralima.suiviApprovisionnement[index1].data[index2].data[indexSuivi].valeur)
                             };
                         };
                     };
@@ -1596,7 +1857,7 @@ exports.updateDataAutreProduit = catchAssynch ( async ( req, res, next) =>
                         {
                             suiviObj6 = {
                                 name: bralima.data[yearIndex].data[monthIndex].data[indexof].suivi6.name,
-                                valeur: Number (bralima.data[yearIndex].data[monthIndex].data[indexof].suivi6.valeur) - Number ( bralima.suiviApprovisionnement[index1].data[index2].data[indexSuivi])
+                                valeur: Number (bralima.data[yearIndex].data[monthIndex].data[indexof].suivi6.valeur) - Number ( bralima.suiviApprovisionnement[index1].data[index2].data[indexSuivi].valeur)
                             };
                         };
                     };
@@ -1608,7 +1869,7 @@ exports.updateDataAutreProduit = catchAssynch ( async ( req, res, next) =>
                         {
                             suiviObj7 = {
                                 name: bralima.data[yearIndex].data[monthIndex].data[indexof].suivi7.name,
-                                valeur: Number (bralima.data[yearIndex].data[monthIndex].data[indexof].suivi7.valeur) - Number ( bralima.suiviApprovisionnement[index1].data[index2].data[indexSuivi])
+                                valeur: Number (bralima.data[yearIndex].data[monthIndex].data[indexof].suivi7.valeur) - Number ( bralima.suiviApprovisionnement[index1].data[index2].data[indexSuivi].valeur)
                             };
                         };
                     };
@@ -1620,7 +1881,7 @@ exports.updateDataAutreProduit = catchAssynch ( async ( req, res, next) =>
                         {
                             suiviObj8 = {
                                 name: bralima.data[yearIndex].data[monthIndex].data[indexof].suivi8.name,
-                                valeur: Number (bralima.data[yearIndex].data[monthIndex].data[indexof].suivi8.valeur) - Number ( bralima.suiviApprovisionnement[index1].data[index2].data[indexSuivi])
+                                valeur: Number (bralima.data[yearIndex].data[monthIndex].data[indexof].suivi8.valeur) - Number ( bralima.suiviApprovisionnement[index1].data[index2].data[indexSuivi].valeur)
                             };
                         };
                     };
@@ -1632,7 +1893,7 @@ exports.updateDataAutreProduit = catchAssynch ( async ( req, res, next) =>
                         {
                             suiviObj9 = {
                                 name: bralima.data[yearIndex].data[monthIndex].data[indexof].suivi9.name,
-                                valeur: Number (bralima.data[yearIndex].data[monthIndex].data[indexof].suivi9.valeur) - Number ( bralima.suiviApprovisionnement[index1].data[index2].data[indexSuivi])
+                                valeur: Number (bralima.data[yearIndex].data[monthIndex].data[indexof].suivi9.valeur) - Number ( bralima.suiviApprovisionnement[index1].data[index2].data[indexSuivi].valeur)
                             };
                         };
                     };
@@ -1644,7 +1905,7 @@ exports.updateDataAutreProduit = catchAssynch ( async ( req, res, next) =>
                         {
                             suiviObj10 = {
                                 name: bralima.data[yearIndex].data[monthIndex].data[indexof].suivi10.name,
-                                valeur: Number (bralima.data[yearIndex].data[monthIndex].data[indexof].suivi10.valeur) - Number ( bralima.suiviApprovisionnement[index1].data[index2].data[indexSuivi])
+                                valeur: Number (bralima.data[yearIndex].data[monthIndex].data[indexof].suivi10.valeur) - Number ( bralima.suiviApprovisionnement[index1].data[index2].data[indexSuivi].valeur)
                             };
                         };
                     };
@@ -1656,7 +1917,7 @@ exports.updateDataAutreProduit = catchAssynch ( async ( req, res, next) =>
                         {
                             suiviObj11 = {
                                 name: bralima.data[yearIndex].data[monthIndex].data[indexof].suivi11.name,
-                                valeur: Number (bralima.data[yearIndex].data[monthIndex].data[indexof].suivi11.valeur) - Number ( bralima.suiviApprovisionnement[index1].data[index2].data[indexSuivi])
+                                valeur: Number (bralima.data[yearIndex].data[monthIndex].data[indexof].suivi11.valeur) - Number ( bralima.suiviApprovisionnement[index1].data[index2].data[indexSuivi].valeur)
                             };
                         };
                     };
@@ -1668,7 +1929,7 @@ exports.updateDataAutreProduit = catchAssynch ( async ( req, res, next) =>
                         {
                             suiviObj12 = {
                                 name: bralima.data[yearIndex].data[monthIndex].data[indexof].suivi12.name,
-                                valeur: Number (bralima.data[yearIndex].data[monthIndex].data[indexof].suivi12.valeur) - Number ( bralima.suiviApprovisionnement[index1].data[index2].data[indexSuivi])
+                                valeur: Number (bralima.data[yearIndex].data[monthIndex].data[indexof].suivi12.valeur) - Number ( bralima.suiviApprovisionnement[index1].data[index2].data[indexSuivi].valeur)
                             };
                         };
                     };
@@ -1680,7 +1941,7 @@ exports.updateDataAutreProduit = catchAssynch ( async ( req, res, next) =>
                         {
                             suiviObj13 = {
                                 name: bralima.data[yearIndex].data[monthIndex].data[indexof].suivi13.name,
-                                valeur: Number (bralima.data[yearIndex].data[monthIndex].data[indexof].suivi13.valeur) - Number ( bralima.suiviApprovisionnement[index1].data[index2].data[indexSuivi])
+                                valeur: Number (bralima.data[yearIndex].data[monthIndex].data[indexof].suivi13.valeur) - Number ( bralima.suiviApprovisionnement[index1].data[index2].data[indexSuivi].valeur)
                             };
                         };
                     };
@@ -1692,7 +1953,7 @@ exports.updateDataAutreProduit = catchAssynch ( async ( req, res, next) =>
                         {
                             suiviObj13 = {
                                 name: bralima.data[yearIndex].data[monthIndex].data[indexof].suivi14.name,
-                                valeur: Number (bralima.data[yearIndex].data[monthIndex].data[indexof].suivi14.valeur) - Number ( bralima.suiviApprovisionnement[index1].data[index2].data[indexSuivi])
+                                valeur: Number (bralima.data[yearIndex].data[monthIndex].data[indexof].suivi14.valeur) - Number ( bralima.suiviApprovisionnement[index1].data[index2].data[indexSuivi].valeur)
                             };
                         };
                     };
@@ -1725,7 +1986,7 @@ exports.updateDataAutreProduit = catchAssynch ( async ( req, res, next) =>
                                 bralima.suiviApprovisionnement[index1].data[index2].data[indexSuivi] = {
     
                                     name: bralima.data[yearIndex].data[monthIndex].data[indexof].suivi1.name,
-                                    valeur: Number (bralima.data[yearIndex].data[monthIndex].data[indexof].suivi1.name) + suiviObj1.valeur
+                                    valeur: Number (bralima.data[yearIndex].data[monthIndex].data[indexof].suivi1.valeur) + suiviObj1.valeur
                                 };
                             };
 
@@ -1740,7 +2001,7 @@ exports.updateDataAutreProduit = catchAssynch ( async ( req, res, next) =>
                                 bralima.suiviApprovisionnement[index1].data[index2].data[indexSuivi] = {
     
                                     name: bralima.data[yearIndex].data[monthIndex].data[indexof].suivi2.name,
-                                    valeur: Number (bralima.data[yearIndex].data[monthIndex].data[indexof].suivi2.name) + suiviObj2.valeur
+                                    valeur: Number (bralima.data[yearIndex].data[monthIndex].data[indexof].suivi2.valeur) + suiviObj2.valeur
                                 };
                             };
 
@@ -1755,7 +2016,7 @@ exports.updateDataAutreProduit = catchAssynch ( async ( req, res, next) =>
                                 bralima.suiviApprovisionnement[index1].data[index2].data[indexSuivi] = {
     
                                     name: bralima.data[yearIndex].data[monthIndex].data[indexof].suivi3.name,
-                                    valeur: Number (bralima.data[yearIndex].data[monthIndex].data[indexof].suivi3.name) + suiviObj3.valeur
+                                    valeur: Number (bralima.data[yearIndex].data[monthIndex].data[indexof].suivi3.valeur) + suiviObj3.valeur
                                 };
                             };
 
@@ -1770,7 +2031,7 @@ exports.updateDataAutreProduit = catchAssynch ( async ( req, res, next) =>
                                 bralima.suiviApprovisionnement[index1].data[index2].data[indexSuivi] = {
     
                                     name: bralima.data[yearIndex].data[monthIndex].data[indexof].suivi4.name,
-                                    valeur: Number (bralima.data[yearIndex].data[monthIndex].data[indexof].suivi4.name) + suiviObj4.valeur
+                                    valeur: Number (bralima.data[yearIndex].data[monthIndex].data[indexof].suivi4.valeur) + suiviObj4.valeur
                                 };
                             };
 
@@ -1785,7 +2046,7 @@ exports.updateDataAutreProduit = catchAssynch ( async ( req, res, next) =>
                                 bralima.suiviApprovisionnement[index1].data[index2].data[indexSuivi] = {
     
                                     name: bralima.data[yearIndex].data[monthIndex].data[indexof].suivi5.name,
-                                    valeur: Number (bralima.data[yearIndex].data[monthIndex].data[indexof].suivi5.name) + suiviObj5.valeur
+                                    valeur: Number (bralima.data[yearIndex].data[monthIndex].data[indexof].suivi5.valeur) + suiviObj5.valeur
                                 };
                             };
 
@@ -1800,7 +2061,7 @@ exports.updateDataAutreProduit = catchAssynch ( async ( req, res, next) =>
                                 bralima.suiviApprovisionnement[index1].data[index2].data[indexSuivi] = {
     
                                     name: bralima.data[yearIndex].data[monthIndex].data[indexof].suivi6.name,
-                                    valeur: Number (bralima.data[yearIndex].data[monthIndex].data[indexof].suivi6.name) + suiviObj6.valeur
+                                    valeur: Number (bralima.data[yearIndex].data[monthIndex].data[indexof].suivi6.valeur) + suiviObj6.valeur
                                 };
                             };
 
@@ -1815,7 +2076,7 @@ exports.updateDataAutreProduit = catchAssynch ( async ( req, res, next) =>
                                 bralima.suiviApprovisionnement[index1].data[index2].data[indexSuivi] = {
     
                                     name: bralima.data[yearIndex].data[monthIndex].data[indexof].suivi7.name,
-                                    valeur: Number (bralima.data[yearIndex].data[monthIndex].data[indexof].suivi7.name) + suiviObj7.valeur
+                                    valeur: Number (bralima.data[yearIndex].data[monthIndex].data[indexof].suivi7.valeur) + suiviObj7.valeur
                                 };
                             };
 
@@ -1830,7 +2091,7 @@ exports.updateDataAutreProduit = catchAssynch ( async ( req, res, next) =>
                                 bralima.suiviApprovisionnement[index1].data[index2].data[indexSuivi] = {
     
                                     name: bralima.data[yearIndex].data[monthIndex].data[indexof].suivi8.name,
-                                    valeur: Number (bralima.data[yearIndex].data[monthIndex].data[indexof].suivi8.name) + suiviObj8.valeur
+                                    valeur: Number (bralima.data[yearIndex].data[monthIndex].data[indexof].suivi8.valeur) + suiviObj8.valeur
                                 };
                             };
 
@@ -1845,7 +2106,7 @@ exports.updateDataAutreProduit = catchAssynch ( async ( req, res, next) =>
                                 bralima.suiviApprovisionnement[index1].data[index2].data[indexSuivi] = {
     
                                     name: bralima.data[yearIndex].data[monthIndex].data[indexof].suivi9.name,
-                                    valeur: Number (bralima.data[yearIndex].data[monthIndex].data[indexof].suivi9.name) + suiviObj9.valeur
+                                    valeur: Number (bralima.data[yearIndex].data[monthIndex].data[indexof].suivi9.valeur) + suiviObj9.valeur
                                 };
                             };
 
@@ -1860,7 +2121,7 @@ exports.updateDataAutreProduit = catchAssynch ( async ( req, res, next) =>
                                 bralima.suiviApprovisionnement[index1].data[index2].data[indexSuivi] = {
     
                                     name: bralima.data[yearIndex].data[monthIndex].data[indexof].suivi10.name,
-                                    valeur: Number (bralima.data[yearIndex].data[monthIndex].data[indexof].suivi10.name) + suiviObj10.valeur
+                                    valeur: Number (bralima.data[yearIndex].data[monthIndex].data[indexof].suivi10.valeur) + suiviObj10.valeur
                                 };
                             };
 
@@ -1875,7 +2136,7 @@ exports.updateDataAutreProduit = catchAssynch ( async ( req, res, next) =>
                                 bralima.suiviApprovisionnement[index1].data[index2].data[indexSuivi] = {
     
                                     name: bralima.data[yearIndex].data[monthIndex].data[indexof].suivi11.name,
-                                    valeur: Number (bralima.data[yearIndex].data[monthIndex].data[indexof].suivi11.name) + suiviObj11.valeur
+                                    valeur: Number (bralima.data[yearIndex].data[monthIndex].data[indexof].suivi11.valeur) + suiviObj11.valeur
                                 };
                             };
 
@@ -1890,7 +2151,7 @@ exports.updateDataAutreProduit = catchAssynch ( async ( req, res, next) =>
                                 bralima.suiviApprovisionnement[index1].data[index2].data[indexSuivi] = {
     
                                     name: bralima.data[yearIndex].data[monthIndex].data[indexof].suivi12.name,
-                                    valeur: Number (bralima.data[yearIndex].data[monthIndex].data[indexof].suivi12.name) + suiviObj12.valeur
+                                    valeur: Number (bralima.data[yearIndex].data[monthIndex].data[indexof].suivi12.valeur) + suiviObj12.valeur
                                 };
                             };
 
@@ -1905,7 +2166,7 @@ exports.updateDataAutreProduit = catchAssynch ( async ( req, res, next) =>
                                 bralima.suiviApprovisionnement[index1].data[index2].data[indexSuivi] = {
     
                                     name: bralima.data[yearIndex].data[monthIndex].data[indexof].suivi13.name,
-                                    valeur: Number (bralima.data[yearIndex].data[monthIndex].data[indexof].suivi13.name) + suiviObj13.valeur
+                                    valeur: Number (bralima.data[yearIndex].data[monthIndex].data[indexof].suivi13.valeur) + suiviObj13.valeur
                                 };
                             };
 
@@ -1920,7 +2181,7 @@ exports.updateDataAutreProduit = catchAssynch ( async ( req, res, next) =>
                                 bralima.suiviApprovisionnement[index1].data[index2].data[indexSuivi] = {
     
                                     name: bralima.data[yearIndex].data[monthIndex].data[indexof].suivi14.name,
-                                    valeur: Number (bralima.data[yearIndex].data[monthIndex].data[indexof].suivi14.name) + suiviObj14.valeur
+                                    valeur: Number (bralima.data[yearIndex].data[monthIndex].data[indexof].suivi14.valeur) + suiviObj14.valeur
                                 };
                             };
 

@@ -372,6 +372,9 @@ const arraySchema = new mongoose.Schema({
             type: Number
         }
     },
+    updatedAt: {
+        type: Date
+    }
 
 })
 const dataSchema = new mongoose.Schema({
@@ -403,7 +406,6 @@ const statsData = new mongoose.Schema ({
     mois:{
         type: Number,
         require: true,
-        unique: true
     },
     vente_bar: {
         type: Number

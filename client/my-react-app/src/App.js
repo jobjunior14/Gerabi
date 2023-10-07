@@ -10,12 +10,6 @@ import { TableSuivi } from './components/Daily-Report/suiviAppro/mainTable';
 function App() {
   return ( 
     <BrowserRouter>
-    {/* <header>
-      <Link to= '/rapportMensuel'>Rapport Mensuel</Link>
-      <nav>
-        <Link to= "/rapportJournalier">Rapport Journalier</Link>
-      </nav>
-    </header> */}
     <Routes>
       <Route path='/' element = {<MainNav/>}>
 
