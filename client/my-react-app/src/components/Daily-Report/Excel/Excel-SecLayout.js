@@ -2,8 +2,10 @@ const {table, tbaleTh} = require ('./css.js')
 
 export function ExcelSecLayout ( props)
 {
-    return (
-        <table className = 'table1' style = {table}>
+    if (!props.toggle) {
+
+        return (
+            <table className = 'table1' style = {table}>
             <thead>
             <tr> 
                 <th rowSpan = '3' style = {tbaleTh}> Name </th>
@@ -123,5 +125,78 @@ export function ExcelSecLayout ( props)
            </tbody>
             
         </table>
-    )
+        )
+    } else {
+
+        return (
+            <table className = 'table1' style = {table}>
+            <thead>
+            <tr> 
+                <th rowSpan = '3' style = {tbaleTh}> Name </th>
+                <th colSpan = '3' style = {tbaleTh}>ACHAT JOURNALIER </th>
+                <th colSpan = '1' style = {tbaleTh}> Business Projection </th>
+                <th colSpan = '1' style = {tbaleTh}> VENTE JOURNALIERE </th>
+                <th colSpan = '1' style = {tbaleTh}> STOCK CONSIGNATION </th>
+                <th colSpan = '3' style = {tbaleTh} > STOCK APRES VENTE </th>
+            </tr>
+
+            <tr>
+                 
+                <th style = {tbaleTh}> QUANTITE CAISSE </th>
+                <th style = {tbaleTh}> QUANTITE Btll </th>
+                <th style = {tbaleTh}>Prix d'achat Gros </th>
+            
+                <th style = {tbaleTh}>Sortie Cave</th>
+            
+                <th style = {tbaleTh}> Ref prix Det</th>
+               
+                <th style = {tbaleTh}>Quantié</th>                
+                  
+                <tr>
+                    <th colSpan = '1' style = {{
+                         padding: '0.5rem 1rem',
+                         fontWeight: 'normal',
+                         borderRight: 'solid thin',
+                         width: '25%'
+                    }}>Reste comptoir</th>
+                    <th colSpan = '1' style = {
+                        {
+                            padding: '0.5rem 1rem',
+                            fontWeight: 'normal',
+                            borderRight: 'solid thin',
+                            width: '25%'
+                        }
+                    }> Reste stock Depot</th>
+                </tr>
+                  
+                <tr>
+                    <th style = {{
+                         padding: '0.5rem 1rem',
+                         fontWeight: 'normal',
+                         borderRight: 'solid thin',
+                         borderTop: 'solid thin',
+                         width: '12.5%', 
+                    }}>Qte Bouteilles</th>
+                
+                    <th style = {{
+                         padding: '0.5rem 1rem',
+                         fontWeight: 'normal',
+                         borderRight: 'solid thin',
+                         borderTop: 'solid thin',
+                         width: '12.5%'
+                    }}> Qte Caisses </th>
+                   
+                </tr>
+                 
+               
+            </tr>
+            </thead>
+            
+           <tbody>
+           {props.name}
+           </tbody>
+            
+        </table>
+        )
+    }
 }

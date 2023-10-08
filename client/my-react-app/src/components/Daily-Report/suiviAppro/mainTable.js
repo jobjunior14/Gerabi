@@ -7,7 +7,7 @@ import InputsTh2 from './inputs/inputTh2.js';
 
 export function TableSuivi (props) {
     
-    const {table, tbaleTh, tableTd} = require ('./css.js');
+    const {table, tbaleTh} = require ('./css.js');
 
      const dataTh = [];
     
@@ -60,6 +60,8 @@ export function TableSuivi (props) {
        }
     };
 
+   
+
     return (
         <table className='table1' style={table}>
             <thead>
@@ -70,6 +72,7 @@ export function TableSuivi (props) {
                     {dataTh}
                 </tr>
                 <InputsTh2 />
+                {props.tdData}
             </thead>
             
         </table>

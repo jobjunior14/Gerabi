@@ -3,10 +3,12 @@ import { ExcelMain } from "./Excel/Excel-MainLayout"
 import React,{useState, useEffect} from "react";
 import axios from 'axios'
 import { TableSuivi } from "./suiviAppro/mainTable";
+import InputTd from "./suiviAppro/inputs/inputTd";
 
 export function Bralima ()
 {
     const [bralimaData, setBralimadata] = useState (null);
+    const [toggleStoc, setToggleStoc] = useState (true);
 
     useEffect( () => {
         
@@ -31,7 +33,12 @@ export function Bralima ()
  
      }, []);
 
-    function Updating_Form ( id, name, value, modvalue, objectvalue )
+    function toggleBtn () {
+
+        setToggleStoc(toggleStoc ? false : true);
+    }
+
+    function handleFormInStock ( id, name, value, modvalue, objectvalue )
     {
         setBralimadata (
             prev => {
@@ -60,7 +67,7 @@ export function Bralima ()
         )
     };
 
-    function UpdatingNameTh ( name, value)
+    function handleThFormInSuivi ( name, value)
     {
 
          setBralimadata ( prev => {
@@ -72,30 +79,57 @@ export function Bralima ()
         });
         
     };
+
+    function handleTdFormInSuivi (id, name, value, path ) {
+
+        setBralimadata ( prev => {
+
+            return prev.map ( data => {
+
+                return data._id === id ? {...data, [path]: {...data[path], [name]: value} } : data
+            })
+        })
+    }
+
     
     if (bralimaData) {
-        console.log(bralimaData)
-    let displayDataMainExcel = bralimaData.map (
-        prev => {
         
+        const displayTdSuivi = bralimaData.map (
+          
+          prev => {
             return (
-                <ExcelMain 
-                    prev = { prev }
-                    key = { prev._id }
-                    onchange = { Updating_Form }
+              < InputTd 
+                    prev = {prev}
+                    key = {prev._id}
+                    onchange = { handleTdFormInSuivi }
                 />
             )
-        }
+          }
         );
 
+        const displayDataMainExcel = bralimaData.map (
+            prev => {
+            
+                return (
+                    <ExcelMain 
+                        prev = { prev }
+                        key = { prev._id }
+                        onchange = { handleFormInStock }
+                        toggle = {toggleStoc}
+                    />
+                )
+            }
+        );
 
+        
         return (
             <div>
-                <ExcelSecLayout name = {displayDataMainExcel} total = '12'/>
+                <ExcelSecLayout toggle = {toggleStoc} name = {displayDataMainExcel} total = '12'/>
+                <button onClick={toggleBtn} >{ !toggleStoc ? 'Cacher' : 'Afficher' }</button>
 
-                <h1> Suivi Appro</h1>
+                <h1> Suivi Approvisinnemnt </h1>
 
-                <TableSuivi data = {bralimaData} changeTh = {UpdatingNameTh}/>
+                <TableSuivi  tdData = {displayTdSuivi} data = {bralimaData} changeTh = {handleThFormInSuivi}/>
             </div>
         )
     } else {

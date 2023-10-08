@@ -55,7 +55,7 @@ export function ExcelMain(props)
 
                 </td>
             }
-            {
+            { !props.toggle &&
                 <td id = {props.prev._id} name = { `qt_btll${props.prev._id}`}>
                     <input 
                         value = { props.prev.achat_journalier.qt_btll}
@@ -63,11 +63,7 @@ export function ExcelMain(props)
                         name = 'achat_journalier'
                         type = 'number'
                         placeholder = ' Taper la qt des qt_btll '
-                        onChange = { (e) =>
-                        {
-                            const { name, value } = e.target
-                            return props.onchange( props.prev._id, name, value, "qt_btll", "")
-                        }}
+                        readOnly = {true}
                     />
 
                 </td>
@@ -79,8 +75,7 @@ export function ExcelMain(props)
                         id = { props.prev._id }
                         name = 'achat_journalier'
                         type = 'number'
-                        p
-                        laceholder = ' Taper la qt des prix_achat_gros '
+                        placeholder = ' Taper la qt des prix_achat_gros '
                         onChange = { (e) =>
                         {
                             const { name, value} = e.target
@@ -90,7 +85,7 @@ export function ExcelMain(props)
 
                 </td>
             }
-            {
+            { !props.toggle &&
                 <td id = {props.prev._id} name = { `val_gros_approvisionnement${props.prev._id}`}>
                     <input 
                         value = { props.prev.benefice_sur_achat.val_gros_approvisionnement}
@@ -98,16 +93,12 @@ export function ExcelMain(props)
                         name = 'benefice_sur_achat'
                         type = 'number'
                         placeholder = ' Taper la qt des val_gros_approvisionnement '
-                        onChange = { (e) =>
-                        {
-                            const { name, value} = e.target
-                            return props.onchange( props.prev._id, name, value, "val_gros_approvisionnement", "")
-                        }}
+                        readOnly = {true}
                     />
 
                 </td>
             }
-            {
+            { !props.toggle &&
                 <td id = {props.prev._id} name = { `val_det${props.prev._id}`}>
                     <input 
                         value = { props.prev.benefice_sur_achat.val_det}
@@ -115,16 +106,12 @@ export function ExcelMain(props)
                         name = 'benefice_sur_achat'
                         type = 'number'
                         placeholder = ' Taper la qt des val_det '
-                        onChange = { (e) =>
-                        {
-                            const { name, value} = e.target
-                            return props.onchange( props.prev._id, name, value, "val_det", "")
-                        }}
+                        readOnly = {true}
                     />
 
                 </td>
             }
-            {
+            { !props.toggle &&
                 <td id = {props.prev._id} name = { `benefice${props.prev._id}`}>
                     <input 
                         value = { props.prev.benefice_sur_achat.benefice}
@@ -132,16 +119,12 @@ export function ExcelMain(props)
                         name = 'benefice_sur_achat'
                         type = 'number'
                         placeholder = ' Taper la qt des benefice '
-                        onChange = { (e) =>
-                        {
-                            const { name, value } = e.target
-                            return props.onchange( props.prev._id, name, value, "benefice", "")
-                        }}
+                        readOnly = {true}
                     />
 
                 </td>
             }
-            {
+            { !props.toggle &&
                 <td id = {props.prev._id} name = { `stock_gen${props.prev._id}`}>
                     <input 
                         value = { props.prev.business_projection.stock_gen}
@@ -149,11 +132,7 @@ export function ExcelMain(props)
                         name = 'business_projection'
                         type = 'number'
                         placeholder = ' Taper la qt des stock_gen '
-                        onChange = { (e) =>
-                        {
-                            const { name, value } = e.target
-                            return props.onchange( props.prev._id, name, value, "stock_gen", "")
-                        }}
+                        readOnly = {true}
                     />
 
                 </td>
@@ -176,7 +155,7 @@ export function ExcelMain(props)
                 </td>
             }
 
-            {
+            { !props.toggle &&
                 <td id = {props.prev._id} name = { `stock_gen${props.prev._id}`}>
                     <input 
                         value = { props.prev.business_projection.stock_dego}
@@ -184,16 +163,12 @@ export function ExcelMain(props)
                         name = 'business_projection'
                         type = 'number'
                         placeholder = ' Taper la qt des stock_gen '
-                        onChange = { (e) =>
-                        {
-                            const { name, value } = e.target
-                            return props.onchange( props.prev._id, name, value,"stock_dego", "")
-                        }}
+                        readOnly = {true}
                     />
 
                 </td>
             }
-            {
+            { !props.toggle &&
                 <td id = {props.prev._id} name = { `val_stock_det${props.prev._id}`}>
                     <input 
                         value = { props.prev.business_projection.val_stock_det}
@@ -201,16 +176,12 @@ export function ExcelMain(props)
                         name = 'business_projection'
                         type = 'number'
                         placeholder = ' Taper la qt des val_stock_det '
-                        onChange = { (e) =>
-                        {
-                            const { name, value } = e.target
-                            return props.onchange( props.prev._id, name, value,"val_stock_det", "")
-                        }}
+                        readOnly = {true}
                     />
 
                 </td>
             }
-            {
+            { !props.toggle &&
                 <td id = {props.prev._id} name = { `ref_prix_gros${props.prev._id}`}>
                     <input 
                         value = { props.prev.business_projection.ref_prix_gros}
@@ -218,16 +189,12 @@ export function ExcelMain(props)
                         name = 'business_projection'
                         type = 'number'
                         placeholder = ' Taper la qt des ref_prix_gros '
-                        onChange = { (e) =>
-                        {
-                            const { name, value } = e.target
-                            return props.onchange( props.prev._id, name, value,"ref_prix_gros", "")
-                        }}
+                        readOnly = {true}
                     />
 
                 </td>
             }
-            {
+            { !props.toggle &&
                 <td id = {props.prev._id} name = { `val_stock_gros${props.prev._id}`}>
                     <input 
                         value = { props.prev.business_projection.ref_prix_gros}
@@ -235,16 +202,12 @@ export function ExcelMain(props)
                         name = 'business_projection'
                         type = 'number'
                         placeholder = ' Taper la qt des ref_prix_gros '
-                        onChange = { (e) =>
-                        {
-                            const { name, value } = e.target
-                            return props.onchange( props.prev._id, name, value, "val_stock_gros", "")
-                        }}
+                        readOnly = {true}
                     />
 
                 </td>
             }
-            {
+            { !props.toggle &&
                 <td id = {props.prev._id} name = { `business_projection${props.prev._id}`}>
                     <input 
                         value = { props.prev.business_projection.marge_beneficiaire}
@@ -252,11 +215,7 @@ export function ExcelMain(props)
                         name = 'business_projection'
                         type = 'number'
                         placeholder = ' Taper la qt des marge_beneficiaire '
-                        onChange = { (e) =>
-                        {
-                            const { name, value } = e.target
-                            return props.onchange( props.prev._id, name, value,"marge_beneficiaire", "")
-                        }}
+                        readOnly = {true}
                     />
 
                 </td>
@@ -278,7 +237,7 @@ export function ExcelMain(props)
 
                 </td>
             }
-            {
+            { !props.toggle &&
                 <td id = {props.prev._id} name = { `qt_vendue_comptoir${props.prev._id}`}>
                     <input 
                         value = { props.prev.vente_journaliere.qt_vendue_comptoir}
@@ -286,16 +245,12 @@ export function ExcelMain(props)
                         name = 'vente_journaliere'
                         type = 'number'
                         placeholder = ' Taper la qt des qt_vendue_comptoir '
-                        onChange = { (e) =>
-                        {
-                            const { name, value } = e.target
-                            return props.onchange( props.prev._id, name, value,"qt_vendue_comptoir", "")
-                        }}
+                        readOnly = {true}
                     />
 
                 </td>
             }
-            {
+            { !props.toggle &&
                 <td id = {props.prev._id} name = { `valeur${props.prev._id}`}>
                     <input 
                         value = { props.prev.vente_journaliere.valeur}
@@ -303,16 +258,12 @@ export function ExcelMain(props)
                         name = 'vente_journaliere'
                         type = 'number'
                         placeholder = ' Taper la qt des valeur '
-                        onChange = { (e) =>
-                        {
-                            const { name, value } = e.target
-                            return props.onchange( props.prev._id, name, value,"valeur", "")
-                        }}
+                        readOnly = {true}
                     />
 
                 </td>
             }
-            {
+            { !props.toggle &&
                 <td id = {props.prev._id} name = { `benefice_sur_vente${props.prev._id}`}>
                     <input 
                         value = { props.prev.benefice_sur_vente}
@@ -320,11 +271,7 @@ export function ExcelMain(props)
                         name = 'benefice_sur_vente'
                         type = 'number'
                         placeholder = ' Taper la qt des caisses '
-                        onChange = { (e) =>
-                        {
-                            const { name, value, type } = e.target
-                            return props.onchange( props.prev._id, name, value, "", "")
-                        }}
+                        readOnly = {true}
                     />
 
                 </td>
@@ -346,7 +293,7 @@ export function ExcelMain(props)
 
                 </td>
             }
-            {
+            { !props.toggle &&
                 <td id = {props.prev._id} name = { `valeur${props.prev._id}`}>
                     <input 
                         value = { props.prev.stock_consignaions.valeur}
@@ -354,11 +301,7 @@ export function ExcelMain(props)
                         name = 'stock_consignaions'
                         type = 'number'
                         placeholder = ' Taper la qt des caisses '
-                        onChange = { (e) =>
-                        {
-                            const { name, value } = e.target
-                            return props.onchange( props.prev._id, name, value, "valeur", "")
-                        }}
+                        readOnly = {true}
                     />
 
                 </td>
@@ -367,7 +310,7 @@ export function ExcelMain(props)
             
 
                     <tr>
-                        <>
+                        
                         {
                         <td id = {props.prev._id} name = { `qt_btll${props.prev._id}`}>
                             <input 
@@ -385,7 +328,7 @@ export function ExcelMain(props)
 
                         </td>
                     }
-                    {
+                    { !props.toggle &&
                         <td id = {props.prev._id} name = { `valeur${props.prev._id}`}>
                             <input 
                                 value = { props.prev.stock_apres_vente.reste_stock_comptoir.valeur}
@@ -393,11 +336,7 @@ export function ExcelMain(props)
                                 name = 'stock_apres_vente'
                                 type = 'number'
                                 placeholder = ' Taper la qt des caisses '
-                                onChange = { (e) =>
-                                {
-                                    const { name, value } = e.target
-                                    return props.onchange( props.prev._id, name, value, 'reste_stock_comptoir', 'valeur' )
-                                }}
+                                readOnly = {true}
                             />
 
                         </td>
@@ -419,7 +358,7 @@ export function ExcelMain(props)
 
                         </td>
                     }
-                    {
+                    { !props.toggle &&
                         <td id = {props.prev._id} name = { `valeur${props.prev._id}`}>
                             <input 
                                 value = { props.prev.stock_apres_vente.reste_stock_depot.qt_btll}
@@ -427,16 +366,12 @@ export function ExcelMain(props)
                                 name = 'stock_apres_vente'
                                 type = 'number'
                                 placeholder = ' Taper la qt des caisses '
-                                onChange = { (e) =>
-                                {
-                                    const { name, value } = e.target
-                                    return props.onchange( props.prev._id, name, value, 'reste_stock_depot', 'qt_btll' )
-                                }}
+                                readOnly = {true}
                             />
 
                         </td>
                     }
-                    {
+                    { !props.toggle &&
                         <td id = {props.prev._id} name = { `valeur${props.prev._id}`}>
                             <input 
                                 value = { props.prev.stock_apres_vente.reste_stock_depot.valeur}
@@ -444,16 +379,12 @@ export function ExcelMain(props)
                                 name = 'stock_apres_vente'
                                 type = 'number'
                                 placeholder = ' Taper la qt des caisses '
-                                onChange = { (e) =>
-                                {
-                                    const { name, value } = e.target
-                                    return props.onchange( props.prev._id, name, value, 'reste_stock_depot', 'valeur')
-                                }}
+                                readOnly = {true}
                             />
 
                         </td>
                     }
-                    {
+                    { !props.toggle &&
                         <td id = {props.prev._id} name = { `valeur${props.prev._id}`}>
                             <input 
                                 value = { props.prev.stock_apres_vente.valeur_stock}
@@ -461,56 +392,16 @@ export function ExcelMain(props)
                                 name = 'stock_apres_vente'
                                 type = 'number'
                                 placeholder = ' Taper la qt des caisses '
-                                onChange = { (e) =>
-                                {
-                                    const { name, value } = e.target
-                                    return props.onchange( props.prev._id, name, value, "valeur_stock", "")
-                                }}
+                                readOnly = {true}
                             />
 
                         </td>
                     }
-                        </>
+                       
                     </tr>
                     
             
-            {/* {
-                <td id = {props.prev._id} name = { `valeur${props.prev._id}`}>
-                    <input 
-                        defaultValue = { props.prev.stock_apres_vente.valeur_stock}
-                        id = { props.prev._id }
-                        name = 'stock_apres_vente'
-                        modvalue = "valeur_stock"
-                        type = 'number'
-                        placeholder = ' Taper la qt des caisses '
-                        onChange = { (e) =>
-                        {
-                            const { name, value } = e.target
-                            return props.onchange( props.prev._id, name, value, "")
-                        }}
-                    />
-
-                </td>
-            } */}
-   
-
-
-            {/* {
-                <td id = {props.prev._id} name = { `check${props.prev._id}`}>
-                    <input 
-                        id = { props.prev._id }
-                        name = 'check'
-                        checked = { props.prev.check }
-                        type = 'checkbox'
-                        onChange = { (e) =>
-                        {
-                            const { name, type, checked} = e.target
-                            return props.onchange( props.prev._id, name,'', type, checked)
-                        }}
-                    />
-
-                </td>
-            } */}
+           
         </tr>
     )
 }

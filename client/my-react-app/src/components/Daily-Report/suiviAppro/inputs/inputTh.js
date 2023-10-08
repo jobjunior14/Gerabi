@@ -10,7 +10,7 @@ export default function InputsTh (props) {
             name = {props.nameValue}
             placeholder= {"Nom du fournisseur"}
             onChange={ (e) => {
-                const {name, value } = e.target
+                const {name, value } = e.target;
                 return props.onchange ( name, value,)
             }}
         />
