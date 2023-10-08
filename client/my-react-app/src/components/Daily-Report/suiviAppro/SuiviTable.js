@@ -1,6 +1,4 @@
 import React, { useState } from 'react'
-import { useEffect } from 'react';
-import axios from 'axios';
 import InputsTh from './inputs/inputTh.js';
 import InputsTh2 from './inputs/inputTh2.js';
 

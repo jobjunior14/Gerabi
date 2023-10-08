@@ -6,7 +6,6 @@ import { MonthMensRep } from './components/pages/rapMensuel/month';
 import { Bralima } from './components/Daily-Report/Bralima';
 import { MainNav } from './components/headers/outlet';
 import { ProductNav } from './components/headers/outlet';
-import { TableSuivi } from './components/Daily-Report/suiviAppro/mainTable';
 function App() {
   return ( 
     <BrowserRouter>

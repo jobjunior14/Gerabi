@@ -1,7 +1,7 @@
 import React from "react";
 const {tbaleTh} = require ('./css.js');
 
-export default function InputsTh2 (props)
+export default function InputsTh2 ()
 {
     return (
         <tr>

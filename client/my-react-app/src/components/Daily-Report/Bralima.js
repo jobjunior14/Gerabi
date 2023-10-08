@@ -1,9 +1,9 @@
-import { ExcelSecLayout } from "./Excel/Excel-SecLayout"
-import { ExcelMain } from "./Excel/Excel-MainLayout"
+import { ExcelMain } from "./Stock_Consignation/Stock_Main_Layout";
+import { ExcelSecLayout } from "./Stock_Consignation/Stock_Sec_Layout";
 import React,{useState, useEffect} from "react";
 import axios from 'axios'
-import { TableSuivi } from "./suiviAppro/mainTable";
 import InputTd from "./suiviAppro/inputs/inputTd";
+import { TableSuivi } from "./suiviAppro/SuiviTable";
 
 export function Bralima ()
 {
