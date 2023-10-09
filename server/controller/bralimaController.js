@@ -39,7 +39,7 @@ exports.getBralima = catchAssynch ( async (req, res, next) =>
                             if (  Number ( JSON.stringify (p.createdAt).slice(9, 11)) === day)
                             {
                                 //then push the product id in a array if there is a correspondance in (it's true every where)
-                                id.push(i._id);
+                                id.push(i.id);
                                 p.name = i.name;
                                 dayData.push(p);
                             };

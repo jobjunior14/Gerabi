@@ -134,13 +134,11 @@ const arraySchema = new mongoose.Schema({
     {
         stock_apres_ventente_rest_stock_comptoir_qt_btll: {
             type: Number,
-            require: [true, 'vous devez taper le nombre des bouteilles par caisses '],
-            // validate: [validator.isNumeric, "dois contenir que des chiffres"]
+            default: 0
         },
         stock_apres_ventente_rest_stock_depot_qt_btll:{
             type: Number,
-            require: [true, 'vous devez taper le nombre des bouteilles par caisses '],
-            // validate: [validator.isNumeric, "dois contenir que des chiffres"]
+            default: 0
         }
     },
 

@@ -3,8 +3,7 @@ const AutreProduit = require ( `${__dirname}/../models/autreProduitModel.js`);
 const catchAssynch = require ( `${__dirname}/../utils/catchAssynch.js`);
 
 exports.getAutreProduit = catchAssynch ( async (req, res, next) =>
-{
-        
+{        
     //we didn't work with stats data coz front don't need it daily
     let bralima = await AutreProduit.find();
 
@@ -99,8 +98,7 @@ exports.pushDataAutreProduit = catchAssynch ( async (req, res, next) =>
                         (
                             {
                                 "mois": Number ( new Date().toLocaleDateString().slice(3, 5) ),
-                                "data":
-                                {...req.body[o].data.data.data, "name": bralima[o].name,}
+                                "data": {...req.body[o].data.data.data, "name": bralima[o].name,}
                             }
                         );
                     };
@@ -111,17 +109,14 @@ exports.pushDataAutreProduit = catchAssynch ( async (req, res, next) =>
                     bralima[o].data.push(
                         {
                             "annee": Number ( new Date().toLocaleDateString().slice (6)),
-                            "data": 
-                            {
+                            "data": {
+
                                 "mois": Number ( new Date().toLocaleDateString().slice(3, 5) ),
-                                "data":
-                                {...req.body[o].data.data.data, "name": bralima[o].name }
+                                "data": {...req.body[o].data.data.data, "name": bralima[o].name }
                             }
                         }
                     );
                 };
-            
-            
             
                 //saving the data in the server so we can work with the new data ///////////////////////////
                 await  bralima[o].save();
@@ -133,7 +128,6 @@ exports.pushDataAutreProduit = catchAssynch ( async (req, res, next) =>
                 if ( index1 !== -1 ) 
                 {
                     const index2 = await bralima[o].stats[index1].data.findIndex (el => el.mois === Number ( new Date().toLocaleDateString().slice (3, 5)));
-
                     
                     if ( index2 !== -1)
                     {
@@ -413,7 +407,6 @@ exports.updateDataAutreProduit = catchAssynch ( async ( req, res, next) =>
                 //index1 it's an index of year in stats 
                 const index1 = await bralima.stats.findIndex ( el => el.annee === Number (req.params.year));
                 
-                
                 if ( indexof !== -1 && index1 !== -1) {
                     
                     //Month index Stats
@@ -444,7 +437,6 @@ exports.updateDataAutreProduit = catchAssynch ( async ( req, res, next) =>
                     };
 
                     if ( index2 !== -1) {
-
 
                         ////////stats/////////////////////////
                         const statsObj1 = {
@@ -852,8 +844,6 @@ exports.yearStatsAutreProduit = catchAssynch ( async ( req, res, next ) =>
                 benefice: { $sum: "$stats.data.benefice"}
             }
         }
-
-
     ]);
 
     res.status(200).json({
