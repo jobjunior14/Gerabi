@@ -7,8 +7,12 @@ import { TableSuivi } from "./suiviAppro/SuiviTable";
 
 export function Bralima ()
 {
+    // Data we are using 
     const [bralimaData, setBralimadata] = useState (null);
+    //toggle btn to display or hide useless data
     const [toggleStoc, setToggleStoc] = useState (true);
+    //count btn to display more providers 
+    const [providers, setProviders] = useState (4);
 
     useEffect( () => {
         
@@ -93,9 +97,8 @@ export function Bralima ()
 
     
     if (bralimaData) {
-        
         const displayTdSuivi = bralimaData.map (
-          
+            
           prev => {
             return (
               < InputTd 
@@ -122,6 +125,7 @@ export function Bralima ()
         );
 
         
+        console.log(bralimaData)
         return (
             <div>
                 <ExcelSecLayout toggle = {toggleStoc} name = {displayDataMainExcel} total = '12'/>
