@@ -18,25 +18,36 @@ export function Bralima ()
     //count State to display more providers
     let [providers, setProviders] = useState (3);
 
+    //input date
     const  [date, setDate] = useState ({
         year: new Date().toLocaleDateString().slice(6),
         month: new Date().toLocaleDateString().slice(3, 5),
         day:  new Date().toLocaleDateString().slice(0,2 )
     });
 
+    //IDs 
+
+    const [id, setId] = useState(null);
+
+    //date query
     const [dateParams, setDateParams] = useSearchParams();
+
+    //dependacies of useEffect
+    const year = dateParams.get('year');
+    const month = dateParams.get('month');
+    const day = dateParams.get('day');   
 
     //fecth the data's day
     useEffect( () => {
-        
+       
         const fetchProfil = async () => {
  
              try {
-                
-                 
-                const data = await axios.get(`http://localhost:5001/api/v1/raportJournalier/autreProduit/${dateParams.get('year')}/${dateParams.get('month')}/${dateParams.get('day')}`);
+            
+                const data = await axios.get(`http://localhost:5001/api/v1/raportJournalier/autreProduit/${year}/${month}/${day}`);
 
                 setBralimadata (data.data.data.day.map ( (el, index) => {return {...el, id: index }} ));
+                setId( data.data.data.id);
    
              } catch (err) {
                  if (err.message) {
@@ -50,7 +61,8 @@ export function Bralima ()
         };
         fetchProfil();
  
-    }, [dateParams]);
+    }, [year, day, month]);
+
 
     ///toggle btn to hide useless calcul in stock
     function toggleBtn () {
@@ -320,6 +332,7 @@ export function Bralima ()
     function setFilterParams () {
 
         setDateParams(date);
+        setBralimadata(null);
         
     };
 
@@ -329,7 +342,46 @@ export function Bralima ()
 
             return {...prev, [name]: value}
         })
-    } 
+    };
+
+    function UpdateDataData () {
+
+        const fetchProfil = async () => {
+
+            const newData = await  bralimaData.map( el => {
+                
+                return {
+                    name: el.name,
+                    data: {
+                        data: {
+                            data:{...el, createdAt: `${year}-${month}-${day}T07:22:54.930Z` }
+                        }
+                    }
+                }
+                
+            });
+
+            const newData2 = {id: id, newData}
+ 
+            try {
+           
+               const response = await axios.post(`http://localhost:5001/api/v1/raportJournalier/autreProduit/${year}/${month}/${day}`, newData2);
+
+               setBralimadata (response.data.data.day.map ( (el, index) => {return {...el, id: index }} ));
+               setId(response.data.data.id);
+  
+            } catch (err) {
+                if (err.message) {
+
+                    console.log( err.data, err.data.status);
+                } else {
+
+                    console.log (err);
+                }
+            }
+       };
+       fetchProfil();
+    }
 
     if (bralimaData) {
 
@@ -362,7 +414,7 @@ export function Bralima ()
                     )
                 }
             );
-    
+
             return (
                 <div>
                     <DailyFilter  prev = {date} onclick = {setFilterParams} onchange = {changeFilter}/>
@@ -374,6 +426,7 @@ export function Bralima ()
     
                     <TableSuivi toggleSuivi = {providers}  tdData = {displayTdSuivi} data = {bralimaData} changeTh = {handleThFormInSuivi}/>
                     <button onClick={AddProviders}> Afficher Ou Ajouter un Fournisseur</button>
+                    
                     <button onClick={postData}> Enregistrer les Donnees </button>
                 </div>
             )

@@ -353,7 +353,7 @@ exports.pushDataAutreProduit = catchAssynch ( async (req, res, next) =>
             status: 'success',
             data:{
                 id: id,
-                day: dataBralima,
+                day: dayData,
             }
         
         });
@@ -596,13 +596,55 @@ exports.updateDataAutreProduit = catchAssynch ( async ( req, res, next) =>
 
         updatedDocument.push(bralima);
     };
-    res.status(200).json({
-        
-        status: 'Success',
-        data: {
-            updatedDocument
+
+    //add data to a new array for fast reading
+    let dayData = [];
+
+    //pushing id of every Product in a new array for just "delete" Option
+    const id = [];
+
+    //Reading of all data to filter it
+    for ( let i of bra )
+    {
+        for ( let j of i.updatedDocument)
+        {
+            //check if the year is true of false 
+            if ( j.annee === year)
+            {
+                for ( let o of j.data)
+                {
+                    //cheking of the month
+                    if (o.mois === month)
+                    {
+                        for (let p of o.data)
+                        {
+                            //cheking of the day
+                            if (  Number ( JSON.stringify (p.createdAt).slice(9, 11)) === day)
+                            {
+                                //then push the product id in a array if there is a correspondance in (it's true every where)
+                                id.push(i._id);
+                                p.name = i.name;
+                                dayData.push(p);
+                            };
+                        };
+                    };
+                };
+            };
+        };
+
+        // doing the same thing to suivi appro
+        //check days, month, year...
+    };
+
+    // then the response ....
+    res.status (200).json({
+        status: 'success',
+        data:{
+            id: id,
+            day: dayData,
         }
-    })
+    
+    });
 });
 
 exports.getOneDataAutreProduit = catchAssynch ( async  ( req, res, next) =>
