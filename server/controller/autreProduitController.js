@@ -11,7 +11,6 @@ exports.getAutreProduit = catchAssynch ( async (req, res, next) =>
     const year = Number ( req.params.year);
     const month = Number (req.params.month);
     const day = Number (req.params.day);
-    let nombrepage = 0;
 
     //add data to a new array for fast reading
     let dayData = [];
@@ -88,9 +87,12 @@ exports.pushDataAutreProduit = catchAssynch ( async (req, res, next) =>
                 {
                     const monthindex = await bralima[o].data[yearindex].data.findIndex( el => el.mois === Number (new Date().toLocaleDateString().slice(3, 5)));
             
-                    if ( monthindex !== -1)
-                    {
-                        bralima[o].data[yearindex].data[monthindex].data.push (req.body[o].data.data.data);
+                    if ( monthindex !== -1) {
+
+                        //verify if the data exist or not coz we cant push many data with the same day information
+                        const dayIndex = await bralima[o].data[yearindex].data[monthindex].data.findIndex( el => Number (JSON.stringify(el.createdAt).slice(9, 11)) === Number (new Date().toLocaleDateString().slice(0, 2)));
+                        
+                        if (dayIndex === -1) bralima[o].data[yearindex].data[monthindex].data.push (req.body[o].data.data.data);
 
                     } else {
 
@@ -182,7 +184,7 @@ exports.pushDataAutreProduit = catchAssynch ( async (req, res, next) =>
 
                                 bralima[o].suiviApprovisionnement[index1].data.push ({
 
-                                    mois: Number ( new Date().toLocalDateString().slice( 3, 5)),
+                                    mois: Number ( new Date().toLocaleDateString().slice( 3, 5)),
                                     data: [{
 
                                         name: bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data[bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data.length -1][`suivi${i}`]['name'] ,
@@ -216,9 +218,9 @@ exports.pushDataAutreProduit = catchAssynch ( async (req, res, next) =>
 
                             bralima[o].suiviApprovisionnement.push ({
 
-                                annee: Number ( new Date().toLocalDateString().slice(6)),
+                                annee: Number ( new Date().toLocaleDateString().slice(6)),
                                 data:[{
-                                    mois: Number ( new Date().toLocalDateString().slice(3, 5)),
+                                    mois: Number ( new Date().toLocaleDateString().slice(3, 5)),
                                     data:[{
 
                                         name: bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data[bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data.length -1][`suivi${i}`]['name'] ,
@@ -448,7 +450,7 @@ exports.updateDataAutreProduit = catchAssynch ( async ( req, res, next) =>
                             benefice: Number (bralima.stats[index1].data[index2].benefice) -  Number (bralima.data[yearIndex].data[monthIndex].data[indexof].benefice_sur_vente)
                         };
                         
-                        bralima.data[yearIndex].data[monthIndex].data[indexof] = req.body.data[i].data.data.data;
+                        bralima.data[yearIndex].data[monthIndex].data[indexof] = {...req.body.data[i].data.data.data, "createdAt": `${req.params.year}-${req.params.month}-${req.params.day}T07:22:54.930Z`,};
 
                         await bralima.save();
 

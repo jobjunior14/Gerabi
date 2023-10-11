@@ -16,7 +16,6 @@ export default function InputTd (props) {
                     placeholder= {'Quantiter caisse'}
                     onChange={ (e) => {
                         const {id, name, value} = e.target;
-                        console.log(id);
                         return props.onchange( id, name, value, 'suivi1') ;
                     }}
                 />

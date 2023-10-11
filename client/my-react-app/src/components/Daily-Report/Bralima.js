@@ -1,9 +1,11 @@
+import React,{useState, useEffect} from "react";
+import axios from 'axios';
+import { useSearchParams, Link } from "react-router-dom";
 import { ExcelMain } from "./Stock_Consignation/Stock_Main_Layout";
 import { ExcelSecLayout } from "./Stock_Consignation/Stock_Sec_Layout";
-import React,{useState, useEffect} from "react";
-import axios from 'axios'
 import InputTd from "./suiviAppro/inputs/inputTd";
 import { TableSuivi } from "./suiviAppro/SuiviTable";
+import DailyFilter from "../filter/filterDailyRap";
 
 export function Bralima ()
 {
@@ -16,6 +18,8 @@ export function Bralima ()
     //count State to display more providers
     let [providers, setProviders] = useState (3);
 
+    const [searchParams, setSearchParams] = useSearchParams();
+
     //date dependency useEffect 
     // const [date, setDate] = useState (null);
 
@@ -27,7 +31,7 @@ export function Bralima ()
              try {
                 
                  
-                const data = await axios.get('http://localhost:5001/api/v1/raportJournalier/autreProduit/2023/10/09');
+                const data = await axios.get('http://localhost:5001/api/v1/raportJournalier/autreProduit/2023/10/10');
 
                 setBralimadata (data.data.data.month.map ( (el, index) => {return {...el, id: index }} ));
    
@@ -95,7 +99,7 @@ export function Bralima ()
                 
                 // console.log (typeof id );
                 return data.id === Number (id) ? {...data, [path]: {...data[path], [name]: value} } : data
-            })
+            });
         });
     };
 
@@ -161,35 +165,56 @@ export function Bralima ()
             {
                 qt_caisse:0,
                 nbr_btll: 0,
+                qt_btll: 0,
                 prix_achat_gros: 0
+            },
+
+            benefice_sur_achat: {
+                val_gros_approvisionnement: 0,
+                val_det: 0,
+                benefice: 0
             },
 
             vente_journaliere:
             {
-                ref_prix_det: 0
+                ref_prix_det: 0,
+                qt_vendue_comptoir: 0,
+                valeur: 0
             },
 
             business_projection:
             {
-                sortie_cave: 0
+                sortie_cave: 0,
+                stock_gen: 0,
+                stock_dego: 0,
+                val_stock_det: 0,
+                ref_prix_gros: 0,
+                val_stock_gros: 0,
+                marge_beneficiaire: 0
             },
 
             stock_consignaions:
             {
-                qt: 0
+                qt: 0,
+                valeur: 0
             },
 
             stock_apres_vente:
             {
                 reste_stock_comptoir:
                 {
-                    qt_btll: 0
+                    qt_btll: 0,
+                    valeur: 0
                 },
                 reste_stock_depot:
                 {
-                    qt_caisses: 0
+                    qt_caisses: 0,
+                    qt_btll: 56,
+                    valeur: 224000
                 }
             },
+
+            benefice_sur_vente:0,
 
             val_precedente:
             {
@@ -283,10 +308,12 @@ export function Bralima ()
         }])
     };
 
-    console.log (bralimaData);
     if (bralimaData) {
 
         if (bralimaData.length > 0) {
+
+            console.log (searchParams.get("year"));
+
 
             const displayTdSuivi = bralimaData.map (
                 
@@ -318,6 +345,7 @@ export function Bralima ()
     
             return (
                 <div>
+                    {/* <DailyFilter /> */}
                     <ExcelSecLayout toggle = {toggleStoc} name = {displayDataMainExcel} />
                     <button onClick={toggleBtn} >{ !toggleStoc ? 'Cacher' : 'Afficher' }</button>
                     <button onClick={addProduct}> Ajouter un Product </button>
