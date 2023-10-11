@@ -18,10 +18,13 @@ export function Bralima ()
     //count State to display more providers
     let [providers, setProviders] = useState (3);
 
-    const [searchParams, setSearchParams] = useSearchParams();
+    const  [date, setDate] = useState ({
+        year: new Date().toLocaleDateString().slice(6),
+        month: new Date().toLocaleDateString().slice(3, 5),
+        day:  new Date().toLocaleDateString().slice(0,2 )
+    });
 
-    //date dependency useEffect 
-    // const [date, setDate] = useState (null);
+    const [dateParams, setDateParams] = useSearchParams();
 
     //fecth the data's day
     useEffect( () => {
@@ -31,9 +34,9 @@ export function Bralima ()
              try {
                 
                  
-                const data = await axios.get('http://localhost:5001/api/v1/raportJournalier/autreProduit/2023/10/10');
+                const data = await axios.get(`http://localhost:5001/api/v1/raportJournalier/autreProduit/${dateParams.get('year')}/${dateParams.get('month')}/${dateParams.get('day')}`);
 
-                setBralimadata (data.data.data.month.map ( (el, index) => {return {...el, id: index }} ));
+                setBralimadata (data.data.data.day.map ( (el, index) => {return {...el, id: index }} ));
    
              } catch (err) {
                  if (err.message) {
@@ -47,13 +50,15 @@ export function Bralima ()
         };
         fetchProfil();
  
-     }, []);
+    }, [dateParams]);
 
+    ///toggle btn to hide useless calcul in stock
     function toggleBtn () {
 
         setToggleStoc(toggleStoc ? false : true);
     };
 
+    //display and hide Providers by difault three providers are displayed
     function AddProviders () {
 
         if (providers <= 14) {
@@ -62,6 +67,7 @@ export function Bralima ()
         }
     }
 
+    //manage input's form in stock
     function handleFormInStock ( id, name, value, modvalue, objectvalue )
     {
         setBralimadata (
@@ -91,6 +97,7 @@ export function Bralima ()
         )
     };
 
+    //manage input's forms in suiviApp(data)
     function handleTdFormInSuivi (id, name, value, path ) {
 
         setBralimadata ( prev => {
@@ -103,6 +110,7 @@ export function Bralima ()
         });
     };
 
+    //manage input's forms in suiviApp (Just Table headers ) there is no ID to verify coz th must change in every element of array 
     function handleThFormInSuivi ( name, value)
     {
 
@@ -116,13 +124,13 @@ export function Bralima ()
         
     };
 
-
+    //post data or UpdateData
     function postData () {
-
+        
         const fetchProfil = async () => {
             
             const newBralimaData = await  bralimaData.map( el => {
-    
+                
                 return {
                     name: el.name,
                     data: {
@@ -137,13 +145,12 @@ export function Bralima ()
                 try {
                     
                 const response = await axios.post('http://localhost:5001/api/v1/raportJournalier/autreProduit', newBralimaData );
-                // setBralimadata (data.data.data.month);
-                console.log(response)
+                setBralimadata (response.data.data.day);
     
                 } catch (err) {
                     if (err.message) {
     
-                        console.log( err.data, err.data.status);
+                        console.log( err.data);
                     } else {
     
                         console.log (err);
@@ -154,8 +161,9 @@ export function Bralima ()
      
     };
 
+    //add a new product (push to a arry)
     function addProduct () {
-
+        
         setBralimadata (prev => [...prev, {
             name: "",
 
@@ -229,7 +237,7 @@ export function Bralima ()
             },
         
             suivi2: {
-
+                
                 name: "",
                 qt_caisse: 0
             },
@@ -308,12 +316,24 @@ export function Bralima ()
         }])
     };
 
+
+    function setFilterParams () {
+
+        setDateParams(date);
+        
+    };
+
+    function changeFilter (name, value) {
+
+        setDate(prev => {
+
+            return {...prev, [name]: value}
+        })
+    } 
+
     if (bralimaData) {
 
         if (bralimaData.length > 0) {
-
-            console.log (searchParams.get("year"));
-
 
             const displayTdSuivi = bralimaData.map (
                 
@@ -345,7 +365,7 @@ export function Bralima ()
     
             return (
                 <div>
-                    {/* <DailyFilter /> */}
+                    <DailyFilter  prev = {date} onclick = {setFilterParams} onchange = {changeFilter}/>
                     <ExcelSecLayout toggle = {toggleStoc} name = {displayDataMainExcel} />
                     <button onClick={toggleBtn} >{ !toggleStoc ? 'Cacher' : 'Afficher' }</button>
                     <button onClick={addProduct}> Ajouter un Product </button>
@@ -360,7 +380,11 @@ export function Bralima ()
         } else {
 
             return (
-                <button onClick={addProduct}> Ajouter un produit</button>
+                <div>
+                    <DailyFilter  prev = {date} onclick = {setFilterParams} onchange = {changeFilter}/>
+                    <button onClick={addProduct}> Ajouter un produit</button>
+
+                </div>
             )
         }
        } else {

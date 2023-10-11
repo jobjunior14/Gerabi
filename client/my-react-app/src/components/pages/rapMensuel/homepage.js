@@ -6,7 +6,7 @@ import { Filter } from '../../filter/filterMonthRap';
 
 export default function MensualRapHome()
 {
-    const a = new Date().toLocaleDateString().slice(6);
+    const a =new Date().getFullYear();
 
     const annee = [{id: 0, data: a}, {id: 1, data: a - 1}, {id: 2, data: a - 2} ];
     

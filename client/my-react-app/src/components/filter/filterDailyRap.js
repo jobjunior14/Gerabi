@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 
 export default function DailyFilter (props) {
 
@@ -7,6 +7,7 @@ export default function DailyFilter (props) {
 
         return (
             <div>
+                <label> Année</label>
                 <input 
                     defaultValue={props.prev.year}
                     name = 'year'
@@ -17,6 +18,7 @@ export default function DailyFilter (props) {
                     }}
                 />
 
+                <label> Mois </label>
                 <input 
                     defaultValue={props.prev.month}
                     name = 'month'
@@ -34,6 +36,7 @@ export default function DailyFilter (props) {
 
         return (
             <div>
+                <label>Année </label>
                 <input 
                     defaultValue={props.prev.year}
                     name = 'year'
@@ -44,6 +47,7 @@ export default function DailyFilter (props) {
                     }}
                 />
 
+                <label> Mois </label>
                 <input 
                     defaultValue={props.prev.month}
                     name = 'month'
@@ -54,6 +58,7 @@ export default function DailyFilter (props) {
                     }}
                 />
 
+                <label> Jour </label>
                 <input 
                     defaultValue={props.prev.day}
                     name = 'day'

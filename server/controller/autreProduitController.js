@@ -56,7 +56,7 @@ exports.getAutreProduit = catchAssynch ( async (req, res, next) =>
         status: 'success',
         data:{
             id: id,
-            month: dayData,
+            day: dayData,
             // bralima
         }
        
@@ -218,7 +218,7 @@ exports.pushDataAutreProduit = catchAssynch ( async (req, res, next) =>
 
                             bralima[o].suiviApprovisionnement.push ({
 
-                                annee: Number ( new Date().toLocaleDateString().slice(6)),
+                                annee: Number (new Date().getFullYear()),
                                 data:[{
                                     mois: Number ( new Date().toLocaleDateString().slice(3, 5)),
                                     data:[{
@@ -261,7 +261,7 @@ exports.pushDataAutreProduit = catchAssynch ( async (req, res, next) =>
                 //initialize the stats object and doing some calcul
                 const statsObj = 
                 {
-                    annee: Number ( new Date().toLocaleDateString().slice(6) ),
+                    annee: Number (new Date().getFullYear() ),
                     data:[{
                         name: o.name,
                         mois: Number ( new Date().toLocaleDateString().slice(3, 5) ),
@@ -282,7 +282,7 @@ exports.pushDataAutreProduit = catchAssynch ( async (req, res, next) =>
 
                         newBralimaData.suiviApprovisionnement.push({
 
-                            annee: Number ( new Date().toLocaleDateString().slice(6)),
+                            annee: Number (new Date().getFullYear()),
                             data: [{
 
                                 mois: Number ( new Date().toLocaleDateString().slice(3, 5)),
@@ -305,15 +305,58 @@ exports.pushDataAutreProduit = catchAssynch ( async (req, res, next) =>
             };
         };
 
-        res.status(200).json
-        (
+        const year = Number ( new Date().toLocaleDateString().slice (6));
+        const month = Number (new Date().toLocaleDateString().slice(3, 5));
+        const day = Number ( new Date().toLocaleDateString().slice(0, 2));
+
+        //add data to a new array for fast reading
+        let dayData = [];
+
+        //pushing id of every Product in a new array for just "delete" Option
+        const id = [];
+
+        //Reading of all data to filter it
+        for ( let i of bra )
+        {
+            for ( let j of i.dataBralima)
             {
-                status: 'success',
-                data: {
-                    dataBralima
-                }
+                //check if the year is true of false 
+                if ( j.annee === year)
+                {
+                    for ( let o of j.data)
+                    {
+                        //cheking of the month
+                        if (o.mois === month)
+                        {
+                            for (let p of o.data)
+                            {
+                                //cheking of the day
+                                if (  Number ( JSON.stringify (p.createdAt).slice(9, 11)) === day)
+                                {
+                                    //then push the product id in a array if there is a correspondance in (it's true every where)
+                                    id.push(i._id);
+                                    p.name = i.name;
+                                    dayData.push(p);
+                                };
+                            };
+                        };
+                    };
+                };
+            };
+
+            // doing the same thing to suivi appro
+            //check days, month, year...
+        };
+
+        // then the response ....
+        res.status (200).json({
+            status: 'success',
+            data:{
+                id: id,
+                day: dataBralima,
             }
-        );
+        
+        });
 
     } else {
         
@@ -337,7 +380,7 @@ exports.pushDataAutreProduit = catchAssynch ( async (req, res, next) =>
 
                     newBralimaData.suiviApprovisionnement.push({
 
-                        annee: Number ( new Date().toLocaleDateString().slice(6)),
+                        annee: Number (new Date().getFullYear()),
                         data: [{
                             
                             mois: Number ( new Date().toLocaleDateString().slice(3, 5)),
@@ -355,7 +398,7 @@ exports.pushDataAutreProduit = catchAssynch ( async (req, res, next) =>
             //initialize the stats object and doing some calcul
             const statsObj = 
             {
-                annee: Number ( new Date().toLocaleDateString().slice(6) ),
+                annee: Number (new Date().getFullYear() ),
                 data:[{
                     name: o.name,
                     mois: Number ( new Date().toLocaleDateString().slice(3, 5) ),
@@ -374,12 +417,58 @@ exports.pushDataAutreProduit = catchAssynch ( async (req, res, next) =>
             
         };
 
-        
-        res.status(201).json ({
-            status: "sucess",
+        //Get informartion from the query
+        const year = Number ( new Date().toLocaleDateString().slice (6));
+        const month = Number (new Date().toLocaleDateString().slice(3, 5));
+        const day = Number ( new Date().toLocaleDateString().slice(0, 2));
+
+        //add data to a new array for fast reading
+        let dayData = [];
+
+        //pushing id of every Product in a new array for just "delete" Option
+        const id = [];
+
+        //Reading of all data to filter it
+        for ( let i of createadData )
+        {
+            for ( let j of i.data)
+            {
+                //check if the year is true of false 
+                if ( j.annee === year)
+                {
+                    for ( let o of j.data)
+                    {
+                        //cheking of the month
+                        if (o.mois === month)
+                        {
+                            for (let p of o.data)
+                            {
+                                //cheking of the day
+                                if (  Number ( JSON.stringify (p.createdAt).slice(9, 11)) === day)
+                                {
+                                    //then push the product id in a array if there is a correspondance in (it's true every where)
+                                    id.push(i._id);
+                                    p.name = i.name;
+                                    dayData.push(p);
+                                };
+                            };
+                        };
+                    };
+                };
+            };
+
+            // doing the same thing to suivi appro
+            //check days, month, year...
+        };
+
+        // then the response ....
+        res.status (200).json({
+            status: 'success',
             data:{
-                createadData
+                id: id,
+                day: dayData,
             }
+        
         });
     };
 });

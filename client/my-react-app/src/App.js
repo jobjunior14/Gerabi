@@ -6,23 +6,28 @@ import { MonthMensRep } from './components/pages/rapMensuel/month';
 import { Bralima } from './components/Daily-Report/Bralima';
 import { MainNav } from './components/headers/outlet';
 import { ProductNav } from './components/headers/outlet';
+
 function App() {
   return ( 
+
     <BrowserRouter>
     <Routes>
       <Route path='/' element = {<MainNav/>}>
 
+
         <Route path='/rapportJournalier' element = {<ProductNav/>}>
-          <Route  path='bralima' index element = {<Bralima/>}/>
+          <Route  path={`bralima`} index element = {<Bralima/>}/>
           <Route path='brasimba' element = {<h1>Hey Brasimba</h1>}/>
           <Route path='autreProdut' element = {<h1>Hey Autre Produit</h1>}/>
           <Route path='liqueurs' element = {<h1> Hey liqueurs</h1>}/>
         </Route>
 
         <Route path='rapportMensuel' element = {<MensualRapHome/>}/>
+        
       </Route>
     </Routes>
     </BrowserRouter>
+
   );
 }
 
