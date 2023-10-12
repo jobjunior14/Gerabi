@@ -4,7 +4,7 @@ export function ExcelMain(props)
     
     return (
         <tr>
-            {
+            {props.readonly ? <td> { props.prev.name} </td> :
                 <td id = {props.prev.id} name = { `name${props.prev.id}`}>
                     <input 
                         defaultValue = { props.prev.name}
