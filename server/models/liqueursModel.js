@@ -142,7 +142,7 @@ const dataSchema = new mongoose.Schema({
     mois:
     {
         type: Number,
-        default: Number ( new Date().toLocaleDateString().slice(3, 5))
+        default: Number ( new Date().getMonth() + 1)
     },
     data:[arraySchema]
 })
@@ -150,7 +150,7 @@ const LiqueurSubSchema = new mongoose.Schema ({
     annee: 
     {
         type: Number,
-        default: Number (new Date().toLocaleDateString().slice(6))
+        default: Number (new Date().getFullYear())
     },
 
     data:[dataSchema]
@@ -266,7 +266,7 @@ const suiviSubSchema = new mongoose.Schema({
     mois:
     {
         type: Number,
-        default: Number ( new Date().toLocaleDateString().slice(3, 5))
+        default: Number ( new Date().getMonth() + 1)
     },
 
     data:[suivisubSubSchema]
@@ -276,7 +276,7 @@ const suiviApprovisonnemntSchema = new mongoose.Schema ({
     annee:
     {
         type: Number,
-        default: Number (new Date().toLocaleDateString().slice(6))
+        default: Number (new Date().getFullYear())
     },
     data:[suiviSubSchema]
 });

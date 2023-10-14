@@ -83,11 +83,11 @@ exports.pushDataBralima = catchAssynch ( async (req, res, next) =>
 
                 ///////////////////////////// stats For every data/////////////////////////////////////////
 
-                const yearindex =  await bralima[o].data.findIndex ( el => el.annee === Number (new Date().toLocaleDateString().slice(6)));
+                const yearindex =  await bralima[o].data.findIndex ( el => el.annee === Number (new Date().getFullYear()));
             
                 if ( yearindex !== -1)
                 {
-                    const monthindex = await bralima[o].data[yearindex].data.findIndex( el => el.mois === Number (new Date().toLocaleDateString().slice(3, 5)));
+                    const monthindex = await bralima[o].data[yearindex].data.findIndex( el => el.mois === Number (new Date().getMonth() + 1));
             
                     if ( monthindex !== -1)
                     {
@@ -98,7 +98,7 @@ exports.pushDataBralima = catchAssynch ( async (req, res, next) =>
                         bralima[o].data[yearindex].data.push
                         (
                             {
-                                "mois": Number ( new Date().toLocaleDateString().slice(3, 5) ),
+                                "mois": Number ( new Date().getMonth() + 1 ),
                                 "data":
                                 {
                                     "name": bralima[o].name,
@@ -234,7 +234,7 @@ exports.pushDataBralima = catchAssynch ( async (req, res, next) =>
                             "annee": Number ( new Date().toLocaleDateString().slice (6)),
                             "data": 
                             {
-                                "mois": Number ( new Date().toLocaleDateString().slice(3, 5) ),
+                                "mois": Number ( new Date().getMonth() + 1 ),
                                 "data":
                                 {
                                     "name": bralima[o].name,
@@ -705,7 +705,7 @@ exports.pushDataBralima = catchAssynch ( async (req, res, next) =>
 
                             bralima[o].suiviApprovisionnement[index1].data.push ({
                                 
-                                mois: Number (new Date().toLocaleDateString().slice(3, 5)),
+                                mois: Number (new Date().getMonth() + 1),
                                 data:[{
 
                                     name: bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data[bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data.length -1].suivi1.name ,
@@ -718,7 +718,7 @@ exports.pushDataBralima = catchAssynch ( async (req, res, next) =>
 
                             bralima[o].suiviApprovisionnement[index1].data.push ({
                                 
-                                mois: Number (new Date().toLocaleDateString().slice(3, 5)),
+                                mois: Number (new Date().getMonth() + 1),
                                 data:[{
 
                                     name: bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data[bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data.length -1].suivi2.name ,
@@ -731,7 +731,7 @@ exports.pushDataBralima = catchAssynch ( async (req, res, next) =>
 
                             bralima[o].suiviApprovisionnement[index1].data.push ({
                                 
-                                mois: Number (new Date().toLocaleDateString().slice(3, 5)),
+                                mois: Number (new Date().getMonth() + 1),
                                 data:[{
 
                                     name: bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data[bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data.length -1].suivi3.name ,
@@ -744,7 +744,7 @@ exports.pushDataBralima = catchAssynch ( async (req, res, next) =>
 
                             bralima[o].suiviApprovisionnement[index1].data.push ({
                                 
-                                mois: Number (new Date().toLocaleDateString().slice(3, 5)),
+                                mois: Number (new Date().getMonth() + 1),
                                 data:[{
 
                                     name: bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data[bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data.length -1].suivi4.name ,
@@ -757,7 +757,7 @@ exports.pushDataBralima = catchAssynch ( async (req, res, next) =>
 
                             bralima[o].suiviApprovisionnement[index1].data.push ({
                                 
-                                mois: Number (new Date().toLocaleDateString().slice(3, 5)),
+                                mois: Number (new Date().getMonth() + 1),
                                 data:[{
 
                                     name: bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data[bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data.length -1].suivi5.name ,
@@ -770,7 +770,7 @@ exports.pushDataBralima = catchAssynch ( async (req, res, next) =>
 
                             bralima[o].suiviApprovisionnement[index1].data.push ({
                                 
-                                mois: Number (new Date().toLocaleDateString().slice(3, 5)),
+                                mois: Number (new Date().getMonth() + 1),
                                 data:[{
 
                                     name: bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data[bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data.length -1].suivi6.name ,
@@ -783,7 +783,7 @@ exports.pushDataBralima = catchAssynch ( async (req, res, next) =>
 
                             bralima[o].suiviApprovisionnement[index1].data.push ({
                                 
-                                mois: Number (new Date().toLocaleDateString().slice(3, 5)),
+                                mois: Number (new Date().getMonth() + 1),
                                 data:[{
 
                                     name: bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data[bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data.length -1].suivi7.name ,
@@ -796,7 +796,7 @@ exports.pushDataBralima = catchAssynch ( async (req, res, next) =>
 
                             bralima[o].suiviApprovisionnement[index1].data.push ({
                                 
-                                mois: Number (new Date().toLocaleDateString().slice(3, 5)),
+                                mois: Number (new Date().getMonth() + 1),
                                 data:[{
 
                                     name: bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data[bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data.length -1].suivi8.name ,
@@ -809,7 +809,7 @@ exports.pushDataBralima = catchAssynch ( async (req, res, next) =>
 
                             bralima[o].suiviApprovisionnement[index1].data.push ({
                                 
-                                mois: Number (new Date().toLocaleDateString().slice(3, 5)),
+                                mois: Number (new Date().getMonth() + 1),
                                 data:[{
 
                                     name: bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data[bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data.length -1].suivi9.name ,
@@ -822,7 +822,7 @@ exports.pushDataBralima = catchAssynch ( async (req, res, next) =>
 
                             bralima[o].suiviApprovisionnement[index1].data.push ({
                                 
-                                mois: Number (new Date().toLocaleDateString().slice(3, 5)),
+                                mois: Number (new Date().getMonth() + 1),
                                 data:[{
 
                                     name: bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data[bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data.length -1].suivi10.name ,
@@ -835,7 +835,7 @@ exports.pushDataBralima = catchAssynch ( async (req, res, next) =>
 
                             bralima[o].suiviApprovisionnement[index1].data.push ({
                                 
-                                mois: Number (new Date().toLocaleDateString().slice(3, 5)),
+                                mois: Number (new Date().getMonth() + 1),
                                 data:[{
 
                                     name: bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data[bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data.length -1].suivi11.name ,
@@ -848,7 +848,7 @@ exports.pushDataBralima = catchAssynch ( async (req, res, next) =>
 
                             bralima[o].suiviApprovisionnement[index1].data.push ({
                                 
-                                mois: Number (new Date().toLocaleDateString().slice(3, 5)),
+                                mois: Number (new Date().getMonth() + 1),
                                 data:[{
 
                                     name: bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data[bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data.length -1].suivi12.name ,
@@ -861,7 +861,7 @@ exports.pushDataBralima = catchAssynch ( async (req, res, next) =>
 
                             bralima[o].suiviApprovisionnement[index1].data.push ({
                                 
-                                mois: Number (new Date().toLocaleDateString().slice(3, 5)),
+                                mois: Number (new Date().getMonth() + 1),
                                 data:[{
 
                                     name: bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data[bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data.length -1].suivi13.name ,
@@ -874,7 +874,7 @@ exports.pushDataBralima = catchAssynch ( async (req, res, next) =>
 
                             bralima[o].suiviApprovisionnement[index1].data.push ({
                                 
-                                mois: Number (new Date().toLocaleDateString().slice(3, 5)),
+                                mois: Number (new Date().getMonth() + 1),
                                 data:[{
 
                                     name: bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data[bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data.length -1].suivi14.name ,
@@ -907,7 +907,7 @@ exports.pushDataBralima = catchAssynch ( async (req, res, next) =>
                                 
                                 annee: Number (new Date().toLocalDateString().slice(6)),
                                 data:[{
-                                    mois: Number (new Date().toLocaleDateString().slice(3, 5)),
+                                    mois: Number (new Date().getMonth() + 1),
                                     data:[{
 
                                         name: bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data[bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data.length -1].suivi1.name ,
@@ -923,7 +923,7 @@ exports.pushDataBralima = catchAssynch ( async (req, res, next) =>
                                 
                                 annee: Number (new Date().toLocalDateString().slice(6)),
                                 data:[{
-                                    mois: Number (new Date().toLocaleDateString().slice(3, 5)),
+                                    mois: Number (new Date().getMonth() + 1),
                                     data:[{
 
                                         name: bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data[bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data.length -1].suivi2.name ,
@@ -939,7 +939,7 @@ exports.pushDataBralima = catchAssynch ( async (req, res, next) =>
                                 
                                 annee: Number (new Date().toLocalDateString().slice(6)),
                                 data:[{
-                                    mois: Number (new Date().toLocaleDateString().slice(3, 5)),
+                                    mois: Number (new Date().getMonth() + 1),
                                     data:[{
 
                                         name: bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data[bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data.length -1].suivi3.name ,
@@ -955,7 +955,7 @@ exports.pushDataBralima = catchAssynch ( async (req, res, next) =>
                                 
                                 annee: Number (new Date().toLocalDateString().slice(6)),
                                 data:[{
-                                    mois: Number (new Date().toLocaleDateString().slice(3, 5)),
+                                    mois: Number (new Date().getMonth() + 1),
                                     data:[{
 
                                         name: bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data[bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data.length -1].suivi4.name ,
@@ -971,7 +971,7 @@ exports.pushDataBralima = catchAssynch ( async (req, res, next) =>
                                 
                                 annee: Number (new Date().toLocalDateString().slice(6)),
                                 data:[{
-                                    mois: Number (new Date().toLocaleDateString().slice(3, 5)),
+                                    mois: Number (new Date().getMonth() + 1),
                                     data:[{
 
                                         name: bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data[bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data.length -1].suivi5.name ,
@@ -987,7 +987,7 @@ exports.pushDataBralima = catchAssynch ( async (req, res, next) =>
                                 
                                 annee: Number (new Date().toLocalDateString().slice(6)),
                                 data:[{
-                                    mois: Number (new Date().toLocaleDateString().slice(3, 5)),
+                                    mois: Number (new Date().getMonth() + 1),
                                     data:[{
 
                                         name: bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data[bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data.length -1].suivi6.name ,
@@ -1003,7 +1003,7 @@ exports.pushDataBralima = catchAssynch ( async (req, res, next) =>
                                 
                                 annee: Number (new Date().toLocalDateString().slice(6)),
                                 data:[{
-                                    mois: Number (new Date().toLocaleDateString().slice(3, 5)),
+                                    mois: Number (new Date().getMonth() + 1),
                                     data:[{
 
                                         name: bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data[bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data.length -1].suivi7.name ,
@@ -1019,7 +1019,7 @@ exports.pushDataBralima = catchAssynch ( async (req, res, next) =>
                                 
                                 annee: Number (new Date().toLocalDateString().slice(6)),
                                 data:[{
-                                    mois: Number (new Date().toLocaleDateString().slice(3, 5)),
+                                    mois: Number (new Date().getMonth() + 1),
                                     data:[{
 
                                         name: bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data[bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data.length -1].suivi8.name ,
@@ -1035,7 +1035,7 @@ exports.pushDataBralima = catchAssynch ( async (req, res, next) =>
                                 
                                 annee: Number (new Date().toLocalDateString().slice(6)),
                                 data:[{
-                                    mois: Number (new Date().toLocaleDateString().slice(3, 5)),
+                                    mois: Number (new Date().getMonth() + 1),
                                     data:[{
 
                                         name: bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data[bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data.length -1].suivi9.name ,
@@ -1051,7 +1051,7 @@ exports.pushDataBralima = catchAssynch ( async (req, res, next) =>
                                 
                                 annee: Number (new Date().toLocalDateString().slice(6)),
                                 data:[{
-                                    mois: Number (new Date().toLocaleDateString().slice(3, 5)),
+                                    mois: Number (new Date().getMonth() + 1),
                                     data:[{
 
                                         name: bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data[bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data.length -1].suivi10.name ,
@@ -1067,7 +1067,7 @@ exports.pushDataBralima = catchAssynch ( async (req, res, next) =>
                                 
                                 annee: Number (new Date().toLocalDateString().slice(6)),
                                 data:[{
-                                    mois: Number (new Date().toLocaleDateString().slice(3, 5)),
+                                    mois: Number (new Date().getMonth() + 1),
                                     data:[{
 
                                         name: bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data[bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data.length -1].suivi11.name ,
@@ -1083,7 +1083,7 @@ exports.pushDataBralima = catchAssynch ( async (req, res, next) =>
                                 
                                 annee: Number (new Date().toLocalDateString().slice(6)),
                                 data:[{
-                                    mois: Number (new Date().toLocaleDateString().slice(3, 5)),
+                                    mois: Number (new Date().getMonth() + 1),
                                     data:[{
 
                                         name: bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data[bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data.length -1].suivi12.name,
@@ -1099,7 +1099,7 @@ exports.pushDataBralima = catchAssynch ( async (req, res, next) =>
                                 
                                 annee: Number (new Date().toLocalDateString().slice(6)),
                                 data:[{
-                                    mois: Number (new Date().toLocaleDateString().slice(3, 5)),
+                                    mois: Number (new Date().getMonth() + 1),
                                     data:[{
 
                                         name: bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data[bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data.length -1].suivi13.name,
@@ -1115,7 +1115,7 @@ exports.pushDataBralima = catchAssynch ( async (req, res, next) =>
                                 
                                 annee: Number (new Date().toLocalDateString().slice(6)),
                                 data:[{
-                                    mois: Number (new Date().toLocaleDateString().slice(3, 5)),
+                                    mois: Number (new Date().getMonth() + 1),
                                     data:[{
 
                                         name: bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data[bralima[o].data[bralima[o].data.length - 1].data[bralima[o].data[bralima[o].data.length - 1].data.length -1].data.length -1].suivi14.name ,
@@ -1152,10 +1152,10 @@ exports.pushDataBralima = catchAssynch ( async (req, res, next) =>
                 //initialize the stats object and doing some calcul
                 const statsObj = 
                 {
-                    annee: Number ( new Date().toLocaleDateString().slice(6) ),
+                    annee: Number ( new Date().getFullYear() ),
                     data:[{
                         name: o.name,
-                        mois: Number ( new Date().toLocaleDateString().slice(3, 5) ),
+                        mois: Number ( new Date().getMonth() + 1 ),
                         
                         //working with the last data created in this product
                         vente_bar: Number (newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].vente_journaliere.valeur),
@@ -1713,10 +1713,10 @@ exports.pushDataBralima = catchAssynch ( async (req, res, next) =>
             //initialize the stats object and doing some calcul
             const statsObj = 
             {
-                annee: Number ( new Date().toLocaleDateString().slice(6) ),
+                annee: Number ( new Date().getFullYear() ),
                 data:[{
                     name: o.name,
-                    mois: Number ( new Date().toLocaleDateString().slice(3, 5) ),
+                    mois: Number ( new Date().getMonth() + 1 ),
                     
                     //working with the last data created in this product
                     vente_bar: Number (newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data[newBralimaData.data[newBralimaData.data.length - 1].data[newBralimaData.data[newBralimaData.data.length - 1].data.length -1].data.length -1].vente_journaliere.valeur),

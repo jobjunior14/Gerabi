@@ -22,7 +22,7 @@ export function ExcelMain(props)
             }
 
             {
-                <td id = {props.prev.id} name = { `qt_caisse${props.prev.id}`}>
+                <td>
                     <input 
                         defaultValue = { props.prev.achat_journalier.qt_caisse}
                         id = { props.prev.id }
@@ -40,7 +40,7 @@ export function ExcelMain(props)
             }
 
             {
-                <td id = {props.prev.id} name = { `nbr_btll${props.prev.id}`}>
+                <td>
                     <input 
                         defaultValue = { props.prev.achat_journalier.nbr_btll}
                         id = { props.prev.id }
@@ -57,10 +57,10 @@ export function ExcelMain(props)
                 </td>
             }
 
-            { !props.toggle && <td id = {props.prev.id} name = { `qt_btll${props.prev.id}`}> { props.prev.achat_journalier.qt_btll} </td> }
+            { !props.toggle && <td> { props.prev.achat_journalier.qt_btll} </td> }
 
             {
-                <td id = {props.prev.id} name = { `prix_achat_gros${props.prev.id}`}>
+                <td>
                     <input 
                         defaultValue = { props.prev.achat_journalier.prix_achat_gros}
                         id = { props.prev.id }
@@ -77,16 +77,16 @@ export function ExcelMain(props)
                 </td>
             }
 
-            { !props.toggle && <td id = {props.prev.id} name = { `val_gros_approvisionnement${props.prev.id}`}> { props.prev.benefice_sur_achat.val_gros_approvisionnement} </td> }
+            { !props.toggle && <td> { props.prev.benefice_sur_achat.val_gros_approvisionnement} </td> }
 
-            { !props.toggle && <td id = {props.prev.id} name = { `val_det${props.prev.id}`}> { props.prev.benefice_sur_achat.val_det} </td> }
+            { !props.toggle && <td> { props.prev.benefice_sur_achat.val_det} </td> }
 
-            { !props.toggle && <td id = {props.prev.id} name = { `benefice${props.prev.id}`}> { props.prev.benefice_sur_achat.benefice} </td> }
+            { !props.toggle && <td> { props.prev.benefice_sur_achat.benefice} </td> }
 
-            { !props.toggle && <td id = {props.prev.id} name = { `stock_gen${props.prev.id}`}> { props.prev.business_projection.stock_gen} </td> }
+            { !props.toggle && <td> { props.prev.business_projection.stock_gen} </td> }
             
             {
-                <td id = {props.prev.id} name = { `stock_gen${props.prev.id}`}>
+                <td>
                     <input 
                         defaultValue = { props.prev.business_projection.sortie_cave}
                         id = { props.prev.id }
@@ -103,18 +103,18 @@ export function ExcelMain(props)
                 </td>
             }
 
-            { !props.toggle && <td id = {props.prev.id} name = { `stock_gen${props.prev.id}`}> { props.prev.business_projection.stock_dego} </td> }
+            { !props.toggle && <td> { props.prev.business_projection.stock_dego} </td> }
                    
-            { !props.toggle && <td id = {props.prev.id} name = { `val_stock_det${props.prev.id}`}> { props.prev.business_projection.val_stock_det} </td> }
+            { !props.toggle && <td> { props.prev.business_projection.val_stock_det} </td> }
 
-            { !props.toggle && <td id = {props.prev.id} name = { `ref_prix_gros${props.prev.id}`}> { props.prev.business_projection.ref_prix_gros} </td> }
+            { !props.toggle && <td> { props.prev.business_projection.ref_prix_gros} </td> }
 
-            { !props.toggle && <td id = {props.prev.id} name = { `val_stock_gros${props.prev.id}`}> { props.prev.business_projection.val_stock_gros} </td> }
+            { !props.toggle && <td> { props.prev.business_projection.val_stock_gros} </td> }
 
-            { !props.toggle && <td id = {props.prev.id} name = { `business_projection${props.prev.id}`}> { props.prev.business_projection.marge_beneficiaire} </td> }
+            { !props.toggle && <td> { props.prev.business_projection.marge_beneficiaire} </td> }
 
             {
-                <td id = {props.prev.id} name = { `ref_prix_det${props.prev.id}`}>
+                <td>
                     <input 
                         defaultValue = { props.prev.vente_journaliere.ref_prix_det}
                         id = { props.prev.id }
@@ -131,14 +131,14 @@ export function ExcelMain(props)
                 </td>
             }
 
-            { !props.toggle && <td id = {props.prev.id} name = { `qt_vendue_comptoir${props.prev.id}`}> { props.prev.vente_journaliere.qt_vendue_comptoir} </td> }
+            { !props.toggle && <td> { props.prev.vente_journaliere.qt_vendue_comptoir} </td> }
 
-            { !props.toggle && <td id = {props.prev.id} name = { `valeur${props.prev.id}`}> { props.prev.vente_journaliere.valeur} </td> }
+            { !props.toggle && <td> { props.prev.vente_journaliere.valeur} </td> }
 
-            { !props.toggle && <td id = {props.prev.id} name = { `benefice_sur_vente${props.prev.id}`}>  {props.prev.benefice_sur_vente} </td> }
+            { !props.toggle && <td>  {props.prev.benefice_sur_vente} </td> }
                 
             {
-                <td id = {props.prev.id} name = { `qt${props.prev.id}`}>
+                <td>
                     <input 
                         defaultValue = { props.prev.stock_consignaions.qt}
                         id = { props.prev.id }
@@ -155,10 +155,10 @@ export function ExcelMain(props)
                 </td>
             }
 
-            { !props.toggle && <td id = {props.prev.id} name = { `valeur${props.prev.id}`}> { props.prev.stock_consignaions.valeur} </td> }
+            { !props.toggle && <td> { props.prev.stock_consignaions.valeur} </td> }
 
-            { !props.toggle &&
-                <td id = {props.prev.id} name = { `valeur${props.prev.id}`}>
+            {
+                <td>
                     <input 
                         defaultValue = { props.prev.val_precedente.stock_apres_ventente_rest_stock_comptoir_qt_btll}
                         id = { props.prev.id }
@@ -175,8 +175,8 @@ export function ExcelMain(props)
                 </td> 
             }
 
-            { !props.toggle &&
-                <td id = {props.prev.id} name = { `valeur${props.prev.id}`}>
+            {
+                <td>
                     <input 
                         defaultValue = { props.prev.val_precedente.stock_apres_ventente_rest_stock_depot_qt_btll}
                         id = { props.prev.id }
@@ -195,7 +195,7 @@ export function ExcelMain(props)
             <tr>
                     
                 {
-                    <td id = {props.prev.id} name = { `qt_btll${props.prev.id}`}>
+                    <td >
                         <input 
                             defaultValue = { props.prev.stock_apres_vente.reste_stock_comptoir.qt_btll}
                             id = { props.prev.id }
@@ -211,10 +211,10 @@ export function ExcelMain(props)
                     </td>
                 }
 
-                { !props.toggle && <td id = {props.prev.id} name = { `valeur${props.prev.id}`}>  { props.prev.stock_apres_vente.reste_stock_comptoir.valeur} </td> }
+                { !props.toggle && <td>  { props.prev.stock_apres_vente.reste_stock_comptoir.valeur} </td> }
 
                 {
-                    <td id = {props.prev.id} name = { `valeur${props.prev.id}`}>
+                    <td>
                         <input 
                             defaultValue = { props.prev.stock_apres_vente.reste_stock_depot.qt_caisses}
                             id = { props.prev.id }
@@ -231,11 +231,11 @@ export function ExcelMain(props)
                     </td>
                 }
 
-                { !props.toggle && <td id = {props.prev.id} name = { `valeur${props.prev.id}`}> { props.prev.stock_apres_vente.reste_stock_depot.qt_btll} </td> }
+                { !props.toggle && <td> { props.prev.stock_apres_vente.reste_stock_depot.qt_btll} </td> }
 
-                { !props.toggle && <td id = {props.prev.id} name = { `valeur${props.prev.id}`}> { props.prev.stock_apres_vente.reste_stock_depot.valeur} </td> }
+                { !props.toggle && <td> { props.prev.stock_apres_vente.reste_stock_depot.valeur} </td> }
 
-                { !props.toggle && <td id = {props.prev.id} name = { `valeur${props.prev.id}`}> { props.prev.stock_apres_vente.valeur_stock} </td> }
+                { !props.toggle && <td> { props.prev.stock_apres_vente.valeur_stock} </td> }
 
             </tr>    
            
