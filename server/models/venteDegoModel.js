@@ -1,13 +1,14 @@
 const mongoose = require("mongoose");
 
-const valeurSchema = new mongoose.Schema({
+const dayData = new mongoose.Schema({
   valeur: {
-    trype: Number,
-    require: [true, "vous devez mettre les ventes journailere"],
-    createdAt: {
-      type: Date,
-      default: Date.now(),
-    },
+    type: Number,
+    require: [true, "must have a value"],
+  },
+
+  createdAt: {
+    type: Date,
+    default: Date.now(),
   },
 });
 
@@ -16,19 +17,19 @@ const monthData = new mongoose.Schema({
     type: Number,
     default: Number(new Date().getMonth() + 1),
   },
-  data: [valeurSchema],
-});
 
+  data: [dayData],
+});
 const yearData = new mongoose.Schema({
   annee: {
     type: Number,
-    default: Number(new Date().getFullYear),
+    default: Number(new Date().getFullYear()),
   },
 
   data: [monthData],
 });
 
-mongoose.set("strictQuery", false);
+// mongoose.set("strictQuery", false);
 
 const VenteDego = mongoose.model("ventedego", yearData);
 

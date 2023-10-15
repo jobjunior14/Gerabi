@@ -29,6 +29,10 @@ export function Bralima() {
   //date query
   const [dateParams, setDateParams] = useSearchParams();
 
+  //vente degobar
+
+  const [venteDego, setVenteDego] = useState(null);
+
   //to check today's date
   const todayYear = Number(new Date().getFullYear());
   const todayMonth = Number(new Date().getMonth() + 1);
@@ -50,26 +54,29 @@ export function Bralima() {
   useEffect(() => {
     const fecthData = async () => {
       try {
+
         if (year < todayYear || month < todayMonth || day < todayDay) {
+
           setBralimadata(null);
 
-          const dataApi = await axios.get(
-            `http://localhost:5001/api/v1/raportJournalier/autreProduit/${year}/${month}/${day}`
-          );
+          const dataApi = await axios.get( `http://localhost:5001/api/v1/raportJournalier/autreProduit/${year}/${month}/${day}`);
+
+          const dataVente = await axios.get (`http://localhost:5001/api/v1/vente/${year}/${month}/${day}`);
+
+          setVenteDego (dataVente.data.data.day.valeur);
 
           setBralimadata(
             dataApi.data.data.day.map((el, index) => {
-              return { ...el, id: index };
-            })
+
+              return { ...el, id: index };})
           );
+          
           setId(dataApi.data.data.id);
           setUpdate(true);
           setReadOnly(true);
-        } else if (
-          year === todayYear &&
-          month === todayMonth &&
-          day === todayDay
-        ) {
+
+        } else if ( year === todayYear && month === todayMonth && day === todayDay ) {
+
           setBralimadata(null);
 
           //algo to get the previous day
@@ -90,11 +97,19 @@ export function Bralima() {
             `http://localhost:5001/api/v1/raportJournalier/autreProduit/${prevYear}/${prevMonth}/${prevDay}`
           );
 
+          const dataVente = await axios.get (`http://localhost:5001/api/v1/vente/${todayYear}/${todayMonth}/${todayDay}`);
+
+          //set data vente dego
+
+          
           if (dataApi.data.data.day.length === 0) {
+            
             setUpdate(false);
             setReadOnly(false);
-
+            setVenteDego (0);
+            
             if (previousData.data.data.day.length > 0) {
+
               setBralimadata(
                 previousData.data.data.day.map((el, index) => {
                   return {
@@ -232,6 +247,7 @@ export function Bralima() {
                   };
                 })
               );
+
             } else {
               setBralimadata(
                 dataApi.data.data.day.map((el, index) => {
@@ -241,11 +257,13 @@ export function Bralima() {
               setId(dataApi.data.data.id);
             }
           } else {
+
+            setVenteDego(dataVente.data.data.day.valeur);
             setBralimadata(
-              dataApi.data.data.day.map((el, index) => {
-                return { ...el, id: index };
-              })
+
+              dataApi.data.data.day.map((el, index) => { return { ...el, id: index }; })
             );
+            
             setId(dataApi.data.data.id);
             setUpdate(true);
             setReadOnly(true);
@@ -265,14 +283,14 @@ export function Bralima() {
   ///toggle btn to hide useless calcul in stock
   function toggleBtn() {
     setToggleStoc(toggleStoc ? false : true);
-  }
+  };
 
   //display more providers
   function AddProviders() {
     if (providers <= 14) {
       setProviders(++providers);
     }
-  }
+  };
 
   //manage states in stock
   function handleFormInStock(id, name, value, modvalue, objectvalue) {
@@ -301,7 +319,7 @@ export function Bralima() {
         });
       }
     });
-  }
+  };
 
   //manage input's forms in suiviApp(data)
   function handleTdFormInSuivi(id, name, value, path) {
@@ -313,7 +331,7 @@ export function Bralima() {
           : data;
       });
     });
-  }
+  };
 
   //manage input's forms in suiviApp (Just Table headers ) there is no ID to verify coz th must change in every element of array
   function handleThFormInSuivi(name, value) {
@@ -322,11 +340,18 @@ export function Bralima() {
         return { ...data, [name]: { ...data[name], name: value } };
       });
     });
-  }
+  };
+
+  function handleFormVenteDego(value){
+
+    setVenteDego(prev => prev = value);
+    
+  };
 
   //post data or UpdateData
   function postData() {
     const fecthData = async () => {
+
       const newBralimaData = await bralimaData.map((el) => {
         return {
           name: el.name,
@@ -338,19 +363,21 @@ export function Bralima() {
         };
       });
 
+      const newDataVente = {
+        valeur: venteDego,
+      }
+
       setBralimadata(null);
       try {
-        const response = await axios.post(
-          "http://localhost:5001/api/v1/raportJournalier/autreProduit",
-          newBralimaData
-        );
+        const response = await axios.post( "http://localhost:5001/api/v1/raportJournalier/autreProduit", newBralimaData);
+        const responseventeDego = await axios.post( "http://localhost:5001/api/v1/vente", newDataVente);
+
         setUpdate(true);
         setReadOnly(true);
 
+        setVenteDego(responseventeDego.data.data.day.valeur);
         setBralimadata(
-          response.data.data.day.map((el, index) => {
-            return { ...el, id: index };
-          })
+          response.data.data.day.map((el, index) => { return { ...el, id: index }; })
         );
       } catch (err) {
         if (err.message) {
@@ -361,7 +388,7 @@ export function Bralima() {
       }
     };
     fecthData();
-  }
+  };
 
   //add a new product (push to a arry)
   function addProduct() {
@@ -496,21 +523,22 @@ export function Bralima() {
         },
       },
     ]);
-  }
+  };
 
   function setFilterParams() {
     setDateParams(date);
     setBralimadata(null);
-  }
+  };
 
   function changeFilter(name, value) {
     setDate((prev) => {
       return { ...prev, [name]: value };
     });
-  }
+  };
 
   function UpdateData() {
     const fecthData = async () => {
+
       const newData = await bralimaData.map((el) => {
         return {
           name: el.name,
@@ -526,13 +554,22 @@ export function Bralima() {
       });
 
       const newData2 = { id: [...id], data: [...newData] };
+
+      const newDataVente = {
+
+        valeur: venteDego,
+        createdAt: `${year}-${month}-${day}T07:22:54.930Z`,
+      }
       setBralimadata(null);
 
       try {
-        const response = await axios.post(
-          `http://localhost:5001/api/v1/raportJournalier/autreProduit/${year}/${month}/${day}`,
-          newData2
-        );
+
+        //response of our main array
+        const response = await axios.post( `http://localhost:5001/api/v1/raportJournalier/autreProduit/${year}/${month}/${day}`, newData2 );
+
+        const venteDegoResponse = await axios.post( `http://localhost:5001/api/v1/vente/${year}/${month}/${day}`, newDataVente );
+
+        setVenteDego(venteDegoResponse.data.data.day.valeur);
 
         setBralimadata(
           response.data.data.day.map((el, index) => {
@@ -542,14 +579,14 @@ export function Bralima() {
         setId(response.data.data.id);
       } catch (err) {
         if (err.message) {
-          console.log(err.data);
+          console.log(err);
         } else {
           console.log(err);
         }
       }
     };
     fecthData();
-  }
+  };
 
   let displayDataMainExcel = null;
   let displayTdSuivi = null;
@@ -564,7 +601,7 @@ export function Bralima() {
         />
       );
     });
-
+  
     displayDataMainExcel = bralimaData.map((prev) => {
       return (
         <ExcelMain
@@ -576,10 +613,12 @@ export function Bralima() {
         />
       );
     });
-  }
 
+  };
+  
   if (bralimaData) {
     if (bralimaData.length > 0) {
+
       return (
         <div>
           <DailyFilter
@@ -587,10 +626,16 @@ export function Bralima() {
             onclick={setFilterParams}
             onchange={changeFilter}
           />
+
+          <label>Vente Journalière Dego</label>
+          <input type="number" name="vente" onChange={ e => handleFormVenteDego (e.target.value)} placeholder="Vente Journalière Dego" defaultValue={venteDego}/>
+
           <ExcelSecLayout toggle={toggleStoc} data={displayDataMainExcel} />
+
           <button onClick={toggleBtn}>
             {!toggleStoc ? "Cacher" : "Afficher"}
           </button>
+
           {!update && (
             <button onClick={addProduct}> Ajouter un Product </button>
           )}
@@ -604,6 +649,7 @@ export function Bralima() {
             data={bralimaData}
             changeTh={handleThFormInSuivi}
           />
+
           <button onClick={AddProviders}>
             {!update
               ? "Afficher Ou Ajouter un Fournisseur"
@@ -615,6 +661,7 @@ export function Bralima() {
           ) : (
             <button onClick={UpdateData}> Mettre à jour les données</button>
           )}
+
         </div>
       );
     } else {
@@ -626,7 +673,9 @@ export function Bralima() {
               onclick={setFilterParams}
               onchange={changeFilter}
             />
+
             <button onClick={addProduct}> Ajouter un produit</button>
+
           </div>
         );
       } else {

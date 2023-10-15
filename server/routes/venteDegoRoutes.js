@@ -8,13 +8,10 @@ const {
   monthStatsVente,
 } = require("../controller/venteDegoController");
 
-router.route("/journaliere").post(pushDataVente);
+router.route("/").post(pushDataVente);
 
-router
-  .route("/journaliere/:year/:month/:day")
-  .get(getVenteDego)
-  .post(updatevente);
+router.route("/:year/:month/:day").get(getVenteDego).post(updatevente);
 
-router.route("/mensuel/:year/:month").get(monthStatsVente);
+router.route("/:year/:month").get(monthStatsVente);
 
 module.exports = router;
