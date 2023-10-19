@@ -1,6 +1,7 @@
 const AppError = require(`${__dirname}/../utils/appError.js`);
 const AutreProduit = require(`${__dirname}/../models/autreProduitModel.js`);
 const catchAssynch = require(`${__dirname}/../utils/catchAssynch.js`);
+const {getCollection, pushDataCollection } =  require ("./mainfuction.js");
 
 function loopingData(array, year, month, day) {
   let dayData = [];
@@ -33,17 +34,13 @@ function loopingData(array, year, month, day) {
 
 exports.getAutreProduit = catchAssynch(async (req, res, next) => {
   //we didn't work with stats data coz front don't need it daily
-  let bralima = await AutreProduit.find();
+  const bralima = await AutreProduit.find();
 
   res.status(200).json({
     status: "success",
-    data: loopingData(
-      bralima,
-      Number(req.params.year),
-      Number(req.params.month),
-      Number(req.params.day)
-    ),
+    data: getCollection ( Number(req.params.year), Number(req.params.month),  Number(req.params.day), bralima)
   });
+
 });
 
 exports.pushDataAutreProduit = catchAssynch(async (req, res, next) => {
@@ -53,599 +50,600 @@ exports.pushDataAutreProduit = catchAssynch(async (req, res, next) => {
   const dataBralima = [];
 
   if (bralima.length > 0) {
-    for (let o = 0; o < req.body.length; o++) {
-      //have to check if new data was adding or not by checking the name
-      if (bralima[o].name.toUpperCase() === req.body[o].name.toUpperCase()) {
-        ///////////////////////////// stats For every data/////////////////////////////////////////
+    // for (let o = 0; o < req.body.length; o++) {
+    //   //have to check if new data was adding or not by checking the name
+    //   if (bralima[o].name.toUpperCase() === req.body[o].name.toUpperCase()) {
+    //     ///////////////////////////// stats For every data/////////////////////////////////////////
 
-        const yearindex = await bralima[o].data.findIndex(
-          (el) => el.annee === Number(new Date().getFullYear())
-        );
+    //     const yearindex = await bralima[o].data.findIndex(
+    //       (el) => el.annee === Number(new Date().getFullYear())
+    //     );
 
-        if (yearindex !== -1) {
-          const monthindex = await bralima[o].data[yearindex].data.findIndex(
-            (el) => el.mois === Number(new Date().getMonth() + 1)
-          );
+    //     if (yearindex !== -1) {
+    //       const monthindex = await bralima[o].data[yearindex].data.findIndex(
+    //         (el) => el.mois === Number(new Date().getMonth() + 1)
+    //       );
 
-          if (monthindex !== -1) {
-            //verify if the data exist or not coz we cant push many data with the same day information
-            const dayIndex = await bralima[o].data[yearindex].data[
-              monthindex
-            ].data.findIndex(
-              (el) =>
-                Number(JSON.stringify(el.createdAt).slice(9, 11)) ===
-                Number(new Date().getDate())
-            );
+    //       if (monthindex !== -1) {
+    //         //verify if the data exist or not coz we cant push many data with the same day information
+    //         const dayIndex = await bralima[o].data[yearindex].data[
+    //           monthindex
+    //         ].data.findIndex(
+    //           (el) =>
+    //             Number(JSON.stringify(el.createdAt).slice(9, 11)) ===
+    //             Number(new Date().getDate())
+    //         );
 
-            if (dayIndex === -1) {
-              bralima[o].data[yearindex].data[monthindex].data.push(
-                req.body[o].data.data.data
-              );
-            }
-          } else {
-            bralima[o].data[yearindex].data.push({
-              mois: Number(new Date().getMonth() + 1),
-              data: { ...req.body[o].data.data.data, name: bralima[o].name },
-            });
-          }
-        } else {
-          bralima[o].data.push({
-            annee: Number(new Date().getFullYear()),
-            data: {
-              mois: Number(new Date().getMonth() + 1),
-              data: { ...req.body[o].data.data.data, name: bralima[o].name },
-            },
-          });
-        }
+    //         if (dayIndex === -1) {
+    //           bralima[o].data[yearindex].data[monthindex].data.push(
+    //             req.body[o].data.data.data
+    //           );
+    //         }
+    //       } else {
+    //         bralima[o].data[yearindex].data.push({
+    //           mois: Number(new Date().getMonth() + 1),
+    //           data: { ...req.body[o].data.data.data, name: bralima[o].name },
+    //         });
+    //       }
+    //     } else {
+    //       bralima[o].data.push({
+    //         annee: Number(new Date().getFullYear()),
+    //         data: {
+    //           mois: Number(new Date().getMonth() + 1),
+    //           data: { ...req.body[o].data.data.data, name: bralima[o].name },
+    //         },
+    //       });
+    //     }
 
-        //saving the data in the server so we can work with the new data ///////////////////////////
-        await bralima[o].save();
+    //     //saving the data in the server so we can work with the new data ///////////////////////////
+    //     await bralima[o].save();
 
-        const index1 = await bralima[o].stats.findIndex(
-          (el) => el.annee === Number(new Date().getFullYear())
-        );
+    //     const index1 = await bralima[o].stats.findIndex(
+    //       (el) => el.annee === Number(new Date().getFullYear())
+    //     );
 
-        ///Statistics
-        if (index1 !== -1) {
-          const index2 = await bralima[o].stats[index1].data.findIndex(
-            (el) =>
-              el.mois === Number(new Date().toLocaleDateString().slice(3, 5))
-          );
+    //     ///Statistics
+    //     if (index1 !== -1) {
+    //       const index2 = await bralima[o].stats[index1].data.findIndex(
+    //         (el) =>
+    //           el.mois === Number(new Date().toLocaleDateString().slice(3, 5))
+    //       );
 
-          if (index2 !== -1) {
-            ////////////searching suivi's index data /////////////////////
+    //       if (index2 !== -1) {
+    //         ////////////searching suivi's index data /////////////////////
 
-            for (let i = 1; i <= 14; i++) {
-              if (
-                bralima[o].data[bralima[o].data.length - 1].data[
-                  bralima[o].data[bralima[o].data.length - 1].data.length - 1
-                ].data[
-                  bralima[o].data[bralima[o].data.length - 1].data[
-                    bralima[o].data[bralima[o].data.length - 1].data.length - 1
-                  ].data.length - 1
-                ][`suivi${i}`]["name"] !== ""
-              ) {
-                const indexDataSuivi1 = await bralima[o].suiviApprovisionnement[
-                  index1
-                ].data[index2].data.findIndex(
-                  (el) =>
-                    el.name.toUpperCase() ===
-                    bralima[o].data[bralima[o].data.length - 1].data[
-                      bralima[o].data[bralima[o].data.length - 1].data.length -
-                        1
-                    ].data[
-                      bralima[o].data[bralima[o].data.length - 1].data[
-                        bralima[o].data[bralima[o].data.length - 1].data
-                          .length - 1
-                      ].data.length - 1
-                    ][`suivi${i}`]["name"].toUpperCase()
-                );
+    //         for (let i = 1; i <= 14; i++) {
+    //           if (
+    //             bralima[o].data[bralima[o].data.length - 1].data[
+    //               bralima[o].data[bralima[o].data.length - 1].data.length - 1
+    //             ].data[
+    //               bralima[o].data[bralima[o].data.length - 1].data[
+    //                 bralima[o].data[bralima[o].data.length - 1].data.length - 1
+    //               ].data.length - 1
+    //             ][`suivi${i}`]["name"] !== ""
+    //           ) {
+    //             const indexDataSuivi1 = await bralima[o].suiviApprovisionnement[
+    //               index1
+    //             ].data[index2].data.findIndex(
+    //               (el) =>
+    //                 el.name.toUpperCase() ===
+    //                 bralima[o].data[bralima[o].data.length - 1].data[
+    //                   bralima[o].data[bralima[o].data.length - 1].data.length -
+    //                     1
+    //                 ].data[
+    //                   bralima[o].data[bralima[o].data.length - 1].data[
+    //                     bralima[o].data[bralima[o].data.length - 1].data
+    //                       .length - 1
+    //                   ].data.length - 1
+    //                 ][`suivi${i}`]["name"].toUpperCase()
+    //             );
 
-                if (indexDataSuivi1 !== -1) {
-                  bralima[o].suiviApprovisionnement[index1].data[index2].data[
-                    indexDataSuivi1
-                  ] = {
-                    name: bralima[o].suiviApprovisionnement[index1].data[index2]
-                      .data[indexDataSuivi1].name,
-                    valeur:
-                      Number(
-                        bralima[o].suiviApprovisionnement[index1].data[index2]
-                          .data[indexDataSuivi1].valeur
-                      ) +
-                      Number(
-                        bralima[o].data[bralima[o].data.length - 1].data[
-                          bralima[o].data[bralima[o].data.length - 1].data
-                            .length - 1
-                        ].data[
-                          bralima[o].data[bralima[o].data.length - 1].data[
-                            bralima[o].data[bralima[o].data.length - 1].data
-                              .length - 1
-                          ].data.length - 1
-                        ][`suivi${i}`]["valeur"]
-                      ),
-                  };
-                } else {
-                  bralima[o].suiviApprovisionnement[index1].data[
-                    index2
-                  ].data.push({
-                    name: bralima[o].data[bralima[o].data.length - 1].data[
-                      bralima[o].data[bralima[o].data.length - 1].data.length -
-                        1
-                    ].data[
-                      bralima[o].data[bralima[o].data.length - 1].data[
-                        bralima[o].data[bralima[o].data.length - 1].data
-                          .length - 1
-                      ].data.length - 1
-                    ][`suivi${i}`]["name"],
-                    valeur: Number(
-                      bralima[o].data[bralima[o].data.length - 1].data[
-                        bralima[o].data[bralima[o].data.length - 1].data
-                          .length - 1
-                      ].data[
-                        bralima[o].data[bralima[o].data.length - 1].data[
-                          bralima[o].data[bralima[o].data.length - 1].data
-                            .length - 1
-                        ].data.length - 1
-                      ][`suivi${i}`]["valeur"]
-                    ),
-                  });
-                }
-              }
-            }
+    //             if (indexDataSuivi1 !== -1) {
+    //               bralima[o].suiviApprovisionnement[index1].data[index2].data[
+    //                 indexDataSuivi1
+    //               ] = {
+    //                 name: bralima[o].suiviApprovisionnement[index1].data[index2]
+    //                   .data[indexDataSuivi1].name,
+    //                 valeur:
+    //                   Number(
+    //                     bralima[o].suiviApprovisionnement[index1].data[index2]
+    //                       .data[indexDataSuivi1].valeur
+    //                   ) +
+    //                   Number(
+    //                     bralima[o].data[bralima[o].data.length - 1].data[
+    //                       bralima[o].data[bralima[o].data.length - 1].data
+    //                         .length - 1
+    //                     ].data[
+    //                       bralima[o].data[bralima[o].data.length - 1].data[
+    //                         bralima[o].data[bralima[o].data.length - 1].data
+    //                           .length - 1
+    //                       ].data.length - 1
+    //                     ][`suivi${i}`]["valeur"]
+    //                   ),
+    //               };
+    //             } else {
+    //               bralima[o].suiviApprovisionnement[index1].data[
+    //                 index2
+    //               ].data.push({
+    //                 name: bralima[o].data[bralima[o].data.length - 1].data[
+    //                   bralima[o].data[bralima[o].data.length - 1].data.length -
+    //                     1
+    //                 ].data[
+    //                   bralima[o].data[bralima[o].data.length - 1].data[
+    //                     bralima[o].data[bralima[o].data.length - 1].data
+    //                       .length - 1
+    //                   ].data.length - 1
+    //                 ][`suivi${i}`]["name"],
+    //                 valeur: Number(
+    //                   bralima[o].data[bralima[o].data.length - 1].data[
+    //                     bralima[o].data[bralima[o].data.length - 1].data
+    //                       .length - 1
+    //                   ].data[
+    //                     bralima[o].data[bralima[o].data.length - 1].data[
+    //                       bralima[o].data[bralima[o].data.length - 1].data
+    //                         .length - 1
+    //                     ].data.length - 1
+    //                   ][`suivi${i}`]["valeur"]
+    //                 ),
+    //               });
+    //             }
+    //           }
+    //         }
 
-            ///stats //////////
-            const statsObj = {
-              name: bralima[o].name,
-              mois: bralima[o].stats[index1].data[index2].mois,
-              vente_bar:
-                Number(bralima[o].stats[index1].data[index2].vente_bar) +
-                Number(
-                  bralima[o].data[bralima[o].data.length - 1].data[
-                    bralima[o].data[bralima[o].data.length - 1].data.length - 1
-                  ].data[
-                    bralima[o].data[bralima[o].data.length - 1].data[
-                      bralima[o].data[bralima[o].data.length - 1].data.length -
-                        1
-                    ].data.length - 1
-                  ].vente_journaliere.valeur
-                ),
-              approvionnement:
-                Number(bralima[o].stats[index1].data[index2].approvionnement) +
-                Number(
-                  bralima[o].data[bralima[o].data.length - 1].data[
-                    bralima[o].data[bralima[o].data.length - 1].data.length - 1
-                  ].data[
-                    bralima[o].data[bralima[o].data.length - 1].data[
-                      bralima[o].data[bralima[o].data.length - 1].data.length -
-                        1
-                    ].data.length - 1
-                  ].benefice_sur_achat.val_gros_approvisionnement
-                ),
-              benefice:
-                Number(bralima[o].stats[index1].data[index2].benefice) +
-                Number(
-                  bralima[o].data[bralima[o].data.length - 1].data[
-                    bralima[o].data[bralima[o].data.length - 1].data.length - 1
-                  ].data[
-                    bralima[o].data[bralima[o].data.length - 1].data[
-                      bralima[o].data[bralima[o].data.length - 1].data.length -
-                        1
-                    ].data.length - 1
-                  ].benefice_sur_vente
-                ),
-            };
+    //         ///stats //////////
+    //         const statsObj = {
+    //           name: bralima[o].name,
+    //           mois: bralima[o].stats[index1].data[index2].mois,
+    //           vente_bar:
+    //             Number(bralima[o].stats[index1].data[index2].vente_bar) +
+    //             Number(
+    //               bralima[o].data[bralima[o].data.length - 1].data[
+    //                 bralima[o].data[bralima[o].data.length - 1].data.length - 1
+    //               ].data[
+    //                 bralima[o].data[bralima[o].data.length - 1].data[
+    //                   bralima[o].data[bralima[o].data.length - 1].data.length -
+    //                     1
+    //                 ].data.length - 1
+    //               ].vente_journaliere.valeur
+    //             ),
+    //           approvionnement:
+    //             Number(bralima[o].stats[index1].data[index2].approvionnement) +
+    //             Number(
+    //               bralima[o].data[bralima[o].data.length - 1].data[
+    //                 bralima[o].data[bralima[o].data.length - 1].data.length - 1
+    //               ].data[
+    //                 bralima[o].data[bralima[o].data.length - 1].data[
+    //                   bralima[o].data[bralima[o].data.length - 1].data.length -
+    //                     1
+    //                 ].data.length - 1
+    //               ].benefice_sur_achat.val_gros_approvisionnement
+    //             ),
+    //           benefice:
+    //             Number(bralima[o].stats[index1].data[index2].benefice) +
+    //             Number(
+    //               bralima[o].data[bralima[o].data.length - 1].data[
+    //                 bralima[o].data[bralima[o].data.length - 1].data.length - 1
+    //               ].data[
+    //                 bralima[o].data[bralima[o].data.length - 1].data[
+    //                   bralima[o].data[bralima[o].data.length - 1].data.length -
+    //                     1
+    //                 ].data.length - 1
+    //               ].benefice_sur_vente
+    //             ),
+    //         };
 
-            bralima[o].stats[index1].data[index2] = statsObj;
-          } else {
-            //////////////////////////////////////////////////suiviAppro
-            for (let i = 1; i <= 15; i++) {
-              if (
-                bralima[o].data[bralima[o].data.length - 1].data[
-                  bralima[o].data[bralima[o].data.length - 1].data.length - 1
-                ].data[
-                  bralima[o].data[bralima[o].data.length - 1].data[
-                    bralima[o].data[bralima[o].data.length - 1].data.length - 1
-                  ].data.length - 1
-                ][`suivi${i}`]["name"] !== ""
-              ) {
-                bralima[o].suiviApprovisionnement[index1].data.push({
-                  mois: Number(new Date().toLocaleDateString().slice(3, 5)),
-                  data: [
-                    {
-                      name: bralima[o].data[bralima[o].data.length - 1].data[
-                        bralima[o].data[bralima[o].data.length - 1].data
-                          .length - 1
-                      ].data[
-                        bralima[o].data[bralima[o].data.length - 1].data[
-                          bralima[o].data[bralima[o].data.length - 1].data
-                            .length - 1
-                        ].data.length - 1
-                      ][`suivi${i}`]["name"],
-                      valeur: Number(
-                        bralima[o].data[bralima[o].data.length - 1].data[
-                          bralima[o].data[bralima[o].data.length - 1].data
-                            .length - 1
-                        ].data[
-                          bralima[o].data[bralima[o].data.length - 1].data[
-                            bralima[o].data[bralima[o].data.length - 1].data
-                              .length - 1
-                          ].data.length - 1
-                        ][`suivi${i}`]["valeur"]
-                      ),
-                    },
-                  ],
-                });
-              }
-            }
+    //         bralima[o].stats[index1].data[index2] = statsObj;
+    //       } else {
+    //         //////////////////////////////////////////////////suiviAppro
+    //         for (let i = 1; i <= 15; i++) {
+    //           if (
+    //             bralima[o].data[bralima[o].data.length - 1].data[
+    //               bralima[o].data[bralima[o].data.length - 1].data.length - 1
+    //             ].data[
+    //               bralima[o].data[bralima[o].data.length - 1].data[
+    //                 bralima[o].data[bralima[o].data.length - 1].data.length - 1
+    //               ].data.length - 1
+    //             ][`suivi${i}`]["name"] !== ""
+    //           ) {
+    //             bralima[o].suiviApprovisionnement[index1].data.push({
+    //               mois: Number(new Date().toLocaleDateString().slice(3, 5)),
+    //               data: [
+    //                 {
+    //                   name: bralima[o].data[bralima[o].data.length - 1].data[
+    //                     bralima[o].data[bralima[o].data.length - 1].data
+    //                       .length - 1
+    //                   ].data[
+    //                     bralima[o].data[bralima[o].data.length - 1].data[
+    //                       bralima[o].data[bralima[o].data.length - 1].data
+    //                         .length - 1
+    //                     ].data.length - 1
+    //                   ][`suivi${i}`]["name"],
+    //                   valeur: Number(
+    //                     bralima[o].data[bralima[o].data.length - 1].data[
+    //                       bralima[o].data[bralima[o].data.length - 1].data
+    //                         .length - 1
+    //                     ].data[
+    //                       bralima[o].data[bralima[o].data.length - 1].data[
+    //                         bralima[o].data[bralima[o].data.length - 1].data
+    //                           .length - 1
+    //                       ].data.length - 1
+    //                     ][`suivi${i}`]["valeur"]
+    //                   ),
+    //                 },
+    //               ],
+    //             });
+    //           }
+    //         }
 
-            /////stats///////////////////////
-            const statsObj = {
-              name: bralima[o].name,
-              mois: Number(new Date().toLocaleDateString().slice(3, 5)),
-              vente_bar: Number(
-                bralima[o].data[bralima[o].data.length - 1].data[
-                  bralima[o].data[bralima[o].data.length - 1].data.length - 1
-                ].data[
-                  bralima[o].data[bralima[o].data.length - 1].data[
-                    bralima[o].data[bralima[o].data.length - 1].data.length - 1
-                  ].data.length - 1
-                ].vente_journaliere.valeur
-              ),
-              approvionnement: Number(
-                bralima[o].data[bralima[o].data.length - 1].data[
-                  bralima[o].data[bralima[o].data.length - 1].data.length - 1
-                ].data[
-                  bralima[o].data[bralima[o].data.length - 1].data[
-                    bralima[o].data[bralima[o].data.length - 1].data.length - 1
-                  ].data.length - 1
-                ].benefice_sur_achat.val_gros_approvisionnement
-              ),
-              benefice: Number(
-                bralima[o].data[bralima[o].data.length - 1].data[
-                  bralima[o].data[bralima[o].data.length - 1].data.length - 1
-                ].data[
-                  bralima[o].data[bralima[o].data.length - 1].data[
-                    bralima[o].data[bralima[o].data.length - 1].data.length - 1
-                  ].data.length - 1
-                ].benefice_sur_vente
-              ),
-            };
+    //         /////stats///////////////////////
+    //         const statsObj = {
+    //           name: bralima[o].name,
+    //           mois: Number(new Date().toLocaleDateString().slice(3, 5)),
+    //           vente_bar: Number(
+    //             bralima[o].data[bralima[o].data.length - 1].data[
+    //               bralima[o].data[bralima[o].data.length - 1].data.length - 1
+    //             ].data[
+    //               bralima[o].data[bralima[o].data.length - 1].data[
+    //                 bralima[o].data[bralima[o].data.length - 1].data.length - 1
+    //               ].data.length - 1
+    //             ].vente_journaliere.valeur
+    //           ),
+    //           approvionnement: Number(
+    //             bralima[o].data[bralima[o].data.length - 1].data[
+    //               bralima[o].data[bralima[o].data.length - 1].data.length - 1
+    //             ].data[
+    //               bralima[o].data[bralima[o].data.length - 1].data[
+    //                 bralima[o].data[bralima[o].data.length - 1].data.length - 1
+    //               ].data.length - 1
+    //             ].benefice_sur_achat.val_gros_approvisionnement
+    //           ),
+    //           benefice: Number(
+    //             bralima[o].data[bralima[o].data.length - 1].data[
+    //               bralima[o].data[bralima[o].data.length - 1].data.length - 1
+    //             ].data[
+    //               bralima[o].data[bralima[o].data.length - 1].data[
+    //                 bralima[o].data[bralima[o].data.length - 1].data.length - 1
+    //               ].data.length - 1
+    //             ].benefice_sur_vente
+    //           ),
+    //         };
 
-            bralima[o].stats[index1].data.push(statsObj);
-          }
-        } else {
-          //////suiviAppro
-          for (let i = 1; i <= 14; i++) {
-            if (
-              bralima[o].data[bralima[o].data.length - 1].data[
-                bralima[o].data[bralima[o].data.length - 1].data.length - 1
-              ].data[
-                bralima[o].data[bralima[o].data.length - 1].data[
-                  bralima[o].data[bralima[o].data.length - 1].data.length - 1
-                ].data.length - 1
-              ][`suivi${i}`]["name"] !== ""
-            ) {
-              bralima[o].suiviApprovisionnement.push({
-                annee: Number(new Date().getFullYear()),
-                data: [
-                  {
-                    mois: Number(new Date().getMonth() + 1),
-                    data: [
-                      {
-                        name: bralima[o].data[bralima[o].data.length - 1].data[
-                          bralima[o].data[bralima[o].data.length - 1].data
-                            .length - 1
-                        ].data[
-                          bralima[o].data[bralima[o].data.length - 1].data[
-                            bralima[o].data[bralima[o].data.length - 1].data
-                              .length - 1
-                          ].data.length - 1
-                        ][`suivi${i}`]["name"],
-                        valeur: Number(
-                          bralima[o].data[bralima[o].data.length - 1].data[
-                            bralima[o].data[bralima[o].data.length - 1].data
-                              .length - 1
-                          ].data[
-                            bralima[o].data[bralima[o].data.length - 1].data[
-                              bralima[o].data[bralima[o].data.length - 1].data
-                                .length - 1
-                            ].data.length - 1
-                          ][`suivi${i}`]["valeur"]
-                        ),
-                      },
-                    ],
-                  },
-                ],
-              });
-            }
-          }
+    //         bralima[o].stats[index1].data.push(statsObj);
+    //       }
+    //     } else {
+    //       //////suiviAppro
+    //       for (let i = 1; i <= 14; i++) {
+    //         if (
+    //           bralima[o].data[bralima[o].data.length - 1].data[
+    //             bralima[o].data[bralima[o].data.length - 1].data.length - 1
+    //           ].data[
+    //             bralima[o].data[bralima[o].data.length - 1].data[
+    //               bralima[o].data[bralima[o].data.length - 1].data.length - 1
+    //             ].data.length - 1
+    //           ][`suivi${i}`]["name"] !== ""
+    //         ) {
+    //           bralima[o].suiviApprovisionnement.push({
+    //             annee: Number(new Date().getFullYear()),
+    //             data: [
+    //               {
+    //                 mois: Number(new Date().getMonth() + 1),
+    //                 data: [
+    //                   {
+    //                     name: bralima[o].data[bralima[o].data.length - 1].data[
+    //                       bralima[o].data[bralima[o].data.length - 1].data
+    //                         .length - 1
+    //                     ].data[
+    //                       bralima[o].data[bralima[o].data.length - 1].data[
+    //                         bralima[o].data[bralima[o].data.length - 1].data
+    //                           .length - 1
+    //                       ].data.length - 1
+    //                     ][`suivi${i}`]["name"],
+    //                     valeur: Number(
+    //                       bralima[o].data[bralima[o].data.length - 1].data[
+    //                         bralima[o].data[bralima[o].data.length - 1].data
+    //                           .length - 1
+    //                       ].data[
+    //                         bralima[o].data[bralima[o].data.length - 1].data[
+    //                           bralima[o].data[bralima[o].data.length - 1].data
+    //                             .length - 1
+    //                         ].data.length - 1
+    //                       ][`suivi${i}`]["valeur"]
+    //                     ),
+    //                   },
+    //                 ],
+    //               },
+    //             ],
+    //           });
+    //         }
+    //       }
 
-          /////////stats/////////////////////////////
-          const statsObj = {
-            annee: Number(new Date().getFullYear()),
-            data: [
-              {
-                name: bralima[o].name,
-                mois: Number(new Date().toLocaleDateString().slice(3, 5)),
-                vente_bar: Number(
-                  bralima[o].data[bralima[o].data.length - 1].data[
-                    bralima[o].data[bralima[o].data.length - 1].data.length - 1
-                  ].data[
-                    bralima[o].data[bralima[o].data.length - 1].data[
-                      bralima[o].data[bralima[o].data.length - 1].data.length -
-                        1
-                    ].data.length - 1
-                  ].vente_journaliere.valeur
-                ),
-                approvionnement: Number(
-                  bralima[o].data[bralima[o].data.length - 1].data[
-                    bralima[o].data[bralima[o].data.length - 1].data.length - 1
-                  ].data[
-                    bralima[o].data[bralima[o].data.length - 1].data[
-                      bralima[o].data[bralima[o].data.length - 1].data.length -
-                        1
-                    ].data.length - 1
-                  ].benefice_sur_achat.val_gros_approvisionnement
-                ),
-                benefice: Number(
-                  bralima[o].data[bralima[o].data.length - 1].data[
-                    bralima[o].data[bralima[o].data.length - 1].data.length - 1
-                  ].data[
-                    bralima[o].data[bralima[o].data.length - 1].data[
-                      bralima[o].data[bralima[o].data.length - 1].data.length -
-                        1
-                    ].data.length - 1
-                  ].benefice_sur_vente
-                ),
-              },
-            ],
-          };
-          bralima[o].stats.push(statsObj);
-        }
+    //       /////////stats/////////////////////////////
+    //       const statsObj = {
+    //         annee: Number(new Date().getFullYear()),
+    //         data: [
+    //           {
+    //             name: bralima[o].name,
+    //             mois: Number(new Date().toLocaleDateString().slice(3, 5)),
+    //             vente_bar: Number(
+    //               bralima[o].data[bralima[o].data.length - 1].data[
+    //                 bralima[o].data[bralima[o].data.length - 1].data.length - 1
+    //               ].data[
+    //                 bralima[o].data[bralima[o].data.length - 1].data[
+    //                   bralima[o].data[bralima[o].data.length - 1].data.length -
+    //                     1
+    //                 ].data.length - 1
+    //               ].vente_journaliere.valeur
+    //             ),
+    //             approvionnement: Number(
+    //               bralima[o].data[bralima[o].data.length - 1].data[
+    //                 bralima[o].data[bralima[o].data.length - 1].data.length - 1
+    //               ].data[
+    //                 bralima[o].data[bralima[o].data.length - 1].data[
+    //                   bralima[o].data[bralima[o].data.length - 1].data.length -
+    //                     1
+    //                 ].data.length - 1
+    //               ].benefice_sur_achat.val_gros_approvisionnement
+    //             ),
+    //             benefice: Number(
+    //               bralima[o].data[bralima[o].data.length - 1].data[
+    //                 bralima[o].data[bralima[o].data.length - 1].data.length - 1
+    //               ].data[
+    //                 bralima[o].data[bralima[o].data.length - 1].data[
+    //                   bralima[o].data[bralima[o].data.length - 1].data.length -
+    //                     1
+    //                 ].data.length - 1
+    //               ].benefice_sur_vente
+    //             ),
+    //           },
+    //         ],
+    //       };
+    //       bralima[o].stats.push(statsObj);
+    //     }
 
-        dataBralima.push(bralima[o]);
-        await bralima[o].save();
-      } else {
-        /////If the name that we push don't match with no one else///////////
-        ////////We creat It//////////////////////////////////
+    //     dataBralima.push(bralima[o]);
+    //     await bralima[o].save();
+    //   } else {
+    //     /////If the name that we push don't match with no one else///////////
+    //     ////////We creat It//////////////////////////////////
 
-        const newBralimaData = await AutreProduit.create(req.body[o]);
+    //     const newBralimaData = await AutreProduit.create(req.body[o]);
 
-        //initialize the stats object and doing some calcul
-        const statsObj = {
-          annee: Number(new Date().getFullYear()),
-          data: [
-            {
-              name: o.name,
-              mois: Number(new Date().getMonth() + 1),
+    //     //initialize the stats object and doing some calcul
+    //     const statsObj = {
+    //       annee: Number(new Date().getFullYear()),
+    //       data: [
+    //         {
+    //           name: o.name,
+    //           mois: Number(new Date().getMonth() + 1),
 
-              //working with the last data created in this product
-              vente_bar: Number(
-                newBralimaData.data[newBralimaData.data.length - 1].data[
-                  newBralimaData.data[newBralimaData.data.length - 1].data
-                    .length - 1
-                ].data[
-                  newBralimaData.data[newBralimaData.data.length - 1].data[
-                    newBralimaData.data[newBralimaData.data.length - 1].data
-                      .length - 1
-                  ].data.length - 1
-                ].vente_journaliere.valeur
-              ),
-              approvionnement: Number(
-                newBralimaData.data[newBralimaData.data.length - 1].data[
-                  newBralimaData.data[newBralimaData.data.length - 1].data
-                    .length - 1
-                ].data[
-                  newBralimaData.data[newBralimaData.data.length - 1].data[
-                    newBralimaData.data[newBralimaData.data.length - 1].data
-                      .length - 1
-                  ].data.length - 1
-                ].benefice_sur_achat.val_gros_approvisionnement
-              ),
-              benefice: Number(
-                newBralimaData.data[newBralimaData.data.length - 1].data[
-                  newBralimaData.data[newBralimaData.data.length - 1].data
-                    .length - 1
-                ].data[
-                  newBralimaData.data[newBralimaData.data.length - 1].data[
-                    newBralimaData.data[newBralimaData.data.length - 1].data
-                      .length - 1
-                  ].data.length - 1
-                ].benefice_sur_vente
-              ),
-            },
-          ],
-        };
+    //           //working with the last data created in this product
+    //           vente_bar: Number(
+    //             newBralimaData.data[newBralimaData.data.length - 1].data[
+    //               newBralimaData.data[newBralimaData.data.length - 1].data
+    //                 .length - 1
+    //             ].data[
+    //               newBralimaData.data[newBralimaData.data.length - 1].data[
+    //                 newBralimaData.data[newBralimaData.data.length - 1].data
+    //                   .length - 1
+    //               ].data.length - 1
+    //             ].vente_journaliere.valeur
+    //           ),
+    //           approvionnement: Number(
+    //             newBralimaData.data[newBralimaData.data.length - 1].data[
+    //               newBralimaData.data[newBralimaData.data.length - 1].data
+    //                 .length - 1
+    //             ].data[
+    //               newBralimaData.data[newBralimaData.data.length - 1].data[
+    //                 newBralimaData.data[newBralimaData.data.length - 1].data
+    //                   .length - 1
+    //               ].data.length - 1
+    //             ].benefice_sur_achat.val_gros_approvisionnement
+    //           ),
+    //           benefice: Number(
+    //             newBralimaData.data[newBralimaData.data.length - 1].data[
+    //               newBralimaData.data[newBralimaData.data.length - 1].data
+    //                 .length - 1
+    //             ].data[
+    //               newBralimaData.data[newBralimaData.data.length - 1].data[
+    //                 newBralimaData.data[newBralimaData.data.length - 1].data
+    //                   .length - 1
+    //               ].data.length - 1
+    //             ].benefice_sur_vente
+    //           ),
+    //         },
+    //       ],
+    //     };
 
-        ///////////////////////////////////////////pushing data in our suivi Object
+    //     ///////////////////////////////////////////pushing data in our suivi Object
 
-        for (let i = 1; i <= 14; i++) {
-          if (
-            newBralimaData.data[newBralimaData.data.length - 1].data[
-              newBralimaData.data[newBralimaData.data.length - 1].data.length -
-                1
-            ].data[
-              newBralimaData.data[newBralimaData.data.length - 1].data[
-                newBralimaData.data[newBralimaData.data.length - 1].data
-                  .length - 1
-              ].data.length - 1
-            ][`suivi${i}`][`name`] !== ""
-          ) {
-            newBralimaData.suiviApprovisionnement.push({
-              annee: Number(new Date().getFullYear()),
-              data: [
-                {
-                  mois: Number(new Date().getMonth() + 1),
-                  data: [
-                    {
-                      name: newBralimaData.data[newBralimaData.data.length - 1]
-                        .data[
-                        newBralimaData.data[newBralimaData.data.length - 1].data
-                          .length - 1
-                      ].data[
-                        newBralimaData.data[newBralimaData.data.length - 1]
-                          .data[
-                          newBralimaData.data[newBralimaData.data.length - 1]
-                            .data.length - 1
-                        ].data.length - 1
-                      ][`suivi${i}`]["name"],
-                      valeur: Number(
-                        newBralimaData.data[newBralimaData.data.length - 1]
-                          .data[
-                          newBralimaData.data[newBralimaData.data.length - 1]
-                            .data.length - 1
-                        ].data[
-                          newBralimaData.data[newBralimaData.data.length - 1]
-                            .data[
-                            newBralimaData.data[newBralimaData.data.length - 1]
-                              .data.length - 1
-                          ].data.length - 1
-                        ][`suivi${i}`]["valeur"]
-                      ),
-                    },
-                  ],
-                },
-              ],
-            });
-          }
-        }
+    //     for (let i = 1; i <= 14; i++) {
+    //       if (
+    //         newBralimaData.data[newBralimaData.data.length - 1].data[
+    //           newBralimaData.data[newBralimaData.data.length - 1].data.length -
+    //             1
+    //         ].data[
+    //           newBralimaData.data[newBralimaData.data.length - 1].data[
+    //             newBralimaData.data[newBralimaData.data.length - 1].data
+    //               .length - 1
+    //           ].data.length - 1
+    //         ][`suivi${i}`][`name`] !== ""
+    //       ) {
+    //         newBralimaData.suiviApprovisionnement.push({
+    //           annee: Number(new Date().getFullYear()),
+    //           data: [
+    //             {
+    //               mois: Number(new Date().getMonth() + 1),
+    //               data: [
+    //                 {
+    //                   name: newBralimaData.data[newBralimaData.data.length - 1]
+    //                     .data[
+    //                     newBralimaData.data[newBralimaData.data.length - 1].data
+    //                       .length - 1
+    //                   ].data[
+    //                     newBralimaData.data[newBralimaData.data.length - 1]
+    //                       .data[
+    //                       newBralimaData.data[newBralimaData.data.length - 1]
+    //                         .data.length - 1
+    //                     ].data.length - 1
+    //                   ][`suivi${i}`]["name"],
+    //                   valeur: Number(
+    //                     newBralimaData.data[newBralimaData.data.length - 1]
+    //                       .data[
+    //                       newBralimaData.data[newBralimaData.data.length - 1]
+    //                         .data.length - 1
+    //                     ].data[
+    //                       newBralimaData.data[newBralimaData.data.length - 1]
+    //                         .data[
+    //                         newBralimaData.data[newBralimaData.data.length - 1]
+    //                           .data.length - 1
+    //                       ].data.length - 1
+    //                     ][`suivi${i}`]["valeur"]
+    //                   ),
+    //                 },
+    //               ],
+    //             },
+    //           ],
+    //         });
+    //       }
+    //     }
 
-        //then save again the data
-        newBralimaData.stats.push(statsObj);
-        dataBralima.push(newBralimaData);
-        await newBralimaData.save();
-      }
-    }
+    //     //then save again the data
+    //     newBralimaData.stats.push(statsObj);
+    //     dataBralima.push(newBralimaData);
+    //     await newBralimaData.save();
+    //   }
+    // }
+    const functionResponse =  pushDataCollection(req.body, AutreProduit);
 
     res.status(200).json({
       status: "success",
-      data: loopingData(
-        dataBralima,
-        Number(new Date().getFullYear()),
-        Number(new Date().getMonth() + 1),
-        Number(new Date().getDate())
-      ),
+      data: functionResponse
     });
+    // res.status(200).json({
+    //   status: "success",
+    //   data: loopingData(
+    //     dataBralima,
+    //     Number(new Date().getFullYear()),
+    //     Number(new Date().getMonth() + 1),
+    //     Number(new Date().getDate())
+    //   ),
+    // });
   } else {
     /////////else the Data base is completely empty///////////////////
 
     // initiaze the array of data
     //i didn't creat many data and save it once coz i need to work with every product apart
     //and as a response we need to send all the data
-    const createadData = [];
+    // const createadData = [];
 
-    for (let o of req.body) {
-      const newBralimaData = await AutreProduit.create(o);
+    // for (let o of req.body) {
+    //   const newBralimaData = await AutreProduit.create(o);
 
-      //pushing the stats of every name in our Suivi Object
-      for (let i = 1; i <= 14; i++) {
-        if (
-          newBralimaData.data[newBralimaData.data.length - 1].data[
-            newBralimaData.data[newBralimaData.data.length - 1].data.length - 1
-          ].data[
-            newBralimaData.data[newBralimaData.data.length - 1].data[
-              newBralimaData.data[newBralimaData.data.length - 1].data.length -
-                1
-            ].data.length - 1
-          ][`suivi${i}`]["name"] !== ""
-        ) {
-          newBralimaData.suiviApprovisionnement.push({
-            annee: Number(new Date().getFullYear()),
-            data: [
-              {
-                mois: Number(new Date().getMonth() + 1),
-                data: [
-                  {
-                    name: newBralimaData.data[newBralimaData.data.length - 1]
-                      .data[
-                      newBralimaData.data[newBralimaData.data.length - 1].data
-                        .length - 1
-                    ].data[
-                      newBralimaData.data[newBralimaData.data.length - 1].data[
-                        newBralimaData.data[newBralimaData.data.length - 1].data
-                          .length - 1
-                      ].data.length - 1
-                    ][`suivi${i}`]["name"],
-                    valeur: Number(
-                      newBralimaData.data[newBralimaData.data.length - 1].data[
-                        newBralimaData.data[newBralimaData.data.length - 1].data
-                          .length - 1
-                      ].data[
-                        newBralimaData.data[newBralimaData.data.length - 1]
-                          .data[
-                          newBralimaData.data[newBralimaData.data.length - 1]
-                            .data.length - 1
-                        ].data.length - 1
-                      ][`suivi${i}`]["valeur"]
-                    ),
-                  },
-                ],
-              },
-            ],
-          });
-        }
-      }
+    //   //pushing the stats of every name in our Suivi Object
+    //   for (let i = 1; i <= 14; i++) {
+    //     if (
+    //       newBralimaData.data[newBralimaData.data.length - 1].data[
+    //         newBralimaData.data[newBralimaData.data.length - 1].data.length - 1
+    //       ].data[
+    //         newBralimaData.data[newBralimaData.data.length - 1].data[
+    //           newBralimaData.data[newBralimaData.data.length - 1].data.length -
+    //             1
+    //         ].data.length - 1
+    //       ][`suivi${i}`]["name"] !== ""
+    //     ) {
+    //       newBralimaData.suiviApprovisionnement.push({
+    //         annee: Number(new Date().getFullYear()),
+    //         data: [
+    //           {
+    //             mois: Number(new Date().getMonth() + 1),
+    //             data: [
+    //               {
+    //                 name: newBralimaData.data[newBralimaData.data.length - 1]
+    //                   .data[
+    //                   newBralimaData.data[newBralimaData.data.length - 1].data
+    //                     .length - 1
+    //                 ].data[
+    //                   newBralimaData.data[newBralimaData.data.length - 1].data[
+    //                     newBralimaData.data[newBralimaData.data.length - 1].data
+    //                       .length - 1
+    //                   ].data.length - 1
+    //                 ][`suivi${i}`]["name"],
+    //                 valeur: Number(
+    //                   newBralimaData.data[newBralimaData.data.length - 1].data[
+    //                     newBralimaData.data[newBralimaData.data.length - 1].data
+    //                       .length - 1
+    //                   ].data[
+    //                     newBralimaData.data[newBralimaData.data.length - 1]
+    //                       .data[
+    //                       newBralimaData.data[newBralimaData.data.length - 1]
+    //                         .data.length - 1
+    //                     ].data.length - 1
+    //                   ][`suivi${i}`]["valeur"]
+    //                 ),
+    //               },
+    //             ],
+    //           },
+    //         ],
+    //       });
+    //     }
+    //   }
 
-      //initialize the stats object and doing some calcul
-      const statsObj = {
-        annee: Number(new Date().getFullYear()),
-        data: [
-          {
-            name: o.name,
-            mois: Number(new Date().getMonth() + 1),
+    //   //initialize the stats object and doing some calcul
+    //   const statsObj = {
+    //     annee: Number(new Date().getFullYear()),
+    //     data: [
+    //       {
+    //         name: o.name,
+    //         mois: Number(new Date().getMonth() + 1),
 
-            //working with the last data created in this product
-            vente_bar: Number(
-              newBralimaData.data[newBralimaData.data.length - 1].data[
-                newBralimaData.data[newBralimaData.data.length - 1].data
-                  .length - 1
-              ].data[
-                newBralimaData.data[newBralimaData.data.length - 1].data[
-                  newBralimaData.data[newBralimaData.data.length - 1].data
-                    .length - 1
-                ].data.length - 1
-              ].vente_journaliere.valeur
-            ),
-            approvionnement: Number(
-              newBralimaData.data[newBralimaData.data.length - 1].data[
-                newBralimaData.data[newBralimaData.data.length - 1].data
-                  .length - 1
-              ].data[
-                newBralimaData.data[newBralimaData.data.length - 1].data[
-                  newBralimaData.data[newBralimaData.data.length - 1].data
-                    .length - 1
-                ].data.length - 1
-              ].benefice_sur_achat.val_gros_approvisionnement
-            ),
-            benefice: Number(
-              newBralimaData.data[newBralimaData.data.length - 1].data[
-                newBralimaData.data[newBralimaData.data.length - 1].data
-                  .length - 1
-              ].data[
-                newBralimaData.data[newBralimaData.data.length - 1].data[
-                  newBralimaData.data[newBralimaData.data.length - 1].data
-                    .length - 1
-                ].data.length - 1
-              ].benefice_sur_vente
-            ),
-          },
-        ],
-      };
+    //         //working with the last data created in this product
+    //         vente_bar: Number(
+    //           newBralimaData.data[newBralimaData.data.length - 1].data[
+    //             newBralimaData.data[newBralimaData.data.length - 1].data
+    //               .length - 1
+    //           ].data[
+    //             newBralimaData.data[newBralimaData.data.length - 1].data[
+    //               newBralimaData.data[newBralimaData.data.length - 1].data
+    //                 .length - 1
+    //             ].data.length - 1
+    //           ].vente_journaliere.valeur
+    //         ),
+    //         approvionnement: Number(
+    //           newBralimaData.data[newBralimaData.data.length - 1].data[
+    //             newBralimaData.data[newBralimaData.data.length - 1].data
+    //               .length - 1
+    //           ].data[
+    //             newBralimaData.data[newBralimaData.data.length - 1].data[
+    //               newBralimaData.data[newBralimaData.data.length - 1].data
+    //                 .length - 1
+    //             ].data.length - 1
+    //           ].benefice_sur_achat.val_gros_approvisionnement
+    //         ),
+    //         benefice: Number(
+    //           newBralimaData.data[newBralimaData.data.length - 1].data[
+    //             newBralimaData.data[newBralimaData.data.length - 1].data
+    //               .length - 1
+    //           ].data[
+    //             newBralimaData.data[newBralimaData.data.length - 1].data[
+    //               newBralimaData.data[newBralimaData.data.length - 1].data
+    //                 .length - 1
+    //             ].data.length - 1
+    //           ].benefice_sur_vente
+    //         ),
+    //       },
+    //     ],
+    //   };
 
-      newBralimaData.stats.push(statsObj);
-      createadData.push(newBralimaData);
-      await newBralimaData.save();
-    }
+    //   newBralimaData.stats.push(statsObj);
+    //   createadData.push(newBralimaData);
+    //   await newBralimaData.save();
+    // }
 
     // then the response ....
+    const functionResponse =  pushDataCollection(req.body, AutreProduit);
     res.status(200).json({
       status: "success",
-      data: loopingData(
-        createadData,
-        Number(new Date().getFullYear()),
-        Number(new Date().getMonth() + 1),
-        Number(new Date().getDate())
-      ),
+      data: functionResponse
     });
   }
 });
