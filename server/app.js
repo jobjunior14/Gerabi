@@ -18,11 +18,17 @@ app.use((req, res, next) => {
   next();
 });
 
-const ProductsRouter = require("./routes/main_routes.js");
+const AutreProduitRouter = require("./routes/AutreProduitroutes.js");
+const BralimaRouter = require("./routes/bralimaRouter.js");
+const BrasimbaRouter = require ("./routes/brasimbaRoutes.js");
+const LiqueursRouter = require("./routes/liqueursRoutes.js");
 const venteDego = require("./routes/venteDegoRoutes.js");
 
 //3) Routes
-app.use("/api/v1", ProductsRouter);
+app.use("/api/v1/autreProduit", AutreProduitRouter);
+app.use ("/api/v1/bralima", BralimaRouter);
+app.use ("/api/v1/brasimba", BrasimbaRouter);
+app.use('/api/v1/liqueurs', LiqueursRouter);
 app.use("/api/v1/vente", venteDego);
 
 app.all("*", (req, res, next) => {

@@ -7,7 +7,9 @@ import InputTd from "./suiviAppro/inputs/inputTd";
 import { TableSuivi } from "./suiviAppro/SuiviTable";
 import DailyFilter from "../filter/filterDailyRap";
 
-export function Bralima() {
+export function Bralima(props) {
+
+  // console.log (props.produit);
   // Data we are using
   const [bralimaData, setBralimadata] = useState(null);
 
@@ -43,6 +45,18 @@ export function Bralima() {
   const month = Number(dateParams.get("month"));
   const day = Number(dateParams.get("day"));
 
+  //algo to get the previous day
+  const today = new Date();
+
+  // Soustrayez un jour à cet objet
+  today.setDate(today.getDate() - 1);
+
+  // Récupérez l'année, le mois et le jour de cet objet
+  const prevYear = today.getFullYear();
+  const prevMonth = today.getMonth() + 1; // Ajoutez 1 car le mois est indexé à partir de 0
+  const prevDay = today.getDate();
+
+
   //input date
   const [date, setDate] = useState({
     year: year,
@@ -59,16 +73,15 @@ export function Bralima() {
 
           setBralimadata(null);
 
-          const dataApi = await axios.get( `http://localhost:5001/api/v1/raportJournalier/autreProduit/${year}/${month}/${day}`);
+          const dataApi = await axios.get( `http://localhost:5001/api/v1/bralima/raportJournalier/${year}/${month}/${day}`);
 
           const dataVente = await axios.get (`http://localhost:5001/api/v1/vente/${year}/${month}/${day}`);
 
           setVenteDego (dataVente.data.data.day.valeur);
 
-          setBralimadata(
-            dataApi.data.data.day.map((el, index) => {
+          setBralimadata( dataApi.data.data.day.map((el, index) => {
 
-              return { ...el, id: index };})
+            return { ...el, id: index };})
           );
           
           setId(dataApi.data.data.id);
@@ -79,28 +92,14 @@ export function Bralima() {
 
           setBralimadata(null);
 
-          //algo to get the previous day
-          const today = new Date();
-
-          // Soustrayez un jour à cet objet
-          today.setDate(today.getDate() - 1);
-
-          // Récupérez l'année, le mois et le jour de cet objet
-          const prevYear = today.getFullYear();
-          const prevMonth = today.getMonth() + 1; // Ajoutez 1 car le mois est indexé à partir de 0
-          const prevDay = today.getDate();
-
           const dataApi = await axios.get(
-            `http://localhost:5001/api/v1/raportJournalier/autreProduit/${todayYear}/${todayMonth}/${todayDay}`
+            `http://localhost:5001/api/v1/bralima/raportJournalier/${todayYear}/${todayMonth}/${todayDay}`
           );
           const previousData = await axios.get(
-            `http://localhost:5001/api/v1/raportJournalier/autreProduit/${prevYear}/${prevMonth}/${prevDay}`
+            `http://localhost:5001/api/v1/bralima/raportJournalier/${prevYear}/${prevMonth}/${prevDay}`
           );
 
           const dataVente = await axios.get (`http://localhost:5001/api/v1/vente/${todayYear}/${todayMonth}/${todayDay}`);
-
-          //set data vente dego
-
           
           if (dataApi.data.data.day.length === 0) {
             
@@ -369,7 +368,7 @@ export function Bralima() {
 
       setBralimadata(null);
       try {
-        const response = await axios.post( "http://localhost:5001/api/v1/raportJournalier/autreProduit", newBralimaData);
+        const response = await axios.post( `http://localhost:5001/api/v1/bralima/raportJournalier`, newBralimaData);
         const responseventeDego = await axios.post( "http://localhost:5001/api/v1/vente", newDataVente);
 
         setUpdate(true);
@@ -565,7 +564,7 @@ export function Bralima() {
       try {
 
         //response of our main array
-        const response = await axios.post( `http://localhost:5001/api/v1/raportJournalier/autreProduit/${year}/${month}/${day}`, newData2 );
+        const response = await axios.post( `http://localhost:5001/api/v1/bralima/raportJournalier/${year}/${month}/${day}`, newData2 );
 
         const venteDegoResponse = await axios.post( `http://localhost:5001/api/v1/vente/${year}/${month}/${day}`, newDataVente );
 
@@ -590,6 +589,9 @@ export function Bralima() {
 
   let displayDataMainExcel = null;
   let displayTdSuivi = null;
+
+  console.log (bralimaData);
+
   if (bralimaData && bralimaData.length > 0) {
     displayTdSuivi = bralimaData.map((prev) => {
       return (
@@ -616,88 +618,67 @@ export function Bralima() {
 
   };
   
-  if (bralimaData) {
-    if (bralimaData.length > 0) {
+  if ( (year > todayYear && month > todayMonth && day > todayDay) || (year === todayYear && month > todayMonth && day > todayDay) || (year === todayYear && month === todayMonth && day > todayDay)) {
 
-      return (
-        <div>
-          <DailyFilter
-            prev={date}
-            onclick={setFilterParams}
-            onchange={changeFilter}
-          />
+        return (<div>
 
-          <label>Vente Journalière Dego</label>
-          <input type="number" name="vente" onChange={ e => handleFormVenteDego (e.target.value)} placeholder="Vente Journalière Dego" defaultValue={venteDego}/>
+            <DailyFilter  prev = {date} onclick = {setFilterParams} onchange = {changeFilter}/>
+            <h1> Ouuups vous ne pouvez demander une donnée d'une date inexistante</h1>
+        </div>)
+        } else {
 
-          <ExcelSecLayout toggle={toggleStoc} data={displayDataMainExcel} />
 
-          <button onClick={toggleBtn}>
-            {!toggleStoc ? "Cacher" : "Afficher"}
-          </button>
+        if (bralimaData) {
+    
+            if (bralimaData.length > 0) {
+    
+                return (
+                    <div>
+                        <DailyFilter  prev = {date} onclick = {setFilterParams} onchange = {changeFilter}/>
 
-          {!update && (
-            <button onClick={addProduct}> Ajouter un Product </button>
-          )}
+                        <label>Vente Journalière Dego</label>
+                        <input type="number" name="vente" onChange={ e => handleFormVenteDego (e.target.value)} placeholder="Vente Journalière Dego" defaultValue={venteDego}/>
+                        <ExcelSecLayout toggle = {toggleStoc} data = {displayDataMainExcel} />
+                        <button onClick={toggleBtn} >{ !toggleStoc ? 'Cacher' : 'Afficher' }</button>
+                        { !update && <button onClick={addProduct}> Ajouter un Product </button>}
+        
+                        <h1> Suivi Approvisinnemnt </h1>
+        
+                        <TableSuivi readonly = {readOnly} toggleSuivi = {providers}  tdData = {displayTdSuivi} data = {bralimaData} changeTh = {handleThFormInSuivi}/>
+                        <button onClick={AddProviders}>{ !update ? 'Afficher Ou Ajouter un Fournisseur' : 'Afficher plus de Fournisseur' } </button>
+                        
+                        { !update ? <button onClick={postData}> Enregistrer les Donnees </button> : <button onClick={UpdateData}> Mettre à jour les données</button>}
+                    </div>
+                )
+            } else {
+                
+                if ( year === todayDay && month === todayMonth && day === todayDay){
 
-          <h1> Suivi Approvisinnemnt </h1>
+                    return (
+                        <div>
+                            <DailyFilter  prev = {date} onclick = {setFilterParams} onchange = {changeFilter}/>
+                            <button onClick={addProduct}> Ajouter un produit</button>
+        
+                        </div>
+                    );
 
-          <TableSuivi
-            readonly={readOnly}
-            toggleSuivi={providers}
-            tdData={displayTdSuivi}
-            data={bralimaData}
-            changeTh={handleThFormInSuivi}
-          />
+                } else {
+                     
+                    return (
+                        <div> 
+                            <DailyFilter  prev = {date} onclick = {setFilterParams} onchange = {changeFilter}/>
 
-          <button onClick={AddProviders}>
-            {!update
-              ? "Afficher Ou Ajouter un Fournisseur"
-              : "Afficher plus de Fournisseur"}{" "}
-          </button>
-
-          {!update ? (
-            <button onClick={postData}> Enregistrer les Donnees </button>
-          ) : (
-            <button onClick={UpdateData}> Mettre à jour les données</button>
-          )}
-
-        </div>
-      );
-    } else {
-      if (year === todayYear && month === todayMonth && day === todayDay) {
-        return (
-          <div>
-            <DailyFilter
-              prev={date}
-              onclick={setFilterParams}
-              onchange={changeFilter}
-            />
-
-            <button onClick={addProduct}> Ajouter un produit</button>
-
-          </div>
-        );
-      } else {
-        return (
-          <div>
-            <DailyFilter
-              prev={date}
-              onclick={setFilterParams}
-              onchange={changeFilter}
-            />
-
-            <h3> Ooops la donnée de cette date est inexistante</h3>
-            <h4> S'il vous plait veillez chercher une autre date </h4>
-          </div>
-        );
-      }
+                            <h3> Ooops la donnée de cette date est inexistante</h3>
+                            <h4> S'il vous plait veillez chercher une autre date </h4>
+                        </div>
+                    )
+                }
+            }
+           } else {
+        
+            return (
+                <div> <h1> Loading...</h1></div>
+            )
+        } 
     }
-  } else {
-    return (
-      <div>
-        <h1>Loading...</h1>
-      </div>
-    );
-  }
 }

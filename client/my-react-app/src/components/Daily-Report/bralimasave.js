@@ -671,6 +671,8 @@ export function Bralima ()
                 return (
                     <div>
                         <DailyFilter  prev = {date} onclick = {setFilterParams} onchange = {changeFilter}/>
+
+                        
                         <ExcelSecLayout toggle = {toggleStoc} data = {displayDataMainExcel} />
                         <button onClick={toggleBtn} >{ !toggleStoc ? 'Cacher' : 'Afficher' }</button>
                         { !update && <button onClick={addProduct}> Ajouter un Product </button>}
