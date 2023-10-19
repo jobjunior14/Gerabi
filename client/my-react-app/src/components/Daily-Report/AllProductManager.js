@@ -7,7 +7,7 @@ import InputTd from "./suiviAppro/inputs/inputTd";
 import { TableSuivi } from "./suiviAppro/SuiviTable";
 import DailyFilter from "../filter/filterDailyRap";
 
-export function Bralima (props) {
+export default function Product (props) {
 
   // console.log (props.produit);
   // Data we are using
@@ -283,7 +283,7 @@ export function Bralima (props) {
   //display more providers
   function AddProviders() {
     if (providers <= 14) {
-      setProviders(prev => prev++);
+      setProviders(prev => ++prev);
     }
   };
 
