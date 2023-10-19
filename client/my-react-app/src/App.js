@@ -17,9 +17,9 @@ function App() {
 
         <Route path='/rapportJournalier' element = {<ProductNav/>}>
           <Route  path={`bralima`} index element = {<Bralima produit = 'bralima'/>}/>
-          <Route path='brasimba' element = {<h1>Hey Brasimba</h1>}/>
-          <Route path='autreProdut' element = {<h1>Hey Autre Produit</h1>}/>
-          <Route path='liqueurs' element = {<h1> Hey liqueurs</h1>}/>
+          <Route path='brasimba' element = {<Bralima produit = 'brasimba'/>}/>
+          <Route path='autreProdut' element = {<Bralima produit = 'autreProduit'/>}/>
+          <Route path='liqueurs' element = {<Bralima produit = 'liqueurs'/>}/>
         </Route>
 
         <Route path='rapportMensuel' element = {<MensualRapHome/>}/>

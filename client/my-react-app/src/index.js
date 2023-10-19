@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import Root from './App';
 import reportWebVitals from './reportWebVitals';
-import { useObj } from './components/context/objetcContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

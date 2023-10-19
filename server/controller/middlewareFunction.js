@@ -357,7 +357,7 @@ exports.pushDataCollection = catchAssynch (async (body, collection, response ) =
 exports.updateDataCollection = catchAssynch (async (collection, request, response ) => {
 
 
-  function ErrorResponse(message){
+  function ErrorResponse(){
 
     response.status(404).json({
       status: "faild",
@@ -368,9 +368,9 @@ exports.updateDataCollection = catchAssynch (async (collection, request, respons
 
   const updatedDocument = [];
 
-  const year = Number (request.request.params.year);
-  const month = Number (request.request.params.month);
-  const day = Number (request.request.params.day);
+  const year = Number (request.params.year);
+  const month = Number (request.params.month);
+  const day = Number (request.params.day);
 
 
   for (let i = 0; i < request.body.id.length; i++) {

@@ -60,7 +60,7 @@ exports.pushDataVente = catchAssynch(async (req, res, next) => {
 
     if (monthIndex !== -1) {
 
-      const dayIndex = vente[yearIndex].data[monthIndex].data.findIndex((el) => Number(JSON.stringify(el.createdAt).slice(9, 11) === day) );
+      const dayIndex = vente[yearIndex].data[monthIndex].data.findIndex( el => Number(JSON.stringify(el.createdAt).slice(9, 11)) === day );
 
       if (dayIndex === -1) {
 
@@ -75,11 +75,15 @@ exports.pushDataVente = catchAssynch(async (req, res, next) => {
 
     res.status(200).json({
       statusbar: "success",
-      data: loopingData(vente, year, month, day),
+      data: {
+        day: loopingData(vente, year, month, day),
+      }
     });
 
   } else {
+
     const newVente = await VenteDego.create({
+
       data: {
         data: req.body,
       },
@@ -87,7 +91,9 @@ exports.pushDataVente = catchAssynch(async (req, res, next) => {
 
     res.status(200).json({
       status: "success",
-      data: loopingData(newVente, year, month, day)
+      data: {
+        day: loopingData([newVente], year, month, day)
+      }
     });
   }
 });
@@ -104,17 +110,18 @@ exports.updatevente = catchAssynch(async (req, res, next) => {
     const yearIndex = await vente.findIndex((el) => el.annee === year);
 
     if (yearIndex !== -1) {
-      console.log (yearIndex);
-
+      
       const monthIndex = await vente[yearIndex].data.findIndex( el => el.mois === month );
-
+      
       if (monthIndex !== -1) {
-
+        
         const dayIndex = await vente[yearIndex].data[monthIndex].data.findIndex( el => Number(JSON.stringify(el.createdAt).slice(9, 11)) === day );
 
         if (dayIndex !== -1) {
 
-          vente[yearIndex].data[monthIndex].data[dayIndex] = {...req.body, createdAt: `${year}-${month}-${day}T07:22:54.930Z`, };
+          vente[yearIndex].data[monthIndex].data[dayIndex] = {...req.body, createdAt: `${year}-${month}-${day}T07:22:54.930Z` };
+          vente[yearIndex].data[monthIndex].markModified('data');
+
 
         } else {
 
@@ -126,10 +133,15 @@ exports.updatevente = catchAssynch(async (req, res, next) => {
       }
     } else {
       return next(new AppError("Cette donnee est inexistante", 404));
-    }
-  
+    };
+    
+    await vente[yearIndex].save(function (err) {
+      if (err) {
+        console.log(err);
+        return;
+      };
+    });
 
-  await vente[yearIndex].save();
 
   res.status(200).json({
     status: "success",
