@@ -16,7 +16,7 @@ function App() {
 
 
         <Route path='/rapportJournalier' element = {<ProductNav/>}>
-          <Route  path={`bralima`} index element = {<Product produit = 'braliam'/>}/>
+          <Route  path={`bralima`} index element = {<Product produit = 'bralima'/>}/>
           <Route path='brasimba' element = {<Product produit = 'brasimba'/>}/>
           <Route path='autreProdut' element = {<Product produit = 'autreProduit'/>}/>
           <Route path='liqueurs' element = {<Product produit = 'liqueurs'/>}/>
