@@ -111,7 +111,6 @@ const productSlice = createSlice ({
             const value = action.payload.value;
             const data = state.productData;
 
-            console.log ('hey')
             state.productData = data.map( data => {
 
                     return {...data, [name]: {...data[name], name: value}};
@@ -259,9 +258,9 @@ const productSlice = createSlice ({
             const name = action.payload.name;
             const value = action.payload.value;
 
-            state.date = state.date.map(prev => {
-                return {...prev, [name]: value}
-            });
+            state.date = {
+                ...state.date, [name]: value
+            };
         }
     }
 });

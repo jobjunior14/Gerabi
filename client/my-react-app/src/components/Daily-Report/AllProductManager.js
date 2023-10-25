@@ -143,7 +143,6 @@ function objProvider(el, index){
 
 export default function Product (props) {
 
-
   const dispatch = useDispatch();
 
   // Data we are using
@@ -431,14 +430,14 @@ export default function Product (props) {
 
   };
 
-  console.log (productData);
-
   if ( (year > todayYear && month > todayMonth && day > todayDay) || (year === todayYear && month > todayMonth && day > todayDay) || (year === todayYear && month === todayMonth && day > todayDay)) {
 
-    return (<div>
+    return (
+    <div>
       <DailyFilter  prev = {date} onclick = {setFilterParams}/>
       <h1> Ouuups vous ne pouvez demander une donnée d'une date inexistante</h1>
-    </div>);
+    </div>
+    );
 
     } else {
 
