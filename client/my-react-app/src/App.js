@@ -9,24 +9,26 @@ import { ProductNav } from './components/headers/outlet';
 
 function App() {
   return ( 
-
+    
     <BrowserRouter>
-    <Routes>
-      <Route path='/' element = {<MainNav/>}>
-
-
-        <Route path='/rapportJournalier' element = {<ProductNav/>}>
-          <Route  path={`bralima`} index element = {<Product produit = 'bralima'/>}/>
-          <Route path='brasimba' element = {<Product produit = 'brasimba'/>}/>
-          <Route path='autreProdut' element = {<Product produit = 'autreProduit'/>}/>
-          <Route path='liqueurs' element = {<Product produit = 'liqueurs'/>}/>
-        </Route>
-
-        <Route path='rapportMensuel' element = {<MensualRapHome/>}/>
+      <Routes>
         
-      </Route>
-    </Routes>
+          <Route path='/' element = {<MainNav/>}>
+
+            <Route path='/rapportJournalier' element = {<ProductNav/>}>
+              <Route  path={`bralima`} element = {<Product produit = 'bralima'/>}/>
+              <Route path='brasimba' element = {<Product produit = 'brasimba'/>}/>
+              <Route path='autreProdut' element = {<Product produit = 'autreProduit'/>}/>
+              <Route path='liqueurs' element = {<Product produit = 'liqueurs'/>}/>
+            </Route>
+
+            <Route path='rapportMensuel' element = {<MensualRapHome/>}/>
+            
+          </Route>
+      </Routes>
+
     </BrowserRouter>
+
 
   );
 }

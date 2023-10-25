@@ -1,7 +1,9 @@
 import React from "react";
-// import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { productActions } from "../store/AllProductManager-slice";
 
 export default function DailyFilter (props) {
+    const dispatch = useDispatch();
 
     if (props.mens) {
 
@@ -14,7 +16,7 @@ export default function DailyFilter (props) {
                     placeholder= "Taper l'année"
                     onChange= { e => {
                         const {name, value} = e.target;
-                        return props.onchange (name, value);
+                        return dispatch(productActions.setDate({name: name, value: value}));
                     }}
                 />
 
@@ -25,7 +27,7 @@ export default function DailyFilter (props) {
                     placeholder= "Taper l'année"
                     onChange= { e => {
                         const {name, value} = e.target;
-                        return props.onchange (name, value);
+                        return dispatch(productActions.setDate({name: name, value: value}));
                     }}
                 />
 
@@ -43,7 +45,7 @@ export default function DailyFilter (props) {
                     placeholder= "Taper l'année"
                     onChange= { e => {
                         const {name, value} = e.target;
-                        return props.onchange (name, value);
+                        return dispatch(productActions.setDate({name: name, value: value}));
                     }}
                 />
 
@@ -54,7 +56,7 @@ export default function DailyFilter (props) {
                     placeholder= "Taper l'année"
                     onChange= { e => {
                         const {name, value} = e.target;
-                        return props.onchange (name, value);
+                        return dispatch(productActions.setDate({name: name, value: value}));
                     }}
                 />
 
@@ -65,7 +67,7 @@ export default function DailyFilter (props) {
                     placeholder= "Taper l'année"
                     onChange= { e => {
                         const {name, value} = e.target;
-                        return props.onchange (name, value);
+                        return dispatch(productActions.setDate({name: name, value: value}));
                     }}
                 />
 

@@ -1,10 +1,15 @@
+import { useSelector, useDispatch } from "react-redux";
+import { productActions } from "../../store/AllProductManager-slice";
 
 export function ExcelMain(props)
 {
+    const readOnly = useSelector (state => state.product.readOnly);
+    const toggleStoc = useSelector (state => state.product.toggleStoc);
+    const dispatch = useDispatch();
     
     return (
         <tr>
-            {props.readonly ? <td> { props.prev.name} </td> :
+            {readOnly ? <td> { props.prev.name} </td> :
                 <td id = {props.prev.id} name = { `name${props.prev.id}`}>
                     <input 
                         defaultValue = { props.prev.name}
@@ -15,7 +20,7 @@ export function ExcelMain(props)
                         onChange = { (e) =>
                         {
                             const { name, value } = e.target
-                            return props.onchange( props.prev.id, name, value,"", "")
+                            dispatch(productActions.handleFormInStock (  {id: props.prev.id, name: name, value: value, modvalue: "", objectvalue: ""}));
                         }}
                     />
                 </td>
@@ -32,7 +37,7 @@ export function ExcelMain(props)
                         onChange = { (e) =>
                         {
                             const { name, value, } = e.target
-                            return props.onchange( props.prev.id, name, value, "qt_caisse", "")
+                            dispatch(productActions.handleFormInStock ({id: props.prev.id, name: name, value: value, modvalue: "qt_caisse", objectvalue: "" }));
                         }}
                     />
 
@@ -50,14 +55,14 @@ export function ExcelMain(props)
                         onChange = { (e) =>
                         {
                             const { name, value } = e.target
-                            return props.onchange( props.prev.id, name, value, "nbr_btll", "")
+                            dispatch(productActions.handleFormInStock ( {id: props.prev.id,name: name, value: value, modvalue: "nbr_btll", objectvalue: ""}));
                         }}
                     />
 
                 </td>
             }
 
-            { !props.toggle && <td> { props.prev.achat_journalier.qt_btll} </td> }
+            { !toggleStoc && <td> { props.prev.achat_journalier.qt_btll} </td> }
 
             {
                 <td>
@@ -70,20 +75,20 @@ export function ExcelMain(props)
                         onChange = { (e) =>
                         {
                             const { name, value} = e.target
-                            return props.onchange( props.prev.id, name, value, "prix_achat_gros", "")
+                            dispatch(productActions.handleFormInStock ( {id: props.prev.id, name: name, value: value, modvalue: "prix_achat_gros", objectvalue: ""} ))
                         }}
                     />
 
                 </td>
             }
 
-            { !props.toggle && <td> { props.prev.benefice_sur_achat.val_gros_approvisionnement} </td> }
+            { !toggleStoc && <td> { props.prev.benefice_sur_achat.val_gros_approvisionnement} </td> }
 
-            { !props.toggle && <td> { props.prev.benefice_sur_achat.val_det} </td> }
+            { !toggleStoc && <td> { props.prev.benefice_sur_achat.val_det} </td> }
 
-            { !props.toggle && <td> { props.prev.benefice_sur_achat.benefice} </td> }
+            { !toggleStoc && <td> { props.prev.benefice_sur_achat.benefice} </td> }
 
-            { !props.toggle && <td> { props.prev.business_projection.stock_gen} </td> }
+            { !toggleStoc && <td> { props.prev.business_projection.stock_gen} </td> }
             
             {
                 <td>
@@ -96,22 +101,22 @@ export function ExcelMain(props)
                         onChange = { (e) =>
                         {
                             const { name, value } = e.target
-                            return props.onchange( props.prev.id, name, value, "sortie_cave", "")
+                            dispatch(productActions.handleFormInStock ({id: props.prev.id, name: name, value: value, modvalue: "sortie_cave", objectvalue: ""} ));
                         }}
                     />
 
                 </td>
             }
 
-            { !props.toggle && <td> { props.prev.business_projection.stock_dego} </td> }
+            { !toggleStoc && <td> { props.prev.business_projection.stock_dego} </td> }
                    
-            { !props.toggle && <td> { props.prev.business_projection.val_stock_det} </td> }
+            { !toggleStoc && <td> { props.prev.business_projection.val_stock_det} </td> }
 
-            { !props.toggle && <td> { props.prev.business_projection.ref_prix_gros} </td> }
+            { !toggleStoc && <td> { props.prev.business_projection.ref_prix_gros} </td> }
 
-            { !props.toggle && <td> { props.prev.business_projection.val_stock_gros} </td> }
+            { !toggleStoc && <td> { props.prev.business_projection.val_stock_gros} </td> }
 
-            { !props.toggle && <td> { props.prev.business_projection.marge_beneficiaire} </td> }
+            { !toggleStoc && <td> { props.prev.business_projection.marge_beneficiaire} </td> }
 
             {
                 <td>
@@ -124,18 +129,18 @@ export function ExcelMain(props)
                         onChange = { (e) =>
                         {
                             const { name, value } = e.target
-                            return props.onchange( props.prev.id, name, value, 'ref_prix_det', "")
+                            dispatch(productActions.handleFormInStock ({ id: props.prev.id, name: name, value: value, modvalue: 'ref_prix_det', objectvalue: ""} ));
                         }}
                     />
 
                 </td>
             }
 
-            { !props.toggle && <td> { props.prev.vente_journaliere.qt_vendue_comptoir} </td> }
+            { !toggleStoc && <td> { props.prev.vente_journaliere.qt_vendue_comptoir} </td> }
 
-            { !props.toggle && <td> { props.prev.vente_journaliere.valeur} </td> }
+            { !toggleStoc && <td> { props.prev.vente_journaliere.valeur} </td> }
 
-            { !props.toggle && <td>  {props.prev.benefice_sur_vente} </td> }
+            { !toggleStoc && <td>  {props.prev.benefice_sur_vente} </td> }
                 
             {
                 <td>
@@ -148,14 +153,14 @@ export function ExcelMain(props)
                         onChange = { (e) =>
                         {
                             const { name, value } = e.target
-                            return props.onchange( props.prev.id, name, value, "qt", "")
+                            dispatch(productActions.handleFormInStock ( {id: props.prev.id, name: name, value: value, modvalue: "qt",objectvalue: ""} ));
                         }}
                     />
 
                 </td>
             }
 
-            { !props.toggle && <td> { props.prev.stock_consignaions.valeur} </td> }
+            { !toggleStoc && <td> { props.prev.stock_consignaions.valeur} </td> }
 
             {
                 <td>
@@ -168,7 +173,7 @@ export function ExcelMain(props)
                         onChange = { (e) =>
                         {
                             const { name, value } = e.target
-                            return props.onchange( props.prev.id, name, value, 'stock_apres_ventente_rest_stock_comptoir_qt_btll', '' )
+                            dispatch(productActions.handleFormInStock ({ id: props.prev.id, name: name, value: value, modvalue: 'stock_apres_ventente_rest_stock_comptoir_qt_btll', objectvalue: ''} ));
                         }}
                     />
                             
@@ -186,7 +191,7 @@ export function ExcelMain(props)
                         onChange = { (e) =>
                         {
                             const { name, value } = e.target
-                            return props.onchange( props.prev.id, name, value, 'stock_apres_ventente_rest_stock_depot_qt_btll', '' )
+                            dispatch(productActions.handleFormInStock ( { id: props.prev.id, name: name, value: value, modvalue: 'stock_apres_ventente_rest_stock_depot_qt_btll', objectvalue: ''} ))
                         }}
                     />
             
@@ -205,13 +210,13 @@ export function ExcelMain(props)
                             onChange = { (e) =>
                             {
                                 const { name, value } = e.target
-                                return props.onchange( props.prev.id, name, value, 'reste_stock_comptoir', 'qt_btll' )
+                                dispatch(productActions.handleFormInStock ( { id: props.prev.id, name: name, value: value, modvalue: 'reste_stock_comptoir', objectvalue: 'qt_btll'}));
                             }}
                         />
                     </td>
                 }
 
-                { !props.toggle && <td>  { props.prev.stock_apres_vente.reste_stock_comptoir.valeur} </td> }
+                { !toggleStoc && <td>  { props.prev.stock_apres_vente.reste_stock_comptoir.valeur} </td> }
 
                 {
                     <td>
@@ -224,18 +229,18 @@ export function ExcelMain(props)
                             onChange = { (e) =>
                             {
                                 const { name, value } = e.target
-                                return props.onchange( props.prev.id, name, value, 'reste_stock_depot', 'qt_caisses' )
+                                dispatch(productActions.handleFormInStock ( { id: props.prev.id, name: name, value: value, modvalue: 'reste_stock_depot', objectvalue: 'qt_caisses'}));
                             }}
                         />
 
                     </td>
                 }
 
-                { !props.toggle && <td> { props.prev.stock_apres_vente.reste_stock_depot.qt_btll} </td> }
+                { !toggleStoc && <td> { props.prev.stock_apres_vente.reste_stock_depot.qt_btll} </td> }
 
-                { !props.toggle && <td> { props.prev.stock_apres_vente.reste_stock_depot.valeur} </td> }
+                { !toggleStoc && <td> { props.prev.stock_apres_vente.reste_stock_depot.valeur} </td> }
 
-                { !props.toggle && <td> { props.prev.stock_apres_vente.valeur_stock} </td> }
+                { !toggleStoc && <td> { props.prev.stock_apres_vente.valeur_stock} </td> }
 
             </tr>    
            

@@ -1,7 +1,28 @@
+import { ExcelMain } from "./Stock_Main_Layout.js";
+import { useSelector } from "react-redux";
+
 const { table, tbaleTh } = require("./css.js");
 
 export function ExcelSecLayout(props) {
-  if (!props.toggle) {
+  
+  const productData = useSelector (state => state.product.productData);
+  const toggleStoc = useSelector (state => state.product.toggleStoc);
+
+  let displayDataMainExcel = null;
+
+  if (productData) {
+
+    displayDataMainExcel = productData.map((prev) => {
+      return (
+        <ExcelMain
+          prev={prev}
+          key={prev.id}
+        />
+      );
+    });
+  }
+
+  if (!toggleStoc) {
     return (
       <table className="table1" style={table}>
         <thead>
@@ -160,7 +181,7 @@ export function ExcelSecLayout(props) {
           </tr>
         </thead>
 
-        <tbody>{props.data}</tbody>
+        <tbody>{displayDataMainExcel}</tbody>
       </table>
     );
   } else {
@@ -258,7 +279,7 @@ export function ExcelSecLayout(props) {
           </tr>
         </thead>
 
-        <tbody>{props.data}</tbody>
+        <tbody>{displayDataMainExcel}</tbody>
       </table>
     );
   }
