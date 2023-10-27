@@ -141,11 +141,11 @@ function objProvider(el, index){
   };
 };
 
-function errMessage (dispatch, productActions, venteDego, productData){
+function errMessage (dispatch, productActions, venteDego, productData) {
 
   if (venteDego <= 0) {
   
-    dispatch(productActions.setErrorMessage({status: true, message: "verifier la section vente dego systeme"}));
+    dispatch(productActions.setErrorMessage({status: true, message: "verifier la section vente journaliere"}));
   } else {
     
     for (let i of productData){
@@ -195,14 +195,69 @@ function errMessage (dispatch, productActions, venteDego, productData){
   
         dispatch(productActions.setErrorMessage({status: true, message: "aucun nombre inferieur ou egal à 0 n'est autorisé dans la section >stock apres vente >reste depot>qt caisse"}));
         break;
+      } else if (((i.suivi1.name === '' && i.suivi1.qt_caisse > 0 ) || i.suivi1.name === '') ) {
+
+        dispatch(productActions.setErrorMessage({status: true, message: " aucune valuer superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
+        break;
+      } else if ((i.suivi2.name === '' && i.suivi2.qt_caisse > 0) ) {
+
+        dispatch(productActions.setErrorMessage({status: true, message: " aucune valuer superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
+        break;
+      } else if ((i.suivi3.name === '' && i.suivi3.qt_caisse > 0) ) {
+
+        dispatch(productActions.setErrorMessage({status: true, message: " aucune valuer superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
+        break;
+      } else if ((i.suivi4.name === '' && i.suivi4.qt_caisse > 0) ) {
+
+        dispatch(productActions.setErrorMessage({status: true, message: " aucune valuer superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
+        break;
+      } else if ((i.suivi5.name === '' && i.suivi5.qt_caisse > 0) ) {
+
+        dispatch(productActions.setErrorMessage({status: true, message: " aucune valuer superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
+        break;
+      } else if ((i.suivi6.name === '' && i.suivi6.qt_caisse > 0) ) {
+
+        dispatch(productActions.setErrorMessage({status: true, message: " aucune valuer superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
+        break;
+      } else if ((i.suivi7.name === '' && i.suivi7.qt_caisse > 0) ) {
+
+        dispatch(productActions.setErrorMessage({status: true, message: " aucune valuer superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
+        break;
+      } else if ((i.suivi8.name === '' && i.suivi8.qt_caisse > 0) ) {
+
+        dispatch(productActions.setErrorMessage({status: true, message: " aucune valuer superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
+        break;
+      } else if ((i.suivi9.name === '' && i.suivi9.qt_caisse > 0) ) {
+
+        dispatch(productActions.setErrorMessage({status: true, message: " aucune valuer superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
+        break;
+      } else if ((i.suivi10.name === '' && i.suivi10.qt_caisse > 0) ) {
+
+        dispatch(productActions.setErrorMessage({status: true, message: " aucune valuer superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
+        break;
+      } else if ((i.suivi11.name === '' && i.suivi11.qt_caisse > 0) ) {
+
+        dispatch(productActions.setErrorMessage({status: true, message: " aucune valuer superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
+        break;
+      } else if ((i.suivi12.name === '' && i.suivi12.qt_caisse > 0) ) {
+
+        dispatch(productActions.setErrorMessage({status: true, message: " aucune valuer superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
+        break;
+      } else if ((i.suivi13.name === '' && i.suivi13.qt_caisse > 0) ) {
+
+        dispatch(productActions.setErrorMessage({status: true, message: " aucune valuer superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
+        break;
+      } else if ((i.suivi14.name === '' && i.suivi14.qt_caisse > 0) ) {
+
+        dispatch(productActions.setErrorMessage({status: true, message: " aucune valuer superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
+        break;
       } else {
 
-        dispatch(productActions.setErrorMessage({status: false, message: "aucun nombre inferieur ou egal à 0 n'est autorisé dans la section >stock apres vente >reste depot>qt caisse"}));
-      }
+        dispatch(productActions.setErrorMessage({status: false, message: ""}));
+      };
     };
-    
   };
-}
+};
 
 export default function Product (props) {
 
@@ -220,7 +275,6 @@ export default function Product (props) {
   //IDs
   const id = useSelector (state => state.product.id);
 
-  
   //vente degobar
   const venteDego = useSelector (state => state.product.venteDego);
   
@@ -274,8 +328,6 @@ export default function Product (props) {
           const dataApi = await axios.get( `http://localhost:5001/api/v1/${props.produit}/raportJournalier/${year}/${month}/${day}`);
           const dataVente = await axios.get (`http://localhost:5001/api/v1/vente/${year}/${month}/${day}`);
 
-          if (dataApi.data.data.day)
-
           if (dataVente.data.data.day) dispatch(productActions.setVenteDego(dataVente.data.data.day.valeur))
 
           dispatch(productActions.setProductdata (dataApi.data.data.day.map((el, index) => { return { ...el, id: index }})));
@@ -308,7 +360,7 @@ export default function Product (props) {
 
               if (dataApi.data.data.day.length === 0) {
 
-                if (dataVente.data.data.day.valeur !== 0 ) {
+                if (dataVente.data.data.day ) {
 
                   dispatch(productActions.setVenteDego(dataVente.data.data.day.valeur));
                 } else {
@@ -337,14 +389,18 @@ export default function Product (props) {
             dispatch(productActions.setProductdata (null));
             
             const dataApi = await axios.get(`http://localhost:5001/api/v1/${props.produit}/raportJournalier/${todayYear}/${todayMonth}/${todayDay}`);
-              
-            const previousData = await axios.get(`http://localhost:5001/api/v1/${props.produit}/raportJournalier/${prevYear}/${prevMonth}/${prevDay}`);
-                              
+            const previousData = await axios.get(`http://localhost:5001/api/v1/${props.produit}/raportJournalier/${prevYear}/${prevMonth}/${prevDay}`);              
             const dataVente = await axios.get (`http://localhost:5001/api/v1/vente/${todayYear}/${todayMonth}/${todayDay}`);
             
             if (dataApi.data.data.day.length === 0) {
-          
-              dispatch(productActions.setVenteDego(0))
+              
+              if (dataVente.data.data.day){
+
+                dispatch(productActions.setVenteDego(dataVente.data.data.day.valeur))
+              } else {
+                
+                dispatch(productActions.setVenteDego(0))
+              };
               dispatch(productActions.setUpdate(false));
               dispatch(productActions.setReadOnly(false));
               
@@ -384,7 +440,7 @@ export default function Product (props) {
   useEffect(() => {
 
     dispatch(productActions.setDate({year: year, month: month, day: day}));
-  },[props.produit]);
+  },[props.produit, year, month, day]);
 
   //post data
   function postData() {
@@ -588,5 +644,5 @@ export default function Product (props) {
           );
 
       } 
-  }
+  };
 }

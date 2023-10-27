@@ -1,8 +1,6 @@
 const catchAssynch = require(`${__dirname}/../utils/catchAssynch.js`);
 const AppError = require(`${__dirname}/../utils/appError.js`);
 
-
-
 function loopingData(array, year, month, day) {
 
   let dayData = [];
@@ -56,84 +54,89 @@ exports.pushDataCollection = catchAssynch (async (body, collection, response ) =
   const dataBralima = [];
 
   if (collectionData.length > 0) {
-
     for (let o = 0; o < body.length; o++) {
-      //have to check if new data was adding or not by checking the name
-      if (collectionData[o].name.toUpperCase() === body[o].name.toUpperCase()) {
 
-        const el1 = collectionData[o].data.length - 1;
-        const el2 = collectionData[o].data[el1].data.length - 1;
-        const el3 = collectionData[o].data[el1].data[el2].data.length - 1;
+      //have to check if new data was adding or not by checking the name
+      const indexMainName = collectionData.findIndex( el => el.name.toUpperCase() === body[o].name.toUpperCase());
+      
+      if ( indexMainName !== -1 ) {
+        
+        const el1 = collectionData[indexMainName].data.length - 1;
+        const el2 = collectionData[indexMainName].data[el1].data.length - 1;
+        const el3 = collectionData[indexMainName].data[el1].data[el2].data.length - 1;
         
         ///////////////////////////// stats For every data/////////////////////////////////////////
 
-        const yearindex = collectionData[o].data.findIndex(
+        const yearindex = collectionData[indexMainName].data.findIndex(
           (el) => el.annee === year
         );
 
         if (yearindex !== -1) {
-          const monthindex = collectionData[o].data[yearindex].data.findIndex( el => el.mois === month );
+          const monthindex = collectionData[indexMainName].data[yearindex].data.findIndex( el => el.mois === month );
 
           if (monthindex !== -1) {
             //verify if the data exist or not coz we cant push many data with the same day information
-            const dayIndex =  collectionData[o].data[yearindex].data[monthindex].data.findIndex( el => Number(JSON.stringify(el.createdAt).slice(9, 11)) ===day);
+            const dayIndex =  collectionData[indexMainName].data[yearindex].data[monthindex].data.findIndex( el => Number(JSON.stringify(el.createdAt).slice(9, 11)) === day);
 
-            if (dayIndex === -1) collectionData[o].data[yearindex].data[monthindex].data.push( body[o].data.data.data );
+            if (dayIndex === -1){
+              
+              collectionData[indexMainName].data[yearindex].data[monthindex].data.push( body[o].data.data.data );
+            } 
             
           } else {
 
-            collectionData[o].data[yearindex].data.push({
+            collectionData[indexMainName].data[yearindex].data.push({
 
               mois: month,
-              data: { ...body[o].data.data.data, name: collectionData[o].name },
+              data: { ...body[o].data.data.data, name: collectionData[indexMainName].name },
 
             });
           }
         } else {
-          collectionData[o].data.push({
+          collectionData[indexMainName].data.push({
 
             annee: year,
             data: {
               mois: month,
-              data: { ...body[o].data.data.data, name: collectionData[o].name },
+              data: { ...body[o].data.data.data, name: collectionData[indexMainName].name },
             },
 
           });
         }
 
         //saving the data in the server so we can work with the new data ///////////////////////////
-        await collectionData[o].save();
+        await collectionData[indexMainName].save();
 
-        const index1 =  collectionData[o].stats.findIndex( el => el.annee === year );
+        const index1 =  collectionData[indexMainName].stats.findIndex( el => el.annee === year );
 
         ///Statistics
         if (index1 !== -1) {
 
-          const index2 =  collectionData[o].stats[index1].data.findIndex(el => el.mois === Number(new Date().toLocaleDateString().slice(3, 5)) );
+          const index2 =  collectionData[indexMainName].stats[index1].data.findIndex(el => el.mois === Number(new Date().toLocaleDateString().slice(3, 5)) );
 
           if (index2 !== -1) {
             ////////////searching suivi's index data /////////////////////
 
             for (let i = 1; i <= 14; i++) {
-              if ( collectionData[o].data[el1].data[el2].data[el3][`suivi${i}`]["name"] !== ""){
+              if ( collectionData[indexMainName].data[el1].data[el2].data[el3][`suivi${i}`]["name"] !== ""){
 
-                const indexDataSuivi1 = collectionData[o].suiviApprovisionnement[index1].data[index2].data.findIndex( el => el.name.toUpperCase() === collectionData[o].data[el1].data[el2].data[el3][`suivi${i}`]["name"].toUpperCase());
+                const indexDataSuivi1 = collectionData[indexMainName].suiviApprovisionnement[index1].data[index2].data.findIndex( el => el.name.toUpperCase() === collectionData[indexMainName].data[el1].data[el2].data[el3][`suivi${i}`]["name"].toUpperCase());
 
                 if (indexDataSuivi1 !== -1) {
 
-                  collectionData[o].suiviApprovisionnement[index1].data[index2].data[indexDataSuivi1] = {
+                  collectionData[indexMainName].suiviApprovisionnement[index1].data[index2].data[indexDataSuivi1] = {
 
-                    name: collectionData[o].suiviApprovisionnement[index1].data[index2].data[indexDataSuivi1].name,
-                    valeur: Number(collectionData[o].suiviApprovisionnement[index1].data[index2].data[indexDataSuivi1].valeur) + Number (collectionData[o].data[el1].data[el2].data[el3][`suivi${i}`]["valeur"]),
+                    name: collectionData[indexMainName].suiviApprovisionnement[index1].data[index2].data[indexDataSuivi1].name,
+                    valeur: Number(collectionData[indexMainName].suiviApprovisionnement[index1].data[index2].data[indexDataSuivi1].valeur) + Number (collectionData[indexMainName].data[el1].data[el2].data[el3][`suivi${i}`]["valeur"]),
 
                   };
 
                 } else {
 
-                  collectionData[o].suiviApprovisionnement[index1].data[index2].data.push({
+                  collectionData[indexMainName].suiviApprovisionnement[index1].data[index2].data.push({
 
-                    name: collectionData[o].data[el1].data[el2].data[el3][`suivi${i}`]["name"],
-                    valeur: Number( collectionData[o].data[el1].data[el2].data[el3][`suivi${i}`]["valeur"]),
+                    name: collectionData[indexMainName].data[el1].data[el2].data[el3][`suivi${i}`]["name"],
+                    valeur: Number( collectionData[indexMainName].data[el1].data[el2].data[el3][`suivi${i}`]["valeur"]),
 
                   });
                 };
@@ -143,29 +146,29 @@ exports.pushDataCollection = catchAssynch (async (body, collection, response ) =
             ///stats //////////
             const statsObj = {
 
-              name: collectionData[o].name,
-              mois: collectionData[o].stats[index1].data[index2].mois,
-              vente_bar: Number(collectionData[o].stats[index1].data[index2].vente_bar) + Number( collectionData[o].data[el1].data[el2].data[el3].vente_journaliere.valeur),
-              approvionnement: Number(collectionData[o].stats[index1].data[index2].approvionnement) + Number(collectionData[o].data[el1].data[el2].data[el3].benefice_sur_achat.val_gros_approvisionnement),
-              benefice: Number(collectionData[o].stats[index1].data[index2].benefice) + Number( collectionData[o].data[el1].data[el2].data[el3].benefice_sur_vente),
+              name: collectionData[indexMainName].name,
+              mois: collectionData[indexMainName].stats[index1].data[index2].mois,
+              vente_bar: Number(collectionData[indexMainName].stats[index1].data[index2].vente_bar) + Number( collectionData[indexMainName].data[el1].data[el2].data[el3].vente_journaliere.valeur),
+              approvionnement: Number(collectionData[indexMainName].stats[index1].data[index2].approvionnement) + Number(collectionData[indexMainName].data[el1].data[el2].data[el3].benefice_sur_achat.val_gros_approvisionnement),
+              benefice: Number(collectionData[indexMainName].stats[index1].data[index2].benefice) + Number( collectionData[indexMainName].data[el1].data[el2].data[el3].benefice_sur_vente),
                
             };
 
-            collectionData[o].stats[index1].data[index2] = statsObj;
+            collectionData[indexMainName].stats[index1].data[index2] = statsObj;
 
           } else {
             //////////////////////////////////////////////////suiviAppro
             for (let i = 1; i <= 15; i++) {
 
-              if (collectionData[o].data[el1].data[el2].data[el3][`suivi${i}`]["name"] !== "") {
+              if (collectionData[indexMainName].data[el1].data[el2].data[el3][`suivi${i}`]["name"] !== "") {
 
-                collectionData[o].suiviApprovisionnement[index1].data.push({
+                collectionData[indexMainName].suiviApprovisionnement[index1].data.push({
 
                   mois: Number(new Date().toLocaleDateString().slice(3, 5)),
                   data: [
                     {
-                      name: collectionData[o].data[el1].data[el2].data[el3][`suivi${i}`]["name"],
-                      valeur: Number( collectionData[o].data[el1].data[el2].data[el3][`suivi${i}`]["valeur"]
+                      name: collectionData[indexMainName].data[el1].data[el2].data[el3][`suivi${i}`]["name"],
+                      valeur: Number( collectionData[indexMainName].data[el1].data[el2].data[el3][`suivi${i}`]["valeur"]
 
                       ),
                     },
@@ -176,24 +179,24 @@ exports.pushDataCollection = catchAssynch (async (body, collection, response ) =
 
             /////stats///////////////////////
             const statsObj = {
-              name: collectionData[o].name,
+              name: collectionData[indexMainName].name,
               mois: Number(new Date().toLocaleDateString().slice(3, 5)),
-              vente_bar: Number( collectionData[o].data[el1].data[el2].data[el3].vente_journaliere.valeur),
-              approvionnement: Number( collectionData[o].data[el1].data[el2].data[el3].benefice_sur_achat.val_gros_approvisionnement),
-              benefice: Number( collectionData[o].data[el1].data[el2].data[el3].benefice_sur_vente),
+              vente_bar: Number( collectionData[indexMainName].data[el1].data[el2].data[el3].vente_journaliere.valeur),
+              approvionnement: Number( collectionData[indexMainName].data[el1].data[el2].data[el3].benefice_sur_achat.val_gros_approvisionnement),
+              benefice: Number( collectionData[indexMainName].data[el1].data[el2].data[el3].benefice_sur_vente),
 
             };
 
-            collectionData[o].stats[index1].data.push(statsObj);
+            collectionData[indexMainName].stats[index1].data.push(statsObj);
 
           };
         } else {
           //////suiviAppro
           for (let i = 1; i <= 14; i++) {
 
-            if ( collectionData[o].data[el1].data[el2].data[el3][`suivi${i}`]["name"] !== "") {
+            if ( collectionData[indexMainName].data[el1].data[el2].data[el3][`suivi${i}`]["name"] !== "") {
 
-              collectionData[o].suiviApprovisionnement.push({
+              collectionData[indexMainName].suiviApprovisionnement.push({
 
                 annee: year,
                 data: [
@@ -201,8 +204,8 @@ exports.pushDataCollection = catchAssynch (async (body, collection, response ) =
                     mois: month,
                     data: [
                       {
-                        name: collectionData[o].data[el1].data[el2].data[el3][`suivi${i}`]["name"],
-                        valeur: Number( collectionData[o].data[el1].data[el2].data[el3][`suivi${i}`]["valeur"]),
+                        name: collectionData[indexMainName].data[el1].data[el2].data[el3][`suivi${i}`]["name"],
+                        valeur: Number( collectionData[indexMainName].data[el1].data[el2].data[el3][`suivi${i}`]["valeur"]),
 
                       },
                     ],
@@ -217,73 +220,76 @@ exports.pushDataCollection = catchAssynch (async (body, collection, response ) =
             annee: year,
             data: [
               {
-                name: collectionData[o].name,
+                name: collectionData[indexMainName].name,
                 mois: Number(new Date().toLocaleDateString().slice(3, 5)),
-                vente_bar: Number(collectionData[o].data[el1].data[el2].data[el3].vente_journaliere.valeur),
-                approvionnement: Number(collectionData[o].data[el1].data[el2].data[el3].benefice_sur_achat.val_gros_approvisionnement),
-                benefice: Number( collectionData[o].data[el1].data[el2].data[el3].benefice_sur_vente),
+                vente_bar: Number(collectionData[indexMainName].data[el1].data[el2].data[el3].vente_journaliere.valeur),
+                approvionnement: Number(collectionData[indexMainName].data[el1].data[el2].data[el3].benefice_sur_achat.val_gros_approvisionnement),
+                benefice: Number( collectionData[indexMainName].data[el1].data[el2].data[el3].benefice_sur_vente),
 
               },
             ],
           };
 
-          collectionData[o].stats.push(statsObj);
+          collectionData[indexMainName].stats.push(statsObj);
         }
 
-        dataBralima.push(collectionData[o]);
-        await collectionData[o].save();
+        dataBralima.push(collectionData[indexMainName]);
+        await collectionData[indexMainName].save();
 
       } else {
         /////If the name that we push don't match with no one else///////////
-        ////////We creat It//////////////////////////////////
+        ////////We creat It//////////////////////////////////and must be different to ""
 
-        const newBralimaData = await collection.create(body[o]);
+        if (body[o].name !== "") {
 
-        //initialize the stats object and doing some calcul
-        const statsObj = {
-          annee: year,
-          data: [
-            {
-              name: o.name,
-              mois: month,
-
-              //working with the last data created in this product
-              vente_bar: Number( newBralimaData.data[0].data[0].data[0].vente_journaliere.valeur),
-              approvionnement: Number( newBralimaData.data[0].data[0].data[0].benefice_sur_achat.val_gros_approvisionnement),
-              benefice: Number( newBralimaData.data[0].data[0].data[0].benefice_sur_vent),
-
-            },
-          ],
-        };
-
-        ///////////////////////////////////////////pushing data in our suivi Object
-
-        for (let i = 1; i <= 14; i++) {
-          if ( newBralimaData.data[0].data[0].data[0][`suivi${i}`][`name`] !== "") {
-
-            newBralimaData.suiviApprovisionnement.push({
-
-              annee: year,
-              data: [
-                {
-                  mois: month,
-                  data: [
-                    {
-                      name: newBralimaData.data[0].data[0].data[0][`suivi${i}`]["name"],
-                      valeur: Number( newBralimaData.data[0].data[0].data[0][`suivi${i}`]["valeur"]),
-
-                    },
-                  ],
-                },
-              ],
-            });
+          const newBralimaData = await collection.create(body[o]);
+  
+          //initialize the stats object and doing some calcul
+          const statsObj = {
+            annee: year,
+            data: [
+              {
+                name: body[o].name,
+                mois: month,
+  
+                //working with the last data created in this product
+                vente_bar: Number( newBralimaData.data[0].data[0].data[0].vente_journaliere.valeur),
+                approvionnement: Number( newBralimaData.data[0].data[0].data[0].benefice_sur_achat.val_gros_approvisionnement),
+                benefice: Number( newBralimaData.data[0].data[0].data[0].benefice_sur_vente),
+  
+              },
+            ],
+          };
+  
+          ///////////////////////////////////////////pushing data in our suivi Object
+  
+          for (let i = 1; i <= 14; i++) {
+            if ( newBralimaData.data[0].data[0].data[0][`suivi${i}`][`name`] !== "") {
+  
+              newBralimaData.suiviApprovisionnement.push({
+  
+                annee: year,
+                data: [
+                  {
+                    mois: month,
+                    data: [
+                      {
+                        name: newBralimaData.data[0].data[0].data[0][`suivi${i}`]["name"],
+                        valeur: Number( newBralimaData.data[0].data[0].data[0][`suivi${i}`]["valeur"]),
+  
+                      },
+                    ],
+                  },
+                ],
+              });
+            }
           }
-        }
-
-        //then save again the data
-        newBralimaData.stats.push(statsObj);
-        dataBralima.push(newBralimaData);
-        await newBralimaData.save();
+  
+          //then save again the data
+          newBralimaData.stats.push(statsObj);
+          dataBralima.push(newBralimaData);
+          await newBralimaData.save();
+        };
       }
     }; 
 
@@ -301,49 +307,53 @@ exports.pushDataCollection = catchAssynch (async (body, collection, response ) =
     const createadData = [];
 
     for (let o of body) {
-      const newBralimaData = await collection.create(o);
 
-      //pushing the stats of every name in our Suivi Object
-      for (let i = 1; i <= 14; i++) {
-        if ( newBralimaData.data[0].data[0].data[0][`suivi${i}`]["name"] !== "") {
+      if ( o.name !== "") {
 
-          newBralimaData.suiviApprovisionnement.push({
-
-            annee: year,
-            data: [
-              {
-                mois: month,
-                data: [
-                  {
-                    name: newBralimaData.data[0].data[0].data[0][`suivi${i}`]["name"],
-                    valeur: Number( newBralimaData.data[0].data[0].data[0][`suivi${i}`]["valeur"]),
-                  },
-                ],
-              },
-            ],
-          });
+        const newBralimaData = await collection.create(o);
+  
+        //pushing the stats of every name in our Suivi Object
+        for (let i = 1; i <= 14; i++) {
+          if ( newBralimaData.data[0].data[0].data[0][`suivi${i}`]["name"] !== "") {
+  
+            newBralimaData.suiviApprovisionnement.push({
+  
+              annee: year,
+              data: [
+                {
+                  mois: month,
+                  data: [
+                    {
+                      name: newBralimaData.data[0].data[0].data[0][`suivi${i}`]["name"],
+                      valeur: Number( newBralimaData.data[0].data[0].data[0][`suivi${i}`]["valeur"]),
+                    },
+                  ],
+                },
+              ],
+            });
+          };
         };
+  
+        //initialize the stats object and doing some calcul
+        const statsObj = {
+          annee: year,
+          data: [
+            {
+              name: o.name,
+              mois: month,
+  
+              //working with the last data created in this product
+              vente_bar: Number( newBralimaData.data[0].data[0].data[0].vente_journaliere.valeur),
+              approvionnement: Number( newBralimaData.data[0].data[0 ].data[0].benefice_sur_achat.val_gros_approvisionnement),
+              benefice: Number( newBralimaData.data[0].data[0].data[newBralimaData.data[0].data[0 ].data.length - 1].benefice_sur_vente),
+            },
+          ],
+        };
+  
+        newBralimaData.stats.push(statsObj);
+        createadData.push(newBralimaData);
+        await newBralimaData.save();
       };
-
-      //initialize the stats object and doing some calcul
-      const statsObj = {
-        annee: year,
-        data: [
-          {
-            name: o.name,
-            mois: month,
-
-            //working with the last data created in this product
-            vente_bar: Number( newBralimaData.data[0].data[0].data[0].vente_journaliere.valeur),
-            approvionnement: Number( newBralimaData.data[0].data[0 ].data[0].benefice_sur_achat.val_gros_approvisionnement),
-            benefice: Number( newBralimaData.data[0].data[0].data[newBralimaData.data[0].data[0 ].data.length - 1].benefice_sur_vente),
-          },
-        ],
-      };
-
-      newBralimaData.stats.push(statsObj);
-      createadData.push(newBralimaData);
-      await newBralimaData.save();
     }
 
     // then the response ....
