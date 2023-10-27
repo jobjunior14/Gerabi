@@ -396,7 +396,6 @@ exports.updateDataCollection = catchAssynch (async (collection, request, respons
 
           ////array to store all suivi data
           const suiviObj = [];
-
           ///////suivi////////////////
           for (let i = 1; i <= 14; i++) {
 
@@ -465,14 +464,6 @@ exports.updateDataCollection = catchAssynch (async (collection, request, respons
 
             collectionData.stats[index1].data[index2] = statsObj2;
             await collectionData.save();
-
-
-            //  // then the response ....
-            // response.status(200).json({
-            //   status: "success",
-            //   data: loopingData( updatedDocument, year, month, day ),
-            // });
-
 
           } else {
             

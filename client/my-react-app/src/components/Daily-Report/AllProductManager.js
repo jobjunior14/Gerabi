@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import axios from "axios";
 import { useSearchParams } from "react-router-dom";
 import {useSelector, useDispatch } from 'react-redux'
@@ -141,6 +141,69 @@ function objProvider(el, index){
   };
 };
 
+function errMessage (dispatch, productActions, venteDego, productData){
+
+  if (venteDego <= 0) {
+  
+    dispatch(productActions.setErrorMessage({status: true, message: "verifier la section vente dego systeme"}));
+  } else {
+    
+    for (let i of productData){
+  
+      if (i.name === "" ) {
+  
+        dispatch(productActions.setErrorMessage({status: true, message: "aucun produit sans nom n'est autorisé"}));
+        break;
+  
+      } else if (i.achat_journalier.qt_caisse <= 0) {
+
+        dispatch(productActions.setErrorMessage({status: true, message: "aucun nombre inferieur ou egal à 0 n'est autorisé dans la section >achat journalier>quantié caisse"}));
+        break;
+      } else if (i.achat_journalier.nbr_btll <= 0) {
+  
+        dispatch(productActions.setErrorMessage({status: true, message: "aucun nombre inferieur ou egal à 0 n'est autorisé dans la section >achat journalier>nbr bouteille"}));
+        break;
+      } else if (i.achat_journalier.prix_achat_gros <= 0) {
+  
+        dispatch(productActions.setErrorMessage({status: true, message: "aucun nombre inferieur ou egal à 0 n'est autorisé dans la section >achat journalier>prix achat gros"}));
+        break;
+      } else if (i.business_projection.sortie_cave <= 0) {
+  
+        dispatch(productActions.setErrorMessage({status: true, message: "aucun nombre inferieur ou egal à 0 n'est autorisé dans la section >business projection>sortie cave"}));
+        break;
+      } else if (i.vente_journaliere.ref_prix_det <= 0) {
+  
+        dispatch(productActions.setErrorMessage({status: true, message: "aucun nombre inferieur ou egal à 0 n'est autorisé dans la section >vente journaliere>reference prix detaille"}));
+        break;
+      } else if (i.stock_consignaions.qt <= 0) {
+  
+        dispatch(productActions.setErrorMessage({status: true, message: "aucun nombre inferieur ou egal à 0 n'est autorisé dans la section >stock consignation>quantié "}));
+        break;
+      } else if (i.val_precedente.stock_apres_ventente_rest_stock_comptoir_qt_btll <= 0) {
+  
+        dispatch(productActions.setErrorMessage({status: true, message: "aucun nombre inferieur ou egal à 0 n'est autorisé dans la section >stock initial>reste comptoir qt bouteille"}));
+        break;
+      } else if (i.val_precedente.stock_apres_ventente_rest_stock_depot_qt_btll <= 0) {
+  
+        dispatch(productActions.setErrorMessage({status: true, message: "aucun nombre inferieur ou egal à 0 n'est autorisé dans la section >stock apres vente>reste depot qt bouteille"}));
+        break;
+      } else if (i.stock_apres_vente.reste_stock_comptoir.qt_btll <= 0) {
+  
+        dispatch(productActions.setErrorMessage({status: true, message: "aucun nombre inferieur ou egal à 0 n'est autorisé dans la section >stock apres vente >reste comptoir>qt bouteille"}));
+        break;
+      } else if (i.stock_apres_vente.reste_stock_depot.qt_caisses <= 0) {
+  
+        dispatch(productActions.setErrorMessage({status: true, message: "aucun nombre inferieur ou egal à 0 n'est autorisé dans la section >stock apres vente >reste depot>qt caisse"}));
+        break;
+      } else {
+
+        dispatch(productActions.setErrorMessage({status: false, message: "aucun nombre inferieur ou egal à 0 n'est autorisé dans la section >stock apres vente >reste depot>qt caisse"}));
+      }
+    };
+    
+  };
+}
+
 export default function Product (props) {
 
   const dispatch = useDispatch();
@@ -191,6 +254,9 @@ export default function Product (props) {
   //boolen value to check the current date and the query parameters
   const dateState = year === todayYear && month === todayMonth && day === todayDay;
 
+  //error message before sending the data to the server
+  const errorMessage =  useSelector(state => state.product.errorMessage);
+
   //fecth the data's day
   useEffect(() => {
 
@@ -198,20 +264,25 @@ export default function Product (props) {
       
       try {
 
+        //initialisation of error message
+        dispatch(productActions.setErrorMessage({status: true, message: ""}));
+
         if (year < todayYear || month < todayMonth || day < todayDay) {
 
           dispatch(productActions.setProductdata(null));
 
           const dataApi = await axios.get( `http://localhost:5001/api/v1/${props.produit}/raportJournalier/${year}/${month}/${day}`);
-
           const dataVente = await axios.get (`http://localhost:5001/api/v1/vente/${year}/${month}/${day}`);
+
+          if (dataApi.data.data.day)
 
           if (dataVente.data.data.day) dispatch(productActions.setVenteDego(dataVente.data.data.day.valeur))
 
           dispatch(productActions.setProductdata (dataApi.data.data.day.map((el, index) => { return { ...el, id: index }})));
           dispatch(productActions.setId(dataApi.data.data.id))
-          dispatch(productActions.setUpdate());
-          dispatch(productActions.setReadOnly());
+          dispatch(productActions.setUpdate(true));
+          dispatch(productActions.setReadOnly(true));
+          
 
         } else if ( dateState ) {
 
@@ -225,8 +296,8 @@ export default function Product (props) {
               dispatch(productActions.setVenteDego(vente))
               dispatch(productActions.setProductdata (storageState.data));
               dispatch(productActions.setId(storageState.id))
-              dispatch(productActions.setUpdate());
-              dispatch(productActions.setReadOnly());
+              dispatch(productActions.setUpdate(true));
+              dispatch(productActions.setReadOnly(true));
 
             };
             
@@ -237,20 +308,26 @@ export default function Product (props) {
 
               if (dataApi.data.data.day.length === 0) {
 
-                dispatch(productActions.setVenteDego(0))
+                if (dataVente.data.data.day.valeur !== 0 ) {
+
+                  dispatch(productActions.setVenteDego(dataVente.data.data.day.valeur));
+                } else {
+
+                  dispatch(productActions.setVenteDego(0));
+                };
+
                 dispatch(productActions.setProductdata (storageState.data.map((el, index) => objProvider(el, index))));
                 dispatch(productActions.setId(storageState.id))
-                dispatch(productActions.setUpdate());
-                dispatch(productActions.setReadOnly());
+                dispatch(productActions.setUpdate(false));
+                dispatch(productActions.setReadOnly(false));
 
               } else {
-                
                 
                 dispatch(productActions.setVenteDego(dataVente.data.data.day.valeur))
                 dispatch(productActions.setProductdata (dataApi.data.data.day.map((el, index) => { return { ...el, id: index }; })));
                 dispatch(productActions.setId( dataApi.data.data.id))
-                dispatch(productActions.setUpdate());
-                dispatch(productActions.setReadOnly());
+                dispatch(productActions.setUpdate(true));
+                dispatch(productActions.setReadOnly(true));
 
               };
             };
@@ -268,8 +345,8 @@ export default function Product (props) {
             if (dataApi.data.data.day.length === 0) {
           
               dispatch(productActions.setVenteDego(0))
-              dispatch(productActions.setUpdate());
-              dispatch(productActions.setReadOnly());
+              dispatch(productActions.setUpdate(false));
+              dispatch(productActions.setReadOnly(false));
               
               if (previousData.data.data.day.length > 0) {
                 
@@ -285,12 +362,13 @@ export default function Product (props) {
               dispatch(productActions.setVenteDego(dataVente.data.data.day.valeur))
               dispatch(productActions.setProductdata (dataApi.data.data.day.map((el, index) => { return { ...el, id: index }; })));
               dispatch(productActions.setId( dataApi.data.data.id))
-              dispatch(productActions.setUpdate());
-              dispatch(productActions.setReadOnly());
+              dispatch(productActions.setUpdate(true));
+              dispatch(productActions.setReadOnly(true));
 
             };
           };
         };
+
       } catch (err) {
         if (err.message) {
           console.log(err.data);
@@ -302,36 +380,53 @@ export default function Product (props) {
     fecthData();
   }, [year, day, month, props.produit, dateState]);
 
-  //post data or UpdateData
+  //change date field 
+  useEffect(() => {
+
+    dispatch(productActions.setDate({year: year, month: month, day: day}));
+  },[props.produit]);
+
+  //post data
   function postData() {
+    
+    //calling the function to set the user's Message
+    //if there is the error, data can't be sent to the server
+    errMessage(dispatch, productActions, venteDego, productData);
 
     const fecthData = async () => {
 
-      const newBralimaData = productData.map((el) => {
-        return {
-          name: el.name,
-          data: {
-            data: {
-              data: { ...el },
-            },
-          },
-        };
-      });
-
-      const newDataVente = {
-        valeur: venteDego,
-      };
-
-      dispatch(productActions.setProductdata(null));
+      
       try {
-        const response = await axios.post( `http://localhost:5001/api/v1/${props.produit}/raportJournalier`, newBralimaData);
-        const responseventeDego = await axios.post( "http://localhost:5001/api/v1/vente", newDataVente);
+        
+        if (!errorMessage.status) {
+          
+          //modeling data to our schema
+          const newData = productData.map((el) => {
+            return {
+              name: el.name,
+              data: {
+                data: {
+                  data: { ...el },
+                },
+              },
+            };
+          });
+    
+          //modeling data to our schema 
+          const newDataVente = {
+            valeur: venteDego,
+          };
 
-        dispatch(productActions.setUpdate());
-        dispatch(productActions.setReadOnly());
-
-        dispatch(productActions.setVenteDego(responseventeDego.data.data.day.valeur));
-        dispatch(productActions.setProductdata( response.data.data.day.map((el, index) => { return { ...el, id: index }})));
+          dispatch(productActions.setProductdata(null));
+          
+          const response = await axios.post( `http://localhost:5001/api/v1/${props.produit}/raportJournalier`, newData);
+          const responseventeDego = await axios.post( "http://localhost:5001/api/v1/vente", newDataVente);
+  
+          dispatch(productActions.setUpdate(true));
+          dispatch(productActions.setReadOnly(true));
+          dispatch(productActions.setVenteDego(responseventeDego.data.data.day.valeur));
+          dispatch(productActions.setProductdata( response.data.data.day.map((el, index) => { return { ...el, id: index }})));
+        };
 
       } catch (err) {
         if (err.message) {
@@ -341,10 +436,9 @@ export default function Product (props) {
         }
       };
 
-    };
-    fecthData();
+    };fecthData();
 
-     if ( dateState ) {
+    if ( dateState && !errorMessage.status ) {
 
       localStorage.setItem(`${props.produit}`, JSON.stringify({
         date: {
@@ -362,47 +456,58 @@ export default function Product (props) {
   function setFilterParams() {
 
     setDateParams(prev => prev = date);
-    dispatch(productActions.setProductdata(null));
 
   };
 
+  //update data
   function UpdateData() {
+
+    //calling the function to set the user's Message
+    //if there is the error, data can't be sent to the server
+    errMessage(dispatch, productActions, venteDego, productData);
 
     const fecthData = async () => {
 
-      const newData = productData.map((el) => {
-        return {
-          name: el.name,
-          data: {
-            data: {
-              data: {
-                ...el,
-                createdAt: `${year}-${month}-${day}T07:22:54.930Z`,
-              },
-            },
-          },
-        };
-      });
-
-      const newData2 = { id: [...id], data: [...newData] };
-
-      const newDataVente = {
-
-        valeur: venteDego,
-        createdAt: `${year}-${month}-${day}T07:22:54.930Z`,
-      }
-      dispatch(productActions.setProductdata(null));
-
+      
       try {
+        
+        if (!errMessage.status) {
+          
+          //modeling data to schema
+          const newData = productData.map((el) => {
+            return {
+              name: el.name,
+              data: {
+                data: {
+                  data: {
+                    ...el,
+                    createdAt: `${year}-${month}-${day}T07:22:54.930Z`,
+                  },
+                },
+              },
+            };
+          });
+          
+          //modeling data to schema
+          const newData2 = { id: [...id], data: [...newData] };
+    
+          //modeling data to schema
+          const newDataVente = {
+    
+            valeur: venteDego,
+            createdAt: `${year}-${month}-${day}T07:22:54.930Z`,
+          };
+          
+          dispatch(productActions.setProductdata(null));
 
-        //response of our main array
-        const response = await axios.post( `http://localhost:5001/api/v1/${props.produit}/raportJournalier/${year}/${month}/${day}`, newData2 );
-
-        const venteDegoResponse = await axios.post( `http://localhost:5001/api/v1/vente/${year}/${month}/${day}`, newDataVente );
-
-        dispatch(productActions.setVenteDego (venteDegoResponse.data.data.day.valeur))
-        dispatch(productActions.setProductdata (response.data.data.day.map((el, index) => { return { ...el, id: index };})));
-        dispatch(productActions.setId (response.data.data.id));
+          //response
+          const response = await axios.post( `http://localhost:5001/api/v1/${props.produit}/raportJournalier/${year}/${month}/${day}`, newData2 );
+          const venteDegoResponse = await axios.post( `http://localhost:5001/api/v1/vente/${year}/${month}/${day}`, newDataVente );
+  
+          dispatch(productActions.setVenteDego (venteDegoResponse.data.data.day.valeur))
+          dispatch(productActions.setProductdata (response.data.data.day.map((el, index) => { return { ...el, id: index }})));
+          dispatch(productActions.setId (response.data.data.id));
+        };
 
       } catch (err) {
         if (err.message) {
@@ -414,7 +519,7 @@ export default function Product (props) {
     };
     fecthData();
 
-     if ( dateState ) {
+    if ( dateState ) {
 
       localStorage.setItem(`${props.produit}`, JSON.stringify({
         date: {
@@ -447,53 +552,34 @@ export default function Product (props) {
   
           return (
             <div>
-            
+              <DailyFilter  prev = {date} onclick = {setFilterParams} />
 
-                <DailyFilter  prev = {date} onclick = {setFilterParams} />
+              <label>Vente Journalière Dego</label>
+              <input type="number" name="vente" onChange={ e =>  dispatch(productActions.setVenteDego (e.target.value))} placeholder="Vente Journalière Dego" defaultValue={venteDego}/>
+              <ExcelSecLayout toggle = {toggleStoc} />
+              <button onClick={() => dispatch(productActions.setToggleStoc())} >{ !toggleStoc ? 'Cacher' : 'Afficher' }</button>
+              { !update && <AddProduct />}
 
-                <label>Vente Journalière Dego</label>
-                <input type="number" name="vente" onChange={ e =>  dispatch(productActions.setVenteDego (e.target.value))} placeholder="Vente Journalière Dego" defaultValue={venteDego}/>
-                <ExcelSecLayout toggle = {toggleStoc} />
-                <button onClick={() => dispatch(productActions.setToggleStoc())} >{ !toggleStoc ? 'Cacher' : 'Afficher' }</button>
-                { !update && <AddProduct />}
+              <h1> Suivi Approvisinnemnt </h1>
 
-                <h1> Suivi Approvisinnemnt </h1>
-
-                <TableSuivi />
-                <button onClick={() => dispatch (productActions.setProvivers())}>{ !update ? 'Afficher Ou Ajouter un Fournisseur' : 'Afficher plus de Fournisseur' } </button>
-                
-                { !update ? <button onClick={postData}> Enregistrer les Donnees </button> : <button onClick={UpdateData}> Mettre à jour les données</button>}
-
-              
+              <TableSuivi />
+              <button onClick={() => dispatch (productActions.setProvivers())}>{ !update ? 'Afficher Ou Ajouter un Fournisseur' : 'Afficher plus de Fournisseur' } </button>
+              { !update ? <button onClick={postData}> Enregistrer les Donnees </button> : <button onClick={UpdateData}> Mettre à jour les données</button>}
+              {errorMessage.status && <h3> {errorMessage.message} </h3>}
             </div>
           );
           } else {
-              // console.log (year, todayDay);
 
-            if ( dateState ){
+            //abillity to modify the current date and the previous date
+            return (
+              <div>
+              
+                  <DailyFilter  prev = {date} onclick = {setFilterParams} />
+                  <AddProduct />                  
+              </div>
+            );
 
-              return (
-                <div>
-                
-                    <DailyFilter  prev = {date} onclick = {setFilterParams} />
-                    <AddProduct />                  
-                </div>
-              );
-
-            } else {
-                    
-              return (
-                <div> 
-                 
-                    <DailyFilter  prev = {date} onclick = {setFilterParams} />
-
-                    <h3> Ooops la donnée de cette date est inexistante</h3>
-                    <h4> S'il vous plait veillez chercher une autre date </h4>
-                  
-                </div>
-              )
-            }
-         };
+          };
 
       } else {
       

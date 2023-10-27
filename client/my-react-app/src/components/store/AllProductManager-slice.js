@@ -12,8 +12,13 @@ const productSlice = createSlice ({
         venteDego: null,
         date: {
             year: Number(new Date().getFullYear()),
-            month: Number(new Date().getMonth()),
+            month: Number(new Date().getMonth() + 1),
             day: Number(new Date().getDate()),
+        },
+        errorMessage: {
+            
+            status: true,
+            message: ""
         }
     },
 
@@ -26,23 +31,23 @@ const productSlice = createSlice ({
         },
 
         //verify if data are already sent to server
-        setReadOnly (state) {
-            state.readOnly = !state.readOnly
+        setReadOnly (state, action) {
+            state.readOnly = action.payload
         },
         
         //toggle btn to hide useless calcul in stock
-        setToggleStoc (state) {
-            state.toggleStoc = !state.toggleStoc
+        setToggleStoc (state, action ) {
+            state.toggleStoc = !state.toggleStoc;
         },
 
         //display more providers
         setProvivers ( state) {
-            if (state.providers <= 14) state.providers = state.providers ++
+            if (state.providers <= 14) state.providers = state.providers + 1;
         },
 
         //verify if it data come from the server and need to be updated
-        setUpdate ( state) {
-            state.update = !state.update
+        setUpdate ( state, action) {
+            state.update = action.payload;
         },
 
         //set data from the server
@@ -255,12 +260,30 @@ const productSlice = createSlice ({
         //manage date field 
         setDate (state, action) {
 
-            const name = action.payload.name;
-            const value = action.payload.value;
+            if (action.payload.year) {
 
-            state.date = {
-                ...state.date, [name]: value
-            };
+                state.date = {
+                    year: action.payload.year,
+                    month: action.payload.month,
+                    day: action.payload.day
+                };
+
+            } else {
+                
+                const name = action.payload.name;
+                const value = action.payload.value;
+    
+                state.date = {
+                    ...state.date, [name]: value
+                };
+            }
+        },
+
+        setErrorMessage (state, action) {
+            state.errorMessage = {
+                status: action.payload.status,
+                message: action.payload.message
+            }
         }
     }
 });
