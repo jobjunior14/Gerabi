@@ -60,6 +60,7 @@ function objProvider(el, index){
         qt_btll: 0,
         valeur: 0,
       },
+      valeur_stock: 0
     },
 
     benefice_sur_vente: 0,
@@ -284,10 +285,10 @@ export default function Product (props) {
   //date query
   const [dateParams, setDateParams] = useSearchParams();
   
-  //to check today's date
-  const todayYear = Number(new Date().getFullYear());
-  const todayMonth = Number(new Date().getMonth() + 1);
-  const todayDay = Number(new Date().getDate());
+  //to check current date
+  const currentYear = Number(new Date().getFullYear());
+  const currentMonth = Number(new Date().getMonth() + 1);
+  const currentDay = Number(new Date().getDate());
 
   //dependacies of useEffect
   const year = Number(dateParams.get("year"));
@@ -306,12 +307,12 @@ export default function Product (props) {
   const prevDay = today.getDate();
 
   //boolen value to check the current date and the query parameters
-  const dateState = year === todayYear && month === todayMonth && day === todayDay;
+  const dateState = (year === currentYear && month === currentMonth && day === currentDay);
 
   //error message before sending the data to the server
   const errorMessage =  useSelector(state => state.product.errorMessage);
 
-  //fecth the data's day
+  //fecth the data
   useEffect(() => {
 
     const fecthData = async () => {
@@ -321,7 +322,7 @@ export default function Product (props) {
         //initialisation of error message
         dispatch(productActions.setErrorMessage({status: true, message: ""}));
 
-        if (year < todayYear || month < todayMonth || day < todayDay) {
+        if (year < currentYear || month < currentMonth || day < currentDay) {
 
           dispatch(productActions.setProductdata(null));
 
@@ -355,8 +356,8 @@ export default function Product (props) {
             
             if ( storageState.date.year === prevYear && storageState.date.month === prevMonth && storageState.date.day === prevDay) { 
 
-              const dataApi = await axios.get(`http://localhost:5001/api/v1/${props.produit}/raportJournalier/${todayYear}/${todayMonth}/${todayDay}`);
-              const dataVente = await axios.get (`http://localhost:5001/api/v1/vente/${todayYear}/${todayMonth}/${todayDay}`);
+              const dataApi = await axios.get(`http://localhost:5001/api/v1/${props.produit}/raportJournalier/${currentYear}/${currentMonth}/${currentDay}`);
+              const dataVente = await axios.get (`http://localhost:5001/api/v1/vente/${currentYear}/${currentMonth}/${currentDay}`);
 
               if (dataApi.data.data.day.length === 0) {
 
@@ -388,9 +389,9 @@ export default function Product (props) {
 
             dispatch(productActions.setProductdata (null));
             
-            const dataApi = await axios.get(`http://localhost:5001/api/v1/${props.produit}/raportJournalier/${todayYear}/${todayMonth}/${todayDay}`);
+            const dataApi = await axios.get(`http://localhost:5001/api/v1/${props.produit}/raportJournalier/${currentYear}/${currentMonth}/${currentDay}`);
             const previousData = await axios.get(`http://localhost:5001/api/v1/${props.produit}/raportJournalier/${prevYear}/${prevMonth}/${prevDay}`);              
-            const dataVente = await axios.get (`http://localhost:5001/api/v1/vente/${todayYear}/${todayMonth}/${todayDay}`);
+            const dataVente = await axios.get (`http://localhost:5001/api/v1/vente/${currentYear}/${currentMonth}/${currentDay}`);
             
             if (dataApi.data.data.day.length === 0) {
               
@@ -591,7 +592,7 @@ export default function Product (props) {
 
   };
 
-  if ( (year > todayYear && month > todayMonth && day > todayDay) || (year === todayYear && month > todayMonth && day > todayDay) || (year === todayYear && month === todayMonth && day > todayDay)) {
+  if ( (year > currentYear && month > currentMonth && day > currentDay) || (year === currentYear && month > currentMonth && day > currentDay) || (year === currentYear && month === currentMonth && day > currentDay)) {
 
     return (
     <div>

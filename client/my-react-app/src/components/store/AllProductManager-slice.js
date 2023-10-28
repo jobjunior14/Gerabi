@@ -172,9 +172,10 @@ const productSlice = createSlice ({
                     },
                     reste_stock_depot: {
                         qt_caisses: 0,
-                        qt_btll: 56,
-                        valeur: 224000,
+                        qt_btll: 0,
+                        valeur: 0,
                     },
+                    valeur_stock: 0
                     },
 
                     benefice_sur_vente: 0,

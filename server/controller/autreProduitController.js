@@ -28,7 +28,7 @@ exports.updateDataAutreProduit = catchAssynch(async (req, res ) => {
 
 });
 
-exports.stastAutreProduit = catchAssynch(async (req, res, next) => {
+exports.stastAutreProduit = catchAssynch(async (req, res) => {
 
   await stastAutreCollection(AutreProduit, req, res);
 

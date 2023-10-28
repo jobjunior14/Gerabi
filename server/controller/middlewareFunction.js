@@ -509,8 +509,8 @@ exports.updateDataCollection = catchAssynch (async (collection, request, respons
 
 exports.stastAutreCollection = catchAssynch (async (collection, request, response) => {
 
-  const year = Number(request.request.params.year);
-  const mois = Number(request.request.params.month);
+  const year = Number(request.params.year);
+  const mois = Number(request.params.month);
 
   let stats = await collection.aggregate([
     {
@@ -562,8 +562,8 @@ exports.stastAutreCollection = catchAssynch (async (collection, request, respons
 
 exports.AllProductStatsCollection = catchAssynch( async (collection, request, response) => {
 
-  const year = Number(request.request.params.year);
-  const mois = Number(request.request.params.month);
+  const year = Number(request.params.year);
+  const mois = Number(request.params.month);
 
   let stats = await collection.aggregate([
     {
@@ -629,8 +629,8 @@ exports.AllProductStatsCollection = catchAssynch( async (collection, request, re
 
 exports.suiviAllStatsCollection = catchAssynch (async (collection, request, response) => {
 
-  const year = Number(request.request.params.year);
-  const mois = Number(request.request.params.month);
+  const year = Number(request.params.year);
+  const mois = Number(request.params.month);
 
   const stats = await collection.aggregate([
     {
@@ -698,8 +698,8 @@ exports.suiviAllStatsCollection = catchAssynch (async (collection, request, resp
 
 exports.suiviDetailStatsCollection = catchAssynch (async ( collection, request, response) =>{
 
-   const year = Number(request.request.params.year);
-  const mois = Number(request.request.params.month);
+   const year = Number(request.params.year);
+  const mois = Number(request.params.month);
 
   const stats = await collection.aggregate([
     {
@@ -767,7 +767,7 @@ exports.suiviDetailStatsCollection = catchAssynch (async ( collection, request, 
 
 exports.yearStatsCollection = catchAssynch (async (collection, request, response) => {
 
-  const year = Number(request.request.params.year);
+  const year = Number(request.params.year);
 
   const stats = await collection.aggregate([
     {

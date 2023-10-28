@@ -1,6 +1,7 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { productActions } from "../store/AllProductManager-slice";
+import { venteBarActions } from "../store/venteBar-slice";
 
 export default function DailyFilter (props) {
     const dispatch = useDispatch();
@@ -16,7 +17,7 @@ export default function DailyFilter (props) {
                     placeholder= "Taper l'année"
                     onChange= { e => {
                         const {name, value} = e.target;
-                        return dispatch(productActions.setDate({name: name, value: value}));
+                        dispatch(venteBarActions.setDate({name: name, value: value}));
                     }}
                 />
 
@@ -27,7 +28,7 @@ export default function DailyFilter (props) {
                     placeholder= "Taper l'année"
                     onChange= { e => {
                         const {name, value} = e.target;
-                        return dispatch(productActions.setDate({name: name, value: value}));
+                        dispatch(venteBarActions.setDate({name: name, value: value}));
                     }}
                 />
 
