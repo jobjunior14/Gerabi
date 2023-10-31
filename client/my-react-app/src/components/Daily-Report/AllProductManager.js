@@ -60,7 +60,6 @@ function objProvider(el, index){
         qt_btll: 0,
         valeur: 0,
       },
-      valeur_stock: 0
     },
 
     benefice_sur_vente: 0,
@@ -153,109 +152,170 @@ function errMessage (dispatch, productActions, venteDego, productData) {
   
       if (i.name === "" ) {
   
-        dispatch(productActions.setErrorMessage({status: true, message: "aucun produit sans nom n'est autorisé"}));
-        break;
+        if (i.achat_journalier.qt_caisse > 0) {
   
-      } else if (i.achat_journalier.qt_caisse <= 0) {
-
-        dispatch(productActions.setErrorMessage({status: true, message: "aucun nombre inferieur ou egal à 0 n'est autorisé dans la section >achat journalier>quantié caisse"}));
-        break;
-      } else if (i.achat_journalier.nbr_btll <= 0) {
+          dispatch(productActions.setErrorMessage({status: true, message: "un produit sans nom ne peut etre associer à une valeur superieure à 0 dans la section >achat journalier>quantié caisse"}));
+          break;
+        } else if (i.achat_journalier.nbr_btll > 0) {
+    
+          dispatch(productActions.setErrorMessage({status: true, message: "un produit sans nom ne peut etre associer à une valeur superieure à 0 dans la section >achat journalier>nbr bouteille"}));
+          break;
+        } else if (i.achat_journalier.prix_achat_gros > 0) {
+    
+          dispatch(productActions.setErrorMessage({status: true, message: "un produit sans nom ne peut etre associer à une valeur superieure à 0 dans la section >achat journalier>prix achat gros"}));
+          break;
+        } else if (i.business_projection.sortie_cave > 0) {
+    
+          dispatch(productActions.setErrorMessage({status: true, message: "un produit sans nom ne peut etre associer à une valeur superieure à 0 dans la section >business projection>sortie cave"}));
+          break;
+        } else if (i.vente_journaliere.ref_prix_det > 0) {
+    
+          dispatch(productActions.setErrorMessage({status: true, message: "un produit sans nom ne peut etre associer à une valeur superieure à 0 dans la section >vente journaliere>reference prix detaille"}));
+          break;
+        } else if (i.stock_consignaions.qt > 0) {
+    
+          dispatch(productActions.setErrorMessage({status: true, message: "un produit sans nom ne peut etre associer à une valeur superieure à 0 dans la section >stock consignation>quantié "}));
+          break;
+        } else if (i.val_precedente.stock_apres_ventente_rest_stock_comptoir_qt_btll > 0) {
+    
+          dispatch(productActions.setErrorMessage({status: true, message: "un produit sans nom ne peut etre associer à une valeur superieure à 0 dans la section >stock initial>reste comptoir qt bouteille"}));
+          break;
+        } else if (i.val_precedente.stock_apres_ventente_rest_stock_depot_qt_btll > 0) {
+    
+          dispatch(productActions.setErrorMessage({status: true, message: "un produit sans nom ne peut etre associer à une valeur superieure à 0 dans la section >stock apres vente>reste depot qt bouteille"}));
+          break;
+        } else if (i.stock_apres_vente.reste_stock_comptoir.qt_btll > 0) {
+    
+          dispatch(productActions.setErrorMessage({status: true, message: "un produit sans nom ne peut etre associer à une valeur superieure à 0 dans la section >stock apres vente >reste comptoir>qt bouteille"}));
+          break;
+        } else if (i.stock_apres_vente.reste_stock_depot.qt_caisses > 0) {
+    
+          dispatch(productActions.setErrorMessage({status: true, message: "un produit sans nom ne peut etre associer à une valeur superieure à 0 dans la section >stock apres vente >reste depot>qt caisse"}));
+          break;
+        } else if (((i.suivi1.name === '' && i.suivi1.qt_caisse > 0 ) || i.suivi1.name === '') ) {
   
-        dispatch(productActions.setErrorMessage({status: true, message: "aucun nombre inferieur ou egal à 0 n'est autorisé dans la section >achat journalier>nbr bouteille"}));
-        break;
-      } else if (i.achat_journalier.prix_achat_gros <= 0) {
+          dispatch(productActions.setErrorMessage({status: true, message: " aucune valuer superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
+          break;
+        } else if ((i.suivi2.name === '' && i.suivi2.qt_caisse > 0) ) {
   
-        dispatch(productActions.setErrorMessage({status: true, message: "aucun nombre inferieur ou egal à 0 n'est autorisé dans la section >achat journalier>prix achat gros"}));
-        break;
-      } else if (i.business_projection.sortie_cave <= 0) {
+          dispatch(productActions.setErrorMessage({status: true, message: " aucune valuer superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
+          break;
+        } else if ((i.suivi3.name === '' && i.suivi3.qt_caisse > 0) ) {
   
-        dispatch(productActions.setErrorMessage({status: true, message: "aucun nombre inferieur ou egal à 0 n'est autorisé dans la section >business projection>sortie cave"}));
-        break;
-      } else if (i.vente_journaliere.ref_prix_det <= 0) {
+          dispatch(productActions.setErrorMessage({status: true, message: " aucune valuer superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
+          break;
+        } else if ((i.suivi4.name === '' && i.suivi4.qt_caisse > 0) ) {
   
-        dispatch(productActions.setErrorMessage({status: true, message: "aucun nombre inferieur ou egal à 0 n'est autorisé dans la section >vente journaliere>reference prix detaille"}));
-        break;
-      } else if (i.stock_consignaions.qt <= 0) {
+          dispatch(productActions.setErrorMessage({status: true, message: " aucune valuer superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
+          break;
+        } else if ((i.suivi5.name === '' && i.suivi5.qt_caisse > 0) ) {
   
-        dispatch(productActions.setErrorMessage({status: true, message: "aucun nombre inferieur ou egal à 0 n'est autorisé dans la section >stock consignation>quantié "}));
-        break;
-      } else if (i.val_precedente.stock_apres_ventente_rest_stock_comptoir_qt_btll <= 0) {
+          dispatch(productActions.setErrorMessage({status: true, message: " aucune valuer superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
+          break;
+        } else if ((i.suivi6.name === '' && i.suivi6.qt_caisse > 0) ) {
   
-        dispatch(productActions.setErrorMessage({status: true, message: "aucun nombre inferieur ou egal à 0 n'est autorisé dans la section >stock initial>reste comptoir qt bouteille"}));
-        break;
-      } else if (i.val_precedente.stock_apres_ventente_rest_stock_depot_qt_btll <= 0) {
+          dispatch(productActions.setErrorMessage({status: true, message: " aucune valuer superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
+          break;
+        } else if ((i.suivi7.name === '' && i.suivi7.qt_caisse > 0) ) {
   
-        dispatch(productActions.setErrorMessage({status: true, message: "aucun nombre inferieur ou egal à 0 n'est autorisé dans la section >stock apres vente>reste depot qt bouteille"}));
-        break;
-      } else if (i.stock_apres_vente.reste_stock_comptoir.qt_btll <= 0) {
+          dispatch(productActions.setErrorMessage({status: true, message: " aucune valuer superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
+          break;
+        } else if ((i.suivi8.name === '' && i.suivi8.qt_caisse > 0) ) {
   
-        dispatch(productActions.setErrorMessage({status: true, message: "aucun nombre inferieur ou egal à 0 n'est autorisé dans la section >stock apres vente >reste comptoir>qt bouteille"}));
-        break;
-      } else if (i.stock_apres_vente.reste_stock_depot.qt_caisses <= 0) {
+          dispatch(productActions.setErrorMessage({status: true, message: " aucune valuer superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
+          break;
+        } else if ((i.suivi9.name === '' && i.suivi9.qt_caisse > 0) ) {
   
-        dispatch(productActions.setErrorMessage({status: true, message: "aucun nombre inferieur ou egal à 0 n'est autorisé dans la section >stock apres vente >reste depot>qt caisse"}));
-        break;
-      } else if (((i.suivi1.name === '' && i.suivi1.qt_caisse > 0 ) || i.suivi1.name === '') ) {
-
-        dispatch(productActions.setErrorMessage({status: true, message: " aucune valuer superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
-        break;
-      } else if ((i.suivi2.name === '' && i.suivi2.qt_caisse > 0) ) {
-
-        dispatch(productActions.setErrorMessage({status: true, message: " aucune valuer superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
-        break;
-      } else if ((i.suivi3.name === '' && i.suivi3.qt_caisse > 0) ) {
-
-        dispatch(productActions.setErrorMessage({status: true, message: " aucune valuer superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
-        break;
-      } else if ((i.suivi4.name === '' && i.suivi4.qt_caisse > 0) ) {
-
-        dispatch(productActions.setErrorMessage({status: true, message: " aucune valuer superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
-        break;
-      } else if ((i.suivi5.name === '' && i.suivi5.qt_caisse > 0) ) {
-
-        dispatch(productActions.setErrorMessage({status: true, message: " aucune valuer superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
-        break;
-      } else if ((i.suivi6.name === '' && i.suivi6.qt_caisse > 0) ) {
-
-        dispatch(productActions.setErrorMessage({status: true, message: " aucune valuer superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
-        break;
-      } else if ((i.suivi7.name === '' && i.suivi7.qt_caisse > 0) ) {
-
-        dispatch(productActions.setErrorMessage({status: true, message: " aucune valuer superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
-        break;
-      } else if ((i.suivi8.name === '' && i.suivi8.qt_caisse > 0) ) {
-
-        dispatch(productActions.setErrorMessage({status: true, message: " aucune valuer superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
-        break;
-      } else if ((i.suivi9.name === '' && i.suivi9.qt_caisse > 0) ) {
-
-        dispatch(productActions.setErrorMessage({status: true, message: " aucune valuer superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
-        break;
-      } else if ((i.suivi10.name === '' && i.suivi10.qt_caisse > 0) ) {
-
-        dispatch(productActions.setErrorMessage({status: true, message: " aucune valuer superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
-        break;
-      } else if ((i.suivi11.name === '' && i.suivi11.qt_caisse > 0) ) {
-
-        dispatch(productActions.setErrorMessage({status: true, message: " aucune valuer superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
-        break;
-      } else if ((i.suivi12.name === '' && i.suivi12.qt_caisse > 0) ) {
-
-        dispatch(productActions.setErrorMessage({status: true, message: " aucune valuer superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
-        break;
-      } else if ((i.suivi13.name === '' && i.suivi13.qt_caisse > 0) ) {
-
-        dispatch(productActions.setErrorMessage({status: true, message: " aucune valuer superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
-        break;
-      } else if ((i.suivi14.name === '' && i.suivi14.qt_caisse > 0) ) {
-
-        dispatch(productActions.setErrorMessage({status: true, message: " aucune valuer superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
-        break;
+          dispatch(productActions.setErrorMessage({status: true, message: " aucune valuer superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
+          break;
+        } else if ((i.suivi10.name === '' && i.suivi10.qt_caisse > 0) ) {
+  
+          dispatch(productActions.setErrorMessage({status: true, message: " aucune valuer superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
+          break;
+        } else if ((i.suivi11.name === '' && i.suivi11.qt_caisse > 0) ) {
+  
+          dispatch(productActions.setErrorMessage({status: true, message: " aucune valuer superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
+          break;
+        } else if ((i.suivi12.name === '' && i.suivi12.qt_caisse > 0) ) {
+  
+          dispatch(productActions.setErrorMessage({status: true, message: " aucune valuer superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
+          break;
+        } else if ((i.suivi13.name === '' && i.suivi13.qt_caisse > 0) ) {
+  
+          dispatch(productActions.setErrorMessage({status: true, message: " aucune valuer superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
+          break;
+        } else if ((i.suivi14.name === '' && i.suivi14.qt_caisse > 0) ) {
+  
+          dispatch(productActions.setErrorMessage({status: true, message: " aucune valuer superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
+          break;
+        } else {
+  
+          dispatch(productActions.setErrorMessage({status: false, message: ""}));
+        };
       } else {
 
-        dispatch(productActions.setErrorMessage({status: false, message: ""}));
-      };
+        if (((i.suivi1.name === '' && i.suivi1.qt_caisse > 0 ) || i.suivi1.name === '') ) {
+  
+          dispatch(productActions.setErrorMessage({status: true, message: " aucune valuer superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
+          break;
+        } else if ((i.suivi2.name === '' && i.suivi2.qt_caisse > 0) ) {
+  
+          dispatch(productActions.setErrorMessage({status: true, message: " aucune valuer superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
+          break;
+        } else if ((i.suivi3.name === '' && i.suivi3.qt_caisse > 0) ) {
+  
+          dispatch(productActions.setErrorMessage({status: true, message: " aucune valuer superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
+          break;
+        } else if ((i.suivi4.name === '' && i.suivi4.qt_caisse > 0) ) {
+  
+          dispatch(productActions.setErrorMessage({status: true, message: " aucune valuer superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
+          break;
+        } else if ((i.suivi5.name === '' && i.suivi5.qt_caisse > 0) ) {
+  
+          dispatch(productActions.setErrorMessage({status: true, message: " aucune valuer superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
+          break;
+        } else if ((i.suivi6.name === '' && i.suivi6.qt_caisse > 0) ) {
+  
+          dispatch(productActions.setErrorMessage({status: true, message: " aucune valuer superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
+          break;
+        } else if ((i.suivi7.name === '' && i.suivi7.qt_caisse > 0) ) {
+  
+          dispatch(productActions.setErrorMessage({status: true, message: " aucune valuer superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
+          break;
+        } else if ((i.suivi8.name === '' && i.suivi8.qt_caisse > 0) ) {
+  
+          dispatch(productActions.setErrorMessage({status: true, message: " aucune valuer superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
+          break;
+        } else if ((i.suivi9.name === '' && i.suivi9.qt_caisse > 0) ) {
+  
+          dispatch(productActions.setErrorMessage({status: true, message: " aucune valuer superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
+          break;
+        } else if ((i.suivi10.name === '' && i.suivi10.qt_caisse > 0) ) {
+  
+          dispatch(productActions.setErrorMessage({status: true, message: " aucune valuer superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
+          break;
+        } else if ((i.suivi11.name === '' && i.suivi11.qt_caisse > 0) ) {
+  
+          dispatch(productActions.setErrorMessage({status: true, message: " aucune valuer superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
+          break;
+        } else if ((i.suivi12.name === '' && i.suivi12.qt_caisse > 0) ) {
+  
+          dispatch(productActions.setErrorMessage({status: true, message: " aucune valuer superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
+          break;
+        } else if ((i.suivi13.name === '' && i.suivi13.qt_caisse > 0) ) {
+  
+          dispatch(productActions.setErrorMessage({status: true, message: " aucune valuer superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
+          break;
+        } else if ((i.suivi14.name === '' && i.suivi14.qt_caisse > 0) ) {
+  
+          dispatch(productActions.setErrorMessage({status: true, message: " aucune valuer superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
+          break;
+        } else {
+  
+          dispatch(productActions.setErrorMessage({status: false, message: ""}));
+        };
+      }
+  
     };
   };
 };
@@ -285,7 +345,7 @@ export default function Product (props) {
   //date query
   const [dateParams, setDateParams] = useSearchParams();
   
-  //to check current date
+  //to check today's date
   const currentYear = Number(new Date().getFullYear());
   const currentMonth = Number(new Date().getMonth() + 1);
   const currentDay = Number(new Date().getDate());
@@ -307,12 +367,12 @@ export default function Product (props) {
   const prevDay = today.getDate();
 
   //boolen value to check the current date and the query parameters
-  const dateState = (year === currentYear && month === currentMonth && day === currentDay);
+  const dateState = year === currentYear && month === currentMonth && day === currentDay;
 
   //error message before sending the data to the server
   const errorMessage =  useSelector(state => state.product.errorMessage);
 
-  //fecth the data
+  //fecth the data's day
   useEffect(() => {
 
     const fecthData = async () => {
@@ -333,8 +393,8 @@ export default function Product (props) {
 
           dispatch(productActions.setProductdata (dataApi.data.data.day.map((el, index) => { return { ...el, id: index }})));
           dispatch(productActions.setId(dataApi.data.data.id))
-          dispatch(productActions.setUpdate(true));
-          dispatch(productActions.setReadOnly(true));
+          dispatch(productActions.setUpdate(false));
+          dispatch(productActions.setReadOnly(false));
           
 
         } else if ( dateState ) {
@@ -442,7 +502,7 @@ export default function Product (props) {
 
     dispatch(productActions.setDate({year: year, month: month, day: day}));
   },[props.produit, year, month, day]);
-
+  
   //post data
   function postData() {
     

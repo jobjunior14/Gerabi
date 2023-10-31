@@ -3,10 +3,10 @@ import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import { useSearchParams } from "react-router-dom";
 import { venteBarActions } from "../../store/venteBar-slice";
-import DailyFilter from "../../filter/filterDailyRap";
 import Approvisionnement from "./approvisionnement";
 import Benefice from "./benefice";
-import VenteBar from './venteBar'
+import VenteBar from './venteBar';
+import MensFilter from "../../filter/filterMensRap";
 
 export default function SuiviDesVentes () {
 
@@ -17,32 +17,39 @@ export default function SuiviDesVentes () {
 
     //date in fields
     const date = useSelector (state => state.venteBar.date);
-
+    
     //dependacies of useEffect
     const year = Number(dateParams.get("year"));
     const month = Number(dateParams.get("month")); 
 
-    const data = useSelector (state => state.venteBar.mensualData)
-
+    //current date
+    const currentYear = Number (new Date().getFullYear());
+    const currentMonth = Number (new Date().getMonth() + 1);
+    
     //fecth the data
     useEffect (() => {
 
-        dispatch(venteBarActions.setMensualData(null));
+        dispatch(venteBarActions.setMensualData({
+            bralima: null,
+            brasimba: null,
+            liqueurs: null,
+            autreProduit: null
+        }));
 
         const fecthData = async () => {
 
             try {
 
-                const bralimaData = await axios.get(`http://localhost:5001/api/v1/bralima/raportMensuel/Allstast/${date.year}/${date.month}`);
-                const brasimbaData = await axios.get(`http://localhost:5001/api/v1/brasimba/raportMensuel/Allstast/${date.year}/${date.month}`);
-                const liqueursData = await axios.get(`http://localhost:5001/api/v1/liqueurs/raportMensuel/Allstast/${date.year}/${date.month}`);
-                const autreProduitData = await axios.get(`http://localhost:5001/api/v1/autreProduit/raportMensuel/Allstast/${date.year}/${date.month}`);
-
+                const bralimaData = await axios.get(`http://localhost:5001/api/v1/bralima/raportMensuel/Allstast/${year}/${month}`);
+                const brasimbaData = await axios.get(`http://localhost:5001/api/v1/brasimba/raportMensuel/Allstast/${year}/${month}`);
+                const liqueursData = await axios.get(`http://localhost:5001/api/v1/liqueurs/raportMensuel/Allstast/${year}/${month}`);
+                const autreProduitData = await axios.get(`http://localhost:5001/api/v1/autreProduit/raportMensuel/Allstast/${year}/${month}`);
+            
                 dispatch(venteBarActions.setMensualData({
-                    bralima: bralimaData.data.stats.stats[0],
-                    brasimba: brasimbaData.data.stats.stats[0],
-                    liqueurs: liqueursData.data.stats.stats[0],
-                    autreProduit: autreProduitData.data.stats.stats[0]
+                    bralima: bralimaData.data.stats.stats,
+                    brasimba: brasimbaData.data.stats.stats,
+                    liqueurs: liqueursData.data.stats.stats,
+                    autreProduit: autreProduitData.data.stats.stats
                 }));
 
             } catch (err) {
@@ -56,20 +63,27 @@ export default function SuiviDesVentes () {
             };
         }; fecthData();
 
-        dispatch (venteBarActions.setDate({year: year, month: month}));        
-    }, [date.year, date.month]);
-
+    }, [year, month]);
 
     function setFilterParams() {
 
         setDateParams(prev => prev = date);
-
     };
+    
+    if (year > currentYear || month > currentMonth) {
+        
+        return (<div>
+            <MensFilter prev = {date} onclick = {setFilterParams}/>
+            <h1>Ooouups vous ne pouvez demander une donnee d'une date inexistante</h1>
+        </div>
+        )
+    } else {
 
-    return (<div>
-        <DailyFilter prev = {date} onclick = {setFilterParams} mens = {true} />
-        <VenteBar />
-        <Approvisionnement />
-        <Benefice />
-    </div>)
+        return (<div>
+            <MensFilter prev = {date} onclick = {setFilterParams}/>
+            <VenteBar />
+            <Approvisionnement />
+            <Benefice />
+        </div>)
+    }
 }

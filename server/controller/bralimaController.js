@@ -8,7 +8,9 @@ const {
   AllProductStatsCollection, 
   suiviAllStatsCollection,
   suiviDetailStatsCollection,
-  yearStatsCollection } =  require ("./middlewareFunction.js");
+  yearStatsCollection,
+  lastCreatedData
+} =  require ("./productMiddlewareFunction.js");
 
 exports.getBralima = catchAssynch(async (req, res ) => {
   
@@ -26,6 +28,11 @@ exports.updateDataBralima = catchAssynch(async (req, res ) => {
   
   await updateDataCollection(Bralima, req, res );
 
+});
+
+exports.lastCreatedData = catchAssynch( async (req, res) => {
+
+  lastCreatedData(AutreProduit, req, res);
 });
 
 exports.stastBralima = catchAssynch(async (req, res, next) => {

@@ -10,6 +10,7 @@ const {
   suiviAllStatsBrasimba,
   suiviDetailStatsBrasimba,
   yearStatsBrasimba,
+  lastCreatedData
 } = require("../controller/brasimbaController.js");
 
 router
@@ -39,5 +40,10 @@ router
 router
   .route("/raportMensuel/yearStats/:year")
   .get(yearStatsBrasimba);
+
+  //last created element
+router
+  .route("/raportJournalier/lastElement")
+  .get(lastCreatedData);
 
 module.exports = router;

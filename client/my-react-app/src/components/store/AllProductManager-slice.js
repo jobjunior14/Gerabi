@@ -119,7 +119,7 @@ const productSlice = createSlice ({
             state.productData = data.map( data => {
 
                     return {...data, [name]: {...data[name], name: value}};
-                });
+            });
         },
 
         //add more product data

@@ -24,11 +24,20 @@ const venteBarSlice = createSlice ({
         },
 
         setDate (state, action ){
+            
+            if (action.payload.year && action.payload.month){
+
+                state.date = {
+                    year: action.payload.year,
+                    month: action.payload.month
+                }
+            }
+            const name = action.payload.name;
+            const value = action.payload.value;
 
             state.date = {
-                year:action.payload.year,
-                month: action.payload.month
-            }
+               ...state.date, [name]: value
+            };
         }
     }
 });

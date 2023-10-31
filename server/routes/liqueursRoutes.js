@@ -10,6 +10,7 @@ const {
   suiviAllStatsLiqueurs,
   suiviDetailStatsLiqueurs,
   yearStatsLiqueurs,
+  lastCreatedData
 } = require("../controller/liqueursController.js");
 
 router
@@ -39,5 +40,10 @@ router
 router
   .route("/raportMensuel/yearStats/:year")
   .get(yearStatsLiqueurs);
+
+  //last created element
+router
+  .route("/raportJournalier/lastElement")
+  .get(lastCreatedData);
 
 module.exports = router;

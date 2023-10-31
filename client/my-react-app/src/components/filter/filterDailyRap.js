@@ -7,7 +7,7 @@ export default function DailyFilter (props) {
     const dispatch = useDispatch();
 
     if (props.mens) {
-
+        
         return (
             <div>
                 <label> Année</label>
@@ -36,7 +36,7 @@ export default function DailyFilter (props) {
             </div>
         );
     } else {
-
+        
         return (
             <div>
                 <label>Année </label>
@@ -46,7 +46,7 @@ export default function DailyFilter (props) {
                     placeholder= "Taper l'année"
                     onChange= { e => {
                         const {name, value} = e.target;
-                        return dispatch(productActions.setDate({name: name, value: value}));
+                        dispatch(productActions.setDate({name: name, value: value}));
                     }}
                 />
 
@@ -57,7 +57,7 @@ export default function DailyFilter (props) {
                     placeholder= "Taper l'année"
                     onChange= { e => {
                         const {name, value} = e.target;
-                        return dispatch(productActions.setDate({name: name, value: value}));
+                        dispatch(productActions.setDate({name: name, value: value}));
                     }}
                 />
 
@@ -68,7 +68,7 @@ export default function DailyFilter (props) {
                     placeholder= "Taper l'année"
                     onChange= { e => {
                         const {name, value} = e.target;
-                        return dispatch(productActions.setDate({name: name, value: value}));
+                        dispatch(productActions.setDate({name: name, value: value}));
                     }}
                 />
 

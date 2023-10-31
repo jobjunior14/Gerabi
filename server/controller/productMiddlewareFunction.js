@@ -44,21 +44,25 @@ exports.getCollection = async (collection, request, response) =>{
 };
 
 exports.pushDataCollection = catchAssynch (async (body, collection, response ) => {
-  //first we need all data
+
+  //data  from collection
   const collectionData = await collection.find();
 
+  //current date
   const year = Number (new Date().getFullYear());
   const month = Number (new Date().getMonth() + 1);
-  const day = Number (new Date().getDate())
-  //loop of the request Body(All data )
+  const day = Number (new Date().getDate());
+
+  //storing the looping data in a variabe
   const dataBralima = [];
 
   if (collectionData.length > 0) {
     for (let o = 0; o < body.length; o++) {
 
-      //have to check if new data was adding or not by checking the name
+      //check the index of name's product
       const indexMainName = collectionData.findIndex( el => el.name.toUpperCase() === body[o].name.toUpperCase());
       
+      //if the index exist
       if ( indexMainName !== -1 ) {
         
         const el1 = collectionData[indexMainName].data.length - 1;
@@ -67,9 +71,7 @@ exports.pushDataCollection = catchAssynch (async (body, collection, response ) =
         
         ///////////////////////////// stats For every data/////////////////////////////////////////
 
-        const yearindex = collectionData[indexMainName].data.findIndex(
-          (el) => el.annee === year
-        );
+        const yearindex = collectionData[indexMainName].data.findIndex(el => el.annee === year );
 
         if (yearindex !== -1) {
           const monthindex = collectionData[indexMainName].data[yearindex].data.findIndex( el => el.mois === month );
@@ -366,7 +368,7 @@ exports.pushDataCollection = catchAssynch (async (body, collection, response ) =
 
 exports.updateDataCollection = catchAssynch (async (collection, request, response ) => {
 
-
+  //send the error to the client 
   function ErrorResponse(){
 
     response.status(404).json({
@@ -506,6 +508,34 @@ exports.updateDataCollection = catchAssynch (async (collection, request, respons
   });
 
 });
+
+//the last created data 
+exports.lastCreatedData = catchAssynch (async (collection, request, response) => {
+
+  //data from collection
+  const collectionData = await collection.find();
+  
+  if (collectionData.length > 0) {
+    
+    const el0 = collectionData.length - 1;
+    const el1 = collectionData[el0].data.length - 1;
+    const el2 = collectionData[el0].data[el1].data.length - 1;
+    const el3 = collectionData[el0].data[el1].data[el2].data.length - 1;
+    const lastElement = collectionData[el0].data[el1].data[el2].data[el3]
+    // console.log (lastElement);
+    response.status(200).json({
+      status: 'success',
+      data: lastElement
+    })
+  } else {
+
+    response.status(200).json ({
+      status: 'success',
+      data: null
+    })
+  }
+
+})
 
 exports.stastAutreCollection = catchAssynch (async (collection, request, response) => {
 

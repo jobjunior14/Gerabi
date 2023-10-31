@@ -6,46 +6,56 @@ export default function Approvisionnement () {
     //data
     const data = useSelector(state => state.venteBar.mensualData);
    
-    if (data && data.bralima && data.brasimba && data.liqueurs && data.autreProduit) {
+    if (data.bralima && data.brasimba && data.liqueurs && data.autreProduit) {
 
-        const total = data.bralima.approvionnement + data.brasimba.approvionnement + data.autreProduit.approvionnement + data.liqueurs.approvionnement;
+        if (data.bralima.length > 0 && data.brasimba.length > 0 && data.liqueurs.length > 0 && data.autreProduit.length > 0) {
 
-        return (<div> 
+            const total = data.bralima[0].approvionnement + data.brasimba[0].approvionnement + data.autreProduit[0].approvionnement + data.liqueurs[0].approvionnement;
 
-            <h3> APPROVISIONNEMENT</h3>
-            <p> </p>
-            <table>
+            return (<div> 
 
-                <tr>
-                    <th> Libelé </th>
-                    <th> Montant </th>
-                </tr>
-                <tr>
-                    <td> Bralima </td>
-                    <td> {data.bralima.approvionnement}</td>
-                </tr>
-                <tr>
-                    <td> Brasimba </td>
-                    <td> {data.brasimba.approvionnement}</td>
-                </tr>
-                <tr>
-                    <td> Autre Produit </td>
-                    <td> {data.autreProduit.approvionnement}</td>
-                </tr>
-                <tr>
-                    <td> Liqueurs </td>
-                    <td> {data.liqueurs.approvionnement} </td>
-                </tr>
-                <tr>
-                    <td> Total </td>
-                    <td> {total}</td>
-                </tr>
-            </table>
-        </div>)
+                <h3> APPROVISIONNEMENT</h3>
+                <p> </p>
+                <table>
+
+                    <tr>
+                        <th> Libelé </th>
+                        <th> Montant </th>
+                    </tr>
+                    <tr>
+                        <td> Bralima </td>
+                        <td> {data.bralima[0].approvionnement}</td>
+                    </tr>
+                    <tr>
+                        <td> Brasimba </td>
+                        <td> {data.brasimba[0].approvionnement}</td>
+                    </tr>
+                    <tr>
+                        <td> Autre Produit </td>
+                        <td> {data.autreProduit[0].approvionnement}</td>
+                    </tr>
+                    <tr>
+                        <td> Liqueurs </td>
+                        <td> {data.liqueurs[0].approvionnement} </td>
+                    </tr>
+                    <tr>
+                        <td> Total </td>
+                        <td> {total}</td>
+                    </tr>
+                </table>
+            </div>)
+        } else {
+
+            return (<div>
+                <h3>APPROVISIONNEMENT</h3>
+                <h4>Ouuppss!! date n'a pas de donnee</h4>
+            </div>)
+        }
     } else {
-        return (<di>
-            <h3>Pas des données disponible</h3>
-        </di>)
+        return (<div>
+            <h3>APPROVISIONNEMENT</h3>
+            <h4>Chargement....</h4>
+        </div>)
     }
 
 }

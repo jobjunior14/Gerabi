@@ -6,62 +6,71 @@ export default function Benefice () {
     //data
     const data = useSelector(state => state.venteBar.mensualData);
     
-    if (data && data.bralima && data.brasimba && data.autreProduit && data.liqueurs ) {
+    if ( data.bralima && data.brasimba && data.autreProduit && data.liqueurs ) {
 
-        const total = data.bralima.benefice + data.brasimba.benefice + data.autreProduit.benefice + data.liqueurs.benefice;
+        if ( data.bralima.length > 0 && data.brasimba.length > 0 && data.autreProduit.length > 0 && data.liqueurs.length > 0 ) {
 
-        return (<div> 
+            const total = data.bralima.benefice + data.brasimba.benefice + data.autreProduit.benefice + data.liqueurs.benefice;
 
-            <h3> BENEFICE </h3>
-            <p> </p>
-            <table>
+            return (<div> 
 
-                <tr>
-                    <th> Libelé </th>
-                    <th> Montant </th>
-                </tr>
-                <tr>
-                    <td> Bralima </td>
-                    <td> {data.bralima.benefice}</td>
-                </tr>
-                <tr>
-                    <td> Brasimba </td>
-                    <td> {data.brasimba.benefice}</td>
-                </tr>
-                <tr>
-                    <td> Autre Produit </td>
-                    <td> {data.autreProduit.benefice}</td>
-                </tr>
-                <tr>
-                    <td> Liqueurs </td>
-                    <td> {data.liqueurs.benefice}</td>
-                </tr>
-                <tr>
-                    <td> Total </td>
-                    <td> {total}</td>
-                </tr>
-                <tr>
-                    <td>  </td>
-                    <td> </td>
-                </tr>
-                <tr>
-                    <td> Pertes </td>
-                    <td> doit etre reviser </td>
-                </tr>
-                <tr>
-                    <td> Dépenses éffectuées  </td>
-                    <td> doit etre reviser</td>
-                </tr>
-                <tr>
-                    <td>Benefice net  </td>
-                    <td> doit etre reviser </td>
-                </tr>
-            </table>
-        </div>)
+                <h3> BENEFICE </h3>
+                <p> </p>
+                <table>
+
+                    <tr>
+                        <th> Libelé </th>
+                        <th> Montant </th>
+                    </tr>
+                    <tr>
+                        <td> Bralima </td>
+                        <td> {data.bralima.benefice}</td>
+                    </tr>
+                    <tr>
+                        <td> Brasimba </td>
+                        <td> {data.brasimba.benefice}</td>
+                    </tr>
+                    <tr>
+                        <td> Autre Produit </td>
+                        <td> {data.autreProduit.benefice}</td>
+                    </tr>
+                    <tr>
+                        <td> Liqueurs </td>
+                        <td> {data.liqueurs.benefice}</td>
+                    </tr>
+                    <tr>
+                        <td> Total </td>
+                        <td> {total}</td>
+                    </tr>
+                    <tr>
+                        <td>  </td>
+                        <td> </td>
+                    </tr>
+                    <tr>
+                        <td> Pertes </td>
+                        <td> doit etre reviser </td>
+                    </tr>
+                    <tr>
+                        <td> Dépenses éffectuées  </td>
+                        <td> doit etre reviser</td>
+                    </tr>
+                    <tr>
+                        <td>Benefice net  </td>
+                        <td> doit etre reviser </td>
+                    </tr>
+                </table>
+            </div>)
+        } else {
+            return (<div>
+                <h3>BENEFICE</h3>
+                <h4>Ouuppss!! date n'a pas de donne </h4>
+            </div>)
+        }
     } else {
-        return (<di>
-            <h3>Pas des données disponible</h3>
-        </di>)
+        return (<div>
+            <h3>BENEFICE</h3>
+            <h4>Chargement....</h4>
+        </div>)
     }
 
 }

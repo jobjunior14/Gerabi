@@ -8,7 +8,9 @@ const {
   AllProductStatsCollection, 
   suiviAllStatsCollection,
   suiviDetailStatsCollection,
-  yearStatsCollection } =  require ("./middlewareFunction.js");
+  yearStatsCollection,
+  lastCreatedData
+} =  require ("./productMiddlewareFunction.js");
 
 exports.getLiqueurs = catchAssynch(async (req, res ) => {
   
@@ -26,6 +28,11 @@ exports.updateDataLiqueurs = catchAssynch(async (req, res ) => {
   
   await updateDataCollection(Liqueurs, req, res );
 
+});
+
+exports.lastCreatedData = catchAssynch( async (req, res) => {
+
+  lastCreatedData(Liqueurs, req, res);
 });
 
 exports.stastLiqueurs = catchAssynch(async (req, res, next) => {
