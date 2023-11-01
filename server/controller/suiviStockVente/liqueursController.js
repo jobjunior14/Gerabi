@@ -1,5 +1,5 @@
-const Liqueurs = require(`${__dirname}/../models/liqueursModel.js`);
-const catchAssynch = require(`${__dirname}/../utils/catchAssynch.js`);
+const Liqueurs = require(`../../models/liqueursModel.js`);
+const catchAssynch = require(`../../utils/catchAssynch.js`);
 const {
   getCollection, 
   pushDataCollection, 

@@ -1,5 +1,6 @@
-const AutreProduit = require(`${__dirname}/../models/autreProduitModel.js`);
-const catchAssynch = require(`${__dirname}/../utils/catchAssynch.js`);
+const AutreProduit = require('../../models/autreProduitModel');
+const catchAssynch = require(`../../utils/catchAssynch`);
+
 const {
   getCollection, 
   pushDataCollection, 
@@ -10,7 +11,7 @@ const {
   suiviDetailStatsCollection,
   yearStatsCollection,
   lastCreatedData
-} =  require ("./productMiddlewareFunction.js");
+} =  require ("./productMiddlewareFunction");
 
 exports.getAutreProduit = catchAssynch(async (req, res ) => {
   

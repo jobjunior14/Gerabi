@@ -1,5 +1,5 @@
-const Brasimba = require(`${__dirname}/../models/brasimbaModel.js`);
-const catchAssynch = require(`${__dirname}/../utils/catchAssynch.js`);
+const Brasimba = require(`../../models/brasimbaModel`);
+const catchAssynch = require(`../../utils/catchAssynch.js`);
 const {
   getCollection, 
   pushDataCollection, 

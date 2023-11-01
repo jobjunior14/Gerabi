@@ -1,5 +1,5 @@
-const catchAssynch = require(`${__dirname}/../utils/catchAssynch.js`);
-const AppError = require(`${__dirname}/../utils/appError.js`);
+const catchAssynch = require(`../../utils/catchAssynch.js`);
+const AppError = require(`../../utils/appError.js`);
 
 function loopingData(array, year, month, day) {
 
@@ -521,8 +521,8 @@ exports.lastCreatedData = catchAssynch (async (collection, request, response) =>
     const el1 = collectionData[el0].data.length - 1;
     const el2 = collectionData[el0].data[el1].data.length - 1;
     const el3 = collectionData[el0].data[el1].data[el2].data.length - 1;
-    const lastElement = collectionData[el0].data[el1].data[el2].data[el3]
-    // console.log (lastElement);
+    const lastElement = collectionData[el0].data[el1].data[el2].data[el3];
+    
     response.status(200).json({
       status: 'success',
       data: lastElement

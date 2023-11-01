@@ -11,7 +11,7 @@ const {
   suiviDetailStatsAutreProduit,
   yearStatsAutreProduit,
   lastCreatedData
-} = require("../controller/autreProduitController.js");
+} = require("../controller/suiviStockVente/autreProduitController");
 
 router
   .route("/raportJournalier/:year/:month/:day")

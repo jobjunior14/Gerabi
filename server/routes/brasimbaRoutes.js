@@ -11,7 +11,7 @@ const {
   suiviDetailStatsBrasimba,
   yearStatsBrasimba,
   lastCreatedData
-} = require("../controller/brasimbaController.js");
+} = require("../controller/suiviStockVente/brasimbaController.js");
 
 router
   .route("/raportJournalier/:year/:month/:day")
