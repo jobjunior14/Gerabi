@@ -70,12 +70,12 @@ const loopingData = (array, year, month, day) => {
 
 exports.getSuiviDepense = catchAssynch( async (req, res) => {
 
-    const suiviDepense = SuiviDepense.find();
+    const suiviDepense = await  SuiviDepense.find();
 
     res.status(200).json({
 
         status: 'success',
-        data: loopingData(suiviDepense , Number (request.params.year), Number (request.params.month), Number (request.params.day))
+        data: loopingData(suiviDepense , Number (req.params.year), Number (req.params.month), Number (req.params.day))
     }); 
 });
 
@@ -252,6 +252,7 @@ exports.updateSuiviDepense = catchAssynch (async (req, res, next) => {
                             
                             if (existingDataIndex !== -1) {
                                 
+                                //put the date at the rigt format
                                 if ( month > 10 && day > 10){
 
                                     suiviDepense[yearIndex].data[monthIndex].data.entreeCaisse[indexNameEntree].data[existingDataIndex] = {
@@ -317,7 +318,6 @@ exports.updateSuiviDepense = catchAssynch (async (req, res, next) => {
                                     const existingDataIndex = suiviDepense[yearIndex].data[monthIndex].data.sortieCaisse[indexNameSortie].data[indexLibelSortie].amount.findIndex (el => Number (JSON.stringify(el.createdAt).slice(9, 11)) === day);
                                     if (existingDataIndex !== -1) {
                                         
-                                        console.log (suiviDepense[yearIndex].data[monthIndex].data.sortieCaisse[indexNameSortie].data[indexLibelSortie].amount[existingDataIndex]);
                                         //put the date at the right format
                                         if (month > 10 && day > 10){
 
@@ -433,14 +433,15 @@ exports.updateSuiviDepense = catchAssynch (async (req, res, next) => {
     });
 });
 
-exports.lastCreatedData = catchAssynch (async (req, res,) => {
+exports.lastCreatedDataSuiviDepense = catchAssynch (async (req, res,) => {
 
     const suiviDepense = await SuiviDepense.find();
+    
+    const year = Number (req.params.year);
+    const month = Number (req.params.month);
 
     if (suiviDepense.length > 0) {
-
-        // const el0 = suiviDepense.length - 1;
-        // const el1 = suiviDepense[el0].data.length - 1;
+        
         
         const dayData = {
             
@@ -457,7 +458,6 @@ exports.lastCreatedData = catchAssynch (async (req, res,) => {
                 for ( let j of i.data){
                     
                     if (j.mois === month) {
-
                         for (let entreeCaisse of j.data.entreeCaisse) {
 
                             dayData.entreeCaisse.push({
@@ -521,7 +521,53 @@ exports.mensualStasSuiviDepense = catchAssynch (async (req, res, next) => {
     const year = Number (req.params.year);
     const month = Number (req.params.month);
 
-    const stats = await SuiviDepense.aggregate([
+    const entreeCaisse = await SuiviDepense.aggregate([
 
-    ])
+        {
+            $match: { annee: year}
+        },
+
+        {
+            $project: {
+                stats: {
+                    $filter: {
+                        input: "$data",
+                        as: "data",
+                        cond: {
+                            $and: [
+
+                                {$gte: ["$$data.mois", month]},
+                                {$lte: ["$$data.mois", month]}
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+
+        {
+            $unwind: {path: "$stats"}
+        },
+
+        {
+            $unwind: {path: "$stats.data.entreeCaisse"}
+        },
+
+        {
+            $unwind: {path: "$stats.data.entreeCaisse.data"}
+        },
+
+        {
+            $group: {
+                _id: null,
+                valeur: {$sum: "$stats.data.entreeCaisse.data.amount" }
+            }
+        }
+
+    ]);
+
+    res.status(200).json({
+        status: 'success',
+        data: entreeCaisse
+    });
 });

@@ -5,7 +5,8 @@ const {
     getSuiviDepense,
     pushSuiviDepense,
     updateSuiviDepense,
-    lastCreatedData
+    lastCreatedDataSuiviDepense,
+    mensualStasSuiviDepense
 } = require('../controller/suiviDepense/suiviDepenseController');
 
 router
@@ -14,9 +15,15 @@ router
     .post(updateSuiviDepense);
 
 router
-    .route('/rapportJournalier').post(pushSuiviDepense);
+    .route('/rapportJournalier')
+    .post(pushSuiviDepense);
 
 router
-    .route('/rapportJournalier/lastCreated').get(lastCreatedData);
+    .route('/lastElement/:year/:month')
+    .get(lastCreatedDataSuiviDepense);
+
+router
+    .route('/rapportMensuel/all/:year/:month')
+    .get(mensualStasSuiviDepense);
 
 module.exports = router;
