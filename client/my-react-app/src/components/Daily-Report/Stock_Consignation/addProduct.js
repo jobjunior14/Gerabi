@@ -1,7 +1,6 @@
 import React from "react";
 import {useDispatch } from 'react-redux'
-import { productActions } from "../store/AllProductManager-slice";
-
+import { productActions } from "../../store/AllProductManager-slice";
 
 export default function AddProduct () {
 

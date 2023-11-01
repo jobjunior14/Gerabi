@@ -8,7 +8,7 @@ export default function FirstHeader ()
         <nav>
             <NavLink 
                 className={ ({isActive}) => isActive ? "my-link" : null}
-                to = {`/rapportMensuel?year=${new Date().getFullYear()}&month=${new Date().getMonth() + 1} `}> Rapport Mensuel </NavLink>
+                to = {`/rapportMensuel?year=${new Date().getFullYear()}&month=${new Date().getMonth() + 1}&day=${new Date().getDate()} `}> Rapport Mensuel </NavLink>
             <NavLink 
                 className={ ({isActive}) => isActive ? "my-link" : null}
                 to = '/rapportJournalier'> Rapport Journalier </NavLink>

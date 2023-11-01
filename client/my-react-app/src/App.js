@@ -1,9 +1,10 @@
 import './App.css';
 import { BrowserRouter, Routes, Route} from 'react-router-dom';
-import Product from './components/Daily-Report/AllProductManager';
+import Product from './components/Daily-Report/Stock_Consignation/AllProductManager';
 import { MainNav } from './components/headers/outlet';
 import { ProductNav } from './components/headers/outlet';
 import SuiviDesVentes from './components/Mensuel Report/suivi_Des_Ventes/suiviDesVentes';
+import SuiviDepense from './components/Daily-Report/suiviDepense/suiviDepense';
 
 function App() {
   return ( 
@@ -20,7 +21,7 @@ function App() {
               <Route path='liqueurs' element = {<Product produit = 'liqueurs'/>}/>
             </Route>
 
-            <Route path='rapportMensuel' element = {<SuiviDesVentes/>}/>
+            <Route path='rapportMensuel' element = {<SuiviDepense/>}/>
             
           </Route>
       </Routes>

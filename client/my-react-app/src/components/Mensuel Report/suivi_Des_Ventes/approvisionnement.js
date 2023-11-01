@@ -48,7 +48,7 @@ export default function Approvisionnement () {
 
             return (<div>
                 <h3>APPROVISIONNEMENT</h3>
-                <h4>Ouuppss!! date n'a pas de donnee</h4>
+                <h4>Ouuppss!! cette date n'a pas de donnee</h4>
             </div>)
         }
     } else {

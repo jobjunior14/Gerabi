@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from "react-redux";
-import { productActions } from "../../store/AllProductManager-slice";
+import { productActions } from "../../../store/AllProductManager-slice";
 
 export function ExcelMain(props)
 {

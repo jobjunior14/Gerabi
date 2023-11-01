@@ -2,10 +2,10 @@ import React, { useEffect } from "react";
 import axios from "axios";
 import { useSearchParams } from "react-router-dom";
 import {useSelector, useDispatch } from 'react-redux'
-import { ExcelSecLayout } from "./Stock_Consignation/Stock_Sec_Layout";
+import { ExcelSecLayout } from "./productComp/Stock_Sec_Layout";
 import { TableSuivi } from "./suiviAppro/SuiviTable";
-import DailyFilter from "../filter/filterDailyRap";
-import { productActions } from "../store/AllProductManager-slice";
+import DailyFilter from "../../filter/filterDailyRap";
+import {productActions} from "../../store/AllProductManager-slice"
 import AddProduct from './addProduct';
 
 
