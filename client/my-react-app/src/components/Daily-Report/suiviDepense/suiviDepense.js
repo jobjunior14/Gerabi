@@ -1,11 +1,11 @@
 import { useEffect } from "react";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
-import EntreeCaisse from "./entreeCaisse";
 import { suiviDepenseActions } from "../../store/suiviDepense-slice";
 import { useSearchParams } from "react-router-dom";
+import SoriteCaisse from "./sortieCaisse";
+import EntreeCaisse from "./entreeCaisse";
 import DailyFilter from "../../filter/filterDailyRap";
-import AddProduct from "./addProduct";
 
 export default function SuiviDepense (){
 
@@ -37,8 +37,39 @@ export default function SuiviDepense (){
 
                 const suiviVenteData = await axios.get (`http://localhost:5001/api/v1/suiviDepense/rapportJournalier/${year}/${month}/${day}`);
 
-                console.log (suiviVenteData.data.data);
+                //find the largest table row 
+                if (suiviVenteData.data.data.sortieCaisse && suiviVenteData.data.data.sortieCaisse.length > 0) {
+
+                    let saveTalbeRow = 0;
+
+                    for (let i = 0; i < suiviVenteData.data.data.sortieCaisse.length; i++) {
+                        
+                        
+                        const dataLenght = suiviVenteData.data.data.sortieCaisse[i].data.length;
+                        
+                        if (saveTalbeRow < dataLenght) {
+                            
+                            saveTalbeRow = dataLenght;
+
+                        };
+                    };
+
+                    dispacth(suiviDepenseActions.setSortieCaisse(suiviVenteData.data.data.sortieCaisse.map(
+                        (el, index) => {
+                            
+                            const data = el.data.map((el, index) => {return {...el, index: index}});
+    
+                            return {...el, index: index, data: data};
+                        }
+                    )));
+                    
+                    //dispatch the greatest length
+                    dispacth(suiviDepenseActions.setSameLength(saveTalbeRow));
+                };
+                
+                //dispatch and set id
                 dispacth(suiviDepenseActions.setEntreeCaisse(suiviVenteData.data.data.entreeCaisse.map((el, index) => {return {...el, id: index}})));
+                
             } catch (err) {
                 if (err.message) {
 
@@ -56,11 +87,13 @@ export default function SuiviDepense (){
         setDateParams(prev => prev = date);
     };
 
+
+
     if (year > currentYear || month > currentMonth || day > currentDay) {
 
         return (
             <div>
-                <DailyFilter prev = {date} onclick = {setFilterParams} />
+                <DailyFilter component = {'suiviDepense'} prev = {date} onclick = {setFilterParams} />
                 <h1> Ooouups vous ne pouvez demander une donnee d'une date inexistante </h1>
             </div>
         );
@@ -68,9 +101,9 @@ export default function SuiviDepense (){
 
         return (
             <div>
-                <DailyFilter prev = {date} onclick = {setFilterParams} />
+                <DailyFilter component = {'suiviDepense'} prev = {date} onclick = {setFilterParams} />
                 <EntreeCaisse/>
-                <AddProduct/>
+                <SoriteCaisse /> 
             </div>
         )
     }

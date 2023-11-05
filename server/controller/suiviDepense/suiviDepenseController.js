@@ -33,22 +33,28 @@ const loopingData = (array, year, month, day) => {
 
                     for (let sortieCaisse of j.data.sortieCaisse) {
 
+                        //store label data 
+                        const dataName = [];
+
                         for (let e of sortieCaisse.data){
 
-                            for (let u of e.amount){
+                            for (let amount of e.amount){
                                 
-                                if (Number (JSON.stringify (u.createdAt).slice (9, 11)) === day) {
+                                if (Number (JSON.stringify (amount.createdAt).slice (9, 11)) === day) {
         
-                                    dayData.sortieCaisse.push({
-                                        name: sortieCaisse.name,
-                                        data: {
-                                            libel: e.libel,
-                                            amount: u.valeur
-                                        }
+                                    dataName.push({
+                                        libel: e.libel,
+                                        amount: amount.valeur
                                     });
                                 };
                             };
                         }; 
+
+                        //push all the labels in a main name
+                        dayData.sortieCaisse.push ({
+                            name: sortieCaisse.name,
+                            data: dataName 
+                        });
                     };
             
 
@@ -106,7 +112,7 @@ exports.pushSuiviDepense = catchAssynch (async (req, res, next) => {
                     for (let p = 0; p < body.entreeCaisse.length; p ++){
     
                         if (body.entreeCaisse[p].name !== "") {
-                            console.log(suiviDepense[yearIndex].data[monthIndex].data);
+                            
                             const indexNameEntree = suiviDepense[yearIndex].data[monthIndex].data.entreeCaisse.findIndex ( el => el.name.toUpperCase () === body.entreeCaisse[p].name.toUpperCase());
     
                             
@@ -493,20 +499,6 @@ exports.lastCreatedDataSuiviDepense = catchAssynch (async (req, res,) => {
             data: dayData
         });
 
-        // //entree caisse
-        // const entreeCaisseEl0 = suiviDepense[el0].data[el1].entreeCaisse.length -1;
-        // const entreeCaisseEl1 = suiviDepense[el0].data[el1].entreeCaisse[entreeCaisseEl0].data.length - 1;
-        // const lastEntreeCaisse = suiviDepense[el0].data[el1].entreeCaisse[entreeCaisseEl0].data[entreeCaisseEl1];
-
-        // //sortie caisse
-        // const soriteCaisseEl0 = suiviDepense[el0].data[el1].sortieCaisse.length - 1;
-        // const soriteCaisseEl1 = suiviDepense[el0].data[el1].sortieCaisse[soriteCaisseEl0].data.length - 1;
-        // const soriteCaisseEl2 = suiviDepense[el0].data[el1].sortieCaisse[soriteCaisseEl0].data[soriteCaisseEl1].amount.length - 1;
-        // const lastSortieCaisse = suiviDepense[el0].data[el1].sortieCaisse[soriteCaisseEl0].data[soriteCaisseEl1].amount[soriteCaisseEl2];
-        
-        // //previous sold
-        // const prevSoldCaisseEl0 = suiviDepense[el0].data[el1].prevSoldCaisse.length - 1;
-        // const lastPrevSold = suiviDepense[el0].data[el1].prevSoldCaisse[prevSoldCaisseEl0];
     } else {
 
         res.status(200).json({

@@ -11,7 +11,8 @@ const suiviDepenseSlice = createSlice ({
         },
         entreeCaisse: null,
         sortieCaisse: null,
-        prevSoldCaisse: null
+        prevSoldCaisse: null,
+        tableRow: 0
     },
 
     reducers: {
@@ -43,27 +44,49 @@ const suiviDepenseSlice = createSlice ({
             state.entreeCaisse = action.payload;
         },
 
+        setSortieCaisse (state, action) {
+
+            state.sortieCaisse = action.payload;
+        },
+
+
         HandleEntreeCaisse (state, action) {
 
             const name = action.payload.name;
             const value = action.payload.value;
-            const id = Number (action.payload.id);
             const data = state.entreeCaisse;
-            const index = data.findIndex(el => el.id === id);
+            const index = action.payload.index;
 
-            if (index !== -1) {
+        
+            if (name === 'name') {
 
-                if (name === 'name') {
+                state.entreeCaisse[index] = {...state.entreeCaisse[index], name: value };
+            } else {
 
-                    data[index] = {...data[index], name: value };
-                } else {
-
-                    data[index] = {...data[index], data: {...data[index]['data'], [name]: value} };
-                };
-
+                state.entreeCaisse[index] = {...state.entreeCaisse[index], data: {...state.entreeCaisse[index]['data'], [name]: value} };
             };
 
+
             state.entreeCaisse = data;
+        },
+
+        HandleSortieCaisse (state, action) {
+
+            const name = action.payload.name;
+            const value = action.payload.value;
+            const mainIndex = action.payload.mainindex;
+            const index = action.payload.index;
+
+            if (name === "name") {
+
+                state.sortieCaisse[mainIndex] = {...state.sortieCaisse[mainIndex], [name]: value};
+            } else if (name === 'libel'){
+
+                state.sortieCaisse[mainIndex].data[index] = {...state.sortieCaisse[mainIndex].data[index], [name]: value};
+            } else {
+                
+                state.sortieCaisse[mainIndex].data[index] = {...state.sortieCaisse[mainIndex].data[index], [name]: value};
+            };
         },
 
         addProductEntreeCaisse (state, action) {
@@ -79,9 +102,40 @@ const suiviDepenseSlice = createSlice ({
             );
         },
 
-        setSortieCaisse (state, action) {
+        setSameLength (state, action ) {
 
-            const name = action.payload.name;
+            for (let i = 0; i < state.sortieCaisse.length; i++) {
+
+                if (state.sortieCaisse[i].data.length < action.payload) {
+
+                    const emptyToPush = action.payload - state.sortieCaisse[i].data.length;
+                    for (let j = 0; j < emptyToPush; j ++) {
+
+                        state.sortieCaisse[i].data.push({libel: "", amount: "", index: state.sortieCaisse[i].data.length});
+                    }
+                }
+            }
+        },
+
+        addFonctionSortie (state){
+
+           state.sortieCaisse.push({
+            index: state.sortieCaisse.length,
+            name: "",
+            data: state.sortieCaisse[0].data.map((el, index) => {return {index: index, libel: "", amount: ""}})
+           });
+        },
+
+        addLibelMontantSortie(state){
+
+            for ( let i = 0; i < state.sortieCaisse.length; i++) {
+
+                state.sortieCaisse[i].data.push ({
+                    indexe: state.sortieCaisse[i].data.length,
+                    libel: "",
+                    amount: ""
+                });
+            };
         }
 
     }

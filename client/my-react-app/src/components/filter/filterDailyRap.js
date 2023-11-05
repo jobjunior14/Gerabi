@@ -1,9 +1,10 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { productActions } from "../store/AllProductManager-slice";
-import { venteBarActions } from "../store/venteBar-slice";
+import { suiviDepenseActions } from "../store/suiviDepense-slice";
 
 export default function DailyFilter (props) {
+
     const dispatch = useDispatch();
         
     return (
@@ -15,7 +16,7 @@ export default function DailyFilter (props) {
                 placeholder= "Taper l'année"
                 onChange= { e => {
                     const {name, value} = e.target;
-                    dispatch(productActions.setDate({name: name, value: value}));
+                    props.component === 'allProduct' ? dispatch(productActions.setDate({name: name, value: value})) : dispatch(suiviDepenseActions.setDate({name: name, value: value}));
                 }}
             />
 
@@ -26,7 +27,7 @@ export default function DailyFilter (props) {
                 placeholder= "Taper l'année"
                 onChange= { e => {
                     const {name, value} = e.target;
-                    dispatch(productActions.setDate({name: name, value: value}));
+                    props.component === 'allProduct' ? dispatch(productActions.setDate({name: name, value: value})) : dispatch(suiviDepenseActions.setDate({name: name, value: value}));
                 }}
             />
 
@@ -37,7 +38,7 @@ export default function DailyFilter (props) {
                 placeholder= "Taper l'année"
                 onChange= { e => {
                     const {name, value} = e.target;
-                    dispatch(productActions.setDate({name: name, value: value}));
+                    props.component === 'allProduct' ? dispatch(productActions.setDate({name: name, value: value})) : dispatch(suiviDepenseActions.setDate({name: name, value: value}));
                 }}
             />
 

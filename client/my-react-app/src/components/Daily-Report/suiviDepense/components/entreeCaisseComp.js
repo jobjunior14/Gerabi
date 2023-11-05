@@ -15,8 +15,8 @@ export default function EntreeCaisseComp (props){
             type= 'text'
             placeholder='Taper Le Libelé'
             onChange={ (e) => {
-                const {name, value, id} = e.target;
-                dispacth(suiviDepenseActions.HandleEntreeCaisse({name: name, value: value, id: id}));
+                const {name, value} = e.target;
+                dispacth(suiviDepenseActions.HandleEntreeCaisse({name: name, value: value, index: props.index}));
             }}
         />
       </th>
@@ -30,7 +30,7 @@ export default function EntreeCaisseComp (props){
             placeholder='Taper Le Libelé'
             onChange={ (e) => {
                 const {name, value, id} = e.target;
-                dispacth(suiviDepenseActions.HandleEntreeCaisse({name: name, value: value, id: id}));
+                dispacth(suiviDepenseActions.HandleEntreeCaisse({name: name, value: value, index: id}));
             }}
         />
       </td>

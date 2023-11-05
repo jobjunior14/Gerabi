@@ -656,7 +656,7 @@ export default function Product (props) {
 
     return (
     <div>
-      <DailyFilter  prev = {date} onclick = {setFilterParams}/>
+      <DailyFilter component = {'allProduct'}  prev = {date} onclick = {setFilterParams}/>
       <h1> Ouuups vous ne pouvez demander une donnée d'une date inexistante</h1>
     </div>
     );
@@ -669,7 +669,7 @@ export default function Product (props) {
   
           return (
             <div>
-              <DailyFilter  prev = {date} onclick = {setFilterParams} />
+              <DailyFilter component = {'allProduct'}  prev = {date} onclick = {setFilterParams} />
 
               <label>Vente Journalière Dego</label>
               <input type="number" name="vente" onChange={ e =>  dispatch(productActions.setVenteDego (e.target.value))} placeholder="Vente Journalière Dego" defaultValue={venteDego}/>
@@ -691,7 +691,7 @@ export default function Product (props) {
             return (
               <div>
               
-                  <DailyFilter  prev = {date} onclick = {setFilterParams} />
+                  <DailyFilter component = {'allProduct'} prev = {date} onclick = {setFilterParams} />
                   <AddProduct />                  
               </div>
             );
