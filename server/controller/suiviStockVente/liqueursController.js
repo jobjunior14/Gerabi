@@ -20,7 +20,7 @@ exports.getLiqueurs = catchAssynch(async (req, res ) => {
 
 exports.pushDataLiqueurs = catchAssynch(async (req, res ) => {
  
-  await pushDataCollection(req.body, Liqueurs, res)
+  await pushDataCollection(req, Liqueurs, res)
   
 });
 

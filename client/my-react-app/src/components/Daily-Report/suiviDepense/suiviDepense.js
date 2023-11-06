@@ -6,6 +6,7 @@ import { useSearchParams } from "react-router-dom";
 import SoriteCaisse from "./sortieCaisse";
 import EntreeCaisse from "./entreeCaisse";
 import DailyFilter from "../../filter/filterDailyRap";
+import { current } from "@reduxjs/toolkit";
 
 export default function SuiviDepense (){
 
@@ -34,6 +35,11 @@ export default function SuiviDepense (){
         const fecthData = async () => {
 
             try {
+
+                if (year < currentDay || month < currentMonth || day < current) {
+
+                    
+                }
 
                 const suiviVenteData = await axios.get (`http://localhost:5001/api/v1/suiviDepense/rapportJournalier/${year}/${month}/${day}`);
 
@@ -67,8 +73,8 @@ export default function SuiviDepense (){
                     dispacth(suiviDepenseActions.setSameLength(saveTalbeRow));
                 };
                 
-                //dispatch and set id
-                dispacth(suiviDepenseActions.setEntreeCaisse(suiviVenteData.data.data.entreeCaisse.map((el, index) => {return {...el, id: index}})));
+                //dispatch and set idindex
+                dispacth(suiviDepenseActions.setEntreeCaisse(suiviVenteData.data.data.entreeCaisse.map((el, index) => {return {...el, index: index}})));
                 
             } catch (err) {
                 if (err.message) {

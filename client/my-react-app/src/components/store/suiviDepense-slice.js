@@ -12,7 +12,8 @@ const suiviDepenseSlice = createSlice ({
         entreeCaisse: null,
         sortieCaisse: null,
         prevSoldCaisse: null,
-        tableRow: 0
+        readOnly: true,
+        update: true,
     },
 
     reducers: {
@@ -39,17 +40,31 @@ const suiviDepenseSlice = createSlice ({
             }
         },
 
+        //set read only to some inputs if data comes from the server
+        setReadOnly (state, action) {
+
+            state.readOnly = action.payload;
+        },
+
+        //set update if the data comes from the server and needs to be updated
+        setUpdate(state, action ) {
+
+            state.update = action.payload;
+        },
+
+        //set data to entree caisse
         setEntreeCaisse(state, action) {
 
             state.entreeCaisse = action.payload;
         },
 
+        //set data to sortie caisse
         setSortieCaisse (state, action) {
 
             state.sortieCaisse = action.payload;
         },
 
-
+        //handle data in Entree caisse
         HandleEntreeCaisse (state, action) {
 
             const name = action.payload.name;
@@ -70,6 +85,7 @@ const suiviDepenseSlice = createSlice ({
             state.entreeCaisse = data;
         },
 
+        //handle Data in Sortie caisse
         HandleSortieCaisse (state, action) {
 
             const name = action.payload.name;
@@ -89,6 +105,7 @@ const suiviDepenseSlice = createSlice ({
             };
         },
 
+        //add a new data to entree caisse
         addProductEntreeCaisse (state, action) {
 
             state.entreeCaisse.push (
@@ -102,6 +119,7 @@ const suiviDepenseSlice = createSlice ({
             );
         },
 
+        //set the sortie caisse to the same length to have a good reading of data 
         setSameLength (state, action ) {
 
             for (let i = 0; i < state.sortieCaisse.length; i++) {
@@ -117,6 +135,7 @@ const suiviDepenseSlice = createSlice ({
             }
         },
 
+        //add a function to a sortie caisse array
         addFonctionSortie (state){
 
            state.sortieCaisse.push({
@@ -126,6 +145,7 @@ const suiviDepenseSlice = createSlice ({
            });
         },
 
+        //add a justification to a sortie caisse array
         addLibelMontantSortie(state){
 
             for ( let i = 0; i < state.sortieCaisse.length; i++) {

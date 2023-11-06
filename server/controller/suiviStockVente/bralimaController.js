@@ -20,7 +20,7 @@ exports.getBralima = catchAssynch(async (req, res ) => {
 
 exports.pushDataBralima = catchAssynch(async (req, res ) => {
  
-  await pushDataCollection(req.body, Bralima, res)
+  await pushDataCollection(req, Bralima, res)
   
 });
 
@@ -32,7 +32,7 @@ exports.updateDataBralima = catchAssynch(async (req, res ) => {
 
 exports.lastCreatedData = catchAssynch( async (req, res) => {
 
-  lastCreatedData(AutreProduit, req, res);
+  lastCreatedData(Bralima, req, res);
 });
 
 exports.stastBralima = catchAssynch(async (req, res, next) => {

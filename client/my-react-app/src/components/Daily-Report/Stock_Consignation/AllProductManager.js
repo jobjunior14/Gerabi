@@ -388,15 +388,35 @@ export default function Product (props) {
 
           const dataApi = await axios.get( `http://localhost:5001/api/v1/${props.produit}/raportJournalier/${year}/${month}/${day}`);
           const dataVente = await axios.get (`http://localhost:5001/api/v1/vente/${year}/${month}/${day}`);
-
-          if (dataVente.data.data.day) dispatch(productActions.setVenteDego(dataVente.data.data.day.valeur))
-
-          dispatch(productActions.setProductdata (dataApi.data.data.day.map((el, index) => { return { ...el, id: index }})));
-          dispatch(productActions.setId(dataApi.data.data.id))
-          dispatch(productActions.setUpdate(false));
-          dispatch(productActions.setReadOnly(false));
+          const lastCreatedData = await axios.get(`http://localhost:5001/api/v1/${props.produit}/raportJournalier/lastElement`); 
           
+          if (dataApi.data.data.day.length > 0 ){
 
+            
+            dispatch(productActions.setVenteDego(dataVente.data.data.day.valeur));
+            dispatch(productActions.setProductdata (dataApi.data.data.day.map((el, index) => { return { ...el, id: index }})));
+            dispatch(productActions.setId(dataApi.data.data.id));
+            dispatch(productActions.setUpdate(true));
+            dispatch(productActions.setReadOnly(true));
+          } else {
+            
+            if (lastCreatedData.data.data){
+              
+              dispatch(productActions.setVenteDego(0));
+              dispatch(productActions.setProductdata (lastCreatedData.data.data.map((el, index) =>  objProvider(el, index))));
+              dispatch(productActions.setUpdate(false));
+              dispatch(productActions.setReadOnly(false));
+              
+            } else {
+              
+              dispatch(productActions.setVenteDego(0));
+              dispatch(productActions.setProductdata (dataApi.data.data.day.map((el, index) => { return { ...el, id: index }})));
+              dispatch(productActions.setId(dataApi.data.data.id));
+              dispatch(productActions.setUpdate(false));
+              dispatch(productActions.setReadOnly(false));
+              
+            }
+          };
         } else if ( dateState ) {
 
           const storageState = JSON.parse(localStorage.getItem(`${props.produit}`));
@@ -450,7 +470,7 @@ export default function Product (props) {
             dispatch(productActions.setProductdata (null));
             
             const dataApi = await axios.get(`http://localhost:5001/api/v1/${props.produit}/raportJournalier/${currentYear}/${currentMonth}/${currentDay}`);
-            const previousData = await axios.get(`http://localhost:5001/api/v1/${props.produit}/raportJournalier/${prevYear}/${prevMonth}/${prevDay}`);              
+            const previousData = await axios.get(`http://localhost:5001/api/v1/${props.produit}/raportJournalier/lastElement`);              
             const dataVente = await axios.get (`http://localhost:5001/api/v1/vente/${currentYear}/${currentMonth}/${currentDay}`);
             
             if (dataApi.data.data.day.length === 0) {
@@ -465,9 +485,9 @@ export default function Product (props) {
               dispatch(productActions.setUpdate(false));
               dispatch(productActions.setReadOnly(false));
               
-              if (previousData.data.data.day.length > 0) {
+              if (previousData.data.data) {
                 
-                dispatch(productActions.setProductdata (previousData.data.data.day.map((el, index) => objProvider(el, index))));
+                dispatch(productActions.setProductdata (previousData.data.data.map((el, index) => objProvider(el, index))));
   
               } else {
 
@@ -476,7 +496,9 @@ export default function Product (props) {
               }
             } else {
 
-              dispatch(productActions.setVenteDego(dataVente.data.data.day.valeur))
+
+              //a modifer a ne pas oublier stp Junior
+              dispatch(productActions.setVenteDego(0))
               dispatch(productActions.setProductdata (dataApi.data.data.day.map((el, index) => { return { ...el, id: index }; })));
               dispatch(productActions.setId( dataApi.data.data.id))
               dispatch(productActions.setUpdate(true));
@@ -488,7 +510,7 @@ export default function Product (props) {
 
       } catch (err) {
         if (err.message) {
-          console.log(err.data);
+          console.log(err);
         } else {
           console.log(err);
         }
@@ -516,28 +538,93 @@ export default function Product (props) {
       try {
         
         if (!errorMessage.status) {
-          
-          //modeling data to our schema
-          const newData = productData.map((el) => {
-            return {
-              name: el.name,
-              data: {
+
+          let newData = null;
+          let newDataVente = null;
+
+          //update data format
+          if ( month >= 10 && day >= 10) {
+
+            //modeling data to our schema
+            newData = productData.map((el) => {
+              return {
+                name: el.name,
                 data: {
-                  data: { ...el },
+                  data: {
+                    data: { ...el,  createdAt: `${year}-${month}-${day}T08:22:54.930Z` },
+                  },
                 },
-              },
+              };
+            });
+  
+            //modeling data to our schema 
+            newDataVente = {
+              valeur: venteDego,
+              createdAt: `${year}-${month}-${day}T08:22:54.930Z`
             };
-          });
-    
-          //modeling data to our schema 
-          const newDataVente = {
-            valeur: venteDego,
+          } else if (month >= 10 && day < 10) {
+            
+            //modeling data to our schema
+            newData = productData.map((el) => {
+              return {
+                name: el.name,
+                data: {
+                  data: {
+                    data: { ...el,  createdAt: `${year}-${month}-0${day}T08:22:54.930Z` },
+                  },
+                },
+              };
+            });
+  
+            //modeling data to our schema 
+            newDataVente = {
+              valeur: venteDego,
+              createdAt: `${year}-${month}-0${day}T08:22:54.930Z`
+            };
+          } else if (month < 10 && day >= 10) {
+            
+            //modeling data to our schema
+            newData = productData.map((el) => {
+              return {
+                name: el.name,
+                data: {
+                  data: {
+                    data: { ...el,  createdAt: `${year}-0${month}-${day}T08:22:54.930Z` },
+                  },
+                },
+              };
+            });
+  
+            //modeling data to our schema 
+            newDataVente = {
+              valeur: venteDego,
+              createdAt: `${year}-0${month}-${day}T08:22:54.930Z`
+            };
+          } else {
+            
+            //modeling data to our schema
+            newData = productData.map((el) => {
+              return {
+                name: el.name,
+                data: {
+                  data: {
+                    data: { ...el,  createdAt: `${year}-0${month}-0${day}T08:22:54.930Z` },
+                  },
+                },
+              };
+            });
+  
+            //modeling data to our schema 
+            newDataVente = {
+              valeur: venteDego,
+              createdAt: `${year}-0${month}-0${day}T08:22:54.930Z`
+            };
           };
 
           dispatch(productActions.setProductdata(null));
           
-          const response = await axios.post( `http://localhost:5001/api/v1/${props.produit}/raportJournalier`, newData);
-          const responseventeDego = await axios.post( "http://localhost:5001/api/v1/vente", newDataVente);
+          const response = await axios.post( `http://localhost:5001/api/v1/${props.produit}/raportJournalier?year=${year}&month=${month}&day=${day}`, newData);
+          const responseventeDego = await axios.post( `http://localhost:5001/api/v1/vente?year=${year}&month=${month}&day=${day}`, newDataVente);
   
           dispatch(productActions.setUpdate(true));
           dispatch(productActions.setReadOnly(true));
@@ -554,6 +641,11 @@ export default function Product (props) {
       };
 
     };fecthData();
+    
+
+
+
+    
 
     if ( dateState && !errorMessage.status ) {
 
@@ -590,30 +682,121 @@ export default function Product (props) {
         
         if (!errMessage.status) {
           
-          //modeling data to schema
-          const newData = productData.map((el) => {
-            return {
-              name: el.name,
-              data: {
+          let newData = null;
+          let newData2 = null;
+          let newDataVente = null;
+
+          //set to rigth format date
+          if (month >= 10 && day >= 10) {
+
+            //modeling data to schema
+            newData = productData.map((el) => {
+              return {
+                name: el.name,
                 data: {
                   data: {
-                    ...el,
-                    createdAt: `${year}-${month}-${day}T07:22:54.930Z`,
+                    data: {
+                      ...el,
+                      createdAt: `${year}-${month}-${day}T07:22:54.930Z`,
+                    },
                   },
                 },
-              },
+              };
+            });
+            
+            //modeling data to schema
+            newData2 = { id: [...id], data: [...newData] };
+      
+            //modeling data to schema
+            newDataVente = {
+      
+              valeur: venteDego,
+              createdAt: `${year}-${month}-${day}T07:22:54.930Z`,
             };
-          });
-          
-          //modeling data to schema
-          const newData2 = { id: [...id], data: [...newData] };
-    
-          //modeling data to schema
-          const newDataVente = {
-    
-            valeur: venteDego,
-            createdAt: `${year}-${month}-${day}T07:22:54.930Z`,
-          };
+            
+          } else if (month >= 10 && day < 10) {
+            
+            //modeling data to schema
+            newData = productData.map((el) => {
+              return {
+                name: el.name,
+                data: {
+                  data: {
+                    data: {
+                      ...el,
+                      createdAt: `${year}-${month}-0${day}T07:22:54.930Z`,
+                    },
+                  },
+                },
+              };
+            });
+            
+            //modeling data to schema
+            newData2 = { id: [...id], data: [...newData] };
+      
+            //modeling data to schema
+            newDataVente = {
+      
+              valeur: venteDego,
+              createdAt: `${year}-${month}-0${day}T07:22:54.930Z`,
+            };
+            
+          } else if ( month < 10 && day >= 10) {
+            
+            //modeling data to schema
+            newData = productData.map((el) => {
+              return {
+                name: el.name,
+                data: {
+                  data: {
+                    data: {
+                      ...el,
+                      createdAt: `${year}-0${month}-${day}T07:22:54.930Z`,
+                    },
+                  },
+                },
+              };
+            });
+            
+            //modeling data to schema
+            newData2 = { id: [...id], data: [...newData] };
+      
+            //modeling data to schema
+            newDataVente = {
+      
+              valeur: venteDego,
+              createdAt: `${year}-0${month}-${day}T07:22:54.930Z`,
+            };
+            
+          } else {
+            
+            //modeling data to schema
+            newData = productData.map((el) => {
+              return {
+                name: el.name,
+                data: {
+                  data: {
+                    data: {
+                      ...el,
+                      createdAt: `${year}-0${month}-0${day}T07:22:54.930Z`,
+                    },
+                  },
+                },
+              };
+            });
+            
+            //modeling data to schema
+            newData2 = { id: [...id], data: [...newData] };
+      
+            //modeling data to schema
+            newDataVente = {
+      
+              valeur: venteDego,
+              createdAt: `${year}-0${month}-0${day}T07:22:54.930Z`,
+            };
+
+          }
+
           
           dispatch(productActions.setProductdata(null));
 

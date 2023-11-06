@@ -1,5 +1,6 @@
 const catchAssynch = require(`../../utils/catchAssynch.js`);
 const AppError = require(`../../utils/appError.js`);
+const { request } = require("express");
 
 function loopingData(array, year, month, day) {
 
@@ -43,15 +44,18 @@ exports.getCollection = async (collection, request, response) =>{
   }); 
 };
 
-exports.pushDataCollection = catchAssynch (async (body, collection, response ) => {
+exports.pushDataCollection = catchAssynch (async (request, collection, response ) => {
 
   //data  from collection
   const collectionData = await collection.find();
 
+  //body's request
+  const body = request.body;
+
   //current date
-  const year = Number (new Date().getFullYear());
-  const month = Number (new Date().getMonth() + 1);
-  const day = Number (new Date().getDate());
+  const year = Number (request.query.year);
+  const month = Number (request.query.month);
+  const day = Number (request.query.day);
 
   //storing the looping data in a variabe
   const dataBralima = [];
@@ -516,16 +520,21 @@ exports.lastCreatedData = catchAssynch (async (collection, request, response) =>
   const collectionData = await collection.find();
   
   if (collectionData.length > 0) {
-    
-    const el0 = collectionData.length - 1;
-    const el1 = collectionData[el0].data.length - 1;
-    const el2 = collectionData[el0].data[el1].data.length - 1;
-    const el3 = collectionData[el0].data[el1].data[el2].data.length - 1;
-    const lastElement = collectionData[el0].data[el1].data[el2].data[el3];
+    const lastCreatedData = [];
+    for (let i = 0; i < collectionData.length; i++) {
+      
+      const el1 = collectionData[i].data.length - 1;
+      const el2 = collectionData[i].data[el1].data.length - 1;
+      const el3 = collectionData[i].data[el1].data[el2].data.length - 1;
+      const data = collectionData[i].data[el1].data[el2].data[el3];
+      data.name = collectionData[i].name;
+      lastCreatedData.push (data);
+    };
+  
     
     response.status(200).json({
       status: 'success',
-      data: lastElement
+      data: lastCreatedData
     })
   } else {
 
@@ -535,7 +544,7 @@ exports.lastCreatedData = catchAssynch (async (collection, request, response) =>
     })
   }
 
-})
+});
 
 exports.stastAutreCollection = catchAssynch (async (collection, request, response) => {
 

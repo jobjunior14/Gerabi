@@ -70,6 +70,7 @@ export default function SoriteCaisse (props) {
                                 defaultValue={sortieCaisse[j].data[y].amount}
                                 id = {tableDataSortieCaisse.length}
                                 name = 'amount'
+                                type="number"
                                 placeholder="Taper le montant"
                                 onChange={ e => {
         
@@ -82,12 +83,10 @@ export default function SoriteCaisse (props) {
                     
                 };
         
-            tableRowData.push(<tr>{tableDataSortieCaisse}</tr>); 
+            tableRowData.push(<tr key={y}>{tableDataSortieCaisse}</tr>); 
         };
     };
     
-    console.log (sortieCaisse);
-
    if (sortieCaisse) {
 
         if (sortieCaisse.length > 0) {
@@ -114,8 +113,8 @@ export default function SoriteCaisse (props) {
 
                     </table>
 
-                    <button onClick={() => dispacth(suiviDepenseActions.addLibelMontantSortie())}> Ajouter une justificatif</button>
-                    <button onClick={() => dispacth(suiviDepenseActions.addFonctionSortie())}> Ajouter Une fonction</button>
+                    <button onClick={() => dispacth(suiviDepenseActions.addLibelMontantSortie())}> Ajouter un justificatif</button>
+                    <button onClick={() => dispacth(suiviDepenseActions.addFonctionSortie())}> Ajouter une fonction</button>
                 </div>
             )
         } else {

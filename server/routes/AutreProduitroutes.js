@@ -18,7 +18,7 @@ router
   .get(getAutreProduit)
   .post(updateDataAutreProduit);
 
-router.route("/raportJournalier").post(pushDataAutreProduit);
+router.route("/raportJournalier/").post(pushDataAutreProduit);
 
 // stats
 router

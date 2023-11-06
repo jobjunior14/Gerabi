@@ -259,7 +259,7 @@ exports.updateSuiviDepense = catchAssynch (async (req, res, next) => {
                             if (existingDataIndex !== -1) {
                                 
                                 //put the date at the rigt format
-                                if ( month > 10 && day > 10){
+                                if ( month >= 10 && day >= 10){
 
                                     suiviDepense[yearIndex].data[monthIndex].data.entreeCaisse[indexNameEntree].data[existingDataIndex] = {
     
@@ -267,7 +267,7 @@ exports.updateSuiviDepense = catchAssynch (async (req, res, next) => {
                                         createdAt: `${year}-${month}-${day}T07:22:54.930Z`,
                                     };
                                     
-                                } else if ( month > 10 && day < 10){
+                                } else if ( month >= 10 && day < 10){
                                     
                                     suiviDepense[yearIndex].data[monthIndex].data.entreeCaisse[indexNameEntree].data[existingDataIndex] = {
     
@@ -275,7 +275,7 @@ exports.updateSuiviDepense = catchAssynch (async (req, res, next) => {
                                         createdAt: `${year}-${month}-0${day}T07:22:54.930Z`,
                                     };
                                     
-                                } else if ( month < 10 && day > 10) {
+                                } else if ( month < 10 && day >= 10) {
                                     
                                     suiviDepense[yearIndex].data[monthIndex].data.entreeCaisse[indexNameEntree].data[existingDataIndex] = {
     

@@ -48,9 +48,9 @@ exports.pushDataVente = catchAssynch(async (req, res, next) => {
 
   const vente = await VenteDego.find();
 
-  const year = Number(new Date().getFullYear());
-  const month = Number(new Date().getMonth() + 1);
-  const day = Number(new Date().getDate());
+  const year = Number(req.query.year);
+  const month = Number(req.query.month);
+  const day = Number(req.query.day);
 
   const yearIndex = vente.findIndex((el) => el.annee === year);
 

@@ -10,7 +10,7 @@ export default function EntreeCaisseComp (props){
       <th>
         <input
             defaultValue={props.prev.name}
-            id = { props.prev.id}
+            id = { props.prev.index}
             name = 'name'
             type= 'text'
             placeholder='Taper Le Libelé'

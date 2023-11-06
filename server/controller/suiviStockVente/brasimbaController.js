@@ -20,7 +20,7 @@ exports.getBrasimba = catchAssynch(async (req, res ) => {
 
 exports.pushDataBrasimba = catchAssynch(async (req, res ) => {
  
-  await pushDataCollection(req.body, Brasimba, res)
+  await pushDataCollection(req, Brasimba, res)
   
 });
 
