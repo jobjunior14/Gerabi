@@ -6,7 +6,7 @@ import { useSearchParams } from "react-router-dom";
 import SoriteCaisse from "./sortieCaisse";
 import EntreeCaisse from "./entreeCaisse";
 import DailyFilter from "../../filter/filterDailyRap";
-import { current } from "@reduxjs/toolkit";
+import SoldCaisse from "./soldCaisse";
 
 export default function SuiviDepense (){
 
@@ -27,7 +27,10 @@ export default function SuiviDepense (){
     const currentYear = Number (new Date().getFullYear());
     const currentMonth = Number (new Date().getMonth() + 1);
     const currentDay = Number (new Date().getDate());
+    
 
+    const entreeCaisse = useSelector (state => state.suiviDepense.entreeCaisse);
+    const sortieCaisse = useSelector (state => state.suiviDepense.sortieCaisse);
     useEffect (() => {
 
         dispacth(suiviDepenseActions.setEntreeCaisse(null));
@@ -36,22 +39,18 @@ export default function SuiviDepense (){
 
             try {
 
-                if (year < currentDay || month < currentMonth || day < current) {
-
-                    
-                }
-
-                const suiviVenteData = await axios.get (`http://localhost:5001/api/v1/suiviDepense/rapportJournalier/${year}/${month}/${day}`);
-
+                const suiviDepenseData = await axios.get (`http://localhost:5001/api/v1/suiviDepense/rapportJournalier/${year}/${month}/${day}`);
+                
+                
                 //find the largest table row 
-                if (suiviVenteData.data.data.sortieCaisse && suiviVenteData.data.data.sortieCaisse.length > 0) {
+                if (suiviDepenseData.data.data.sortieCaisse ) {
 
                     let saveTalbeRow = 0;
 
-                    for (let i = 0; i < suiviVenteData.data.data.sortieCaisse.length; i++) {
+                    for (let i = 0; i < suiviDepenseData.data.data.sortieCaisse.length; i++) {
                         
                         
-                        const dataLenght = suiviVenteData.data.data.sortieCaisse[i].data.length;
+                        const dataLenght = suiviDepenseData.data.data.sortieCaisse[i].data.length;
                         
                         if (saveTalbeRow < dataLenght) {
                             
@@ -60,7 +59,7 @@ export default function SuiviDepense (){
                         };
                     };
 
-                    dispacth(suiviDepenseActions.setSortieCaisse(suiviVenteData.data.data.sortieCaisse.map(
+                    dispacth(suiviDepenseActions.setSortieCaisse(suiviDepenseData.data.data.sortieCaisse.map(
                         (el, index) => {
                             
                             const data = el.data.map((el, index) => {return {...el, index: index}});
@@ -69,13 +68,21 @@ export default function SuiviDepense (){
                         }
                     )));
                     
-                    //dispatch the greatest length
+                    // the greatest length
                     dispacth(suiviDepenseActions.setSameLength(saveTalbeRow));
                 };
                 
-                //dispatch and set idindex
-                dispacth(suiviDepenseActions.setEntreeCaisse(suiviVenteData.data.data.entreeCaisse.map((el, index) => {return {...el, index: index}})));
-                
+                //set the index and entreeCaisse Data
+                dispacth(suiviDepenseActions.setEntreeCaisse(suiviDepenseData.data.data.entreeCaisse.map((el, index) => {return {...el, index: index}})));
+
+                //set  caisse
+                if (suiviDepenseData.data.data.soldCaisse) {
+
+                    dispacth(suiviDepenseActions.setSoldCaisse(suiviDepenseData.data.data.soldCaisse.amount));
+                } else {
+                    
+                    dispacth(suiviDepenseActions.setSoldCaisse(0));
+                }
             } catch (err) {
                 if (err.message) {
 
@@ -93,6 +100,103 @@ export default function SuiviDepense (){
         setDateParams(prev => prev = date);
     };
 
+    useEffect (() => {
+
+        setDateParams (prev => prev = date);
+    }, [date.year, date.month, date.day]);
+
+    function postData(){
+
+        const newSortieCaisseData = [];
+
+        for (let i of sortieCaisse){
+
+            if (i.name !== "") {
+
+                const fonctiondata = null;
+    
+                for (let y of i.data) {
+    
+                    if (y.libel !== "" || y.amount !== "") {
+    
+                        fonctiondata.push({
+                            libel: y.libel,
+                            amount: {
+                                valeur: y.amount
+                            }
+                        });
+                    }
+                };
+    
+                newSortieCaisseData.push({
+    
+                    name: i.name,
+                    data: fonctiondata
+                });
+            };
+        };
+
+        const suiviDepenseData = {
+            
+            data:{
+                data: {
+
+                    entreeCaisse: entreeCaisse,
+                    sortieCaisse: newSortieCaisseData,
+
+                }
+            }
+        };
+
+        const fecthData = async () => {
+
+            try {
+
+                const responseSuiviDepense = await axios.post(`http://localhost:5001/api/v1/suiviDepense/rapportJournalier?year=${year}&month=${month}&day=${day}`, suiviDepenseData);
+
+                //find the largest table row 
+                if (responseSuiviDepense.data.data.sortieCaisse ) {
+
+                    let saveTalbeRow = 0;
+
+                    for (let i = 0; i < responseSuiviDepense.data.data.sortieCaisse.length; i++) {
+                        
+                        
+                        const dataLenght = responseSuiviDepense.data.data.sortieCaisse[i].data.length;
+                        
+                        if (saveTalbeRow < dataLenght) {
+                            
+                            saveTalbeRow = dataLenght;
+
+                        };
+                    };
+
+                    dispacth(suiviDepenseActions.setSortieCaisse(responseSuiviDepense.data.data.sortieCaisse.map(
+                        (el, index) => {
+                            
+                            const data = el.data.map((el, index) => {return {...el, index: index}});
+    
+                            return {...el, index: index, data: data};
+                        }
+                    )));
+                    
+                    // the greatest length
+                    dispacth(suiviDepenseActions.setSameLength(saveTalbeRow));
+                };
+                
+                //set the index and entreeCaisse Data
+                dispacth(suiviDepenseActions.setEntreeCaisse(responseSuiviDepense.data.data.entreeCaisse.map((el, index) => {return {...el, index: index}})));
+
+                //set  caisse
+                dispacth(suiviDepenseActions.setSoldCaisse(responseSuiviDepense.data.data.soldCaisse));
+                
+            } catch (error) {
+                console.log (error);
+            }
+
+
+        }
+    }
 
 
     if (year > currentYear || month > currentMonth || day > currentDay) {
@@ -110,6 +214,7 @@ export default function SuiviDepense (){
                 <DailyFilter component = {'suiviDepense'} prev = {date} onclick = {setFilterParams} />
                 <EntreeCaisse/>
                 <SoriteCaisse /> 
+                <SoldCaisse/>
             </div>
         )
     }

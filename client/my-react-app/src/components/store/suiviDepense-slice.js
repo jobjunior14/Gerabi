@@ -11,9 +11,12 @@ const suiviDepenseSlice = createSlice ({
         },
         entreeCaisse: null,
         sortieCaisse: null,
-        prevSoldCaisse: null,
+        soldCaisse: null,
+        totalSoldCaisse: 0,
         readOnly: true,
         update: true,
+        prevSoldCaisse: 0,
+        totalSortieCaisse: 0,
     },
 
     reducers: {
@@ -50,6 +53,12 @@ const suiviDepenseSlice = createSlice ({
         setUpdate(state, action ) {
 
             state.update = action.payload;
+        },
+
+        //set the soldCaisse
+        setSoldCaisse ( state, action ) {
+
+            state.soldCaisse = action.payload;
         },
 
         //set data to entree caisse
@@ -156,6 +165,32 @@ const suiviDepenseSlice = createSlice ({
                     amount: ""
                 });
             };
+        },
+
+        setPrevSoldCaisse (state, action) {
+
+            state.prevSoldCaisse = action.payload;
+        },
+
+        //set the total sold caisse in Entree caisse section 
+        setTotalSoldCaisse (state, action) {
+
+            state.totalSoldCaisse = action.payload;
+        },
+
+        handleSoldCaisseByUser (state, action) {
+
+            if (action.payload === "") {
+
+                state.prevSoldCaisse = 0;
+            } else {
+                state.prevSoldCaisse = action.payload;
+            }
+        },
+
+        setTotalSortieCaisse (state, action) {
+
+            state.totalSortieCaisse = action.payload;
         }
 
     }

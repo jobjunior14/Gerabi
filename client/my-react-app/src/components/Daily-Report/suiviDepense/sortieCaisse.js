@@ -7,6 +7,7 @@ export default function SoriteCaisse (props) {
     const dispacth = useDispatch();
 
     const sortieCaisse = useSelector (state => state.suiviDepense.sortieCaisse);
+
     
     const subTAbleHeadersSortieCaisse = [];
     const tableHeaderSortieCaisse = [];
@@ -75,7 +76,7 @@ export default function SoriteCaisse (props) {
                                 onChange={ e => {
         
                                     const {name, value} = e.target;
-                                    dispacth (suiviDepenseActions.HandleSortieCaisse({name: name, value: value, mainindex: j, index: y }));
+                                    dispacth (suiviDepenseActions.HandleSortieCaisse({name: name, value: Number (value), mainindex: j, index: y }));
                                 }}
                             />
                         </td>
@@ -84,7 +85,29 @@ export default function SoriteCaisse (props) {
                 };
         
             tableRowData.push(<tr key={y}>{tableDataSortieCaisse}</tr>); 
+
         };
+    };
+
+    //save the varaibale before dispatch it
+     let totalSortieCaisse = 0;   
+   
+    //calculate the total amount of sortie caisse
+    if (sortieCaisse) {
+        
+        for (let i = 0; i < sortieCaisse.length; i++) {
+    
+            for (let j = 0; j < sortieCaisse[i].data.length; j++) {
+                
+                if (sortieCaisse[i].data.length > 0){
+
+                    totalSortieCaisse += sortieCaisse[i].data[j].amount;
+                };
+            }
+        };
+
+        //set the sold caisse
+        dispacth(suiviDepenseActions.setTotalSortieCaisse(totalSortieCaisse));
     };
     
    if (sortieCaisse) {
@@ -93,6 +116,7 @@ export default function SoriteCaisse (props) {
     
             return (
                 <div>
+                    <h2>Sorite Caisse</h2>
                     <table>
                         <thead>
 
@@ -120,7 +144,10 @@ export default function SoriteCaisse (props) {
         } else {
 
             return (
-                <h4> Ooouups! cette donnee est inexistante </h4>
+                <div>
+                    <button onClick={() => dispacth(suiviDepenseActions.addLibelMontantSortie())}> Ajouter un justificatif</button>
+                    <h4> Ooouups! cette donnee est inexistante </h4>
+                </div>
             )
         };
    } else {

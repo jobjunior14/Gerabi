@@ -52,7 +52,7 @@ const dataEntreeCaisse = {
     data: [detailEntree]
 };
 
-const dataPrevSoldCaisse = {
+const datasoldCaisse = {
 
     amount: {
         type: Number,
@@ -74,7 +74,7 @@ const monthData = {
 
         entreeCaisse: [dataEntreeCaisse],
         sortieCaisse: [dataSortieCaisse],
-        prevSoldCaisse: [dataPrevSoldCaisse]
+        soldCaisse: [datasoldCaisse]
     }
 };
 

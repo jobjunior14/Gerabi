@@ -388,7 +388,6 @@ export default function Product (props) {
 
           const dataApi = await axios.get( `http://localhost:5001/api/v1/${props.produit}/raportJournalier/${year}/${month}/${day}`);
           const dataVente = await axios.get (`http://localhost:5001/api/v1/vente/${year}/${month}/${day}`);
-          const lastCreatedData = await axios.get(`http://localhost:5001/api/v1/${props.produit}/raportJournalier/lastElement`); 
           
           if (dataApi.data.data.day.length > 0 ){
 
@@ -399,6 +398,8 @@ export default function Product (props) {
             dispatch(productActions.setUpdate(true));
             dispatch(productActions.setReadOnly(true));
           } else {
+            
+            const lastCreatedData = await axios.get(`http://localhost:5001/api/v1/${props.produit}/raportJournalier/lastElement`); 
             
             if (lastCreatedData.data.data){
               
@@ -868,18 +869,19 @@ export default function Product (props) {
               {errorMessage.status && <h3> {errorMessage.message} </h3>}
             </div>
           );
-          } else {
+        } else {
 
-            //abillity to modify the current date and the previous date
-            return (
-              <div>
-              
-                  <DailyFilter component = {'allProduct'} prev = {date} onclick = {setFilterParams} />
-                  <AddProduct />                  
-              </div>
-            );
+          //abillity to modify the current date and the previous date
+          return (
+            <div>
+            
+                <DailyFilter component = {'allProduct'} prev = {date} onclick = {setFilterParams} />
+                <AddProduct />  
+                <h4> Ooouups cette donnée est inexistante veillez clicker sur -Ajouter un Produit- pour la créée</h4>                
+            </div>
+          );
 
-          };
+        };
 
       } else {
       

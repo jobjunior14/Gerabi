@@ -7,7 +7,7 @@ const loopingData = (array, year, month, day) => {
     const dayData = {
         entreeCaisse:[],
         sortieCaisse: [],
-        prevSoldCaisse: []
+        soldCaisse: null
     };
     
     for (let i of array){
@@ -58,11 +58,11 @@ const loopingData = (array, year, month, day) => {
                     };
             
 
-                    for (let prevSoldCaisse of j.data.prevSoldCaisse) {
+                    for (let soldCaisse of j.data.soldCaisse) {
                          
-                        if (Number (JSON.stringify (prevSoldCaisse.createdAt).slice (9, 11)) === day) {
+                        if (Number (JSON.stringify (soldCaisse.createdAt).slice (9, 11)) === day) {
 
-                            dayData.prevSoldCaisse.push(prevSoldCaisse);
+                            dayData.soldCaisse = soldCaisse;
                         };
                     };
                 };
@@ -92,9 +92,9 @@ exports.pushSuiviDepense = catchAssynch (async (req, res, next) => {
     //data for body request
     const body = req.body.data.data;
     //current date
-    const year = Number (new Date().getFullYear());
-    const month = Number (new Date().getMonth() + 1);
-    const day = Number (new Date().getDate());
+    const year = Number (req.query.year);
+    const month = Number (req.query.month);
+    const day = Number (req.query.day);
 
     if (suiviDepense.length > 0){
         
@@ -139,27 +139,31 @@ exports.pushSuiviDepense = catchAssynch (async (req, res, next) => {
                     for (let p = 0; p < body.sortieCaisse.length; p ++){
     
                         if (body.sortieCaisse[p].name !== "") {
-    
-                            const indexNameSortie = suiviDepense[yearIndex].data[monthIndex].data.sortieCaisse.findIndex ( el => el.name.toUpperCase () === body.sortieCaisse[p].name.toUpperCase());
+                            
+                            const indexNameSortie = suiviDepense[yearIndex].data[monthIndex].data.sortieCaisse.findIndex ( el => el.name.toUpperCase() === body.sortieCaisse[p].name.toUpperCase());
     
                             if (indexNameSortie !== -1) {
                                 
                                 if (body.sortieCaisse[p].data.libel !== "") {
-    
-                                    const indexLibelSortie = suiviDepense[yearIndex].data[monthIndex].data.sortieCaisse[indexNameSortie].data.findIndex (el => el.libel.toUpperCase() === body.sortieCaisse[p].data.libel.toUpperCase());
-    
-                                    if (indexLibelSortie !== -1){
-                                        
-                                        const existingDataIndex = suiviDepense[yearIndex].data[monthIndex].data.sortieCaisse[indexNameSortie].data[indexLibelSortie].amount.findIndex (el => Number (JSON.stringify(el.createdAt).slice(9, 11)) === day);
-    
-                                        if (existingDataIndex === -1) {
-    
-                                            suiviDepense[yearIndex].data[monthIndex].data.sortieCaisse[indexNameSortie].data[indexLibelSortie].amount.push(body.sortieCaisse[p].data.amount);
+                                    
+                                    for (let g = 0; g < body.sortieCaisse[p].data.length; g++) {
+
+                                        const indexLibelSortie = suiviDepense[yearIndex].data[monthIndex].data.sortieCaisse[indexNameSortie].data.findIndex (el => el.libel.toUpperCase() === body.sortieCaisse[p].data[g].libel.toUpperCase());
+        
+                                        if (indexLibelSortie !== -1){
+                                            
+                                            const existingDataIndex = suiviDepense[yearIndex].data[monthIndex].data.sortieCaisse[indexNameSortie].data[indexLibelSortie].amount.findIndex (el => Number (JSON.stringify(el.createdAt).slice(9, 11)) === day);
+        
+                                            if (existingDataIndex === -1) {
+        
+                                                suiviDepense[yearIndex].data[monthIndex].data.sortieCaisse[indexNameSortie].data[indexLibelSortie].amount.push(body.sortieCaisse[p].data[g].amount);
+                                            };
+                                        } else {
+        
+                                            suiviDepense[yearIndex].data[monthIndex].data.sortieCaisse[indexNameSortie].data.push (body.sortieCaisse[p].data);
                                         };
-                                    } else {
-    
-                                        suiviDepense[yearIndex].data[monthIndex].data.sortieCaisse[indexNameSortie].data.push (body.sortieCaisse[p].data);
-                                    };
+
+                                    }
                                 } else {
                                     
                                     return next (new AppError ('La section label ne doit pas etre vide'), 404);
@@ -176,10 +180,10 @@ exports.pushSuiviDepense = catchAssynch (async (req, res, next) => {
                     };
     
                     //for prev Sold
-                    const indexPrevSold = suiviDepense[yearIndex].data[monthIndex].data.prevSoldCaisse.findIndex (el => Number(JSON.stringify(el.createdAt).slice(9, 11)) === day);
+                    const indexPrevSold = suiviDepense[yearIndex].data[monthIndex].data.soldCaisse.findIndex (el => Number(JSON.stringify(el.createdAt).slice(9, 11)) === day);
     
                     if (indexPrevSold === -1){
-                        suiviDepense[yearIndex].data[monthIndex].data.prevSoldCaisse.push(body.prevSoldCaisse);
+                        suiviDepense[yearIndex].data[monthIndex].data.soldCaisse.push(body.soldCaisse);
                     };
                 } else {
     
@@ -189,7 +193,7 @@ exports.pushSuiviDepense = catchAssynch (async (req, res, next) => {
                         data: {
                             entreeCaisse: body.entreeCaisse,
                             sortieCaisse: body.sortieCaisse,
-                            prevSoldCaisse: body.prevSoldCaisse
+                            soldCaisse: body.soldCaisse
                         }
                     });
                 };
@@ -237,7 +241,7 @@ exports.updateSuiviDepense = catchAssynch (async (req, res, next) => {
     for ( let i = 0; i < suiviDepense.length; i++) {
     
         const yearIndex = suiviDepense.findIndex (el => el.annee === year);
-    
+        
         if (yearIndex !== -1) {
             
             const monthIndex = suiviDepense[yearIndex].data.findIndex ( el => el.mois === month);
@@ -315,58 +319,62 @@ exports.updateSuiviDepense = catchAssynch (async (req, res, next) => {
     
                         if (indexNameSortie !== -1) {
                             
-                            if (body.sortieCaisse[p].data.libel !== "") {
-    
-                                const indexLibelSortie = suiviDepense[yearIndex].data[monthIndex].data.sortieCaisse[indexNameSortie].data.findIndex (el => el.libel.toUpperCase() === body.sortieCaisse[p].data.libel.toUpperCase());
-    
-                                if (indexLibelSortie !== -1){
-                                    
-                                    const existingDataIndex = suiviDepense[yearIndex].data[monthIndex].data.sortieCaisse[indexNameSortie].data[indexLibelSortie].amount.findIndex (el => Number (JSON.stringify(el.createdAt).slice(9, 11)) === day);
-                                    if (existingDataIndex !== -1) {
+                            for (let g = 0; g < body.sortieCaisse[p].data.length; g++) {
+
+
+                                if (body.sortieCaisse[p].data[g].libel !== "") {
+        
+                                    const indexLibelSortie = suiviDepense[yearIndex].data[monthIndex].data.sortieCaisse[indexNameSortie].data.findIndex (el => el.libel.toUpperCase() === body.sortieCaisse[p].data[g].libel.toUpperCase());
+        
+                                    if (indexLibelSortie !== -1){
                                         
-                                        //put the date at the right format
-                                        if (month > 10 && day > 10){
-
-                                            suiviDepense[yearIndex].data[monthIndex].data.sortieCaisse[indexNameSortie].data[indexLibelSortie].amount[existingDataIndex] = {
-    
-                                                amount: body.sortieCaisse[p].data.amount,
-                                                createdAt: `${year}-${month}-${day}T07:22:54.930Z`,
-                                            };
+                                        const existingDataIndex = suiviDepense[yearIndex].data[monthIndex].data.sortieCaisse[indexNameSortie].data[indexLibelSortie].amount.findIndex (el => Number (JSON.stringify(el.createdAt).slice(9, 11)) === day);
+                                        if (existingDataIndex !== -1) {
                                             
-                                        } else if (month > 10 && day < 10){
-                                            
-                                            suiviDepense[yearIndex].data[monthIndex].data.sortieCaisse[indexNameSortie].data[indexLibelSortie].amount[existingDataIndex] = {
+                                            //put the date at the right format
+                                            if (month > 10 && day > 10){
     
-                                                valeur: body.sortieCaisse[p].data.amount.valeur,
-                                                createdAt: `${year}-${month}-0${day}T07:22:54.930Z`,
-                                            };
-                                        } else if (month < 10 && day > 10){
-                                            
-                                            suiviDepense[yearIndex].data[monthIndex].data.sortieCaisse[indexNameSortie].data[indexLibelSortie].amount[existingDataIndex] = {
-    
-                                                amount: body.sortieCaisse[p].data.amount,
-                                                createdAt: `${year}-0${month}-${day}T07:22:54.930Z`,
-                                            };
+                                                suiviDepense[yearIndex].data[monthIndex].data.sortieCaisse[indexNameSortie].data[indexLibelSortie].amount[existingDataIndex] = {
+        
+                                                    valeur: body.sortieCaisse[p].data[g].amount.valeur,
+                                                    createdAt: `${year}-${month}-${day}T07:22:54.930Z`,
+                                                };
+                                                
+                                            } else if (month > 10 && day < 10){
+                                                
+                                                suiviDepense[yearIndex].data[monthIndex].data.sortieCaisse[indexNameSortie].data[indexLibelSortie].amount[existingDataIndex] = {
+        
+                                                    valeur: body.sortieCaisse[p].data[g].amount.valeur,
+                                                    createdAt: `${year}-${month}-0${day}T07:22:54.930Z`,
+                                                };
+                                            } else if (month < 10 && day > 10){
+                                                
+                                                suiviDepense[yearIndex].data[monthIndex].data.sortieCaisse[indexNameSortie].data[indexLibelSortie].amount[existingDataIndex] = {
+        
+                                                    valeur: body.sortieCaisse[p].data[g].amount.valeur,
+                                                    createdAt: `${year}-0${month}-${day}T07:22:54.930Z`,
+                                                };
+                                            } else {
+                                                
+                                                suiviDepense[yearIndex].data[monthIndex].data.sortieCaisse[indexNameSortie].data[indexLibelSortie].amount[existingDataIndex] = {
+        
+                                                    valeur: body.sortieCaisse[p].data[g].amount.valeur,
+                                                    createdAt: `${year}-0${month}-0${day}T07:22:54.930Z`,
+                                                };
+                                            }
+                        
                                         } else {
-                                            
-                                            suiviDepense[yearIndex].data[monthIndex].data.sortieCaisse[indexNameSortie].data[indexLibelSortie].amount[existingDataIndex] = {
     
-                                                amount: body.sortieCaisse[p].data.amount,
-                                                createdAt: `${year}-0${month}-0${day}T07:22:54.930Z`,
-                                            };
-                                        }
-                    
+                                            return next (new AppError ('cette donnee est inexistante', 404));
+                                        };
                                     } else {
-
+        
                                         return next (new AppError ('cette donnee est inexistante', 404));
                                     };
                                 } else {
-    
-                                    return next (new AppError ('cette donnee est inexistante', 404));
+                                    
+                                    return next (new AppError ('La section label ne doit pas etre vide'), 404);
                                 };
-                            } else {
-                                
-                                return next (new AppError ('La section label ne doit pas etre vide'), 404);
                             };
     
                         } else {
@@ -380,38 +388,38 @@ exports.updateSuiviDepense = catchAssynch (async (req, res, next) => {
                 };
     
                 //for prev Sold
-                const indexPrevSold = suiviDepense[yearIndex].data[monthIndex].data.prevSoldCaisse.findIndex (el => Number(JSON.stringify(el.createdAt).slice(9, 11)) === day);
+                const indexPrevSold = suiviDepense[yearIndex].data[monthIndex].data.soldCaisse.findIndex (el => Number(JSON.stringify(el.createdAt).slice(9, 11)) === day);
     
                 if (indexPrevSold !== -1){
                     
                     //put the date at the correct format
                     if (month > 10 && day > 10){
 
-                        suiviDepense[yearIndex].data[monthIndex].data.prevSoldCaisse = {
+                        suiviDepense[yearIndex].data[monthIndex].data.soldCaisse = {
     
-                            amount: body.prevSoldCaisse.amount,
+                            amount: body.soldCaisse.amount,
                             createdAt: `${year}-${month}-${day}T07:22:54.930Z`,
                         };
                         
                     } else if (month > 10 && day < 10){
                         
-                        suiviDepense[yearIndex].data[monthIndex].data.prevSoldCaisse = {
+                        suiviDepense[yearIndex].data[monthIndex].data.soldCaisse = {
     
-                            amount: body.prevSoldCaisse.amount,
+                            amount: body.soldCaisse.amount,
                             createdAt: `${year}-${month}-0${day}T07:22:54.930Z`,
                         };
                     } else if (month < 10 && day > 10){
                         
-                        suiviDepense[yearIndex].data[monthIndex].data.prevSoldCaisse = {
+                        suiviDepense[yearIndex].data[monthIndex].data.soldCaisse = {
     
-                            amount: body.prevSoldCaisse.amount,
+                            amount: body.soldCaisse.amount,
                             createdAt: `${year}-0${month}-${day}T07:22:54.930Z`,
                         };
                     } else {
                         
-                        suiviDepense[yearIndex].data[monthIndex].data.prevSoldCaisse = {
+                        suiviDepense[yearIndex].data[monthIndex].data.soldCaisse = {
     
-                            amount: body.prevSoldCaisse.amount,
+                            amount: body.soldCaisse.amount,
                             createdAt: `${year}-0${month}-0${day}T07:22:54.930Z`,
                         };
 
@@ -453,7 +461,7 @@ exports.lastCreatedDataSuiviDepense = catchAssynch (async (req, res,) => {
             
             entreeCaisse:[],
             sortieCaisse: [],
-            prevSoldCaisse: []
+            soldCaisse: []
         };
 
 
@@ -488,7 +496,7 @@ exports.lastCreatedDataSuiviDepense = catchAssynch (async (req, res,) => {
                             }; 
                         };
                         
-                        dayData.prevSoldCaisse.push (j.data.prevSoldCaisse[j.data.prevSoldCaisse.length - 1]);
+                        dayData.soldCaisse.push (j.data.soldCaisse[j.data.soldCaisse.length - 1]);
                     };
                 };
             };
