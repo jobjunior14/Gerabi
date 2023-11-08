@@ -1,6 +1,6 @@
 import {createSlice } from "@reduxjs/toolkit"
 
-const suiviDette = createSlice ({
+const suiviDetteSlice = createSlice ({
 
     name: 'suiviDette',
     initialState: {
@@ -15,5 +15,152 @@ const suiviDette = createSlice ({
         update: true,
         readOnly: true,
         totalDette: 0
+    },
+
+    reducers: {
+
+        //change date fields
+        setDate (state, action) {
+
+            if (action.payload.year) {
+
+                state.date = {
+                    year: action.payload.year,
+                    month: action.payload.month,
+                    day: action.payload.day
+                };
+
+            } else {
+                
+                const name = action.payload.name;
+                const value = action.payload.value;
+    
+                state.date = {
+                    ...state.date, [name]: value
+                };
+            }
+        },
+
+         //set read only to some inputs if data comes from the server
+        setReadOnly (state, action) {
+
+            state.readOnly = action.payload;
+        },
+
+        //set update if the data comes from the server and needs to be updated
+        setUpdate(state, action ) {
+
+            state.update = action.payload;
+        },
+
+        //set client data
+        setClients (state, action ) {
+
+            state.clients = action.payload;
+        },
+        //set client data
+        setAgents (state, action ) {
+
+            state.agents = action.payload;
+        },
+        //set client data
+        setMusiciens (state, action ) {
+
+            state.musiciens = action.payload;
+        },
+        //set client data
+        setTotalDette(state, action ) {
+
+            state.totalDette = action.payload;
+        },
+
+        //handle data in clients
+        HandleClients (state, action) {
+
+            const name = action.payload.name;
+            const value = action.payload.value;
+            const index = action.payload.index;
+
+            if (name === 'name') {
+
+                state.clients[index] = {...state.clients[index], name: value };
+            } else {
+
+                state.clients[index] = {...state.clients[index], data: {...state.clients[index]['data'], [name]: value} };
+            };
+        },
+        //handle data in clients
+        HandleAgents (state, action) {
+
+            const name = action.payload.name;
+            const value = action.payload.value;
+            const index = action.payload.index;
+
+            if (name === 'name') {
+
+                state.agents[index] = {...state.agents[index], name: value };
+            } else {
+
+                state.agents[index] = {...state.agents[index], data: {...state.agents[index]['data'], [name]: value} };
+            };
+        },
+        //handle data in clients
+        HandleMusiciens (state, action) {
+
+            const name = action.payload.name;
+            const value = action.payload.value;
+            const index = action.payload.index;
+
+            if (name === 'name') {
+
+                state.musiciens[index] = {...state.musiciens[index], name: value };
+            } else {
+
+                state.musiciens[index] = {...state.musiciens[index], data: {...state.musiciens[index]['data'], [name]: value} };
+            };
+        },
+        //add a new data to entree caisse
+        addCaseClients (state, action) {
+
+            state.clients.push (
+                {
+                    id: state.clients.length,
+                    name: "",
+                    data:{
+                        amount: 0
+                    }
+                }
+            );
+        },
+        //add a new data to entree caisse
+        addCaseAgents (state, action) {
+
+            state.agents.push (
+                {
+                    id: state.agents.length,
+                    name: "",
+                    data:{
+                        amount: 0
+                    }
+                }
+            );
+        },
+        //add a new data to entree caisse
+        addCaseMusiciens (state, action) {
+
+            state.musiciens.push (
+                {
+                    id: state.musiciens.length,
+                    name: "",
+                    data:{
+                        amount: 0
+                    }
+                }
+            );
+        },
     }
-})
+});
+
+export const suiviDetteActions = suiviDetteSlice.actions;
+
+export default suiviDetteSlice;

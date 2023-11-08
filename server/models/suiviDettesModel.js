@@ -4,6 +4,7 @@ const dataName = {
 
     amount: {
         type: Number,
+        default: 0
     },
 
     createdAt: {

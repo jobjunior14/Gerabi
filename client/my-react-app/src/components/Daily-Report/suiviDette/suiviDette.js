@@ -1,0 +1,160 @@
+import { useEffect } from "react";
+import axios from "axios";
+import { useSelector, useDispatch } from "react-redux";
+import { suiviDetteActions } from "../../store/suiviDette-slice";
+import { useSearchParams } from "react-router-dom";
+import DailyFilter from "../../filter/filterDailyRap";
+import Clients from "./clients"
+import Musiciens from "./musiciens";
+import Agents from "./agents";
+
+export default function SuiviDette () {
+
+    const dispacth = useDispatch ();
+    //params
+    const [dateParams, setDateParams] = useSearchParams();
+
+    //date in fields
+    const date = useSelector (state => state.suiviDepense.date);
+
+    //dependacies of useEffect
+    const year = Number(dateParams.get("year"));
+    const month = Number(dateParams.get("month")); 
+    const day = Number(dateParams.get("day"));
+
+    //current date
+    const currentYear = Number (new Date().getFullYear());
+    const currentMonth = Number (new Date().getMonth() + 1);
+    const currentDay = Number (new Date().getDate());
+    //data 
+    const agents = useSelector(state => state.suiviDette.agents);
+    const clients = useSelector(state => state.suiviDette.clients);
+    const musiciens = useSelector(state => state.suiviDette.musiciens);
+    const totalDette = useSelector(state => state.suiviDette.totalDette);
+    
+    useEffect(() => {
+
+        dispacth(suiviDetteActions.setAgents(null));
+        dispacth(suiviDetteActions.setClients(null));
+        dispacth(suiviDetteActions.setMusiciens(null));
+
+        const fecthData = async () => {
+
+            try {
+
+                const suiviDetteData = await axios.get (`http://localhost:5001/api/v1/suiviDette/rapportJournalier/${year}/${month}/${day}`);
+
+                dispacth(suiviDetteActions.setAgents(suiviDetteData.data.data.agents.map ((el, index) => {return {...el, index: index}})));
+                dispacth(suiviDetteActions.setClients(suiviDetteData.data.data.clients.map ((el, index) => {return {...el, index: index}})));
+                dispacth(suiviDetteActions.setMusiciens(suiviDetteData.data.data.musiciens.map ((el, index) => {return {...el, index: index}})));
+                if (suiviDetteData.data.data.totalDette) {
+                    
+                    dispacth (suiviDetteActions.setTotalDette(suiviDetteData.data.data.totalDette));
+                } else {
+
+                    dispacth (suiviDetteActions.setTotalDette(0));
+                };
+            } catch (e) {
+                console.log (e);
+            }
+        }; fecthData();
+    }, [year, month, day]);
+
+    function setFilterParams() {
+
+        setDateParams(prev => prev = date);
+    };
+
+    useEffect (() => {
+
+        setDateParams (prev => prev = date);
+    }, [date.year, date.month, date.day]);
+
+    function postData () {
+
+        let newDataSuiviDette = null;
+        
+        //set date to the rigth format
+        if (month => 10 && day >= 10){
+            //modeling data to schema
+            newDataSuiviDette = {
+                data: {
+                    data:{
+                        agents: agents.map(el => {return {...el, data:{...el.data, createdAt: `${year}-${month}-${day}T07:22:54.930Z`, }}}),
+                        musiciens: musiciens.map(el => {return {...el, data:{...el.data, createdAt: `${year}-${month}-${day}T07:22:54.930Z`, }}}),
+                        clients: clients.map(el => {return {...el, data:{...el.data, createdAt: `${year}-${month}-${day}T07:22:54.930Z`, }}}),
+                        totalDette: {
+                            amount: totalDette,
+                            createdAt: `${year}-${month}-${day}T07:22:54.930Z`,
+                        }
+                    }
+                }
+            };
+            
+        } else if (month >= 10 && day < 10) {
+            newDataSuiviDette = {
+                data: {
+                    data:{
+                        agents: agents.map(el => {return {...el, data:{...el.data, createdAt: `${year}-${month}-0${day}T07:22:54.930Z`, }}}),
+                        musiciens: musiciens.map(el => {return {...el, data:{...el.data, createdAt: `${year}-${month}-0${day}T07:22:54.930Z`, }}}),
+                        clients: clients.map(el => {return {...el, data:{...el.data, createdAt: `${year}-${month}-0${day}T07:22:54.930Z`, }}}),
+                        totalDette: {
+                            amount: totalDette,
+                            createdAt: `${year}-${month}-0${day}T07:22:54.930Z`,
+                        }
+                    }
+                }
+            };
+            
+        } else if (month < 10 && day >= 10) {
+            newDataSuiviDette = {  
+                data: {
+                    data:{
+                        agents: agents.map(el => {return {...el, data:{...el.data, createdAt: `${year}-0${month}-${day}T07:22:54.930Z`, }}}),
+                        musiciens: musiciens.map(el => {return {...el, data:{...el.data, createdAt: `${year}-0${month}-${day}T07:22:54.930Z`, }}}),
+                        clients: clients.map(el => {return {...el, data:{...el.data, createdAt: `${year}-0${month}-${day}T07:22:54.930Z`, }}}),
+                        totalDette: {
+                            amount: totalDette,
+                            createdAt: `${year}-0${month}-${day}T07:22:54.930Z`,
+                        }
+                    }
+                }
+            };
+            
+        } else {
+            newDataSuiviDette = {
+                data: {
+                    data:{
+                        agents: agents.map(el => {return {...el, data:{...el.data, createdAt: `${year}-0${month}-0${day}T07:22:54.930Z`, }}}),
+                        musiciens: musiciens.map(el => {return {...el, data:{...el.data, createdAt: `${year}-0${month}-0${day}T07:22:54.930Z`, }}}),
+                        clients: clients.map(el => {return {...el, data:{...el.data, createdAt: `${year}-0${month}-0${day}T07:22:54.930Z`, }}}),
+                        totalDette: {
+                            amount: totalDette,
+                            createdAt: `${year}-0${month}-0${day}T07:22:54.930Z`,
+                        }
+                    }
+                }
+            };
+        };
+
+        const fecthData = async () => {
+
+            dispacth(suiviDetteActions.setAgents(null));
+            dispacth(suiviDetteActions.setClients(null));
+            dispacth(suiviDetteActions.setMusiciens(null));
+
+            const responseSuiviDette = await axios.post(`http://localhost:5001/api/v1/suiviDette/rapportJournalier?year=${year}&month=${month}&day=${day}`, newDataSuiviDette);
+            dispacth(suiviDetteActions.setAgents(responseSuiviDette.data.data.agents.map ((el, index) => {return {...el, index: index}})));
+            dispacth(suiviDetteActions.setClients(responseSuiviDette.data.data.clients.map ((el, index) => {return {...el, index: index}})));
+            dispacth(suiviDetteActions.setMusiciens(responseSuiviDette.data.data.musiciens.map ((el, index) => {return {...el, index: index}})));
+            if (responseSuiviDette.data.data.totalDette) {
+                
+                dispacth (suiviDetteActions.setTotalDette(responseSuiviDette.data.data.totalDette));
+            } else {
+
+                dispacth (suiviDetteActions.setTotalDette(0));
+            };
+        }; fecthData();
+    }
+
+}

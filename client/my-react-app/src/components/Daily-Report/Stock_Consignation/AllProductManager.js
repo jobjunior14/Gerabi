@@ -732,7 +732,7 @@ export default function Product (props) {
               };
             });
             
-            //modeling data to schema
+            //modeling data to schema and add the ids
             newData2 = { id: [...id], data: [...newData] };
       
             //modeling data to schema

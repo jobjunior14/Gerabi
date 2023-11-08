@@ -26,7 +26,7 @@ export default function EntreeCaisseComp (props){
             defaultValue={props.prev.data.amount}
             id = { props.prev.id}
             name = 'amount'
-            type= 'Number'
+            type= 'number'
             placeholder='Taper Le Libelé'
             onChange={ (e) => {
                 const {name, value, id} = e.target;

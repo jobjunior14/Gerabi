@@ -67,7 +67,7 @@ const loopingData = (array, year, month, day) => {
                          
                         if (Number (JSON.stringify (totalDette.createdAt).slice (9, 11)) === day) {
 
-                            dayData.totalDette = totalDette;
+                            dayData.totalDette = totalDette.amount;
                         };
                     };
                 };

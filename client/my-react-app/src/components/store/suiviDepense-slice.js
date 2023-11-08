@@ -78,7 +78,6 @@ const suiviDepenseSlice = createSlice ({
 
             const name = action.payload.name;
             const value = action.payload.value;
-            const data = state.entreeCaisse;
             const index = action.payload.index;
 
         
@@ -90,8 +89,6 @@ const suiviDepenseSlice = createSlice ({
                 state.entreeCaisse[index] = {...state.entreeCaisse[index], data: {...state.entreeCaisse[index]['data'], [name]: value} };
             };
 
-
-            state.entreeCaisse = data;
         },
 
         //handle Data in Sortie caisse

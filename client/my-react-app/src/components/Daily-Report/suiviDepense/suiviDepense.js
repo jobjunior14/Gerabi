@@ -26,15 +26,16 @@ export default function SuiviDepense (){
     //current date
     const currentYear = Number (new Date().getFullYear());
     const currentMonth = Number (new Date().getMonth() + 1);
-    const currentDay = Number (new Date().getDate());
-    
-
+    const currentDay = Number (new Date().getDate());    
+    //data 
+    const soldCaisse = useSelector (state => state.suiviDepense.soldCaisse);
     const entreeCaisse = useSelector (state => state.suiviDepense.entreeCaisse);
     const sortieCaisse = useSelector (state => state.suiviDepense.sortieCaisse);
     useEffect (() => {
 
         dispacth(suiviDepenseActions.setEntreeCaisse(null));
-
+        dispacth(suiviDepenseActions.setSortieCaisse(null));
+        
         const fecthData = async () => {
 
             try {
@@ -108,95 +109,232 @@ export default function SuiviDepense (){
     function postData(){
 
         const newSortieCaisseData = [];
+        let suiviDepenseData = null;
 
-        for (let i of sortieCaisse){
-
-            if (i.name !== "") {
-
-                const fonctiondata = null;
+        
+        if (month >= 10 && day >= 10) {
+            for (let i of sortieCaisse){
     
-                for (let y of i.data) {
+                if (i.name !== "") {
     
-                    if (y.libel !== "" || y.amount !== "") {
-    
-                        fonctiondata.push({
-                            libel: y.libel,
-                            amount: {
-                                valeur: y.amount
-                            }
-                        });
-                    }
+                    const fonctiondata = null;
+        
+                    for (let y of i.data) {
+        
+                        if (y.libel !== "" || y.amount !== "") {
+        
+                            fonctiondata.push({
+                                libel: y.libel,
+                                amount: {
+                                    valeur: y.amount,
+                                    createdAt: `${year}-${month}-${day}T08:22:54.930Z`
+                                }
+                            });
+                        }
+                    };
+        
+                    newSortieCaisseData.push({
+        
+                        name: i.name,
+                        data: fonctiondata
+                    });
                 };
-    
-                newSortieCaisseData.push({
-    
-                    name: i.name,
-                    data: fonctiondata
-                });
             };
-        };
 
-        const suiviDepenseData = {
+            suiviDepenseData = {
+               data:{
+                   data: {
+    
+                       entreeCaisse: entreeCaisse.map(el => {return {...el, data: {...el.data, createdAt: `${year}-${month}-${day}T08:22:54.930Z`}}}),
+                       sortieCaisse: newSortieCaisseData,
+                       soldCaisse: {
+                           amount: soldCaisse,
+                           createdAt: `${year}-${month}-${day}T08:22:54.930Z`
+                       }
+    
+                   }
+               }
+           };
+        } else if (month >= 10 && day < 10) {
+            for (let i of sortieCaisse){
+    
+                if (i.name !== "") {
+    
+                    const fonctiondata = null;
+        
+                    for (let y of i.data) {
+        
+                        if (y.libel !== "" || y.amount !== "") {
+        
+                            fonctiondata.push({
+                                libel: y.libel,
+                                amount: {
+                                    valeur: y.amount,
+                                    createdAt: `${year}-${month}-0${day}T08:22:54.930Z`
+                                }
+                            });
+                        }
+                    };
+        
+                    newSortieCaisseData.push({
+        
+                        name: i.name,
+                        data: fonctiondata
+                    });
+                };
+            };
+
+            suiviDepenseData = {
+               data:{
+                   data: {
+    
+                       entreeCaisse: entreeCaisse.map(el => {return {...el, data: {...el.data, createdAt: `${year}-${month}-${day}T08:22:54.930Z`}}}),
+                       sortieCaisse: newSortieCaisseData,
+                       soldCaisse: {
+                           amount: soldCaisse,
+                           createdAt: `${year}-${month}-0${day}T08:22:54.930Z`
+                       }
+    
+                   }
+               }
+           };
+        } else if (month < 10 && day >= 10) {
+            for (let i of sortieCaisse){
+    
+                if (i.name !== "") {
+    
+                    const fonctiondata = null;
+        
+                    for (let y of i.data) {
+        
+                        if (y.libel !== "" || y.amount !== "") {
+        
+                            fonctiondata.push({
+                                libel: y.libel,
+                                amount: {
+                                    valeur: y.amount,
+                                    createdAt: `${year}-0${month}-${day}T08:22:54.930Z`
+                                }
+                            });
+                        }
+                    };
+        
+                    newSortieCaisseData.push({
+        
+                        name: i.name,
+                        data: fonctiondata
+                    });
+                };
+            };
+            suiviDepenseData = {
+               
+               data:{
+                   data: {
+    
+                       entreeCaisse: entreeCaisse.map(el => {return {...el, data: {...el.data, createdAt: `${year}-${month}-${day}T08:22:54.930Z`}}}),
+                       sortieCaisse: newSortieCaisseData,
+                       soldCaisse: {
+                           amount: soldCaisse,
+                           createdAt: `${year}-0${month}-${day}T08:22:54.930Z`
+                       }
+    
+                   }
+               }
+           }; 
+        } else {
             
-            data:{
-                data: {
-
-                    entreeCaisse: entreeCaisse,
-                    sortieCaisse: newSortieCaisseData,
-
-                }
-            }
+            for (let i of sortieCaisse){
+    
+                if (i.name !== "") {
+    
+                    const fonctiondata = null;
+        
+                    for (let y of i.data) {
+        
+                        if (y.libel !== "" || y.amount !== "") {
+        
+                            fonctiondata.push({
+                                libel: y.libel,
+                                amount: {
+                                    valeur: y.amount,
+                                    createdAt: `${year}-0${month}-0${day}T08:22:54.930Z`
+                                }
+                            });
+                        }
+                    };
+        
+                    newSortieCaisseData.push({
+        
+                        name: i.name,
+                        data: fonctiondata
+                    });
+                };
+            };
+            suiviDepenseData = {
+               
+               data:{
+                   data: {
+    
+                       entreeCaisse: entreeCaisse.map(el => {return {...el, data: {...el.data, createdAt: `${year}-${month}-${day}T08:22:54.930Z`}}}),
+                       sortieCaisse: newSortieCaisseData,
+                       soldCaisse: {
+                           amount: soldCaisse,
+                           createdAt: `${year}-0${month}-0${day}T08:22:54.930Z`
+                       }
+    
+                   }
+               }
+           };
         };
 
         const fecthData = async () => {
 
             try {
+                    dispacth(suiviDepenseActions.setEntreeCaisse(null));
+                    dispacth(suiviDepenseActions.setSortieCaisse(null));
+                    const responseSuiviDepense = await axios.post(`http://localhost:5001/api/v1/suiviDepense/rapportJournalier?year=${year}&month=${month}&day=${day}`, suiviDepenseData);
 
-                const responseSuiviDepense = await axios.post(`http://localhost:5001/api/v1/suiviDepense/rapportJournalier?year=${year}&month=${month}&day=${day}`, suiviDepenseData);
+                    //find the largest table row 
+                    if (responseSuiviDepense.data.data.sortieCaisse ) {
 
-                //find the largest table row 
-                if (responseSuiviDepense.data.data.sortieCaisse ) {
+                        let saveTalbeRow = 0;
 
-                    let saveTalbeRow = 0;
-
-                    for (let i = 0; i < responseSuiviDepense.data.data.sortieCaisse.length; i++) {
-                        
-                        
-                        const dataLenght = responseSuiviDepense.data.data.sortieCaisse[i].data.length;
-                        
-                        if (saveTalbeRow < dataLenght) {
+                        for (let i = 0; i < responseSuiviDepense.data.data.sortieCaisse.length; i++) {
                             
-                            saveTalbeRow = dataLenght;
+                            
+                            const dataLenght = responseSuiviDepense.data.data.sortieCaisse[i].data.length;
+                            
+                            if (saveTalbeRow < dataLenght) {
+                                
+                                saveTalbeRow = dataLenght;
 
+                            };
                         };
+
+                        dispacth(suiviDepenseActions.setSortieCaisse(responseSuiviDepense.data.data.sortieCaisse.map(
+                            (el, index) => {
+                                
+                                const data = el.data.map((el, index) => {return {...el, index: index}});
+        
+                                return {...el, index: index, data: data};
+                            }
+                        )));
+                        
+                        // the greatest length
+                        dispacth(suiviDepenseActions.setSameLength(saveTalbeRow));
                     };
-
-                    dispacth(suiviDepenseActions.setSortieCaisse(responseSuiviDepense.data.data.sortieCaisse.map(
-                        (el, index) => {
-                            
-                            const data = el.data.map((el, index) => {return {...el, index: index}});
-    
-                            return {...el, index: index, data: data};
-                        }
-                    )));
                     
-                    // the greatest length
-                    dispacth(suiviDepenseActions.setSameLength(saveTalbeRow));
-                };
-                
-                //set the index and entreeCaisse Data
-                dispacth(suiviDepenseActions.setEntreeCaisse(responseSuiviDepense.data.data.entreeCaisse.map((el, index) => {return {...el, index: index}})));
+                    //set the index and entreeCaisse Data
+                    dispacth(suiviDepenseActions.setEntreeCaisse(responseSuiviDepense.data.data.entreeCaisse.map((el, index) => {return {...el, index: index}})));
 
-                //set  caisse
-                dispacth(suiviDepenseActions.setSoldCaisse(responseSuiviDepense.data.data.soldCaisse));
-                
+                    //set  caisse
+                    dispacth(suiviDepenseActions.setSoldCaisse(responseSuiviDepense.data.data.soldCaisse));
+                    
             } catch (error) {
                 console.log (error);
-            }
-
-
-        }
-    }
+            };
+        };fecthData();
+    };
 
 
     if (year > currentYear || month > currentMonth || day > currentDay) {
@@ -217,6 +355,5 @@ export default function SuiviDepense (){
                 <SoldCaisse/>
             </div>
         )
-    }
-    
+    };
 }
