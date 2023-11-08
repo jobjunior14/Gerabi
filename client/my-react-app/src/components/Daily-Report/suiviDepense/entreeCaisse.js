@@ -82,15 +82,18 @@ export default function EntreeCaisse (){
                <div>
                 <h3>Entrée Caisse</h3>
                  <table>
-                    {dataDisplay}
-                    <tr>
-                        <th>Total Entrée</th>
-                        <td> {totalEntreeCaisse} </td>
-                    </tr>
-                    <tr>
-                        <th> Total Sold Caisse</th>
-                        <td> {Number (prevSoldCaisse) + totalEntreeCaisse} </td>
-                    </tr>
+                    <tbody>
+                        {dataDisplay}
+                        <tr>
+                            <th>Total Entrée</th>
+                            <td> {totalEntreeCaisse} </td>
+                        </tr>
+                        <tr>
+                            <th> Total Sold Caisse</th>
+                            <td> {Number (prevSoldCaisse) + totalEntreeCaisse} </td>
+                        </tr>
+
+                    </tbody>
                 </table>
                 { foundPrevSold && <>
 

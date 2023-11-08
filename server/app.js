@@ -24,6 +24,7 @@ const BrasimbaRouter = require ("./routes/brasimbaRoutes.js");
 const LiqueursRouter = require("./routes/liqueursRoutes.js");
 const venteDego = require("./routes/venteDegoRoutes.js");
 const SuiviDepenseRouter = require("./routes/suiviDepenseRoutes.js");
+const SuiviDetteRouter = require("./routes/suiviDetteRouter.js");
 
 //3) Routes
 app.use("/api/v1/autreProduit", AutreProduitRouter);
@@ -32,6 +33,7 @@ app.use ("/api/v1/brasimba", BrasimbaRouter);
 app.use('/api/v1/liqueurs', LiqueursRouter);
 app.use("/api/v1/vente", venteDego);
 app.use("/api/v1/suiviDepense", SuiviDepenseRouter);
+app.use ("/api/v1/suiviDette", SuiviDetteRouter);
 
 app.all("*", (req, res, next) => {
   next(new AppError(`Cannot find ${req.originalUrl} this server`, 404));

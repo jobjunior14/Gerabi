@@ -68,7 +68,6 @@ const monthData = {
     mois: {
         type: Number,
         default: Number (new Date().getMonth() + 1),
-        require: true
     },
     data: {
 
@@ -81,7 +80,6 @@ const monthData = {
 const mainSchema = new mongoose.Schema({
     annee: {
         type: Number,
-        require: true,
         default: Number (new Date().getFullYear()),
     },
     data: [monthData]

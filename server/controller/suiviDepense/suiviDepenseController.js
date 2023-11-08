@@ -17,6 +17,7 @@ const loopingData = (array, year, month, day) => {
                 
                 if (j.mois === month) {
 
+                    //entree caisse
                     for (let entreeCaisse of j.data.entreeCaisse) {
 
                         for (let e of entreeCaisse.data){
@@ -31,6 +32,7 @@ const loopingData = (array, year, month, day) => {
                         };   
                     };
 
+                    //sortie caisse
                     for (let sortieCaisse of j.data.sortieCaisse) {
 
                         //store label data 
@@ -58,6 +60,7 @@ const loopingData = (array, year, month, day) => {
                     };
             
 
+                    //sold caisse
                     for (let soldCaisse of j.data.soldCaisse) {
                          
                         if (Number (JSON.stringify (soldCaisse.createdAt).slice (9, 11)) === day) {
@@ -91,7 +94,7 @@ exports.pushSuiviDepense = catchAssynch (async (req, res, next) => {
 
     //data for body request
     const body = req.body.data.data;
-    //current date
+    //query's date
     const year = Number (req.query.year);
     const month = Number (req.query.month);
     const day = Number (req.query.day);
@@ -461,7 +464,7 @@ exports.lastCreatedDataSuiviDepense = catchAssynch (async (req, res,) => {
             
             entreeCaisse:[],
             sortieCaisse: [],
-            soldCaisse: []
+            soldCaisse: null
         };
 
 
@@ -496,7 +499,7 @@ exports.lastCreatedDataSuiviDepense = catchAssynch (async (req, res,) => {
                             }; 
                         };
                         
-                        dayData.soldCaisse.push (j.data.soldCaisse[j.data.soldCaisse.length - 1]);
+                        dayData.soldCaisse = j.data.soldCaisse[j.data.soldCaisse.length - 1];
                     };
                 };
             };
