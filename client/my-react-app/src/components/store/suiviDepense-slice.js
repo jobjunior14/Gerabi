@@ -17,6 +17,7 @@ const suiviDepenseSlice = createSlice ({
         update: true,
         prevSoldCaisse: 0,
         totalSortieCaisse: 0,
+        tree: 'hey'
     },
 
     reducers: {
@@ -86,7 +87,7 @@ const suiviDepenseSlice = createSlice ({
                 state.entreeCaisse[index] = {...state.entreeCaisse[index], name: value };
             } else {
 
-                state.entreeCaisse[index] = {...state.entreeCaisse[index], data: {...state.entreeCaisse[index]['data'], [name]: value} };
+                state.entreeCaisse[index] = {...state.entreeCaisse[index], data: { amount: value} };
             };
 
         },
@@ -144,11 +145,21 @@ const suiviDepenseSlice = createSlice ({
         //add a function to a sortie caisse array
         addFonctionSortie (state){
 
-           state.sortieCaisse.push({
-            index: state.sortieCaisse.length,
-            name: "",
-            data: state.sortieCaisse[0].data.map((el, index) => {return {index: index, libel: "", amount: ""}})
-           });
+            if (state.sortieCaisse.length > 0) {
+
+                state.sortieCaisse.push({
+                 index: state.sortieCaisse.length,
+                 name: "",
+                 data: state.sortieCaisse[0].data.map((el, index) => {return {index: index, libel: "", amount: ""}})
+                });
+            } else {
+                
+                state.sortieCaisse.push({
+                 index: state.sortieCaisse.length,
+                 name: "",
+                 data: [{index: 0, libel: "", amount: ""}]
+                });
+            }
         },
 
         //add a justification to a sortie caisse array
@@ -188,6 +199,10 @@ const suiviDepenseSlice = createSlice ({
         setTotalSortieCaisse (state, action) {
 
             state.totalSortieCaisse = action.payload;
+        },
+        try (state, action) 
+        {
+            state.tree = action.payload
         }
 
     }

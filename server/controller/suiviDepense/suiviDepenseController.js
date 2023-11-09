@@ -464,7 +464,7 @@ exports.lastCreatedDataSuiviDepense = catchAssynch (async (req, res,) => {
             
             entreeCaisse:[],
             sortieCaisse: [],
-            soldCaisse: null
+            soldCaisse: 0
         };
 
 
@@ -487,19 +487,22 @@ exports.lastCreatedDataSuiviDepense = catchAssynch (async (req, res,) => {
 
                         for (let sortieCaisse of j.data.sortieCaisse) {
 
+                            const dataName = [];
                             for (let e of sortieCaisse.data){
             
-                                dayData.sortieCaisse.push({
-                                    name: sortieCaisse.name,
-                                    data: {
-                                        libel: e.libel,
-                                        amount: 0
-                                    }
-                                });  
+                                dataName.push({
+                                    libel: e.libel,
+                                    amount: 0
+                                });
                             }; 
+
+                             //push all the labels in a main name
+                            dayData.sortieCaisse.push ({
+                                name: sortieCaisse.name,
+                                data: dataName 
+                            });
                         };
                         
-                        dayData.soldCaisse = j.data.soldCaisse[j.data.soldCaisse.length - 1];
                     };
                 };
             };

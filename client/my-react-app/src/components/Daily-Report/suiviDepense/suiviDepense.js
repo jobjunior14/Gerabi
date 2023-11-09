@@ -31,6 +31,8 @@ export default function SuiviDepense (){
     const soldCaisse = useSelector (state => state.suiviDepense.soldCaisse);
     const entreeCaisse = useSelector (state => state.suiviDepense.entreeCaisse);
     const sortieCaisse = useSelector (state => state.suiviDepense.sortieCaisse);
+    const update = useSelector (state => state.suiviDepense.update);
+
     useEffect (() => {
 
         dispacth(suiviDepenseActions.setEntreeCaisse(null));
@@ -42,52 +44,101 @@ export default function SuiviDepense (){
 
                 const suiviDepenseData = await axios.get (`http://localhost:5001/api/v1/suiviDepense/rapportJournalier/${year}/${month}/${day}`);
                 
-                
-                //find the largest table row 
-                if (suiviDepenseData.data.data.sortieCaisse ) {
+                if (suiviDepenseData.data.data.sortieCaisse.length > 0 && suiviDepenseData.data.data.entreeCaisse.length > 0  && suiviDepenseData.data.data.soldCaisse) {
 
-                    let saveTalbeRow = 0;
-
-                    for (let i = 0; i < suiviDepenseData.data.data.sortieCaisse.length; i++) {
-                        
-                        
-                        const dataLenght = suiviDepenseData.data.data.sortieCaisse[i].data.length;
-                        
-                        if (saveTalbeRow < dataLenght) {
-                            
-                            saveTalbeRow = dataLenght;
-
-                        };
-                    };
-
-                    dispacth(suiviDepenseActions.setSortieCaisse(suiviDepenseData.data.data.sortieCaisse.map(
-                        (el, index) => {
-                            
-                            const data = el.data.map((el, index) => {return {...el, index: index}});
+                    dispacth(suiviDepenseActions.setUpdate(true));
+                    dispacth(suiviDepenseActions.setReadOnly(true));
+                    //find the largest table row 
+                    if (suiviDepenseData.data.data.sortieCaisse ) {
     
-                            return {...el, index: index, data: data};
-                        }
-                    )));
+                        let saveTalbeRow = 0;
+    
+                        for (let i = 0; i < suiviDepenseData.data.data.sortieCaisse.length; i++) {
+                            
+                            
+                            const dataLenght = suiviDepenseData.data.data.sortieCaisse[i].data.length;
+                            
+                            if (saveTalbeRow < dataLenght) {
+                                
+                                saveTalbeRow = dataLenght;
+    
+                            };
+                        };
+    
+                        dispacth(suiviDepenseActions.setSortieCaisse(suiviDepenseData.data.data.sortieCaisse.map(
+                            (el, index) => {
+                                
+                                const data = el.data.map((el, index) => {return {...el, index: index}});
+        
+                                return {...el, index: index, data: data};
+                            }
+                        )));
+                        
+                        // the greatest length
+                        dispacth(suiviDepenseActions.setSameLength(saveTalbeRow));
+                    };
                     
-                    // the greatest length
-                    dispacth(suiviDepenseActions.setSameLength(saveTalbeRow));
-                };
-                
-                //set the index and entreeCaisse Data
-                dispacth(suiviDepenseActions.setEntreeCaisse(suiviDepenseData.data.data.entreeCaisse.map((el, index) => {return {...el, index: index}})));
-
-                //set  caisse
-                if (suiviDepenseData.data.data.soldCaisse) {
-
-                    dispacth(suiviDepenseActions.setSoldCaisse(suiviDepenseData.data.data.soldCaisse.amount));
+                    //set the index and entreeCaisse Data
+                    dispacth(suiviDepenseActions.setEntreeCaisse(suiviDepenseData.data.data.entreeCaisse.map((el, index) => {return {...el, index: index}})));
+    
+                    //set  caisse
+                    if (suiviDepenseData.data.data.soldCaisse) {
+    
+                        dispacth(suiviDepenseActions.setSoldCaisse(suiviDepenseData.data.data.soldCaisse.amount));
+                    } else {
+                        
+                        dispacth(suiviDepenseActions.setSoldCaisse(0));
+                    };
                 } else {
-                    
-                    dispacth(suiviDepenseActions.setSoldCaisse(0));
+
+                    dispacth(suiviDepenseActions.setReadOnly(false));
+                    dispacth(suiviDepenseActions.setUpdate(false));
+
+                    const lastCreatedData = await axios.get(`http://localhost:5001/api/v1/suiviDepense/lastElement/${year}/${month}`);
+
+                    if (lastCreatedData.data.data) {
+                        
+                        //find the largest table row 
+                        if (lastCreatedData.data.data.sortieCaisse ) {
+        
+                            let saveTalbeRow = 0;
+        
+                            for (let i = 0; i < lastCreatedData.data.data.sortieCaisse.length; i++) {
+                                
+                                
+                                const dataLenght = lastCreatedData.data.data.sortieCaisse[i].data.length;
+                                
+                                if (saveTalbeRow < dataLenght) {
+                                    
+                                    saveTalbeRow = dataLenght;
+        
+                                };
+                            };
+        
+                            dispacth(suiviDepenseActions.setSortieCaisse(lastCreatedData.data.data.sortieCaisse.map(
+                                (el, index) => {
+                                    const data = el.data.map((el, index) => {return {...el, index: index}});
+            
+                                    return {...el, index: index, data: data};
+                                }
+                            )));
+                            
+                            // the greatest length
+                            dispacth(suiviDepenseActions.setSameLength(saveTalbeRow));
+                        };
+                        
+                        //set the index and entreeCaisse Data
+                        dispacth(suiviDepenseActions.setEntreeCaisse(lastCreatedData.data.data.entreeCaisse.map((el, index) => {return {...el, index: index}})));
+        
+                        //set  sold caisse
+                        dispacth(suiviDepenseActions.setSoldCaisse(0)); 
+                    };
                 }
+                
             } catch (err) {
                 if (err.message) {
 
-                    console.log (err.data);
+                    console.log (err);
                 } else {
                     console.log (err);
                 }
@@ -104,189 +155,61 @@ export default function SuiviDepense (){
     useEffect (() => {
 
         setDateParams (prev => prev = date);
-    }, [date.year, date.month, date.day]);
+    }, [year, month, day]);
 
     function postData(){
 
         const newSortieCaisseData = [];
         let suiviDepenseData = null;
+        let createdAt = `${year}-${month}-${day}T08:22:54.930Z`;
 
-        
+        //set the date to the right format
         if (month >= 10 && day >= 10) {
-            for (let i of sortieCaisse){
-    
-                if (i.name !== "") {
-    
-                    const fonctiondata = null;
-        
-                    for (let y of i.data) {
-        
-                        if (y.libel !== "" || y.amount !== "") {
-        
-                            fonctiondata.push({
-                                libel: y.libel,
-                                amount: {
-                                    valeur: y.amount,
-                                    createdAt: `${year}-${month}-${day}T08:22:54.930Z`
-                                }
-                            });
-                        }
-                    };
-        
-                    newSortieCaisseData.push({
-        
-                        name: i.name,
-                        data: fonctiondata
-                    });
-                };
-            };
-
-            suiviDepenseData = {
-               data:{
-                   data: {
-    
-                       entreeCaisse: entreeCaisse.map(el => {return {...el, data: {...el.data, createdAt: `${year}-${month}-${day}T08:22:54.930Z`}}}),
-                       sortieCaisse: newSortieCaisseData,
-                       soldCaisse: {
-                           amount: soldCaisse,
-                           createdAt: `${year}-${month}-${day}T08:22:54.930Z`
-                       }
-    
-                   }
-               }
-           };
+            createdAt = `${year}-${month}-${day}T08:22:54.930Z`;
         } else if (month >= 10 && day < 10) {
-            for (let i of sortieCaisse){
-    
-                if (i.name !== "") {
-    
-                    const fonctiondata = null;
-        
-                    for (let y of i.data) {
-        
-                        if (y.libel !== "" || y.amount !== "") {
-        
-                            fonctiondata.push({
-                                libel: y.libel,
-                                amount: {
-                                    valeur: y.amount,
-                                    createdAt: `${year}-${month}-0${day}T08:22:54.930Z`
-                                }
-                            });
-                        }
-                    };
-        
-                    newSortieCaisseData.push({
-        
-                        name: i.name,
-                        data: fonctiondata
-                    });
-                };
-            };
-
-            suiviDepenseData = {
-               data:{
-                   data: {
-    
-                       entreeCaisse: entreeCaisse.map(el => {return {...el, data: {...el.data, createdAt: `${year}-${month}-${day}T08:22:54.930Z`}}}),
-                       sortieCaisse: newSortieCaisseData,
-                       soldCaisse: {
-                           amount: soldCaisse,
-                           createdAt: `${year}-${month}-0${day}T08:22:54.930Z`
-                       }
-    
-                   }
-               }
-           };
+            createdAt = `${year}-${month}-0${day}T08:22:54.930Z`;
         } else if (month < 10 && day >= 10) {
-            for (let i of sortieCaisse){
-    
-                if (i.name !== "") {
-    
-                    const fonctiondata = null;
-        
-                    for (let y of i.data) {
-        
-                        if (y.libel !== "" || y.amount !== "") {
-        
-                            fonctiondata.push({
-                                libel: y.libel,
-                                amount: {
-                                    valeur: y.amount,
-                                    createdAt: `${year}-0${month}-${day}T08:22:54.930Z`
-                                }
-                            });
-                        }
-                    };
-        
-                    newSortieCaisseData.push({
-        
-                        name: i.name,
-                        data: fonctiondata
-                    });
-                };
-            };
-            suiviDepenseData = {
-               
-               data:{
-                   data: {
-    
-                       entreeCaisse: entreeCaisse.map(el => {return {...el, data: {...el.data, createdAt: `${year}-${month}-${day}T08:22:54.930Z`}}}),
-                       sortieCaisse: newSortieCaisseData,
-                       soldCaisse: {
-                           amount: soldCaisse,
-                           createdAt: `${year}-0${month}-${day}T08:22:54.930Z`
-                       }
-    
-                   }
-               }
-           }; 
+            createdAt = `${year}-0${month}-${day}T08:22:54.930Z`;
         } else {
-            
-            for (let i of sortieCaisse){
-    
-                if (i.name !== "") {
-    
-                    const fonctiondata = null;
-        
-                    for (let y of i.data) {
-        
-                        if (y.libel !== "" || y.amount !== "") {
-        
-                            fonctiondata.push({
-                                libel: y.libel,
-                                amount: {
-                                    valeur: y.amount,
-                                    createdAt: `${year}-0${month}-0${day}T08:22:54.930Z`
-                                }
-                            });
-                        }
-                    };
-        
-                    newSortieCaisseData.push({
-        
-                        name: i.name,
-                        data: fonctiondata
-                    });
-                };
-            };
-            suiviDepenseData = {
-               
-               data:{
-                   data: {
-    
-                       entreeCaisse: entreeCaisse.map(el => {return {...el, data: {...el.data, createdAt: `${year}-${month}-${day}T08:22:54.930Z`}}}),
-                       sortieCaisse: newSortieCaisseData,
-                       soldCaisse: {
-                           amount: soldCaisse,
-                           createdAt: `${year}-0${month}-0${day}T08:22:54.930Z`
-                       }
-    
-                   }
-               }
-           };
+            createdAt = `${year}-0${month}-0${day}T08:22:54.930Z`;
         };
 
+        for (let i of sortieCaisse){
+            if (i.name !== "") {
+
+                const fonctiondata = null;
+                for (let y of i.data) {
+    
+                    if (y.libel !== "" || y.amount !== "") {
+    
+                        fonctiondata.push({
+                            libel: y.libel,
+                            amount: {
+                                valeur: y.amount,
+                                createdAt: createdAt
+                            }
+                        });
+                    }
+                };
+                newSortieCaisseData.push({
+                    name: i.name,
+                    data: fonctiondata
+                });
+            };
+        };
+
+        suiviDepenseData = {
+            data:{
+                data: {
+                    entreeCaisse: entreeCaisse.map(el => {return {...el, data: {...el.data, createdAt: createdAt}}}),
+                    sortieCaisse: newSortieCaisseData,
+                    soldCaisse: {
+                        amount: soldCaisse,
+                        createdAt: createdAt
+                    }
+                }
+            }
+        };
         const fecthData = async () => {
 
             try {
@@ -353,6 +276,7 @@ export default function SuiviDepense (){
                 <EntreeCaisse/>
                 <SoriteCaisse /> 
                 <SoldCaisse/>
+                <button onClick={postData}> Enregistrer les données</button>
             </div>
         )
     };

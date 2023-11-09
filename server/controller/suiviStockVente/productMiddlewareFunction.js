@@ -447,7 +447,6 @@ exports.updateDataCollection = catchAssynch (async (collection, request, respons
 
             collectionData.data[yearIndex].data[monthIndex].data[indexof] = {
               ...request.body.data[i].data.data.data,
-              createdAt: `${year}-${month}-${day}T07:22:54.930Z`,
             };
 
             await collectionData.save();

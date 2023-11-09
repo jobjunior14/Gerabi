@@ -73,7 +73,6 @@ export default function EntreeCaisse (){
         
     };
 
-    
     if (data) {
         
         if (data.length > 0) {
@@ -90,7 +89,7 @@ export default function EntreeCaisse (){
                         </tr>
                         <tr>
                             <th> Total Sold Caisse</th>
-                            <td> {Number (prevSoldCaisse) + totalEntreeCaisse} </td>
+                            <td> {Number (prevSoldCaisse) + Number (totalEntreeCaisse)} </td>
                         </tr>
 
                     </tbody>
@@ -103,16 +102,19 @@ export default function EntreeCaisse (){
                         type="number"
                         placeholder="Tapez le sold caisse"
                         defaultValue={prevSoldCaisse}
-                        onChange={(e) => { dispatch(suiviDepenseActions.handleSoldCaisseByUser(e.target.value))} }
+                        onChange={(e) => { dispatch(suiviDepenseActions.handleSoldCaisseByUser(Number (e.target.value)))} }
                     />
                 </>}
                 <button onClick={() => dispatch(suiviDepenseActions.addProductEntreeCaisse())}> Ajouter un produit</button>
                 </div>)
         } else {
-            <div>
-                <button onClick={() => dispatch(suiviDepenseActions.addProductEntreeCaisse())}> Ajouter un produit</button>
-                <h4> Ouuups!! cette date n'a pas de donnee</h4>
-            </div>
+            return(
+                <div>
+                    <h3>Entree Caisse</h3>
+                    <button onClick={() => dispatch(suiviDepenseActions.addProductEntreeCaisse())}> Ajouter un produit</button>
+                    <h4> Ouuups!! cette date n'a pas de donnee</h4>
+                </div>
+            )
         };
     } else {
         <h4> Chargement....</h4>

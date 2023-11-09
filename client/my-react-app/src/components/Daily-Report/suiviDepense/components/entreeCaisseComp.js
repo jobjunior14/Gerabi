@@ -27,10 +27,10 @@ export default function EntreeCaisseComp (props){
             id = { props.prev.id}
             name = 'amount'
             type= 'number'
-            placeholder='Taper Le Libelé'
+            placeholder='Taper Le montant'
             onChange={ (e) => {
                 const {name, value, id} = e.target;
-                dispacth(suiviDepenseActions.HandleEntreeCaisse({name: name, value: Number (value), index: id}));
+                dispacth(suiviDepenseActions.HandleEntreeCaisse({name: name, value: Number (value), index: props.index}));
             }}
         />
       </td>

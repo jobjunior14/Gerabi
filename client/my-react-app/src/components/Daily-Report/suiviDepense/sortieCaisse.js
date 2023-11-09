@@ -7,6 +7,8 @@ export default function SoriteCaisse () {
     const dispacth = useDispatch();
 
     const sortieCaisse = useSelector (state => state.suiviDepense.sortieCaisse);
+    const readOnly = useSelector (state => state.suiviDepense.readOnly);
+    const allTotalSortieCaisse = useSelector (state => state.suiviDepense.totalSortieCaisse);
 
     
     const subTAbleHeadersSortieCaisse = [];
@@ -27,6 +29,7 @@ export default function SoriteCaisse () {
                         defaultValue={sortieCaisse[i].name}
                         id= {tableHeaderSortieCaisse.length}
                         name="name"
+                        readOnly = {readOnly}
                         placeholder="Taper la fonction de sortie"
                         onChange={ (e) => {
 
@@ -55,6 +58,7 @@ export default function SoriteCaisse () {
                                 defaultValue={sortieCaisse[j].data[y].libel}
                                 id = {tableDataSortieCaisse.length}
                                 name = 'libel'
+                                readOnly = {readOnly}
                                 placeholder="Taper le libel"
                                 onChange={ e => {
         
@@ -90,25 +94,34 @@ export default function SoriteCaisse () {
     };
 
     //save the varaibale before dispatch it
-     let totalSortieCaisse = 0;   
+     let totalSortieCaisse = 0; 
+     
+     //display the total amount sortie ~for one row
+     const displayTotFocnt = [];
    
     //calculate the total amount of sortie caisse
     if (sortieCaisse) {
         
         for (let i = 0; i < sortieCaisse.length; i++) {
-    
+
+            let totalFocnt = 0;
             for (let j = 0; j < sortieCaisse[i].data.length; j++) {
                 
-                if (sortieCaisse[i].data.length > 0){
+                if (sortieCaisse[i].data.length > 0 && sortieCaisse[i].name !== "" && sortieCaisse[i].data[j].libel !== ""){
 
                     totalSortieCaisse += sortieCaisse[i].data[j].amount;
+                    totalFocnt += sortieCaisse[i].data[j].amount;
                 };
-            }
+            };
+            displayTotFocnt.push (<th> Total </th>);
+            displayTotFocnt.push (<td>{totalFocnt}</td>);
         };
 
         //set the sold caisse
         dispacth(suiviDepenseActions.setTotalSortieCaisse(totalSortieCaisse));
     };
+
+    // console.log (sortieCaisse);
     
    if (sortieCaisse) {
 
@@ -130,22 +143,28 @@ export default function SoriteCaisse () {
                         </thead>
 
                         <tbody>
-
                             {tableRowData}
-
                         </tbody>
-
+                        <tfoo>
+                            <tr>
+                                {displayTotFocnt}
+                            </tr>
+                            <tr>
+                                <th>Total Sortie</th>
+                                <td> {allTotalSortieCaisse} </td>
+                            </tr>
+                        </tfoo>
                     </table>
-
-                    <button onClick={() => dispacth(suiviDepenseActions.addLibelMontantSortie())}> Ajouter un justificatif</button>
-                    <button onClick={() => dispacth(suiviDepenseActions.addFonctionSortie())}> Ajouter une fonction</button>
+                    { !readOnly && <button onClick={() => dispacth(suiviDepenseActions.addLibelMontantSortie())}> Ajouter un justificatif</button>}
+                    { !readOnly && <button onClick={() => dispacth(suiviDepenseActions.addFonctionSortie())}> Ajouter une fonction</button>}
                 </div>
             )
         } else {
-
+            
             return (
                 <div>
-                    <button onClick={() => dispacth(suiviDepenseActions.addLibelMontantSortie())}> Ajouter un justificatif</button>
+                    <h3>sortie Caisse</h3>
+                    <button onClick={() => dispacth(suiviDepenseActions.addFonctionSortie())}> Ajouter une fonction</button>
                     <h4> Ooouups! cette donnee est inexistante </h4>
                 </div>
             )
