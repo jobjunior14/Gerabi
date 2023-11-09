@@ -23,85 +23,36 @@ function postAndUpdateData (errMessage, errorMessage, year, month, day, productD
 
         let newData = null;
         let newDataVente = null;
+        let createdAt = `${year}-${month}-${day}T08:22:54.930Z`
 
         //update data format
         if ( month >= 10 && day >= 10) {
-
-          //modeling data to our schema
-          newData = productData.map((el) => {
-            return {
-              name: el.name,
-              data: {
-                data: {
-                  data: { ...el,  createdAt: `${year}-${month}-${day}T08:22:54.930Z` },
-                },
-              },
-            };
-          });
-
-          //modeling data to our schema 
-          newDataVente = {
-            valeur: venteDego,
-            createdAt: `${year}-${month}-${day}T08:22:54.930Z`
-          };
-        } else if (month >= 10 && day < 10) {
-          
-          //modeling data to our schema
-          newData = productData.map((el) => {
-            return {
-              name: el.name,
-              data: {
-                data: {
-                  data: { ...el,  createdAt: `${year}-${month}-0${day}T08:22:54.930Z` },
-                },
-              },
-            };
-          });
-
-          //modeling data to our schema 
-          newDataVente = {
-            valeur: venteDego,
-            createdAt: `${year}-${month}-0${day}T08:22:54.930Z`
-          };
+          createdAt = `${year}-${month}-${day}T08:22:54.930Z`
+        } else if (month >= 10 && day < 10) { 
+          createdAt = `${year}-${month}-0${day}T08:22:54.930Z`
         } else if (month < 10 && day >= 10) {
-          
-          //modeling data to our schema
-          newData = productData.map((el) => {
-            return {
-              name: el.name,
-              data: {
-                data: {
-                  data: { ...el,  createdAt: `${year}-0${month}-${day}T08:22:54.930Z` },
-                },
-              },
-            };
-          });
-
-          //modeling data to our schema 
-          newDataVente = {
-            valeur: venteDego,
-            createdAt: `${year}-0${month}-${day}T08:22:54.930Z`
-          };
-        } else {
-          
-          //modeling data to our schema
-          newData = productData.map((el) => {
-            return {
-              name: el.name,
-              data: {
-                data: {
-                  data: { ...el,  createdAt: `${year}-0${month}-0${day}T08:22:54.930Z` },
-                },
-              },
-            };
-          });
-
-          //modeling data to our schema 
-          newDataVente = {
-            valeur: venteDego,
-            createdAt: `${year}-0${month}-0${day}T08:22:54.930Z`
-          };
+          createdAt = `${year}-0${month}-${day}T08:22:54.930Z`
+        } else {         
+          createdAt = `${year}-0${month}-0${day}T08:22:54.930Z`
         };
+
+        //modeling data to our schema
+          newData = productData.map((el) => {
+            return {
+              name: el.name,
+              data: {
+                data: {
+                  data: { ...el,  createdAt: createdAt}
+                },
+              },
+            };
+          });
+
+          //modeling data to our schema 
+          newDataVente = {
+            valeur: venteDego,
+            createdAt: createdAt
+          };
 
         dispacth(productActions.setProductdata(null));
         console.log(id);

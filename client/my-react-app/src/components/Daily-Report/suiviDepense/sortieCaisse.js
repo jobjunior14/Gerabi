@@ -9,7 +9,6 @@ export default function SoriteCaisse () {
     const sortieCaisse = useSelector (state => state.suiviDepense.sortieCaisse);
     const readOnly = useSelector (state => state.suiviDepense.readOnly);
     const allTotalSortieCaisse = useSelector (state => state.suiviDepense.totalSortieCaisse);
-
     
     const subTAbleHeadersSortieCaisse = [];
     const tableHeaderSortieCaisse = [];
@@ -22,7 +21,7 @@ export default function SoriteCaisse () {
 
             //array of main TH
              tableHeaderSortieCaisse.push(
-                <th key={`th${i}`} colSpan={2}> 
+                <th key={`thSortie${i}`} colSpan={2}> 
                 
                     <input 
                         type="text"
@@ -41,8 +40,8 @@ export default function SoriteCaisse () {
                 </th>
             );
             //arry of Sub TH
-            subTAbleHeadersSortieCaisse.push(<td> Libelé </td>);
-            subTAbleHeadersSortieCaisse.push (<td> Montant </td>);
+            subTAbleHeadersSortieCaisse.push(<td key={`tdlibel${i}`}> Libelé </td>);
+            subTAbleHeadersSortieCaisse.push (<td key={`tdmontant${i}`}> Montant </td>);
         };
         
         for (let y = 0; y < sortieCaisse[0].data.length; y++) {
@@ -53,7 +52,7 @@ export default function SoriteCaisse () {
     
     
                     tableDataSortieCaisse.push(
-                        <td>
+                        <td key={`tdSortie${j}`}>
                             <input
                                 defaultValue={sortieCaisse[j].data[y].libel}
                                 id = {tableDataSortieCaisse.length}
@@ -70,7 +69,7 @@ export default function SoriteCaisse () {
                     );
         
                     tableDataSortieCaisse.push(
-                        <td>
+                        <td key = {`tdsortie${j}`}>
                             <input
                                 defaultValue={sortieCaisse[j].data[y].amount}
                                 id = {tableDataSortieCaisse.length}
@@ -113,8 +112,8 @@ export default function SoriteCaisse () {
                     totalFocnt += sortieCaisse[i].data[j].amount;
                 };
             };
-            displayTotFocnt.push (<th> Total </th>);
-            displayTotFocnt.push (<td>{totalFocnt}</td>);
+            displayTotFocnt.push (<th key={`thsoriee${i}`}> Total </th>);
+            displayTotFocnt.push (<td key = {`tdaaa${i}`}>{totalFocnt}</td>);
         };
 
         //set the sold caisse
@@ -145,15 +144,15 @@ export default function SoriteCaisse () {
                         <tbody>
                             {tableRowData}
                         </tbody>
-                        <tfoo>
-                            <tr>
+                        <tfoot>
+                            <tr key = {'trTotal'}>
                                 {displayTotFocnt}
                             </tr>
                             <tr>
                                 <th>Total Sortie</th>
                                 <td> {allTotalSortieCaisse} </td>
                             </tr>
-                        </tfoo>
+                        </tfoot>
                     </table>
                     { !readOnly && <button onClick={() => dispacth(suiviDepenseActions.addLibelMontantSortie())}> Ajouter un justificatif</button>}
                     { !readOnly && <button onClick={() => dispacth(suiviDepenseActions.addFonctionSortie())}> Ajouter une fonction</button>}

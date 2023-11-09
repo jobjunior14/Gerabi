@@ -64,10 +64,10 @@ export default function Musiciens (){
                     <tbody>
                         {dataDisplay}
                     </tbody>
-                    <tfoot>
+                    <tfoott>
                         <th>Total</th>
                         <td> {totalDetteMusiciens} </td>
-                    </tfoot>
+                    </tfoott>
                 </table>
                 <button onClick={() => dispacth(suiviDetteActions.addCaseMusiciens())}> Ajouter Un Nom</button>
             </div>)

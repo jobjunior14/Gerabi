@@ -64,10 +64,10 @@ export default function Clients (){
                     <tbody>
                         {dataDisplay}
                     </tbody>
-                    <tfoot>
+                    <tfoott>
                         <th>Total</th>
                         <td> {totalDetteClients} </td>
-                    </tfoot>
+                    </tfoott>
                 </table>
                 <button onClick={() => dispacth(suiviDetteActions.addCaseClients())}> Ajouter Un Nom</button>
             </div>)

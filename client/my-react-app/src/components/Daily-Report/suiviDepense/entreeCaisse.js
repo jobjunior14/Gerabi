@@ -13,6 +13,7 @@ export default function EntreeCaisse (){
     const data = useSelector(state => state.suiviDepense.entreeCaisse);
     let totalEntreeCaisse = 0;
     const prevSoldCaisse = useSelector(state => state.suiviDepense.prevSoldCaisse);
+    const readOnly = useSelector (state => state.suiviDepense.readOnly);
 
     //params
     const [dateParams] = useSearchParams();
@@ -105,7 +106,7 @@ export default function EntreeCaisse (){
                         onChange={(e) => { dispatch(suiviDepenseActions.handleSoldCaisseByUser(Number (e.target.value)))} }
                     />
                 </>}
-                <button onClick={() => dispatch(suiviDepenseActions.addProductEntreeCaisse())}> Ajouter un produit</button>
+                { !readOnly && <button onClick={() => dispatch(suiviDepenseActions.addProductEntreeCaisse())}> Ajouter un produit</button>}
                 </div>)
         } else {
             return(

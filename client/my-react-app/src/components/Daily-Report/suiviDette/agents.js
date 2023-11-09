@@ -64,10 +64,10 @@ export default function Agents (){
                     <tbody>
                         {dataDisplay}
                     </tbody>
-                    <tfoot>
+                    <tfoott>
                         <th>Total</th>
                         <td> {totalDetteAgent} </td>
-                    </tfoot>
+                    </tfoott>
                 </table>
                 <button onClick={() => dispacth(suiviDetteActions.addCaseAgents())}> Ajouter Un Nom</button>
             </div>)
