@@ -5,6 +5,7 @@ import { MainNav } from './components/headers/outlet';
 import { ProductNav } from './components/headers/outlet';
 import SuiviDesVentes from './components/Mensuel Report/suivi_Des_Ventes/suiviDesVentes';
 import SuiviDepense from './components/Daily-Report/suiviDepense/suiviDepense';
+import SuiviDette from './components/Daily-Report/suiviDette/suiviDette';
 
 function App() {
   return ( 
@@ -21,7 +22,7 @@ function App() {
               <Route path='liqueurs' element = {<Product produit = 'liqueurs'/>}/>
             </Route>
 
-            <Route path='rapportMensuel' element = {<SuiviDepense/>}/>
+            <Route path='rapportMensuel' element = {<SuiviDette/>}/>
             
           </Route>
       </Routes>

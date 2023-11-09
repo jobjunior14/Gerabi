@@ -16,7 +16,7 @@ export default function Clients (){
    if (clientsData) {
         for (let i of clientsData) {
 
-            dataDisplay.push(<tr>
+            dataDisplay.push(<tr key={`trClient${i}`}>
                 <th>
                     <input
                         defaultValue={i.name}
@@ -36,7 +36,7 @@ export default function Clients (){
                         defaultValue={i.data.amount}
                         id = {i.index}
                         type = 'number'
-                        name = 'name'
+                        name = 'amount'
                         placeholder="Taper le montant de la dette"
                         onChange={ (e) => {
                             const {name, value} = e.target;
@@ -46,7 +46,7 @@ export default function Clients (){
                 </td>
             </tr>)
 
-            //total Dette Agents
+            //total Dette clients
             totalDetteClients += i.data.amount;
         };
    };
@@ -55,29 +55,38 @@ export default function Clients (){
         if (clientsData.length > 0) {
 
             return (<div>
-                <h3> Dette Agents </h3>
+                <h3> Dette Clients </h3>
                 <table>
                     <thead>
-                        <th>Nom</th>
-                        <th>Montant</th>
+                        <tr>
+                            <th>Nom</th>
+                            <th>Montant</th>
+                        </tr>
                     </thead>
                     <tbody>
                         {dataDisplay}
                     </tbody>
-                    <tfoott>
-                        <th>Total</th>
-                        <td> {totalDetteClients} </td>
-                    </tfoott>
+                    <tfoot>
+                        <tr>
+                            <th>Total</th>
+                            <td> {totalDetteClients} </td>
+                        </tr>
+                    </tfoot>
                 </table>
-                <button onClick={() => dispacth(suiviDetteActions.addCaseClients())}> Ajouter Un Nom</button>
+                {!readOnly && <button onClick={() => dispacth(suiviDetteActions.addCaseClients())}> Ajouter Un Nom</button>}
             </div>)
         } else {
-            <div>
-                <button onClick={() => dispacth(suiviDetteActions.addCaseClients())}> Ajouter Un Nom</button>
-                <h4> Ooouups!!! cette date n'a pas des données </h4>
-            </div>
+            return (
+                <div>
+                    <h3> Dette Clients </h3>
+                    <button onClick={() => dispacth(suiviDetteActions.addCaseClients())}> Ajouter Un Nom</button>
+                    <h4> Ooouups!!! cette date n'a pas des données </h4>
+                </div>
+            );
         };
    } else {
-    <h4> Chargement... </h4>
+    return (
+        <h4> Chargement... </h4>
+    );
    }
 }

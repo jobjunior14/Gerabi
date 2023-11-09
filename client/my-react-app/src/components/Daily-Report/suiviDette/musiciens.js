@@ -8,7 +8,6 @@ export default function Musiciens (){
 
     const musiciensData = useSelector (state => state.suiviDette.musiciens);
     const readOnly = useSelector (state => state.suiviDette.readOnly);
-
     const dataDisplay = [];
     let totalDetteMusiciens = 0;
 
@@ -16,7 +15,7 @@ export default function Musiciens (){
    if (musiciensData) {
         for (let i of musiciensData) {
 
-            dataDisplay.push(<tr>
+            dataDisplay.push(<tr key={`trmusiciens${i}`}>
                 <th>
                     <input
                         defaultValue={i.name}
@@ -36,7 +35,7 @@ export default function Musiciens (){
                         defaultValue={i.data.amount}
                         id = {i.index}
                         type = 'number'
-                        name = 'name'
+                        name = 'amount'
                         placeholder="Taper le montant de la dette"
                         onChange={ (e) => {
                             const {name, value} = e.target;
@@ -55,29 +54,38 @@ export default function Musiciens (){
         if (musiciensData.length > 0) {
 
             return (<div>
-                <h3> Dette Agents </h3>
+                <h3> Dette Musiciens </h3>
                 <table>
                     <thead>
-                        <th>Nom</th>
-                        <th>Montant</th>
+                        <tr>
+                            <th>Nom</th>
+                            <th>Montant</th>
+                        </tr>
                     </thead>
                     <tbody>
                         {dataDisplay}
                     </tbody>
-                    <tfoott>
-                        <th>Total</th>
-                        <td> {totalDetteMusiciens} </td>
-                    </tfoott>
+                    <tfoot>
+                        <tr>
+                            <th>Total</th>
+                            <td> {totalDetteMusiciens} </td>
+                        </tr>
+                    </tfoot>
                 </table>
-                <button onClick={() => dispacth(suiviDetteActions.addCaseMusiciens())}> Ajouter Un Nom</button>
+                {!readOnly && <button onClick={() => dispacth(suiviDetteActions.addCaseMusiciens())}> Ajouter Un Nom</button>}
             </div>)
         } else {
-            <div>
-                <button onClick={() => dispacth(suiviDetteActions.addCaseMusiciens())}> Ajouter Un Nom</button>
-                <h4> Ooouups!!! cette date n'a pas des données </h4>
-            </div>
+            return (
+                <div>
+                    <h3> Dette Musiciens </h3>
+                    <button onClick={() => dispacth(suiviDetteActions.addCaseMusiciens())}> Ajouter Un Nom</button>
+                    <h4> Ooouups!!! cette date n'a pas des données </h4>
+                </div>
+            );
         };
    } else {
-    <h4> Chargement... </h4>
+    return (
+        <h4> Chargement... </h4>
+    );
    }
 }

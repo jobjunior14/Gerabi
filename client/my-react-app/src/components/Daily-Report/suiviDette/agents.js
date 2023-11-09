@@ -16,8 +16,8 @@ export default function Agents (){
    if (agentsData) {
         for (let i of agentsData) {
 
-            dataDisplay.push(<tr>
-                <th>
+            dataDisplay.push(<tr key={`trAgent${i}`}>
+                <th key={`thname${i}`}>
                     <input
                         defaultValue={i.name}
                         id = {i.index}
@@ -31,12 +31,12 @@ export default function Agents (){
                         }}
                     />
                 </th>
-                <td>
+                <td key={`tdAmount${i}`}>
                     <input
                         defaultValue={i.data.amount}
                         id = {i.index}
                         type = 'number'
-                        name = 'name'
+                        name = 'amount'
                         placeholder="Taper le montant de la dette"
                         onChange={ (e) => {
                             const {name, value} = e.target;
@@ -58,26 +58,35 @@ export default function Agents (){
                 <h3> Dette Agents </h3>
                 <table>
                     <thead>
-                        <th>Nom</th>
-                        <th>Montant</th>
+                        <tr>
+                            <th>Nom</th>
+                            <th>Montant</th>
+                        </tr>
                     </thead>
                     <tbody>
                         {dataDisplay}
                     </tbody>
-                    <tfoott>
-                        <th>Total</th>
-                        <td> {totalDetteAgent} </td>
-                    </tfoott>
+                    <tfoot>
+                        <tr>
+                            <th>Total</th>
+                            <td> {totalDetteAgent} </td>
+                        </tr>
+                    </tfoot>
                 </table>
-                <button onClick={() => dispacth(suiviDetteActions.addCaseAgents())}> Ajouter Un Nom</button>
+                {!readOnly && <button onClick={() => dispacth(suiviDetteActions.addCaseAgents())}> Ajouter Un Nom</button>}
             </div>)
         } else {
-            <div>
-                <button onClick={() => dispacth(suiviDetteActions.addCaseAgents())}> Ajouter Un Nom</button>
-                <h4> Ooouups!!! cette date n'a pas des données </h4>
-            </div>
+            return (
+                <div>
+                    <h3> Dette Agents </h3>
+                    <button onClick={() => dispacth(suiviDetteActions.addCaseAgents())}> Ajouter Un Nom</button>
+                    <h4> Ooouups!!! cette date n'a pas des données </h4>
+                </div>
+            );
         };
    } else {
-    <h4> Chargement... </h4>
-   }
+    return (
+        <h4> Chargement... </h4>
+    );
+   };
 }

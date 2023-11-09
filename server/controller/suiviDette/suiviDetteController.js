@@ -74,6 +74,7 @@ const loopingData = (array, year, month, day) => {
             };
         };
     };
+    return dayData;
 };
 
 exports.getSuiviDette = catchAssynch (async (req, res) => {
@@ -519,10 +520,8 @@ exports.lastCreatedDataSuiviDette = catchAssynch (async (req, res,) => {
             agents:[],
             clients: [],
             musiciens: [],
-            totalDette: null,
+            totalDette: 0,
         };
-
-
 
         for (let i of suiviDette){
 
@@ -557,9 +556,6 @@ exports.lastCreatedDataSuiviDette = catchAssynch (async (req, res,) => {
                                 }
                             });
                         };
-
-                        dayData.totalDette = j.data.totalDette[j.data.totalDette.length - 1];
-
 
                     };
                 };

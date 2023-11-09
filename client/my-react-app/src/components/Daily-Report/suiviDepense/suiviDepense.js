@@ -142,7 +142,6 @@ export default function SuiviDepense (){
         dispacth(suiviDepenseActions.setSortieCaisse(null));
         
         const fecthData = async () => {
-
             try {
 
                 const suiviDepenseData = await axios.get (`http://localhost:5001/api/v1/suiviDepense/rapportJournalier/${year}/${month}/${day}`);

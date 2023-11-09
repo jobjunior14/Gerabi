@@ -8,6 +8,60 @@ import Clients from "./clients"
 import Musiciens from "./musiciens";
 import Agents from "./agents";
 
+function postAndUpdate(dispacth, agents, musiciens, clients, totalDette, year, month, day, update) {
+
+    let newDataSuiviDette = null;
+    let createdAt = `${year}-${month}-${day}T07:22:54.930Z`;
+
+    //set date to the rigth format
+
+    if (month => 10 && day >= 10){
+       createdAt = `${year}-${month}-${day}T07:22:54.930Z`;
+    } else if (month >= 10 && day < 10) {
+        createdAt = `${year}-${month}-0${day}T07:22:54.930Z`;       
+    } else if (month < 10 && day >= 10) {
+        createdAt = `${year}-0${month}-${day}T07:22:54.930Z`;     
+    } else {
+        createdAt = `${year}-0${month}-0${day}T07:22:54.930Z`;
+    };
+
+    //modeling data to schema
+    newDataSuiviDette = {
+        data: {
+            data:{
+                agents: agents.map(el => {return {...el, data:{...el.data, createdAt: `${year}-${month}-${day}T07:22:54.930Z`, }}}),
+                musiciens: musiciens.map(el => {return {...el, data:{...el.data, createdAt: `${year}-${month}-${day}T07:22:54.930Z`, }}}),
+                clients: clients.map(el => {return {...el, data:{...el.data, createdAt: `${year}-${month}-${day}T07:22:54.930Z`, }}}),
+                totalDette: {
+                    amount: totalDette,
+                    createdAt: createdAt,
+                }
+            }
+        }
+    };
+
+    const fecthData = async () => {
+
+        dispacth(suiviDetteActions.setAgents(null));
+        dispacth(suiviDetteActions.setClients(null));
+        dispacth(suiviDetteActions.setMusiciens(null));
+
+        const responseSuiviDette = !update ? await axios.post(`http://localhost:5001/api/v1/suiviDette/rapportJournalier?year=${year}&month=${month}&day=${day}`, newDataSuiviDette) : await axios.post(`http://localhost:5001/api/v1/suiviDette/rapportJournalier/${year}/${month}/${day}`, newDataSuiviDette);
+
+        dispacth(suiviDetteActions.setAgents(responseSuiviDette.data.data.agents.map ((el, index) => {return {...el, index: index}})));
+        dispacth(suiviDetteActions.setClients(responseSuiviDette.data.data.clients.map ((el, index) => {return {...el, index: index}})));
+        dispacth(suiviDetteActions.setMusiciens(responseSuiviDette.data.data.musiciens.map ((el, index) => {return {...el, index: index}})));
+        if (responseSuiviDette.data.data.totalDette) {
+            
+            dispacth (suiviDetteActions.setTotalDette(responseSuiviDette.data.data.totalDette));
+        } else {
+
+            dispacth (suiviDetteActions.setTotalDette(0));
+        };
+    }; fecthData();
+
+};
+
 export default function SuiviDette () {
 
     const dispacth = useDispatch ();
@@ -31,6 +85,7 @@ export default function SuiviDette () {
     const clients = useSelector(state => state.suiviDette.clients);
     const musiciens = useSelector(state => state.suiviDette.musiciens);
     const totalDette = useSelector(state => state.suiviDette.totalDette);
+    const update = useSelector(state => state.suiviDette.update);
     
     useEffect(() => {
 
@@ -44,19 +99,49 @@ export default function SuiviDette () {
 
                 const suiviDetteData = await axios.get (`http://localhost:5001/api/v1/suiviDette/rapportJournalier/${year}/${month}/${day}`);
 
-                dispacth(suiviDetteActions.setAgents(suiviDetteData.data.data.agents.map ((el, index) => {return {...el, index: index}})));
-                dispacth(suiviDetteActions.setClients(suiviDetteData.data.data.clients.map ((el, index) => {return {...el, index: index}})));
-                dispacth(suiviDetteActions.setMusiciens(suiviDetteData.data.data.musiciens.map ((el, index) => {return {...el, index: index}})));
-                if (suiviDetteData.data.data.totalDette) {
-                    
-                    dispacth (suiviDetteActions.setTotalDette(suiviDetteData.data.data.totalDette));
-                } else {
+                console.log (suiviDetteData.data.data);
 
-                    dispacth (suiviDetteActions.setTotalDette(0));
+                if (suiviDetteData.data.data.agents > 0 && suiviDetteData.data.data.musiciens > 0 && suiviDetteData.data.data.clients > 0 ){
+                    
+                    dispacth(suiviDetteActions.setUpdate(true));
+                    dispacth(suiviDetteActions.setReadOnly(true));
+
+                    dispacth(suiviDetteActions.setAgents(suiviDetteData.data.data.agents.map ((el, index) => {return {...el, index: index}})));
+                    dispacth(suiviDetteActions.setClients(suiviDetteData.data.data.clients.map ((el, index) => {return {...el, index: index}})));
+                    dispacth(suiviDetteActions.setMusiciens(suiviDetteData.data.data.musiciens.map ((el, index) => {return {...el, index: index}})));
+                    if (suiviDetteData.data.data.totalDette) {
+                        
+                        dispacth (suiviDetteActions.setTotalDette(suiviDetteData.data.data.totalDette));
+                    } else {
+    
+                        dispacth (suiviDetteActions.setTotalDette(0));
+                    };
+                } else {
+                    
+                    dispacth(suiviDetteActions.setUpdate(false));
+                    dispacth(suiviDetteActions.setReadOnly(false));
+
+                    const lastCreatedData = await axios.get(`http://localhost:5001/api/v1/suiviDette/lastElement/${year}/${month}`);
+
+                    if (lastCreatedData.data.data) {
+
+                        dispacth(suiviDetteActions.setAgents(lastCreatedData.data.data.agents.map((el, index) => {return {...el, index: index}})));
+                        dispacth(suiviDetteActions.setMusiciens(lastCreatedData.data.data.musiciens.map((el, index) => {return {...el, index: index}})));
+                        dispacth(suiviDetteActions.setClients(lastCreatedData.data.data.clients.map((el, index) => {return {...el, index: index}})));
+                        dispacth(suiviDetteActions.setTotalDette(lastCreatedData.data.data.clients));
+                        
+                    } else {
+                        
+                        dispacth(suiviDetteActions.setAgents([]));
+                        dispacth(suiviDetteActions.setClients([]));
+                        dispacth(suiviDetteActions.setMusiciens([]));
+                        dispacth(suiviDetteActions.setTotalDette(0));
+                    };
                 };
+
             } catch (e) {
                 console.log (e);
-            }
+            };
         }; fecthData();
     }, [year, month, day]);
 
@@ -72,89 +157,32 @@ export default function SuiviDette () {
 
     function postData () {
 
-        let newDataSuiviDette = null;
-        
-        //set date to the rigth format
-        if (month => 10 && day >= 10){
-            //modeling data to schema
-            newDataSuiviDette = {
-                data: {
-                    data:{
-                        agents: agents.map(el => {return {...el, data:{...el.data, createdAt: `${year}-${month}-${day}T07:22:54.930Z`, }}}),
-                        musiciens: musiciens.map(el => {return {...el, data:{...el.data, createdAt: `${year}-${month}-${day}T07:22:54.930Z`, }}}),
-                        clients: clients.map(el => {return {...el, data:{...el.data, createdAt: `${year}-${month}-${day}T07:22:54.930Z`, }}}),
-                        totalDette: {
-                            amount: totalDette,
-                            createdAt: `${year}-${month}-${day}T07:22:54.930Z`,
-                        }
-                    }
-                }
-            };
-            
-        } else if (month >= 10 && day < 10) {
-            newDataSuiviDette = {
-                data: {
-                    data:{
-                        agents: agents.map(el => {return {...el, data:{...el.data, createdAt: `${year}-${month}-0${day}T07:22:54.930Z`, }}}),
-                        musiciens: musiciens.map(el => {return {...el, data:{...el.data, createdAt: `${year}-${month}-0${day}T07:22:54.930Z`, }}}),
-                        clients: clients.map(el => {return {...el, data:{...el.data, createdAt: `${year}-${month}-0${day}T07:22:54.930Z`, }}}),
-                        totalDette: {
-                            amount: totalDette,
-                            createdAt: `${year}-${month}-0${day}T07:22:54.930Z`,
-                        }
-                    }
-                }
-            };
-            
-        } else if (month < 10 && day >= 10) {
-            newDataSuiviDette = {  
-                data: {
-                    data:{
-                        agents: agents.map(el => {return {...el, data:{...el.data, createdAt: `${year}-0${month}-${day}T07:22:54.930Z`, }}}),
-                        musiciens: musiciens.map(el => {return {...el, data:{...el.data, createdAt: `${year}-0${month}-${day}T07:22:54.930Z`, }}}),
-                        clients: clients.map(el => {return {...el, data:{...el.data, createdAt: `${year}-0${month}-${day}T07:22:54.930Z`, }}}),
-                        totalDette: {
-                            amount: totalDette,
-                            createdAt: `${year}-0${month}-${day}T07:22:54.930Z`,
-                        }
-                    }
-                }
-            };
-            
-        } else {
-            newDataSuiviDette = {
-                data: {
-                    data:{
-                        agents: agents.map(el => {return {...el, data:{...el.data, createdAt: `${year}-0${month}-0${day}T07:22:54.930Z`, }}}),
-                        musiciens: musiciens.map(el => {return {...el, data:{...el.data, createdAt: `${year}-0${month}-0${day}T07:22:54.930Z`, }}}),
-                        clients: clients.map(el => {return {...el, data:{...el.data, createdAt: `${year}-0${month}-0${day}T07:22:54.930Z`, }}}),
-                        totalDette: {
-                            amount: totalDette,
-                            createdAt: `${year}-0${month}-0${day}T07:22:54.930Z`,
-                        }
-                    }
-                }
-            };
-        };
+        postAndUpdate(dispacth, agents, musiciens, clients, totalDette, year, month, day, false);
+    };
 
-        const fecthData = async () => {
+    function updateData () {
 
-            dispacth(suiviDetteActions.setAgents(null));
-            dispacth(suiviDetteActions.setClients(null));
-            dispacth(suiviDetteActions.setMusiciens(null));
+        postAndUpdate(dispacth, agents, musiciens, clients, totalDette, year, month, day, true);
+    };
 
-            const responseSuiviDette = await axios.post(`http://localhost:5001/api/v1/suiviDette/rapportJournalier?year=${year}&month=${month}&day=${day}`, newDataSuiviDette);
-            dispacth(suiviDetteActions.setAgents(responseSuiviDette.data.data.agents.map ((el, index) => {return {...el, index: index}})));
-            dispacth(suiviDetteActions.setClients(responseSuiviDette.data.data.clients.map ((el, index) => {return {...el, index: index}})));
-            dispacth(suiviDetteActions.setMusiciens(responseSuiviDette.data.data.musiciens.map ((el, index) => {return {...el, index: index}})));
-            if (responseSuiviDette.data.data.totalDette) {
-                
-                dispacth (suiviDetteActions.setTotalDette(responseSuiviDette.data.data.totalDette));
-            } else {
+    if (year > currentYear && month > currentMonth && day > currentDay) {
 
-                dispacth (suiviDetteActions.setTotalDette(0));
-            };
-        }; fecthData();
+        return (
+            <div>
+                <DailyFilter component = {'suiviDepense'} prev = {date} onclick = {setFilterParams} />
+                <h1> Ooouups vous ne pouvez demander une donnee d'une date inexistante </h1>
+            </div>
+        );
+    } else {
+
+        return (<div>
+            <DailyFilter component = {'suiviDette'}  prev = {date} onclick = {setFilterParams}/>
+            <Agents/>
+            <Clients/>
+            <Musiciens/>
+            {!update ? <button onClick={postData}> Enregistrer les données</button> : <button onClick={updateData}> Mettre à les données</button> }
+
+        </div>);
     }
 
 }
