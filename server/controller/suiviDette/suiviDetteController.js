@@ -77,6 +77,50 @@ const loopingData = (array, year, month, day) => {
     return dayData;
 };
 
+const statsDetail = async (year, month,path, SuiviDette) => {
+
+    const data = await SuiviDette.aggregate([
+        {
+            $match: { annee: year}
+        },
+        {
+            $project: {
+                stats: {
+                    $filter: {
+                        input: "$data",
+                        as: "data",
+                        cond: {
+                            $and: [
+
+                                {$gte: ["$$data.mois", month]},
+                                {$lte: ["$$data.mois", month]}
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        {
+            $unwind:{ path: "$stats"}
+        },
+        {
+            $unwind: {path: `$stats.data.${path}`}
+        },
+        {
+            $unwind: {path: `$stats.data.${path}.data`}
+        },
+        {
+            $group: {
+                _id: `$stats.data.${path}.name`,
+                valeurDette: {$sum: `$stats.data.${path}.data.amount`},
+                valeurPayement: {$sum: `$stats.data.${path}.data.payment`}
+            }
+        }
+    ]);
+
+    return data;
+}
+
 exports.getSuiviDette = catchAssynch (async (req, res) => {
 
     const suiviDette = await SuiviDette.find();
@@ -219,7 +263,7 @@ exports.pushSuiviDette = catchAssynch (async (req, res) => {
             } else {
                 
                 //creating the data it's a new year
-                const newSuiviDette = await suiviDette.create(req.body);
+                const newSuiviDette = await SuiviDette.create(req.body);
     
                 res.status(200).json({
                     status: 'success',
@@ -230,7 +274,7 @@ exports.pushSuiviDette = catchAssynch (async (req, res) => {
     } else {
         
         //creating the data if collection is empty
-        const newSuiviDette = await suiviDette.create(req.body);
+        const newSuiviDette = await SuiviDette.create(req.body);
         
         res.status(200).json({
             status: 'success',
@@ -448,39 +492,8 @@ exports.updateSuiviDette = catchAssynch (async (req, res, next) => {
                 const indexTotalDette = suiviDette[yearIndex].data[monthIndex].data.totalDette.findIndex (el => Number(JSON.stringify(el.createdAt).slice(9, 11)) === day);
     
                 if (indexTotalDette !== -1){
-                    
-                    //put the date at the correct format
-                    if (month > 10 && day > 10){
-
-                        suiviDette[yearIndex].data[monthIndex].data.totalDette = {
-    
-                            amount: body.totalDette.amount,
-                            createdAt: `${year}-${month}-${day}T07:22:54.930Z`,
-                        };
-                        
-                    } else if (month > 10 && day < 10){
-                        
-                        suiviDette[yearIndex].data[monthIndex].data.totalDette = {
-    
-                            amount: body.totalDette.amount,
-                            createdAt: `${year}-${month}-0${day}T07:22:54.930Z`,
-                        };
-                    } else if (month < 10 && day > 10){
-                        
-                        suiviDette[yearIndex].data[monthIndex].data.totalDette = {
-    
-                            amount: body.totalDette.amount,
-                            createdAt: `${year}-0${month}-${day}T07:22:54.930Z`,
-                        };
-                    } else {
-                        
-                        suiviDette[yearIndex].data[monthIndex].data.totalDette = {
-    
-                            amount: body.totalDette.amount,
-                            createdAt: `${year}-0${month}-0${day}T07:22:54.930Z`,
-                        };
-
-                    }
+  
+                    suiviDette[yearIndex].data[monthIndex].data.totalDette = { amount: body.totalDette.amount };
 
                     await suiviDette[yearIndex].save();
                 } else {
@@ -576,7 +589,7 @@ exports.lastCreatedDataSuiviDette = catchAssynch (async (req, res,) => {
     };
 });
 
-exports.mensualStasSuiviDepense = catchAssynch (async (req, res, next) => {
+exports.mensualStasSuiviDette = catchAssynch (async (req, res, next) => {
 
     const year = Number (req.params.year);
     const month = Number (req.params.month);
@@ -626,4 +639,23 @@ exports.mensualStasSuiviDepense = catchAssynch (async (req, res, next) => {
         data: agents
     });
 });
+
+exports.mensualStasSuiviDetteDetail = catchAssynch (async (req, res, next) => {
+
+    const year = Number (req.params.year);
+    const month = Number (req.params.month);
+
+    const agents = await statsDetail(year, month,'agents',SuiviDette);
+    const musiciens = await statsDetail(year, month,'musiciens',SuiviDette);
+    const clients = await statsDetail(year, month,'clients',SuiviDette);
+
+    res.status(200).json({
+        status: 'success',
+        data: {
+            clients: clients,
+            musiciens: musiciens,
+            agents: agents
+        }
+    });
+})
 

@@ -2,6 +2,7 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { productActions } from "../store/AllProductManager-slice";
 import { suiviDepenseActions } from "../store/suiviDepense-slice";
+import { suiviDetteActions } from "../store/suiviDette-slice";
 
 export default function DailyFilter (props) {
 
@@ -16,7 +17,7 @@ export default function DailyFilter (props) {
                 placeholder= "Taper l'année"
                 onChange= { e => {
                     const {name, value} = e.target;
-                    props.component === 'allProduct' ? dispatch(productActions.setDate({name: name, value: value})) : dispatch(suiviDepenseActions.setDate({name: name, value: value}));
+                    props.component === 'allProduct' ? dispatch(productActions.setDate({name: name, value: value})) : 'suiviDepense' ? dispatch(suiviDepenseActions.setDate({name: name, value: value})) : dispatch(suiviDetteActions.setDate({name: name, value: value}));
                 }}
             />
 
@@ -27,7 +28,7 @@ export default function DailyFilter (props) {
                 placeholder= "Taper l'année"
                 onChange= { e => {
                     const {name, value} = e.target;
-                    props.component === 'allProduct' ? dispatch(productActions.setDate({name: name, value: value})) : dispatch(suiviDepenseActions.setDate({name: name, value: value}));
+                    props.component === 'allProduct' ? dispatch(productActions.setDate({name: name, value: value})) : 'suiviDepense' ? dispatch(suiviDepenseActions.setDate({name: name, value: value})) : dispatch(suiviDetteActions.setDate({name: name, value: value}));
                 }}
             />
 
@@ -38,7 +39,7 @@ export default function DailyFilter (props) {
                 placeholder= "Taper l'année"
                 onChange= { e => {
                     const {name, value} = e.target;
-                    props.component === 'allProduct' ? dispatch(productActions.setDate({name: name, value: value})) : dispatch(suiviDepenseActions.setDate({name: name, value: value}));
+                    props.component === 'allProduct' ? dispatch(productActions.setDate({name: name, value: value})) : 'suiviDepense' ? dispatch(suiviDepenseActions.setDate({name: name, value: value})) : dispatch(suiviDetteActions.setDate({name: name, value: value}));
                 }}
             />
 

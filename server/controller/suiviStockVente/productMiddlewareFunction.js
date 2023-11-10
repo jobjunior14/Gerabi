@@ -44,7 +44,7 @@ exports.getCollection = async (collection, request, response) =>{
   }); 
 };
 
-exports.pushDataCollection = catchAssynch (async (request, collection, response ) => {
+exports.pushDataCollection = async (request, collection, response ) => {
 
   //data  from collection
   const collectionData = await collection.find();
@@ -368,9 +368,9 @@ exports.pushDataCollection = catchAssynch (async (request, collection, response 
       data: loopingData(createadData,  year,  month, day)
     });
 
-}});
+}};
 
-exports.updateDataCollection = catchAssynch (async (collection, request, response ) => {
+exports.updateDataCollection = async (collection, request, response ) => {
 
   //send the error to the client 
   function ErrorResponse(){
@@ -510,10 +510,10 @@ exports.updateDataCollection = catchAssynch (async (collection, request, respons
 
   });
 
-});
+};
 
 //the last created data 
-exports.lastCreatedData = catchAssynch (async (collection, request, response) => {
+exports.lastCreatedData = async (collection, request, response) => {
 
   //data from collection
   const collectionData = await collection.find();
@@ -543,9 +543,9 @@ exports.lastCreatedData = catchAssynch (async (collection, request, response) =>
     })
   }
 
-});
+};
 
-exports.stastAutreCollection = catchAssynch (async (collection, request, response) => {
+exports.stastAutreCollection = async (collection, request, response) => {
 
   const year = Number(request.params.year);
   const mois = Number(request.params.month);
@@ -596,9 +596,9 @@ exports.stastAutreCollection = catchAssynch (async (collection, request, respons
       stats,
     },
   });
-});
+};
 
-exports.AllProductStatsCollection = catchAssynch( async (collection, request, response) => {
+exports.AllProductStatsCollection = async (collection, request, response) => {
 
   const year = Number(request.params.year);
   const mois = Number(request.params.month);
@@ -663,9 +663,9 @@ exports.AllProductStatsCollection = catchAssynch( async (collection, request, re
     },
   });
 
-});
+};
 
-exports.suiviAllStatsCollection = catchAssynch (async (collection, request, response) => {
+exports.suiviAllStatsCollection = async (collection, request, response) => {
 
   const year = Number(request.params.year);
   const mois = Number(request.params.month);
@@ -732,9 +732,9 @@ exports.suiviAllStatsCollection = catchAssynch (async (collection, request, resp
     },
   });
 
-});
+};
 
-exports.suiviDetailStatsCollection = catchAssynch (async ( collection, request, response) =>{
+exports.suiviDetailStatsCollection = async ( collection, request, response) =>{
 
    const year = Number(request.params.year);
   const mois = Number(request.params.month);
@@ -801,9 +801,9 @@ exports.suiviDetailStatsCollection = catchAssynch (async ( collection, request, 
     },
   });
 
-});
+};
 
-exports.yearStatsCollection = catchAssynch (async (collection, request, response) => {
+exports.yearStatsCollection = async (collection, request, response) => {
 
   const year = Number(request.params.year);
 
@@ -850,6 +850,6 @@ exports.yearStatsCollection = catchAssynch (async (collection, request, response
     },
   });
 
-});
+};
 
 

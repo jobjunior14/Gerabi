@@ -124,7 +124,7 @@ const suiviDetteSlice = createSlice ({
 
             state.clients.push (
                 {
-                    id: state.clients.length,
+                    index: state.clients.length,
                     name: "",
                     data:{
                         amount: 0
@@ -137,7 +137,7 @@ const suiviDetteSlice = createSlice ({
 
             state.agents.push (
                 {
-                    id: state.agents.length,
+                    index: state.agents.length,
                     name: "",
                     data:{
                         amount: 0
@@ -150,7 +150,7 @@ const suiviDetteSlice = createSlice ({
 
             state.musiciens.push (
                 {
-                    id: state.musiciens.length,
+                    index: state.musiciens.length,
                     name: "",
                     data:{
                         amount: 0

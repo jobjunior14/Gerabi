@@ -29,9 +29,9 @@ function postAndUpdate(dispacth, agents, musiciens, clients, totalDette, year, m
     newDataSuiviDette = {
         data: {
             data:{
-                agents: agents.map(el => {return {...el, data:{...el.data, createdAt: `${year}-${month}-${day}T07:22:54.930Z`, }}}),
-                musiciens: musiciens.map(el => {return {...el, data:{...el.data, createdAt: `${year}-${month}-${day}T07:22:54.930Z`, }}}),
-                clients: clients.map(el => {return {...el, data:{...el.data, createdAt: `${year}-${month}-${day}T07:22:54.930Z`, }}}),
+                agents: agents.map(el => {return {...el, data:{...el.data, createdAt: createdAt, }}}),
+                musiciens: musiciens.map(el => {return {...el, data:{...el.data, createdAt: createdAt, }}}),
+                clients: clients.map(el => {return {...el, data:{...el.data, createdAt: createdAt, }}}),
                 totalDette: {
                     amount: totalDette,
                     createdAt: createdAt,
@@ -48,6 +48,8 @@ function postAndUpdate(dispacth, agents, musiciens, clients, totalDette, year, m
 
         const responseSuiviDette = !update ? await axios.post(`http://localhost:5001/api/v1/suiviDette/rapportJournalier?year=${year}&month=${month}&day=${day}`, newDataSuiviDette) : await axios.post(`http://localhost:5001/api/v1/suiviDette/rapportJournalier/${year}/${month}/${day}`, newDataSuiviDette);
 
+        dispacth(suiviDetteActions.setUpdate(true));
+        dispacth(suiviDetteActions.setReadOnly(true));
         dispacth(suiviDetteActions.setAgents(responseSuiviDette.data.data.agents.map ((el, index) => {return {...el, index: index}})));
         dispacth(suiviDetteActions.setClients(responseSuiviDette.data.data.clients.map ((el, index) => {return {...el, index: index}})));
         dispacth(suiviDetteActions.setMusiciens(responseSuiviDette.data.data.musiciens.map ((el, index) => {return {...el, index: index}})));
@@ -99,9 +101,7 @@ export default function SuiviDette () {
 
                 const suiviDetteData = await axios.get (`http://localhost:5001/api/v1/suiviDette/rapportJournalier/${year}/${month}/${day}`);
 
-                console.log (suiviDetteData.data.data);
-
-                if (suiviDetteData.data.data.agents > 0 && suiviDetteData.data.data.musiciens > 0 && suiviDetteData.data.data.clients > 0 ){
+                if (suiviDetteData.data.data.agents.length > 0 && suiviDetteData.data.data.musiciens.length > 0 && suiviDetteData.data.data.clients.length > 0 ){
                     
                     dispacth(suiviDetteActions.setUpdate(true));
                     dispacth(suiviDetteActions.setReadOnly(true));
@@ -153,7 +153,7 @@ export default function SuiviDette () {
     useEffect (() => {
 
         setDateParams (prev => prev = date);
-    }, [date.year, date.month, date.day]);
+    }, [year, month, day]);
 
     function postData () {
 

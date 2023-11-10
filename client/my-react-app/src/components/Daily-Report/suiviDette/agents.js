@@ -14,9 +14,11 @@ export default function Agents (){
 
 
    if (agentsData) {
+    let g = 0;
         for (let i of agentsData) {
+            g +=1;
 
-            dataDisplay.push(<tr key={`trAgent${i}`}>
+            dataDisplay.push(<tr key={`trAgent${i}${g}`}>
                 <th key={`thname${i}`}>
                     <input
                         defaultValue={i.name}
@@ -40,7 +42,7 @@ export default function Agents (){
                         placeholder="Taper le montant de la dette"
                         onChange={ (e) => {
                             const {name, value} = e.target;
-                            dispacth(suiviDetteActions.HandleAgents({name: name, value: value, index: i.index}));
+                            dispacth(suiviDetteActions.HandleAgents({name: name, value: Number (value), index: i.index}));
                         }}
                     />
                 </td>

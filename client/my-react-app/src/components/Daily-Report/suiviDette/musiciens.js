@@ -13,9 +13,11 @@ export default function Musiciens (){
 
 
    if (musiciensData) {
+    let g = 0;
         for (let i of musiciensData) {
-
-            dataDisplay.push(<tr key={`trmusiciens${i}`}>
+            
+            g += 1;
+            dataDisplay.push(<tr key={`trmusiciens${i}${g}`}>
                 <th>
                     <input
                         defaultValue={i.name}
@@ -39,7 +41,7 @@ export default function Musiciens (){
                         placeholder="Taper le montant de la dette"
                         onChange={ (e) => {
                             const {name, value} = e.target;
-                            dispacth(suiviDetteActions.HandleMusiciens({name: name, value: value, index: i.index}));
+                            dispacth(suiviDetteActions.HandleMusiciens({name: name, value: Number (value), index: i.index}));
                         }}
                     />
                 </td>

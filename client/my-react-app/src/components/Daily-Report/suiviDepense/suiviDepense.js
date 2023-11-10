@@ -103,6 +103,9 @@ function postAndUpdate (entreeCaisse, sortieCaisse, soldCaisse, year, month, day
 
                 //set  caisse
                 dispacth(suiviDepenseActions.setSoldCaisse(responseSuiviDepense.data.data.soldCaisse));
+
+                dispacth(suiviDepenseActions.setUpdate(true));
+                dispacth(suiviDepenseActions.setReadOnly(true));
                 
         } catch (error) {
             console.log (error);

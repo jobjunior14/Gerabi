@@ -6,7 +6,8 @@ const {
     pushSuiviDette,
     updateSuiviDette,
     lastCreatedDataSuiviDette,
-    mensualStasSuiviDepense
+    mensualStasSuiviDette,
+    mensualStasSuiviDetteDetail
 } = require('../controller/suiviDette/suiviDetteController');
 
 router
@@ -24,6 +25,9 @@ router
 
 router
     .route('/rapportMensuel/all/:year/:month')
-    .get(mensualStasSuiviDepense);
+    .get(mensualStasSuiviDette);
+router
+    .route('/rapportMensuel/detail/:year/:month')
+    .get(mensualStasSuiviDetteDetail);
 
 module.exports = router;

@@ -14,9 +14,10 @@ export default function Clients (){
 
 
    if (clientsData) {
+    let g = 0;
         for (let i of clientsData) {
-
-            dataDisplay.push(<tr key={`trClient${i}`}>
+            g += 1
+            dataDisplay.push(<tr key={`trClient${i}${g}`}>
                 <th>
                     <input
                         defaultValue={i.name}
@@ -40,7 +41,7 @@ export default function Clients (){
                         placeholder="Taper le montant de la dette"
                         onChange={ (e) => {
                             const {name, value} = e.target;
-                            dispacth(suiviDetteActions.HandleClients({name: name, value: value, index: i.index}));
+                            dispacth(suiviDetteActions.HandleClients({name: name, value: Number(value), index: i.index}));
                         }}
                     />
                 </td>
