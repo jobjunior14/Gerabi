@@ -8,47 +8,59 @@ export default function Musiciens (){
 
     const musiciensData = useSelector (state => state.suiviDette.musiciens);
     const readOnly = useSelector (state => state.suiviDette.readOnly);
+    const totalDetteAndPaymentMusiciens = useSelector (state => state.suiviDette.detailTotDetteMusiciens);
     const dataDisplay = [];
     let totalDetteMusiciens = 0;
 
 
    if (musiciensData) {
-    let g = 0;
-        for (let i of musiciensData) {
-            
-            g += 1;
-            dataDisplay.push(<tr key={`trmusiciens${i}${g}`}>
+        for (let i = 0; i < musiciensData.length; i++) {
+            dataDisplay.push(<tr key={`trmusiciens${i}$`}>
                 <th>
                     <input
-                        defaultValue={i.name}
-                        id = {i.index}
+                        defaultValue={musiciensData[i].name}
+                        id = {musiciensData[i].index}
                         type = 'text'
                         name = 'name'
                         readOnly = {readOnly}
                         placeholder="Taper le nom "
                         onChange={ (e) => {
                             const {name, value} = e.target;
-                            dispacth(suiviDetteActions.HandleMusiciens({name: name, value: value, index: i.index}));
+                            dispacth(suiviDetteActions.HandleMusiciens({name: name, value: value, index: musiciensData[i].index}));
                         }}
                     />
                 </th>
                 <td>
                     <input
-                        defaultValue={i.data.amount}
-                        id = {i.index}
+                        defaultValue={musiciensData[i].data.amount}
+                        id = {musiciensData[i].index}
                         type = 'number'
                         name = 'amount'
                         placeholder="Taper le montant de la dette"
                         onChange={ (e) => {
                             const {name, value} = e.target;
-                            dispacth(suiviDetteActions.HandleMusiciens({name: name, value: Number (value), index: i.index}));
+                            dispacth(suiviDetteActions.HandleMusiciens({name: name, value: Number (value), index: musiciensData[i].index}));
                         }}
                     />
                 </td>
+                <td>
+                    <input
+                        defaultValue={musiciensData[i].data.payment}
+                        id = {musiciensData[i].index}
+                        type = 'number'
+                        name = 'payment'
+                        placeholder="Taper le montant payé"
+                        onChange={ (e) => {
+                            const {name, value} = e.target;
+                            dispacth(suiviDetteActions.HandleMusiciens({name: name, value: Number (value), index: musiciensData[i].index}));
+                        }}
+                    />
+                </td>
+                <td> {totalDetteAndPaymentMusiciens[i].valeurDette - totalDetteAndPaymentMusiciens[i].valeurPayment} </td>
             </tr>)
 
             //total Dette Agents
-            totalDetteMusiciens += i.data.amount;
+            totalDetteMusiciens += musiciensData[i].data.amount;
         };
    };
 
@@ -61,7 +73,9 @@ export default function Musiciens (){
                     <thead>
                         <tr>
                             <th>Nom</th>
-                            <th>Montant</th>
+                            <th>Montant Dette</th>
+                            <th>Montant Payé</th>
+                            <th> Total Dette </th>
                         </tr>
                     </thead>
                     <tbody>

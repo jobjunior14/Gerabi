@@ -8,48 +8,61 @@ export default function Agents (){
 
     const agentsData = useSelector (state => state.suiviDette.agents);
     const readOnly = useSelector (state => state.suiviDette.readOnly);
+    const totalDetteAndPaymentAgent = useSelector(state => state.suiviDette.detailTotDetteAgents);
 
     const dataDisplay = [];
     let totalDetteAgent = 0;
 
-
    if (agentsData) {
-    let g = 0;
-        for (let i of agentsData) {
-            g +=1;
 
-            dataDisplay.push(<tr key={`trAgent${i}${g}`}>
+        for (let i = 0; i < agentsData.length; i++) {
+
+            dataDisplay.push(<tr key={`trAgent${i}$`}>
                 <th key={`thname${i}`}>
                     <input
-                        defaultValue={i.name}
-                        id = {i.index}
+                        defaultValue={agentsData[i].name}
+                        id = {agentsData[i].index}
                         type = 'text'
                         name = 'name'
                         readOnly = {readOnly}
                         placeholder="Taper le nom "
                         onChange={ (e) => {
                             const {name, value} = e.target;
-                            dispacth(suiviDetteActions.HandleAgents({name: name, value: value, index: i.index}));
+                            dispacth(suiviDetteActions.HandleAgents({name: name, value: value, index: agentsData[i].index}));
                         }}
                     />
                 </th>
                 <td key={`tdAmount${i}`}>
                     <input
-                        defaultValue={i.data.amount}
-                        id = {i.index}
+                        defaultValue={agentsData[i].data.amount}
+                        id = {agentsData[i].index}
                         type = 'number'
                         name = 'amount'
                         placeholder="Taper le montant de la dette"
                         onChange={ (e) => {
                             const {name, value} = e.target;
-                            dispacth(suiviDetteActions.HandleAgents({name: name, value: Number (value), index: i.index}));
+                            dispacth(suiviDetteActions.HandleAgents({name: name, value: Number (value), index: agentsData[i].index}));
                         }}
                     />
                 </td>
+                <td key={`tdpayment${i}`}>
+                    <input
+                        defaultValue={agentsData[i].data.payment}
+                        id = {agentsData[i].index}
+                        type = 'number'
+                        name = 'payment'
+                        placeholder="Taper le montant payé"
+                        onChange={ (e) => {
+                            const {name, value} = e.target;
+                            dispacth(suiviDetteActions.HandleAgents({name: name, value: Number (value), index: agentsData[i].index}));
+                        }}
+                    />
+                </td>
+                <td> { (totalDetteAndPaymentAgent[i].valeurDette ) - ( totalDetteAndPaymentAgent[i].valeurPayment )}  </td>
             </tr>)
 
             //total Dette Agents
-            totalDetteAgent += i.data.amount;
+            totalDetteAgent += agentsData[i].data.amount;
         };
    };
 
@@ -63,6 +76,8 @@ export default function Agents (){
                         <tr>
                             <th>Nom</th>
                             <th>Montant</th>
+                            <th>Montant Payé</th>
+                            <th>Total Dette</th>
                         </tr>
                     </thead>
                     <tbody>

@@ -8,11 +8,9 @@ const loopingData = (array, year, month, day) => {
         agents: [],
         clients: [],
         musiciens: [],
-        totalDette: null,
     };
-
+    
     for (let i of array) {
-
         if (i.annee === year) {
 
             for (let j of i.data) {
@@ -25,7 +23,6 @@ const loopingData = (array, year, month, day) => {
                         for (let data of agents.data) {
 
                             if (Number (JSON.stringify(data.createdAt).slice (9, 11)) === day) {
-
                                 dayData.agents.push ({
                                     name: agents.name,
                                     data: data
@@ -59,15 +56,6 @@ const loopingData = (array, year, month, day) => {
                                     data: data
                                 });
                             };
-                        };
-                    };
-
-                    //total caisse
-                    for (let totalDette of j.data.totalDette) {
-                         
-                        if (Number (JSON.stringify (totalDette.createdAt).slice (9, 11)) === day) {
-
-                            dayData.totalDette = totalDette.amount;
                         };
                     };
                 };
@@ -113,7 +101,7 @@ const statsDetail = async (year, month,path, SuiviDette) => {
             $group: {
                 _id: `$stats.data.${path}.name`,
                 valeurDette: {$sum: `$stats.data.${path}.data.amount`},
-                valeurPayement: {$sum: `$stats.data.${path}.data.payment`}
+                valeurPayment: {$sum: `$stats.data.${path}.data.payment`}
             }
         }
     ]);
@@ -232,24 +220,16 @@ exports.pushSuiviDette = catchAssynch (async (req, res) => {
                             return next (new AppError ('La section nom ne doit pas etre vide'), 404);
                         };
                     };
-
-                    //for total Dette
-                    const indexTotalSold = suiviDette[yearIndex].data[monthIndex].data.totalDette.findIndex (el => Number(JSON.stringify(el.createdAt).slice(9, 11)) === day);
-    
-                    if (indexTotalSold === -1){
-                        suiviDette[yearIndex].data[monthIndex].data.totalDette.push(body.totalDette);
-                    };
     
                 } else {
     
                     //if it's a new month we push data in existing year
                     suiviDette[yearIndex].data.push({
-    
+                        mois: month,
                         data: {
                             agents: body.agents,
                             clients: body.clients,
                             musiciens: body.musiciens,
-                            totalDette: body.totalDette,
                         }
                     });
                 };
@@ -267,7 +247,7 @@ exports.pushSuiviDette = catchAssynch (async (req, res) => {
     
                 res.status(200).json({
                     status: 'success',
-                    data: loopingData(newSuiviDette, year, month, day)
+                    data: loopingData([newSuiviDette], year, month, day)
                 });
             };
         };
@@ -318,39 +298,12 @@ exports.updateSuiviDette = catchAssynch (async (req, res, next) => {
                             
                             if (existingDataIndex !== -1) {
                                 
-                                //put the date at the rigt format
-                                if ( month >= 10 && day >= 10){
+                                suiviDette[yearIndex].data[monthIndex].data.agents[indexNameEntree].data[existingDataIndex] = {
 
-                                    suiviDette[yearIndex].data[monthIndex].data.agents[indexNameEntree].data[existingDataIndex] = {
-    
-                                        amount: body.agents[p].data.amount,
-                                        createdAt: `${year}-${month}-${day}T07:22:54.930Z`,
-                                    };
-                                    
-                                } else if ( month >= 10 && day < 10){
-                                    
-                                    suiviDette[yearIndex].data[monthIndex].data.agents[indexNameEntree].data[existingDataIndex] = {
-    
-                                        amount: body.agents[p].data.amount,
-                                        createdAt: `${year}-${month}-0${day}T07:22:54.930Z`,
-                                    };
-                                    
-                                } else if ( month < 10 && day >= 10) {
-                                    
-                                    suiviDette[yearIndex].data[monthIndex].data.agents[indexNameEntree].data[existingDataIndex] = {
-    
-                                        amount: body.agents[p].data.amount,
-                                        createdAt: `${year}-0${month}-${day}T07:22:54.930Z`,
-                                    };
-                                    
-                                } else {
-                                    
-                                    suiviDette[yearIndex].data[monthIndex].data.agents[indexNameEntree].data[existingDataIndex] = {
-    
-                                        amount: body.agents[p].data.amount,
-                                        createdAt: `${year}-0${month}-0${day}T07:22:54.930Z`,
-                                    };
-                                };
+                                    amount: body.agents[p].data.amount,
+                                    payment: body.agents[p].data.payment,
+                                };       
+                                
                             } else {
 
                                 return next (new AppError ('cette donnee est inexistante', 404))
@@ -379,38 +332,10 @@ exports.updateSuiviDette = catchAssynch (async (req, res, next) => {
                             
                             if (existingDataIndex !== -1) {
                                 
-                                //put the date at the rigt format
-                                if ( month >= 10 && day >= 10){
+                                suiviDette[yearIndex].data[monthIndex].data.clients[indexNameEntree].data[existingDataIndex] = {
 
-                                    suiviDette[yearIndex].data[monthIndex].data.clients[indexNameEntree].data[existingDataIndex] = {
-    
-                                        amount: body.clients[p].data.amount,
-                                        createdAt: `${year}-${month}-${day}T07:22:54.930Z`,
-                                    };
-                                    
-                                } else if ( month >= 10 && day < 10){
-                                    
-                                    suiviDette[yearIndex].data[monthIndex].data.clients[indexNameEntree].data[existingDataIndex] = {
-    
-                                        amount: body.clients[p].data.amount,
-                                        createdAt: `${year}-${month}-0${day}T07:22:54.930Z`,
-                                    };
-                                    
-                                } else if ( month < 10 && day >= 10) {
-                                    
-                                    suiviDette[yearIndex].data[monthIndex].data.clients[indexNameEntree].data[existingDataIndex] = {
-    
-                                        amount: body.clients[p].data.amount,
-                                        createdAt: `${year}-0${month}-${day}T07:22:54.930Z`,
-                                    };
-                                    
-                                } else {
-                                    
-                                    suiviDette[yearIndex].data[monthIndex].data.clients[indexNameEntree].data[existingDataIndex] = {
-    
-                                        amount: body.clients[p].data.amount,
-                                        createdAt: `${year}-0${month}-0${day}T07:22:54.930Z`,
-                                    };
+                                    amount: body.clients[p].data.amount,
+                                    payment: body.clients[p].data.payment,
                                 };
                             } else {
 
@@ -440,39 +365,13 @@ exports.updateSuiviDette = catchAssynch (async (req, res, next) => {
                             
                             if (existingDataIndex !== -1) {
                                 
-                                //put the date at the rigt format
-                                if ( month >= 10 && day >= 10){
+                                suiviDette[yearIndex].data[monthIndex].data.musiciens[indexNameEntree].data[existingDataIndex] = {
 
-                                    suiviDette[yearIndex].data[monthIndex].data.musiciens[indexNameEntree].data[existingDataIndex] = {
-    
-                                        amount: body.musiciens[p].data.amount,
-                                        createdAt: `${year}-${month}-${day}T07:22:54.930Z`,
-                                    };
-                                    
-                                } else if ( month >= 10 && day < 10){
-                                    
-                                    suiviDette[yearIndex].data[monthIndex].data.musiciens[indexNameEntree].data[existingDataIndex] = {
-    
-                                        amount: body.musiciens[p].data.amount,
-                                        createdAt: `${year}-${month}-0${day}T07:22:54.930Z`,
-                                    };
-                                    
-                                } else if ( month < 10 && day >= 10) {
-                                    
-                                    suiviDette[yearIndex].data[monthIndex].data.musiciens[indexNameEntree].data[existingDataIndex] = {
-    
-                                        amount: body.musiciens[p].data.amount,
-                                        createdAt: `${year}-0${month}-${day}T07:22:54.930Z`,
-                                    };
-                                    
-                                } else {
-                                    
-                                    suiviDette[yearIndex].data[monthIndex].data.musiciens[indexNameEntree].data[existingDataIndex] = {
-    
-                                        amount: body.musiciens[p].data.amount,
-                                        createdAt: `${year}-0${month}-0${day}T07:22:54.930Z`,
-                                    };
+                                    amount: body.musiciens[p].data.amount,
+                                    payment: body.musiciens[p].data.payment,
                                 };
+                                    
+                                
                             } else {
 
                                 return next (new AppError ('cette donnee est inexistante', 404))
@@ -488,17 +387,8 @@ exports.updateSuiviDette = catchAssynch (async (req, res, next) => {
                     };
                 };
 
-                //for total Dette
-                const indexTotalDette = suiviDette[yearIndex].data[monthIndex].data.totalDette.findIndex (el => Number(JSON.stringify(el.createdAt).slice(9, 11)) === day);
-    
-                if (indexTotalDette !== -1){
-  
-                    suiviDette[yearIndex].data[monthIndex].data.totalDette = { amount: body.totalDette.amount };
-
-                    await suiviDette[yearIndex].save();
-                } else {
-                    return next ( new AppError ('cette donnee est inexistante', 404));
-                }
+                //save data if no error
+                await suiviDette[yearIndex].save();
     
             } else {
     
@@ -533,7 +423,6 @@ exports.lastCreatedDataSuiviDette = catchAssynch (async (req, res,) => {
             agents:[],
             clients: [],
             musiciens: [],
-            totalDette: 0,
         };
 
         for (let i of suiviDette){
@@ -547,7 +436,8 @@ exports.lastCreatedDataSuiviDette = catchAssynch (async (req, res,) => {
                             dayData.agents.push({
                                 name: agents.name,
                                 data: {
-                                    amount: 0
+                                    amount: 0,
+                                    payment: 0
                                 }
                             });
                         };
@@ -556,7 +446,8 @@ exports.lastCreatedDataSuiviDette = catchAssynch (async (req, res,) => {
                             dayData.clients.push({
                                 name: clients.name,
                                 data: {
-                                    amount: 0
+                                    amount: 0,
+                                    payment: 0
                                 }
                             });
                         };
@@ -565,7 +456,8 @@ exports.lastCreatedDataSuiviDette = catchAssynch (async (req, res,) => {
                             dayData.musiciens.push({
                                 name: musiciens.name,
                                 data: {
-                                    amount: 0
+                                    amount: 0,
+                                    payment: 0
                                 }
                             });
                         };

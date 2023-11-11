@@ -17,7 +17,7 @@ export default function DailyFilter (props) {
                 placeholder= "Taper l'année"
                 onChange= { e => {
                     const {name, value} = e.target;
-                    props.component === 'allProduct' ? dispatch(productActions.setDate({name: name, value: value})) : 'suiviDepense' ? dispatch(suiviDepenseActions.setDate({name: name, value: value})) : dispatch(suiviDetteActions.setDate({name: name, value: value}));
+                    props.component === 'allProduct' ? dispatch(productActions.setDate({name: name, value: Number (value)})) : 'suiviDepense' ? dispatch(suiviDepenseActions.setDate({name: name, value: Number (value)})) : dispatch(suiviDetteActions.setDate({name: name, value: Number (value)}));
                 }}
             />
 
@@ -28,7 +28,7 @@ export default function DailyFilter (props) {
                 placeholder= "Taper l'année"
                 onChange= { e => {
                     const {name, value} = e.target;
-                    props.component === 'allProduct' ? dispatch(productActions.setDate({name: name, value: value})) : 'suiviDepense' ? dispatch(suiviDepenseActions.setDate({name: name, value: value})) : dispatch(suiviDetteActions.setDate({name: name, value: value}));
+                    props.component === 'allProduct' ? dispatch(productActions.setDate({name: name, value: Number (value)})) : 'suiviDepense' ? dispatch(suiviDepenseActions.setDate({name: name, value: Number (value)})) : dispatch(suiviDetteActions.setDate({name: name, value: Number (value)}));
                 }}
             />
 
@@ -39,7 +39,7 @@ export default function DailyFilter (props) {
                 placeholder= "Taper l'année"
                 onChange= { e => {
                     const {name, value} = e.target;
-                    props.component === 'allProduct' ? dispatch(productActions.setDate({name: name, value: value})) : 'suiviDepense' ? dispatch(suiviDepenseActions.setDate({name: name, value: value})) : dispatch(suiviDetteActions.setDate({name: name, value: value}));
+                    props.component === 'allProduct' ? dispatch(productActions.setDate({name: name, value: Number (value)})) : 'suiviDepense' ? dispatch(suiviDepenseActions.setDate({name: name, value: Number (value)})) : dispatch(suiviDetteActions.setDate({name: name, value: Number (value)}));
                 }}
             />
 

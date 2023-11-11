@@ -14,7 +14,10 @@ const suiviDetteSlice = createSlice ({
         musiciens: null,
         update: true,
         readOnly: true,
-        totalDette: 0
+        totalDette: 0,
+        detailTotDetteAgents: null,
+        detailTotDetteMusiciens: null,
+        detailTotDetteClients: null,
     },
 
     reducers: {
@@ -127,10 +130,16 @@ const suiviDetteSlice = createSlice ({
                     index: state.clients.length,
                     name: "",
                     data:{
-                        amount: 0
+                        amount: 0,
+                        payment: 0
                     }
                 }
             );
+
+            state.detailTotDetteClients.push ({
+                valeurDette: 0,
+                valeurPayment: 0,
+            });
         },
         //add a new data to entree caisse
         addCaseAgents (state, action) {
@@ -140,10 +149,16 @@ const suiviDetteSlice = createSlice ({
                     index: state.agents.length,
                     name: "",
                     data:{
-                        amount: 0
+                        amount: 0,
+                        payment: 0
                     }
                 }
             );
+
+            state.detailTotDetteAgents.push ({
+                valeurDette: 0,
+                valeurPayment: 0,
+            });
         },
         //add a new data to entree caisse
         addCaseMusiciens (state, action) {
@@ -153,11 +168,32 @@ const suiviDetteSlice = createSlice ({
                     index: state.musiciens.length,
                     name: "",
                     data:{
-                        amount: 0
+                        amount: 0,
+                        payment: 0
                     }
                 }
             );
+            state.detailTotDetteMusiciens.push ({
+                valeurDette: 0,
+                valeurPayment: 0,
+            });
         },
+
+        //set the tatal dette  and payment (detail by nama)
+        setDetailTotDetteAgents (state, action ){ 
+            state.detailTotDetteAgents = action.payload;
+        },
+
+        //set the tatal dette and payment (detail by nama)
+        setDetailTotDetteMusiciens (state, action ){ 
+            state.detailTotDetteMusiciens = action.payload;
+        },
+
+        //set the tatal dette and payment (detail by nama)
+        setDetailTotDetteClients (state, action ){ 
+            state.detailTotDetteClients = action.payload;
+        },
+
     }
 });
 

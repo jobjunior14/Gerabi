@@ -8,47 +8,61 @@ export default function Clients (){
 
     const clientsData = useSelector (state => state.suiviDette.clients);
     const readOnly = useSelector (state => state.suiviDette.readOnly);
+    const totalDetteAndPaymentClients = useSelector (state => state.suiviDette.detailTotDetteClients);
 
     const dataDisplay = [];
     let totalDetteClients = 0;
 
 
    if (clientsData) {
-    let g = 0;
-        for (let i of clientsData) {
-            g += 1
-            dataDisplay.push(<tr key={`trClient${i}${g}`}>
+        for (let i = 0; i < clientsData.length; i++) {
+
+            dataDisplay.push(<tr key={`trClient${i}$`}>
                 <th>
                     <input
-                        defaultValue={i.name}
-                        id = {i.index}
+                        defaultValue={clientsData[i].name}
+                        id = {clientsData[i].index}
                         type = 'text'
                         name = 'name'
                         readOnly = {readOnly}
                         placeholder="Taper le nom "
                         onChange={ (e) => {
                             const {name, value} = e.target;
-                            dispacth(suiviDetteActions.HandleClients({name: name, value: value, index: i.index}));
+                            dispacth(suiviDetteActions.HandleClients({name: name, value: value, index: clientsData[i].index}));
                         }}
                     />
                 </th>
                 <td>
                     <input
-                        defaultValue={i.data.amount}
-                        id = {i.index}
+                        defaultValue={clientsData[i].data.amount}
+                        id = {clientsData[i].index}
                         type = 'number'
                         name = 'amount'
                         placeholder="Taper le montant de la dette"
                         onChange={ (e) => {
                             const {name, value} = e.target;
-                            dispacth(suiviDetteActions.HandleClients({name: name, value: Number(value), index: i.index}));
+                            dispacth(suiviDetteActions.HandleClients({name: name, value: Number(value), index: clientsData[i].index}));
                         }}
                     />
                 </td>
+                <td>
+                    <input
+                        defaultValue={clientsData[i].data.payment}
+                        id = {clientsData[i].index}
+                        type = 'number'
+                        name = 'payment'
+                        placeholder="Taper le montant payé"
+                        onChange={ (e) => {
+                            const {name, value} = e.target;
+                            dispacth(suiviDetteActions.HandleClients({name: name, value: Number(value), index: clientsData[i].index}));
+                        }}
+                    />
+                </td>
+                <td> {totalDetteAndPaymentClients[i].valeurDette - totalDetteAndPaymentClients[i].valeurPayment}</td>
             </tr>)
 
             //total Dette clients
-            totalDetteClients += i.data.amount;
+            totalDetteClients += clientsData[i].data.amount;
         };
    };
 
@@ -62,6 +76,8 @@ export default function Clients (){
                         <tr>
                             <th>Nom</th>
                             <th>Montant</th>
+                            <th>Montant Payé</th>
+                            <th>Total Dette</th>
                         </tr>
                     </thead>
                     <tbody>

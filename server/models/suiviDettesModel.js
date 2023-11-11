@@ -27,18 +27,6 @@ const data = {
     data: [dataName]
 };
 
-const dataTotalDette = {
-
-    amount: {
-        type: Number,
-        require: true
-    },
-    createdAt: {
-        type:  Date,
-        default: Date.now()
-    }
-};
-
 const monthData = {
 
     mois: {
@@ -51,7 +39,6 @@ const monthData = {
         agents: [data],
         clients: [data],
         musiciens: [data],
-        totalDette: [dataTotalDette]
     }
 };
 
