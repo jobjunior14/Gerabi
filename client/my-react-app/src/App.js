@@ -22,7 +22,7 @@ function App() {
               <Route path='liqueurs' element = {<Product produit = 'liqueurs'/>}/>
             </Route>
 
-            <Route path='rapportMensuel' element = {<SuiviDette/>}/>
+            <Route path='rapportMensuel' element = {<SuiviDepense/>}/>
             
           </Route>
       </Routes>

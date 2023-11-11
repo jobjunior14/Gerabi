@@ -12,8 +12,9 @@ export default function Agents (){
 
     const dataDisplay = [];
     let totalDetteAgent = 0;
+    // console.log (totalDetteAndPaymentAgent);
 
-   if (agentsData) {
+   if (agentsData && totalDetteAndPaymentAgent) {
 
         for (let i = 0; i < agentsData.length; i++) {
 

@@ -14,7 +14,7 @@ export default function Clients (){
     let totalDetteClients = 0;
 
 
-   if (clientsData) {
+   if (clientsData && totalDetteAndPaymentClients) {
         for (let i = 0; i < clientsData.length; i++) {
 
             dataDisplay.push(<tr key={`trClient${i}$`}>

@@ -8,7 +8,7 @@ export default function SoldCaisse () {
     const sortieCaisseData = useSelector (state => state.suiviDepense.sortieCaisse);
     const totalSortieCaisse = useSelector (state => state.suiviDepense.totalSortieCaisse);
     const totalSoldCaisse = useSelector(state => state.suiviDepense.totalSoldCaisse);
-   
+    const totalDette = useSelector (state => state.suiviDette.totalDette);
 
     if (sortieCaisseData){
 
@@ -20,7 +20,7 @@ export default function SoldCaisse () {
                     <tbody>
                         <tr>
                             <th>Montant</th>
-                            <td> {Number (totalSoldCaisse) - Number (totalSortieCaisse)} </td>
+                            <td> {Number (totalSoldCaisse) - Number (totalSortieCaisse) - Number(totalDette)} </td>
                         </tr>
                     </tbody>
                 </table>

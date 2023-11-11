@@ -147,16 +147,16 @@ exports.pushSuiviDette = catchAssynch (async (req, res) => {
     
                         if (body.agents[p].name !== "") {
                             
-                            const indexNameEntree = suiviDette[yearIndex].data[monthIndex].data.agents.findIndex ( el => el.name.toUpperCase () === body.agents[p].name.toUpperCase());
+                            const indexName = suiviDette[yearIndex].data[monthIndex].data.agents.findIndex ( el => el.name.toUpperCase () === body.agents[p].name.toUpperCase());
     
                             
-                            if (indexNameEntree !== -1){
+                            if (indexName !== -1){
                                 
-                                const existingDataIndex = suiviDette[yearIndex].data[monthIndex].data.agents[indexNameEntree].data.findIndex (el => Number (JSON.stringify(el.createdAt).slice(9, 11)) === day);
+                                const existingDataIndex = suiviDette[yearIndex].data[monthIndex].data.agents[indexName].data.findIndex (el => Number (JSON.stringify(el.createdAt).slice(9, 11)) === day);
     
                                 if (existingDataIndex === -1) {
     
-                                    suiviDette[yearIndex].data[monthIndex].data.agents[indexNameEntree].data.push(body.agents[p].data);
+                                    suiviDette[yearIndex].data[monthIndex].data.agents[indexName].data.push(body.agents[p].data);
                                 };
     
                             } else {
@@ -173,16 +173,16 @@ exports.pushSuiviDette = catchAssynch (async (req, res) => {
     
                         if (body.clients[p].name !== "") {
                             
-                            const indexNameEntree = suiviDette[yearIndex].data[monthIndex].data.clients.findIndex ( el => el.name.toUpperCase () === body.clients[p].name.toUpperCase());
+                            const indexName = suiviDette[yearIndex].data[monthIndex].data.clients.findIndex ( el => el.name.toUpperCase () === body.clients[p].name.toUpperCase());
     
                             
-                            if (indexNameEntree !== -1){
+                            if (indexName !== -1){
                                 
-                                const existingDataIndex = suiviDette[yearIndex].data[monthIndex].data.clients[indexNameEntree].data.findIndex (el => Number (JSON.stringify(el.createdAt).slice(9, 11)) === day);
+                                const existingDataIndex = suiviDette[yearIndex].data[monthIndex].data.clients[indexName].data.findIndex (el => Number (JSON.stringify(el.createdAt).slice(9, 11)) === day);
     
                                 if (existingDataIndex === -1) {
     
-                                    suiviDette[yearIndex].data[monthIndex].data.clients[indexNameEntree].data.push(body.clients[p].data);
+                                    suiviDette[yearIndex].data[monthIndex].data.clients[indexName].data.push(body.clients[p].data);
                                 };
     
                             } else {
@@ -199,16 +199,16 @@ exports.pushSuiviDette = catchAssynch (async (req, res) => {
     
                         if (body.musiciens[p].name !== "") {
                             
-                            const indexNameEntree = suiviDette[yearIndex].data[monthIndex].data.musiciens.findIndex ( el => el.name.toUpperCase () === body.musiciens[p].name.toUpperCase());
+                            const indexName = suiviDette[yearIndex].data[monthIndex].data.musiciens.findIndex ( el => el.name.toUpperCase () === body.musiciens[p].name.toUpperCase());
     
                             
-                            if (indexNameEntree !== -1){
+                            if (indexName !== -1){
                                 
-                                const existingDataIndex = suiviDette[yearIndex].data[monthIndex].data.musiciens[indexNameEntree].data.findIndex (el => Number (JSON.stringify(el.createdAt).slice(9, 11)) === day);
+                                const existingDataIndex = suiviDette[yearIndex].data[monthIndex].data.musiciens[indexName].data.findIndex (el => Number (JSON.stringify(el.createdAt).slice(9, 11)) === day);
     
                                 if (existingDataIndex === -1) {
     
-                                    suiviDette[yearIndex].data[monthIndex].data.musiciens[indexNameEntree].data.push(body.musiciens[p].data);
+                                    suiviDette[yearIndex].data[monthIndex].data.musiciens[indexName].data.push(body.musiciens[p].data);
                                 };
     
                             } else {
@@ -271,6 +271,8 @@ exports.updateSuiviDette = catchAssynch (async (req, res, next) => {
     const month = Number (req.params.month);
     const day = Number (req.params.day);
 
+    console.log (year, month, day);
+
     const body = req.body.data.data;
     
     
@@ -289,19 +291,20 @@ exports.updateSuiviDette = catchAssynch (async (req, res, next) => {
     
                     if (body.agents[p].name !== "") {
 
-                        const indexNameEntree = suiviDette[yearIndex].data[monthIndex].data.agents.findIndex ( el => el.name.toUpperCase () === body.agents[p].name.toUpperCase());
+                        const indexName = suiviDette[yearIndex].data[monthIndex].data.agents.findIndex ( el => el.name.toUpperCase () === body.agents[p].name.toUpperCase());
                         
-                        if (indexNameEntree !== -1){
+                        if (indexName !== -1){
                             
-                            const existingDataIndex = suiviDette[yearIndex].data[monthIndex].data.agents[indexNameEntree].data.findIndex (el => Number (JSON.stringify(el.createdAt).slice(9, 11)) === day);
-                            
+                            const existingDataIndex = suiviDette[yearIndex].data[monthIndex].data.agents[indexName].data.findIndex (el => Number (JSON.stringify(el.createdAt).slice(9, 11)) === day);
+                            console.log (existingDataIndex);
                             
                             if (existingDataIndex !== -1) {
                                 
-                                suiviDette[yearIndex].data[monthIndex].data.agents[indexNameEntree].data[existingDataIndex] = {
+                                suiviDette[yearIndex].data[monthIndex].data.agents[indexName].data[existingDataIndex] = {
 
                                     amount: body.agents[p].data.amount,
                                     payment: body.agents[p].data.payment,
+                                    createdAt: body.agents[p].data.createdAt
                                 };       
                                 
                             } else {
@@ -310,7 +313,7 @@ exports.updateSuiviDette = catchAssynch (async (req, res, next) => {
                             }
     
                         } else {
-                            suiviDette[yearIndex].data[monthIndex].data.agents.push(body.agents[p]);
+                            return next (new AppError ('cette donnee est inexistante', 404));
                         };
     
                     } else {
@@ -323,27 +326,29 @@ exports.updateSuiviDette = catchAssynch (async (req, res, next) => {
     
                     if (body.clients[p].name !== "") {
 
-                        const indexNameEntree = suiviDette[yearIndex].data[monthIndex].data.clients.findIndex ( el => el.name.toUpperCase () === body.clients[p].name.toUpperCase());
+                        const indexName = suiviDette[yearIndex].data[monthIndex].data.clients.findIndex ( el => el.name.toUpperCase () === body.clients[p].name.toUpperCase());
                         
-                        if (indexNameEntree !== -1){
+                        if (indexName !== -1){
                             
-                            const existingDataIndex = suiviDette[yearIndex].data[monthIndex].data.clients[indexNameEntree].data.findIndex (el => Number (JSON.stringify(el.createdAt).slice(9, 11)) === day);
+                            const existingDataIndex = suiviDette[yearIndex].data[monthIndex].data.clients[indexName].data.findIndex (el => Number (JSON.stringify(el.createdAt).slice(9, 11)) === day);
                             
                             
                             if (existingDataIndex !== -1) {
                                 
-                                suiviDette[yearIndex].data[monthIndex].data.clients[indexNameEntree].data[existingDataIndex] = {
+                                suiviDette[yearIndex].data[monthIndex].data.clients[indexName].data[existingDataIndex] = {
 
                                     amount: body.clients[p].data.amount,
                                     payment: body.clients[p].data.payment,
+                                    createdAt: body.agents[p].data.createdAt
+
                                 };
                             } else {
 
-                                return next (new AppError ('cette donnee est inexistante', 404))
+                                return next (new AppError ('cette donnee est inexistante', 404));
                             }
     
                         } else {
-                            suiviDette[yearIndex].data[monthIndex].data.clients.push(body.clients[p]);
+                            return next (new AppError ('cette donnee est inexistante', 404));
                         };
     
                     } else {
@@ -356,19 +361,21 @@ exports.updateSuiviDette = catchAssynch (async (req, res, next) => {
     
                     if (body.musiciens[p].name !== "") {
 
-                        const indexNameEntree = suiviDette[yearIndex].data[monthIndex].data.musiciens.findIndex ( el => el.name.toUpperCase () === body.musiciens[p].name.toUpperCase());
+                        const indexName = suiviDette[yearIndex].data[monthIndex].data.musiciens.findIndex ( el => el.name.toUpperCase () === body.musiciens[p].name.toUpperCase());
                         
-                        if (indexNameEntree !== -1){
+                        if (indexName !== -1){
                             
-                            const existingDataIndex = suiviDette[yearIndex].data[monthIndex].data.musiciens[indexNameEntree].data.findIndex (el => Number (JSON.stringify(el.createdAt).slice(9, 11)) === day);
+                            const existingDataIndex = suiviDette[yearIndex].data[monthIndex].data.musiciens[indexName].data.findIndex (el => Number (JSON.stringify(el.createdAt).slice(9, 11)) === day);
                             
                             
                             if (existingDataIndex !== -1) {
                                 
-                                suiviDette[yearIndex].data[monthIndex].data.musiciens[indexNameEntree].data[existingDataIndex] = {
+                                suiviDette[yearIndex].data[monthIndex].data.musiciens[indexName].data[existingDataIndex] = {
 
                                     amount: body.musiciens[p].data.amount,
                                     payment: body.musiciens[p].data.payment,
+                                    createdAt: body.agents[p].data.createdAt
+
                                 };
                                     
                                 
@@ -378,7 +385,7 @@ exports.updateSuiviDette = catchAssynch (async (req, res, next) => {
                             }
     
                         } else {
-                            suiviDette[yearIndex].data[monthIndex].data.musiciens.push(body.musiciens[p]);
+                            return next (new AppError ('cette donnee est inexistante', 404));
                         };
     
                     } else {

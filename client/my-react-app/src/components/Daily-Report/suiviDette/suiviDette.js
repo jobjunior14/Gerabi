@@ -7,6 +7,7 @@ import DailyFilter from "../../filter/filterDailyRap";
 import Clients from "./clients"
 import Musiciens from "./musiciens";
 import Agents from "./agents";
+import TotDetteDaily from "./totalDetteDaily";
 
 function deleteEmptyName (array) {
     const data = [];
@@ -108,7 +109,6 @@ export default function SuiviDette () {
     const agents = useSelector(state => state.suiviDette.agents);
     const clients = useSelector(state => state.suiviDette.clients);
     const musiciens = useSelector(state => state.suiviDette.musiciens);
-    const totalDette = useSelector(state => state.suiviDette.totalDette);
     const update = useSelector(state => state.suiviDette.update);
     
     useEffect(() => {
@@ -197,6 +197,29 @@ export default function SuiviDette () {
         postAndUpdate(dispacth, agents, musiciens, clients, year, month, day, true);
     };
 
+    //calculate the totad debt daily
+    if ( agents && musiciens && clients && agents.length > 0 && musiciens.length > 0 && clients.length > 0 ) {
+        let tot = 0;
+
+        for (let i of agents) {
+            if (i.name !== "" ) {
+                tot += i.data.amount
+            };
+        };
+        for (let i of musiciens) {
+            if (i.name !== "" ) {
+                tot += i.data.amount
+            };
+        };
+        for (let i of clients) {
+            if (i.name !== "" ) {
+                tot += i.data.amount
+            };
+        };
+
+        dispacth(suiviDetteActions.setTotalDette(tot));
+    };
+
     if (year > currentYear && month > currentMonth && day > currentDay) {
 
         return (
@@ -212,7 +235,7 @@ export default function SuiviDette () {
             <Agents/>
             <Clients/>
             <Musiciens/>
-            <h4>Total Dette du {day}-{month}-{year} : {totalDette}</h4>
+            <TotDetteDaily day = {day} month = {month} year = {year} />
             {!update ? <button onClick={postData}> Enregistrer les données</button> : <button onClick={updateData}> Mettre à les données</button> }
 
         </div>);

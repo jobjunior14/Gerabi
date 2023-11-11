@@ -13,7 +13,7 @@ export default function Musiciens (){
     let totalDetteMusiciens = 0;
 
 
-   if (musiciensData) {
+   if (musiciensData && totalDetteAndPaymentMusiciens) {
         for (let i = 0; i < musiciensData.length; i++) {
             dataDisplay.push(<tr key={`trmusiciens${i}$`}>
                 <th>
