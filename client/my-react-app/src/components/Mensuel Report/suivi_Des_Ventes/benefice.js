@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 export default function Benefice () {
 
     //data
-    const data = useSelector(state => state.venteBar.mensualData);
+    const data = useSelector(state => state.mensRapport.mensualData);
     
     if ( data.bralima && data.brasimba && data.autreProduit && data.liqueurs ) {
 

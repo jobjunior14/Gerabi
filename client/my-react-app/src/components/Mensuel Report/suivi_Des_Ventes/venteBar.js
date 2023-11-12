@@ -7,7 +7,7 @@ import { useSearchParams } from "react-router-dom";
 export default function VenteBar () {
 
     //data
-    const data = useSelector(state => state.venteBar.mensualData);
+    const data = useSelector(state => state.mensRapport.mensualData);
 
     
     //dataDego Vente

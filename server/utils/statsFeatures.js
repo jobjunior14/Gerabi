@@ -1,10 +1,10 @@
 class stats 
 {
-    constructor(year, month, venteBar, approvisionnement, benefice, name)
+    constructor(year, month, mensRapport, approvisionnement, benefice, name)
     {
         this.year = year;
         this.month = month;
-        this.venteBar = venteBar;
+        this.mensRapport = mensRapport;
         this.approvisionnement = approvisionnement;
         this.benefice = benefice;
         this.name = name;
@@ -17,7 +17,7 @@ class stats
             annee: JSON.stringify(this.year).slice (1, 5) + this.name,
             data:[{
                 mois: JSON.stringify(this.month).slice (6, 8) + this.name,
-                vente_bar: this.venteBar,
+                vente_bar: this.mensRapport,
                 approvionnement: this.approvionnement ,
                 benefice: this.benefice,
             }]
@@ -31,7 +31,7 @@ class stats
         const statsObj = 
         {
             mois: this.month,
-            vente_bar: this.venteBar,
+            vente_bar: this.mensRapport,
             approvionnement: this.approvionnement,
             benefice: this.benefice
         }

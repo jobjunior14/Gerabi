@@ -2,10 +2,10 @@ import { useEffect } from "react";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import { useSearchParams } from "react-router-dom";
-import { venteBarActions } from "../../store/venteBar-slice";
+import { mensRapportActions } from "../../store/mensRepport-slice";
 import Approvisionnement from "./approvisionnement";
 import Benefice from "./benefice";
-import VenteBar from './venteBar';
+import VenteBar from "./venteBar";
 import MensFilter from "../../filter/filterMensRap";
 
 export default function SuiviDesVentes () {
@@ -16,7 +16,7 @@ export default function SuiviDesVentes () {
     const [dateParams, setDateParams] = useSearchParams();
 
     //date in fields
-    const date = useSelector (state => state.venteBar.date);
+    const date = useSelector (state => state.mensRapport.date);
     
     //dependacies of useEffect
     const year = Number(dateParams.get("year"));
@@ -29,7 +29,7 @@ export default function SuiviDesVentes () {
     //fecth the data
     useEffect (() => {
 
-        dispatch(venteBarActions.setMensualData({
+        dispatch(mensRapportActions.setMensualData({
             bralima: null,
             brasimba: null,
             liqueurs: null,
@@ -45,7 +45,7 @@ export default function SuiviDesVentes () {
                 const liqueursData = await axios.get(`http://localhost:5001/api/v1/liqueurs/raportMensuel/Allstast/${year}/${month}`);
                 const autreProduitData = await axios.get(`http://localhost:5001/api/v1/autreProduit/raportMensuel/Allstast/${year}/${month}`);
             
-                dispatch(venteBarActions.setMensualData({
+                dispatch(mensRapportActions.setMensualData({
                     bralima: bralimaData.data.stats.stats,
                     brasimba: brasimbaData.data.stats.stats,
                     liqueurs: liqueursData.data.stats.stats,

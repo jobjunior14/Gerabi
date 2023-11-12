@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { venteBarActions } from "../store/venteBar-slice";
+import { mensRapportActions } from "../store/mensRepport-slice";
 
 export default function MensFilter (props) {
     const dispatch = useDispatch();
@@ -14,7 +14,7 @@ export default function MensFilter (props) {
                 placeholder= "Taper l'année"
                 onChange= { e => {
                     const {name, value} = e.target;
-                    dispatch(venteBarActions.setDate({name: name, value: value}));
+                    dispatch(mensRapportActions.setDate({name: name, value: value}));
                 }}
             />
 
@@ -25,7 +25,7 @@ export default function MensFilter (props) {
                 placeholder= "Taper l'année"
                 onChange= { e => {
                     const {name, value} = e.target;
-                    dispatch(venteBarActions.setDate({name: name, value: value}));
+                    dispatch(mensRapportActions.setDate({name: name, value: value}));
                 }}
             />
 

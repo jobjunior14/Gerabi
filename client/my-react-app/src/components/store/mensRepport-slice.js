@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const venteBarSlice = createSlice ({
+const mensRapportSlice = createSlice ({
 
-    name: 'venteBar',
+    name: 'mensRapport',
     initialState: {
         mensualData: {
             bralima: null,
@@ -42,6 +42,6 @@ const venteBarSlice = createSlice ({
     }
 });
 
-export const venteBarActions = venteBarSlice.actions;
+export const mensRapportActions = mensRapportSlice.actions;
 
-export default venteBarSlice;
+export default mensRapportSlice;

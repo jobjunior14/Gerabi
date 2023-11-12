@@ -17,7 +17,6 @@ const suiviDepenseSlice = createSlice ({
         update: true,
         prevSoldCaisse: 0,
         totalSortieCaisse: 0,
-        tree: 'hey'
     },
 
     reducers: {
@@ -193,6 +192,7 @@ const suiviDepenseSlice = createSlice ({
                 state.prevSoldCaisse = 0;
             } else {
                 state.prevSoldCaisse = action.payload;
+                state.soldCaisse += action.payload;
             }
         },
 
@@ -200,10 +200,6 @@ const suiviDepenseSlice = createSlice ({
 
             state.totalSortieCaisse = action.payload;
         },
-        try (state, action) 
-        {
-            state.tree = action.payload
-        }
 
     }
 });

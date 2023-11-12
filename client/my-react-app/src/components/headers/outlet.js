@@ -1,6 +1,7 @@
 import { Outlet } from "react-router-dom";
 import FirstHeader from "./firstHeaders";
 import ProductHeaders from "./productHeader";
+import MainDailyRepport from "./mainDailyreportHeaders";
 
 export function MainNav () {
 
@@ -10,7 +11,17 @@ export function MainNav () {
             <Outlet/>
         </div>
     )
-}
+};
+
+export function DailyRepportNav () {
+
+    return (
+        <div>
+            <MainDailyRepport/>
+            <Outlet/>
+        </div>
+    );
+};
 
 export function ProductNav () {
 

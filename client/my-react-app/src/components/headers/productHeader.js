@@ -7,16 +7,16 @@ export default function ProductHeaders ()
         <nav>
             <NavLink 
                 className = {( {isActive}) => isActive ? 'my-link' : null }
-                to = {`/rapportJournalier/bralima?year=${new Date().getFullYear()}&month=${new Date().getMonth() + 1}&day=${new Date().getDate()} `}> Bralima </NavLink>
+                to = {`/rapportJournalier/stockConsignation/bralima?year=${new Date().getFullYear()}&month=${new Date().getMonth() + 1}&day=${new Date().getDate()} `}> Bralima </NavLink>
             <NavLink 
                 className = {( {isActive}) => isActive ? 'my-link' : null }
-                to = {`/rapportJournalier/brasimba?year=${new Date().getFullYear()}&month=${new Date().getMonth() + 1}&day=${new Date().getDate()} `}> Brasimba </NavLink>
+                to = {`/rapportJournalier/stockConsignation/brasimba?year=${new Date().getFullYear()}&month=${new Date().getMonth() + 1}&day=${new Date().getDate()} `}> Brasimba </NavLink>
              <NavLink 
                 className = {( {isActive}) => isActive ? 'my-link' : null }
-                to = {`/rapportJournalier/autreProdut?year=${new Date().getFullYear()}&month=${new Date().getMonth() + 1}&day=${new Date().getDate()} `}> Autre Produit </NavLink>
+                to = {`/rapportJournalier/stockConsignation/autreProdut?year=${new Date().getFullYear()}&month=${new Date().getMonth() + 1}&day=${new Date().getDate()} `}> Autre Produit </NavLink>
             <NavLink 
                 className = {( {isActive}) => isActive ? 'my-link' : null }
-                to = {`/rapportJournalier/liqueurs?year=${new Date().getFullYear()}&month=${new Date().getMonth() + 1}&day=${new Date().getDate()} `}> Liqueurs </NavLink>
+                to = {`/rapportJournalier/stockConsignation/liqueurs?year=${new Date().getFullYear()}&month=${new Date().getMonth() + 1}&day=${new Date().getDate()} `}> Liqueurs </NavLink>
         </nav>
     )
 }

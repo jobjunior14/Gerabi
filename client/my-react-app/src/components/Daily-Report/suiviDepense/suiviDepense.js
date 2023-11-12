@@ -7,6 +7,7 @@ import SoriteCaisse from "./sortieCaisse";
 import EntreeCaisse from "./entreeCaisse";
 import DailyFilter from "../../filter/filterDailyRap";
 import SoldCaisse from "./soldCaisse";
+import TotDetteDaily from "../suiviDette/totalDetteDaily";
 
 function postAndUpdate (entreeCaisse, sortieCaisse, soldCaisse, year, month, day, dispacth, update) {
 
@@ -295,6 +296,7 @@ export default function SuiviDepense (){
                 <EntreeCaisse/>
                 <SoriteCaisse /> 
                 <SoldCaisse/>
+                <TotDetteDaily day = {day} month = {month} year = {year} />
                 {!update ? <button onClick={postData}> Enregistrer les données</button> : <button onClick={updateData}> Mettre à les données</button> }
             </div>
         )
