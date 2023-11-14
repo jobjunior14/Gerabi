@@ -4,7 +4,7 @@ import { suiviDetteActions } from "../../store/suiviDette-slice";
 
 export default function Musiciens (){
 
-    const dispacth = useDispatch();
+    const dispatch = useDispatch();
 
     const musiciensData = useSelector (state => state.suiviDette.musiciens);
     const readOnly = useSelector (state => state.suiviDette.readOnly);
@@ -26,7 +26,7 @@ export default function Musiciens (){
                         placeholder="Taper le nom "
                         onChange={ (e) => {
                             const {name, value} = e.target;
-                            dispacth(suiviDetteActions.HandleMusiciens({name: name, value: value, index: musiciensData[i].index}));
+                            dispatch(suiviDetteActions.HandleMusiciens({name: name, value: value, index: musiciensData[i].index}));
                         }}
                     />
                 </th>
@@ -39,7 +39,7 @@ export default function Musiciens (){
                         placeholder="Taper le montant de la dette"
                         onChange={ (e) => {
                             const {name, value} = e.target;
-                            dispacth(suiviDetteActions.HandleMusiciens({name: name, value: Number (value), index: musiciensData[i].index}));
+                            dispatch(suiviDetteActions.HandleMusiciens({name: name, value: Number (value), index: musiciensData[i].index}));
                         }}
                     />
                 </td>
@@ -52,7 +52,7 @@ export default function Musiciens (){
                         placeholder="Taper le montant payé"
                         onChange={ (e) => {
                             const {name, value} = e.target;
-                            dispacth(suiviDetteActions.HandleMusiciens({name: name, value: Number (value), index: musiciensData[i].index}));
+                            dispatch(suiviDetteActions.HandleMusiciens({name: name, value: Number (value), index: musiciensData[i].index}));
                         }}
                     />
                 </td>
@@ -88,13 +88,13 @@ export default function Musiciens (){
                         </tr>
                     </tfoot>
                 </table>
-                {!readOnly && <button onClick={() => dispacth(suiviDetteActions.addCaseMusiciens())}> Ajouter Un Nom</button>}
+                {!readOnly && <button onClick={() => dispatch(suiviDetteActions.addCaseMusiciens())}> Ajouter Un Nom</button>}
             </div>)
         } else {
             return (
                 <div>
                     <h3> Dette Musiciens </h3>
-                    <button onClick={() => dispacth(suiviDetteActions.addCaseMusiciens())}> Ajouter Un Nom</button>
+                    <button onClick={() => dispatch(suiviDetteActions.addCaseMusiciens())}> Ajouter Un Nom</button>
                     <h4> Ooouups!!! cette date n'a pas des données </h4>
                 </div>
             );

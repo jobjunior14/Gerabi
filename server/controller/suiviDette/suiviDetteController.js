@@ -107,6 +107,51 @@ const statsDetail = async (year, month,path, SuiviDette) => {
     ]);
 
     return data;
+};
+
+const statsAll = async (year, month, path, SuiviDette) => {
+
+    const data = await SuiviDette.aggregate([
+
+        {
+            $match: { annee: year}
+        },
+
+        {
+            $project: {
+                stats: {
+                    $filter: {
+                        input: "$data",
+                        as: "data",
+                        cond: {
+                            $and: [
+
+                                {$gte: ["$$data.mois", month]},
+                                {$lte: ["$$data.mois", month]}
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        {
+            $unwind: {path: "$stats"}
+        },
+        {
+            $unwind: {path: `$stats.data.${path}`}
+        },
+        {
+            $unwind: {path: `$stats.data.${path}.data`}
+        },
+        {
+            $group: {
+                _id: null,
+                valeur: {$sum: `$stats.data.${path}.data.amount` }
+            }
+        }
+    ]);
+
+    return data
 }
 
 exports.getSuiviDette = catchAssynch (async (req, res) => {
@@ -493,49 +538,17 @@ exports.mensualStasSuiviDette = catchAssynch (async (req, res, next) => {
     const year = Number (req.params.year);
     const month = Number (req.params.month);
 
-    const agents = await SuiviDette.aggregate([
-
-        {
-            $match: { annee: year}
-        },
-
-        {
-            $project: {
-                stats: {
-                    $filter: {
-                        input: "$data",
-                        as: "data",
-                        cond: {
-                            $and: [
-
-                                {$gte: ["$$data.mois", month]},
-                                {$lte: ["$$data.mois", month]}
-                            ]
-                        }
-                    }
-                }
-            }
-        },
-        {
-            $unwind: {path: "$stats"}
-        },
-        {
-            $unwind: {path: "$stats.data.agents"}
-        },
-        {
-            $unwind: {path: "$stats.data.agents.data"}
-        },
-        {
-            $group: {
-                _id: null,
-                valeur: {$sum: "$stats.data.agents.data.amount" }
-            }
-        }
-    ]);
+    const agents = statsAll(year, month, 'agents', SuiviDette);
+    const musiciens = statsAll(year, month, 'musiciens', SuiviDette);
+    const clients = statsAll(year, month, 'clients', SuiviDette);
 
     res.status(200).json({
         status: 'success',
-        data: agents
+        data: {
+            agents: agents,
+            musiciens: musiciens,
+            clients: clients
+        }
     });
 });
 
@@ -556,5 +569,34 @@ exports.mensualStasSuiviDetteDetail = catchAssynch (async (req, res, next) => {
             agents: agents
         }
     });
+});
+
+exports.totalDette = catchAssynch (async (req, res) => {
+
+    const suiviDette = await SuiviDette.find();
+
+    const year = Number (req.params.year);
+    const month = Number (req.params.month);
+    const day = Number (req.params.day);
+
+    const data = loopingData(suiviDette, year, month, day);
+    let totDette = 0;
+    if (data.agents.length > 0 && data.musiciens.length > 0 && data.clients.length > 0 ) {
+
+        for (let i of data.agents) {
+            totDette += i.data.amount;
+        };
+        for (let i of data.musiciens) {
+            totDette += i.data.amount;
+        };
+        for (let i of data.clients) {
+            totDette += i.data.amount;
+        };
+    };
+
+    res.status(200).json({
+        status: 'success',
+        data: totDette
+    })
 })
 

@@ -4,7 +4,7 @@ import { suiviDepenseActions } from '../../../store/suiviDepense-slice';
 
 export default function EntreeCaisseComp (props){
 
-    const dispacth = useDispatch();
+    const dispatch = useDispatch();
 
     return (<tr>
       <th>
@@ -16,7 +16,7 @@ export default function EntreeCaisseComp (props){
             placeholder='Taper Le Libelé'
             onChange={ (e) => {
                 const {name, value} = e.target;
-                dispacth(suiviDepenseActions.HandleEntreeCaisse({name: name, value: value, index: props.index}));
+                dispatch(suiviDepenseActions.HandleEntreeCaisse({name: name, value: value, index: props.index}));
             }}
         />
       </th>
@@ -30,7 +30,7 @@ export default function EntreeCaisseComp (props){
             placeholder='Taper Le montant'
             onChange={ (e) => {
                 const {name, value, id} = e.target;
-                dispacth(suiviDepenseActions.HandleEntreeCaisse({name: name, value: Number (value), index: props.index}));
+                dispatch(suiviDepenseActions.HandleEntreeCaisse({name: name, value: Number (value), index: props.index}));
             }}
         />
       </td>

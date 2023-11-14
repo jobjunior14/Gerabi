@@ -21,7 +21,7 @@ function deleteEmptyName (array) {
     return data;
 };
 
-function postAndUpdate(dispacth, agents, musiciens, clients, year, month, day, update) {
+function postAndUpdate(dispatch, agents, musiciens, clients, year, month, day, update) {
 
     let newDataSuiviDette = null;
     let createdAt = `${year}-${month}-${day}T07:22:54.930Z`;
@@ -51,32 +51,32 @@ function postAndUpdate(dispacth, agents, musiciens, clients, year, month, day, u
 
         const fecthData = async () => {
     
-            dispacth(suiviDetteActions.setAgents(null));
-            dispacth(suiviDetteActions.setClients(null));
-            dispacth(suiviDetteActions.setMusiciens(null));
+            dispatch(suiviDetteActions.setAgents(null));
+            dispatch(suiviDetteActions.setClients(null));
+            dispatch(suiviDetteActions.setMusiciens(null));
     
             const responseSuiviDette = !update ? await axios.post(`http://localhost:5001/api/v1/suiviDette/rapportJournalier?year=${year}&month=${month}&day=${day}`, newDataSuiviDette) : await axios.post(`http://localhost:5001/api/v1/suiviDette/rapportJournalier/${year}/${month}/${day}`, newDataSuiviDette);
     
     
                 const totDetailDetteAndPayment = await axios.get (`http://localhost:5001/api/v1/suiviDette/rapportMensuel/detail/${year}/${month}`);
                 //set the total amount debt and payment   
-                dispacth(suiviDetteActions.setDetailTotDetteAgents(totDetailDetteAndPayment.data.data.agents));
-                dispacth(suiviDetteActions.setDetailTotDetteMusiciens(totDetailDetteAndPayment.data.data.musiciens));
-                dispacth(suiviDetteActions.setDetailTotDetteClients(totDetailDetteAndPayment.data.data.clients));
+                dispatch(suiviDetteActions.setDetailTotDetteAgents(totDetailDetteAndPayment.data.data.agents));
+                dispatch(suiviDetteActions.setDetailTotDetteMusiciens(totDetailDetteAndPayment.data.data.musiciens));
+                dispatch(suiviDetteActions.setDetailTotDetteClients(totDetailDetteAndPayment.data.data.clients));
             
     
     
-            dispacth(suiviDetteActions.setUpdate(true));
-            dispacth(suiviDetteActions.setReadOnly(true));
-            dispacth(suiviDetteActions.setAgents(responseSuiviDette.data.data.agents.map ((el, index) => {return {...el, index: index}})));
-            dispacth(suiviDetteActions.setClients(responseSuiviDette.data.data.clients.map ((el, index) => {return {...el, index: index}})));
-            dispacth(suiviDetteActions.setMusiciens(responseSuiviDette.data.data.musiciens.map ((el, index) => {return {...el, index: index}})));
+            dispatch(suiviDetteActions.setUpdate(true));
+            dispatch(suiviDetteActions.setReadOnly(true));
+            dispatch(suiviDetteActions.setAgents(responseSuiviDette.data.data.agents.map ((el, index) => {return {...el, index: index}})));
+            dispatch(suiviDetteActions.setClients(responseSuiviDette.data.data.clients.map ((el, index) => {return {...el, index: index}})));
+            dispatch(suiviDetteActions.setMusiciens(responseSuiviDette.data.data.musiciens.map ((el, index) => {return {...el, index: index}})));
             if (responseSuiviDette.data.data.totalDette) {
                 
-                dispacth (suiviDetteActions.setTotalDette(responseSuiviDette.data.data.totalDette));
+                dispatch (suiviDetteActions.setTotalDette(responseSuiviDette.data.data.totalDette));
             } else {
     
-                dispacth (suiviDetteActions.setTotalDette(0));
+                dispatch (suiviDetteActions.setTotalDette(0));
             };
         }; fecthData();
         
@@ -89,7 +89,7 @@ function postAndUpdate(dispacth, agents, musiciens, clients, year, month, day, u
 
 export default function SuiviDette () {
 
-    const dispacth = useDispatch ();
+    const dispatch = useDispatch ();
     //params
     const [dateParams, setDateParams] = useSearchParams();
 
@@ -113,9 +113,9 @@ export default function SuiviDette () {
     
     useEffect(() => {
 
-        dispacth(suiviDetteActions.setAgents(null));
-        dispacth(suiviDetteActions.setClients(null));
-        dispacth(suiviDetteActions.setMusiciens(null));
+        dispatch(suiviDetteActions.setAgents(null));
+        dispatch(suiviDetteActions.setClients(null));
+        dispatch(suiviDetteActions.setMusiciens(null));
 
         const fecthData = async () => {
 
@@ -126,21 +126,21 @@ export default function SuiviDette () {
 
                 if (suiviDetteData.data.data.agents.length > 0 && suiviDetteData.data.data.musiciens.length > 0 && suiviDetteData.data.data.clients.length > 0 ){
                     
-                    dispacth(suiviDetteActions.setUpdate(true));
-                    dispacth(suiviDetteActions.setReadOnly(true));
+                    dispatch(suiviDetteActions.setUpdate(true));
+                    dispatch(suiviDetteActions.setReadOnly(true));
 
-                    dispacth(suiviDetteActions.setAgents(suiviDetteData.data.data.agents.map ((el, index) => {return {...el, index: index}})));
-                    dispacth(suiviDetteActions.setClients(suiviDetteData.data.data.clients.map ((el, index) => {return {...el, index: index}})));
-                    dispacth(suiviDetteActions.setMusiciens(suiviDetteData.data.data.musiciens.map ((el, index) => {return {...el, index: index}})));
+                    dispatch(suiviDetteActions.setAgents(suiviDetteData.data.data.agents.map ((el, index) => {return {...el, index: index}})));
+                    dispatch(suiviDetteActions.setClients(suiviDetteData.data.data.clients.map ((el, index) => {return {...el, index: index}})));
+                    dispatch(suiviDetteActions.setMusiciens(suiviDetteData.data.data.musiciens.map ((el, index) => {return {...el, index: index}})));
                     //set the total amount debt and payment   
-                    dispacth(suiviDetteActions.setDetailTotDetteAgents(totDetailDetteAndPayment.data.data.agents));
-                    dispacth(suiviDetteActions.setDetailTotDetteMusiciens(totDetailDetteAndPayment.data.data.musiciens));
-                    dispacth(suiviDetteActions.setDetailTotDetteClients(totDetailDetteAndPayment.data.data.clients));
+                    dispatch(suiviDetteActions.setDetailTotDetteAgents(totDetailDetteAndPayment.data.data.agents));
+                    dispatch(suiviDetteActions.setDetailTotDetteMusiciens(totDetailDetteAndPayment.data.data.musiciens));
+                    dispatch(suiviDetteActions.setDetailTotDetteClients(totDetailDetteAndPayment.data.data.clients));
 
                 } else {
                     
-                    dispacth(suiviDetteActions.setUpdate(false));
-                    dispacth(suiviDetteActions.setReadOnly(false));
+                    dispatch(suiviDetteActions.setUpdate(false));
+                    dispatch(suiviDetteActions.setReadOnly(false));
                     
                     const lastCreatedData = await axios.get(`http://localhost:5001/api/v1/suiviDette/lastElement/${year}/${month}`);
                     
@@ -148,26 +148,26 @@ export default function SuiviDette () {
                     if (lastCreatedData.data.data) {
                         
                         //set the total amount debt and payment   
-                        dispacth(suiviDetteActions.setDetailTotDetteAgents(totDetailDetteAndPayment.data.data.agents));
-                        dispacth(suiviDetteActions.setDetailTotDetteMusiciens(totDetailDetteAndPayment.data.data.musiciens));
-                        dispacth(suiviDetteActions.setDetailTotDetteClients(totDetailDetteAndPayment.data.data.clients));
+                        dispatch(suiviDetteActions.setDetailTotDetteAgents(totDetailDetteAndPayment.data.data.agents));
+                        dispatch(suiviDetteActions.setDetailTotDetteMusiciens(totDetailDetteAndPayment.data.data.musiciens));
+                        dispatch(suiviDetteActions.setDetailTotDetteClients(totDetailDetteAndPayment.data.data.clients));
                         
-                        dispacth(suiviDetteActions.setAgents(lastCreatedData.data.data.agents.map((el, index) => {return {...el, index: index}})));
-                        dispacth(suiviDetteActions.setMusiciens(lastCreatedData.data.data.musiciens.map((el, index) => {return {...el, index: index}})));
-                        dispacth(suiviDetteActions.setClients(lastCreatedData.data.data.clients.map((el, index) => {return {...el, index: index}})));
-                        dispacth(suiviDetteActions.setTotalDette(lastCreatedData.data.data.clients));
+                        dispatch(suiviDetteActions.setAgents(lastCreatedData.data.data.agents.map((el, index) => {return {...el, index: index}})));
+                        dispatch(suiviDetteActions.setMusiciens(lastCreatedData.data.data.musiciens.map((el, index) => {return {...el, index: index}})));
+                        dispatch(suiviDetteActions.setClients(lastCreatedData.data.data.clients.map((el, index) => {return {...el, index: index}})));
+                        dispatch(suiviDetteActions.setTotalDette(lastCreatedData.data.data.clients));
                         
                     } else {
                         
                         //set the total amount debt and payment   
-                        dispacth(suiviDetteActions.setDetailTotDetteAgents([]));
-                        dispacth(suiviDetteActions.setDetailTotDetteMusiciens([]));
-                        dispacth(suiviDetteActions.setDetailTotDetteClients([]));
+                        dispatch(suiviDetteActions.setDetailTotDetteAgents([]));
+                        dispatch(suiviDetteActions.setDetailTotDetteMusiciens([]));
+                        dispatch(suiviDetteActions.setDetailTotDetteClients([]));
 
-                        dispacth(suiviDetteActions.setAgents([]));
-                        dispacth(suiviDetteActions.setClients([]));
-                        dispacth(suiviDetteActions.setMusiciens([]));
-                        dispacth(suiviDetteActions.setTotalDette(0));
+                        dispatch(suiviDetteActions.setAgents([]));
+                        dispatch(suiviDetteActions.setClients([]));
+                        dispatch(suiviDetteActions.setMusiciens([]));
+                        dispatch(suiviDetteActions.setTotalDette(0));
                     };
                 };
 
@@ -189,12 +189,12 @@ export default function SuiviDette () {
 
     function postData () {
 
-        postAndUpdate(dispacth, agents, musiciens, clients, year, month, day, false);
+        postAndUpdate(dispatch, agents, musiciens, clients, year, month, day, false);
     };
 
     function updateData () {
 
-        postAndUpdate(dispacth, agents, musiciens, clients, year, month, day, true);
+        postAndUpdate(dispatch, agents, musiciens, clients, year, month, day, true);
     };
 
     //calculate the totad debt daily
@@ -217,7 +217,7 @@ export default function SuiviDette () {
             };
         };
 
-        dispacth(suiviDetteActions.setTotalDette(tot));
+        dispatch(suiviDetteActions.setTotalDette(tot));
     };
 
     if (year > currentYear && month > currentMonth && day > currentDay) {

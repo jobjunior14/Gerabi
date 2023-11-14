@@ -3,15 +3,15 @@ const router = express.Router();
 
 const {
   getVenteDego,
-  pushDataVente,
-  updatevente,
-  monthStatsVente,
+  pushDataVenteDego,
+  updateventeDego,
+  monthStatsVenteDego,
 } = require("../controller/venteDegoController");
 
-router.route("/").post(pushDataVente);
+router.route("/").post(pushDataVenteDego);
 
-router.route("/:year/:month/:day").get(getVenteDego).post(updatevente);
+router.route("/:year/:month/:day").get(getVenteDego).post(updateventeDego);
 
-router.route("/:year/:month").get(monthStatsVente);
+router.route("/:year/:month").get(monthStatsVenteDego);
 
 module.exports = router;

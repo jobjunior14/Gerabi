@@ -4,7 +4,7 @@ import { suiviDepenseActions } from "../../store/suiviDepense-slice";
 
 export default function SoriteCaisse () {
     
-    const dispacth = useDispatch();
+    const dispatch = useDispatch();
 
     const sortieCaisse = useSelector (state => state.suiviDepense.sortieCaisse);
     const readOnly = useSelector (state => state.suiviDepense.readOnly);
@@ -33,7 +33,7 @@ export default function SoriteCaisse () {
                         onChange={ (e) => {
 
                             const {name, value} = e.target;
-                            dispacth (suiviDepenseActions.HandleSortieCaisse({name: name, value: value, mainindex: i, index: null }));
+                            dispatch (suiviDepenseActions.HandleSortieCaisse({name: name, value: value, mainindex: i, index: null }));
                         }}
                     />
 
@@ -62,7 +62,7 @@ export default function SoriteCaisse () {
                                 onChange={ e => {
         
                                     const {name, value} = e.target;
-                                    dispacth (suiviDepenseActions.HandleSortieCaisse({name: name, value: value, mainindex: j, index: y }));
+                                    dispatch (suiviDepenseActions.HandleSortieCaisse({name: name, value: value, mainindex: j, index: y }));
                                 }}
                             />
                         </td>
@@ -79,7 +79,7 @@ export default function SoriteCaisse () {
                                 onChange={ e => {
         
                                     const {name, value} = e.target;
-                                    dispacth (suiviDepenseActions.HandleSortieCaisse({name: name, value: Number (value), mainindex: j, index: y }));
+                                    dispatch (suiviDepenseActions.HandleSortieCaisse({name: name, value: Number (value), mainindex: j, index: y }));
                                 }}
                             />
                         </td>
@@ -117,7 +117,7 @@ export default function SoriteCaisse () {
         };
 
         //set the sold caisse
-        dispacth(suiviDepenseActions.setTotalSortieCaisse(totalSortieCaisse));
+        dispatch(suiviDepenseActions.setTotalSortieCaisse(totalSortieCaisse));
     };
 
     // console.log (sortieCaisse);
@@ -154,8 +154,8 @@ export default function SoriteCaisse () {
                             </tr>
                         </tfoot>
                     </table>
-                    { !readOnly && <button onClick={() => dispacth(suiviDepenseActions.addLibelMontantSortie())}> Ajouter un justificatif</button>}
-                    { !readOnly && <button onClick={() => dispacth(suiviDepenseActions.addFonctionSortie())}> Ajouter une fonction</button>}
+                    { !readOnly && <button onClick={() => dispatch(suiviDepenseActions.addLibelMontantSortie())}> Ajouter un justificatif</button>}
+                    { !readOnly && <button onClick={() => dispatch(suiviDepenseActions.addFonctionSortie())}> Ajouter une fonction</button>}
                 </div>
             )
         } else {
@@ -163,7 +163,7 @@ export default function SoriteCaisse () {
             return (
                 <div>
                     <h3>sortie Caisse</h3>
-                    <button onClick={() => dispacth(suiviDepenseActions.addFonctionSortie())}> Ajouter une fonction</button>
+                    <button onClick={() => dispatch(suiviDepenseActions.addFonctionSortie())}> Ajouter une fonction</button>
                     <h4> Ooouups! cette donnee est inexistante </h4>
                 </div>
             )

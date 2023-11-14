@@ -11,7 +11,7 @@ const {
   suiviDetailStatsCollection,
   yearStatsCollection,
   lastCreatedData
-} =  require ("./productMiddlewareFunction");
+} =  require ("../functions/suiviStockVenteFunction");
 
 exports.getAutreProduit = catchAssynch(async (req, res ) => {
   

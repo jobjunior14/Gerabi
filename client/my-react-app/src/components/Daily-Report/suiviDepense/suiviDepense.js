@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import { suiviDepenseActions } from "../../store/suiviDepense-slice";
@@ -7,9 +7,12 @@ import SoriteCaisse from "./sortieCaisse";
 import EntreeCaisse from "./entreeCaisse";
 import DailyFilter from "../../filter/filterDailyRap";
 import SoldCaisse from "./soldCaisse";
-import TotDetteDaily from "../suiviDette/totalDetteDaily";
 
-function postAndUpdate (entreeCaisse, sortieCaisse, soldCaisse, year, month, day, dispacth, update) {
+function postAndUpdate (entreeCaisse, sortieCaisse, year, month, day, dispacth, update,  totalSortieCaisse, totalSoldCaisse, totalDette) {
+
+
+    //set Sold caisse
+    dispacth(suiviDepenseActions.setSoldCaisse());
 
     const newSortieCaisseData = [];
     let suiviDepenseData = null;
@@ -56,7 +59,7 @@ function postAndUpdate (entreeCaisse, sortieCaisse, soldCaisse, year, month, day
                 entreeCaisse: entreeCaisse.map(el => {return {...el, data: {...el.data, createdAt: createdAt}}}),
                 sortieCaisse: newSortieCaisseData,
                 soldCaisse: {
-                    amount: soldCaisse,
+                    amount: Number (totalSoldCaisse) - Number (totalSortieCaisse) - Number(totalDette),
                     createdAt: createdAt
                 }
             }
@@ -102,15 +105,15 @@ function postAndUpdate (entreeCaisse, sortieCaisse, soldCaisse, year, month, day
                 //set the index and entreeCaisse Data
                 dispacth(suiviDepenseActions.setEntreeCaisse(responseSuiviDepense.data.data.entreeCaisse.map((el, index) => {return {...el, index: index}})));
 
-                //set  caisse
-                dispacth(suiviDepenseActions.setSoldCaisse(responseSuiviDepense.data.data.soldCaisse));
+                //set  sold caisse
+                dispacth(suiviDepenseActions.setSoldCaisse(responseSuiviDepense.data.data.soldCaisse.amount));
 
                 dispacth(suiviDepenseActions.setUpdate(true));
                 dispacth(suiviDepenseActions.setReadOnly(true));
-                
-        } catch (error) {
-            console.log (error);
-        };
+
+            } catch (error) {
+                console.log (error);
+            };
     };fecthData();
 };
 
@@ -135,10 +138,16 @@ export default function SuiviDepense (){
     const currentMonth = Number (new Date().getMonth() + 1);
     const currentDay = Number (new Date().getDate());    
     //data 
-    const soldCaisse = useSelector (state => state.suiviDepense.soldCaisse);
     const entreeCaisse = useSelector (state => state.suiviDepense.entreeCaisse);
     const sortieCaisse = useSelector (state => state.suiviDepense.sortieCaisse);
     const update = useSelector (state => state.suiviDepense.update);
+    const totalDailyDebt= useSelector (state => state.suiviDepense.totalDette);
+
+    //data for sold caisse
+    const soldCaisse = useSelector (state => state.suiviDepense.soldCaisse);
+    const totalSortieCaisse = useSelector (state => state.suiviDepense.totalSortieCaisse);
+    const totalSoldCaisse = useSelector(state => state.suiviDepense.totalSoldCaisse);
+    const totalDette = useSelector (state => state.suiviDepense.totalDette);
 
     useEffect (() => {
 
@@ -149,9 +158,11 @@ export default function SuiviDepense (){
             try {
 
                 const suiviDepenseData = await axios.get (`http://localhost:5001/api/v1/suiviDepense/rapportJournalier/${year}/${month}/${day}`);
-                
-                if (suiviDepenseData.data.data.sortieCaisse.length > 0 && suiviDepenseData.data.data.entreeCaisse.length > 0  && suiviDepenseData.data.data.soldCaisse) {
+                const totDette = await axios.get (`http://localhost:5001/api/v1/suiviDette/rapportJournalier/totDette/${year}/${month}/${day}`);
 
+                //set the total debt
+                dispacth(suiviDepenseActions.setTotalDette(totDette.data.data));
+                if (suiviDepenseData.data.data.sortieCaisse.length > 0 && suiviDepenseData.data.data.entreeCaisse.length > 0  && suiviDepenseData.data.data.soldCaisse) {
                     dispacth(suiviDepenseActions.setUpdate(true));
                     dispacth(suiviDepenseActions.setReadOnly(true));
                     //find the largest table row 
@@ -195,6 +206,9 @@ export default function SuiviDepense (){
                         
                         dispacth(suiviDepenseActions.setSoldCaisse(0));
                     };
+
+                    //set the previous sold caisse
+                    // dispacth(suiviDepenseActions.setPrevSoldCaisse(soldCaisse - (totalDette + totalSortieCaisse)));
                 } else {
 
                     dispacth(suiviDepenseActions.setReadOnly(false));
@@ -272,11 +286,11 @@ export default function SuiviDepense (){
 
     function postData(){
         //post data or create it 
-        postAndUpdate(entreeCaisse, sortieCaisse, soldCaisse, year, month, day, dispacth, false);
+        postAndUpdate(entreeCaisse, sortieCaisse, year, month, day, dispacth, false, totalSortieCaisse,totalSoldCaisse, totalDette);
     };
     
     function updateData() {
-        postAndUpdate(entreeCaisse, sortieCaisse, soldCaisse, year, month, day, dispacth, true);
+        postAndUpdate(entreeCaisse, sortieCaisse, year, month, day, dispacth, true, totalSortieCaisse,totalSoldCaisse, totalDette);
     };
 
 
@@ -296,7 +310,7 @@ export default function SuiviDepense (){
                 <EntreeCaisse/>
                 <SoriteCaisse /> 
                 <SoldCaisse/>
-                <TotDetteDaily day = {day} month = {month} year = {year} />
+                <p> Total Dette du {day}-{month}-{year}: <b> {totalDailyDebt}</b></p>
                 {!update ? <button onClick={postData}> Enregistrer les données</button> : <button onClick={updateData}> Mettre à les données</button> }
             </div>
         )

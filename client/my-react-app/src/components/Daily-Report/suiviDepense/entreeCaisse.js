@@ -33,6 +33,11 @@ export default function EntreeCaisse (){
     const prevMonth = prevDate.getMonth() + 1;
     const prevDay = prevDate.getDate();
 
+    //data for sold caisse
+    const soldCaisse = useSelector (state => state.suiviDepense.soldCaisse);
+    const totalSortieCaisse = useSelector (state => state.suiviDepense.totalSortieCaisse);
+    const totalDette = useSelector (state => state.suiviDepense.totalDette);
+
 
     //message and input fields if prevSold is not found
     const [foundPrevSold, setFoundPrevSold] = useState(false);
@@ -49,7 +54,7 @@ export default function EntreeCaisse (){
             } else {
                 
                 setFoundPrevSold(prev => prev = true);
-                dispatch(suiviDepenseActions.setPrevSoldCaisse(0));
+                dispatch(suiviDepenseActions.setPrevSoldCaisse(soldCaisse - (totalDette + totalSortieCaisse)));
             }
         }; fecthData();
     }, [prevDay, prevMonth, prevYear]);

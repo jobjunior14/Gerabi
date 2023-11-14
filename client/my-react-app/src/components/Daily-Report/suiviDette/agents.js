@@ -4,7 +4,7 @@ import { suiviDetteActions } from "../../store/suiviDette-slice";
 
 export default function Agents (){
 
-    const dispacth = useDispatch();
+    const dispatch = useDispatch();
 
     const agentsData = useSelector (state => state.suiviDette.agents);
     const readOnly = useSelector (state => state.suiviDette.readOnly);
@@ -29,7 +29,7 @@ export default function Agents (){
                         placeholder="Taper le nom "
                         onChange={ (e) => {
                             const {name, value} = e.target;
-                            dispacth(suiviDetteActions.HandleAgents({name: name, value: value, index: agentsData[i].index}));
+                            dispatch(suiviDetteActions.HandleAgents({name: name, value: value, index: agentsData[i].index}));
                         }}
                     />
                 </th>
@@ -42,7 +42,7 @@ export default function Agents (){
                         placeholder="Taper le montant de la dette"
                         onChange={ (e) => {
                             const {name, value} = e.target;
-                            dispacth(suiviDetteActions.HandleAgents({name: name, value: Number (value), index: agentsData[i].index}));
+                            dispatch(suiviDetteActions.HandleAgents({name: name, value: Number (value), index: agentsData[i].index}));
                         }}
                     />
                 </td>
@@ -55,7 +55,7 @@ export default function Agents (){
                         placeholder="Taper le montant payé"
                         onChange={ (e) => {
                             const {name, value} = e.target;
-                            dispacth(suiviDetteActions.HandleAgents({name: name, value: Number (value), index: agentsData[i].index}));
+                            dispatch(suiviDetteActions.HandleAgents({name: name, value: Number (value), index: agentsData[i].index}));
                         }}
                     />
                 </td>
@@ -91,13 +91,13 @@ export default function Agents (){
                         </tr>
                     </tfoot>
                 </table>
-                {!readOnly && <button onClick={() => dispacth(suiviDetteActions.addCaseAgents())}> Ajouter Un Nom</button>}
+                {!readOnly && <button onClick={() => dispatch(suiviDetteActions.addCaseAgents())}> Ajouter Un Nom</button>}
             </div>)
         } else {
             return (
                 <div>
                     <h3> Dette Agents </h3>
-                    <button onClick={() => dispacth(suiviDetteActions.addCaseAgents())}> Ajouter Un Nom</button>
+                    <button onClick={() => dispatch(suiviDetteActions.addCaseAgents())}> Ajouter Un Nom</button>
                     <h4> Ooouups!!! cette date n'a pas des données </h4>
                 </div>
             );

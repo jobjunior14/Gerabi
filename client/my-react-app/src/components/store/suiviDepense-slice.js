@@ -11,12 +11,13 @@ const suiviDepenseSlice = createSlice ({
         },
         entreeCaisse: null,
         sortieCaisse: null,
-        soldCaisse: null,
+        soldCaisse: 0,
         totalSoldCaisse: 0,
         readOnly: true,
         update: true,
         prevSoldCaisse: 0,
         totalSortieCaisse: 0,
+        totalDette: 0,
     },
 
     reducers: {
@@ -192,7 +193,6 @@ const suiviDepenseSlice = createSlice ({
                 state.prevSoldCaisse = 0;
             } else {
                 state.prevSoldCaisse = action.payload;
-                state.soldCaisse += action.payload;
             }
         },
 
@@ -200,6 +200,10 @@ const suiviDepenseSlice = createSlice ({
 
             state.totalSortieCaisse = action.payload;
         },
+
+        setTotalDette (state, action) {
+            state.totalDette = action.payload;
+        }
 
     }
 });

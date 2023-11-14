@@ -4,7 +4,7 @@ import { suiviDetteActions } from "../../store/suiviDette-slice";
 
 export default function Clients (){
 
-    const dispacth = useDispatch();
+    const dispatch = useDispatch();
 
     const clientsData = useSelector (state => state.suiviDette.clients);
     const readOnly = useSelector (state => state.suiviDette.readOnly);
@@ -28,7 +28,7 @@ export default function Clients (){
                         placeholder="Taper le nom "
                         onChange={ (e) => {
                             const {name, value} = e.target;
-                            dispacth(suiviDetteActions.HandleClients({name: name, value: value, index: clientsData[i].index}));
+                            dispatch(suiviDetteActions.HandleClients({name: name, value: value, index: clientsData[i].index}));
                         }}
                     />
                 </th>
@@ -41,7 +41,7 @@ export default function Clients (){
                         placeholder="Taper le montant de la dette"
                         onChange={ (e) => {
                             const {name, value} = e.target;
-                            dispacth(suiviDetteActions.HandleClients({name: name, value: Number(value), index: clientsData[i].index}));
+                            dispatch(suiviDetteActions.HandleClients({name: name, value: Number(value), index: clientsData[i].index}));
                         }}
                     />
                 </td>
@@ -54,7 +54,7 @@ export default function Clients (){
                         placeholder="Taper le montant payé"
                         onChange={ (e) => {
                             const {name, value} = e.target;
-                            dispacth(suiviDetteActions.HandleClients({name: name, value: Number(value), index: clientsData[i].index}));
+                            dispatch(suiviDetteActions.HandleClients({name: name, value: Number(value), index: clientsData[i].index}));
                         }}
                     />
                 </td>
@@ -90,13 +90,13 @@ export default function Clients (){
                         </tr>
                     </tfoot>
                 </table>
-                {!readOnly && <button onClick={() => dispacth(suiviDetteActions.addCaseClients())}> Ajouter Un Nom</button>}
+                {!readOnly && <button onClick={() => dispatch(suiviDetteActions.addCaseClients())}> Ajouter Un Nom</button>}
             </div>)
         } else {
             return (
                 <div>
                     <h3> Dette Clients </h3>
-                    <button onClick={() => dispacth(suiviDetteActions.addCaseClients())}> Ajouter Un Nom</button>
+                    <button onClick={() => dispatch(suiviDetteActions.addCaseClients())}> Ajouter Un Nom</button>
                     <h4> Ooouups!!! cette date n'a pas des données </h4>
                 </div>
             );

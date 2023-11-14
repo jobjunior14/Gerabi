@@ -1,6 +1,3 @@
-const catchAssynch = require(`../../utils/catchAssynch.js`);
-const AppError = require(`../../utils/appError.js`);
-const { request } = require("express");
 
 function loopingData(array, year, month, day) {
 

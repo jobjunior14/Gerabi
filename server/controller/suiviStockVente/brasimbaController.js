@@ -10,7 +10,7 @@ const {
   suiviDetailStatsCollection,
   yearStatsCollection,
   lastCreatedData
-} =  require ("./productMiddlewareFunction.js");
+} =  require ("../functions/suiviStockVenteFunction");
 
 exports.getBrasimba = catchAssynch(async (req, res ) => {
   

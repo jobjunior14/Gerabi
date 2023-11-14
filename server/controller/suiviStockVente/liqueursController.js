@@ -10,7 +10,7 @@ const {
   suiviDetailStatsCollection,
   yearStatsCollection,
   lastCreatedData
-} =  require ("./productMiddlewareFunction.js");
+} =  require ("../functions/suiviStockVenteFunction");
 
 exports.getLiqueurs = catchAssynch(async (req, res ) => {
   
