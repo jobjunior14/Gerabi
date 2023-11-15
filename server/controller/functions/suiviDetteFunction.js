@@ -577,18 +577,18 @@ exports.totalDetteCollection = async (data) => {
     const month = Number (data.req.params.month);
     const day = Number (data.req.params.day);
 
-    const data = loopingData(suiviDette, year, month, day);
+    const dataDay = loopingData(suiviDette, year, month, day);
     let totDette = 0;
-    if (data.agents.length > 0 && data.musiciens.length > 0 && data.clients.length > 0 ) {
+    if (dataDay.agents.length > 0 && dataDay.musiciens.length > 0 && dataDay.clients.length > 0 ) {
 
-        for (let i of data.agents) {
-            totDette += i.data.amount;
+        for (let i of dataDay.agents) {
+            totDette += i.dataDay.amount;
         };
-        for (let i of data.musiciens) {
-            totDette += i.data.amount;
+        for (let i of dataDay.musiciens) {
+            totDette += i.dataDay.amount;
         };
-        for (let i of data.clients) {
-            totDette += i.data.amount;
+        for (let i of dataDay.clients) {
+            totDette += i.dataDay.amount;
         };
     };
 
