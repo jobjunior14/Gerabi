@@ -203,7 +203,6 @@ arraySchema.pre("save", function (next) {
   this.benefice_sur_vente = ( (this.vente_journaliere.qt_vendue_comptoir * this.business_projection.marge_beneficiaire) / this.business_projection.stock_gen).toFixed(2);
   this.stock_consignaions.valeur = this.stock_consignaions.qt * this.vente_journaliere.ref_prix_det;
   this.stock_apres_vente.valeur = this.stock_apres_vente.reste_stock * this.vente_journaliere.ref_prix_det
-  
 
   next();
 });

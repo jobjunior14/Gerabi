@@ -25,8 +25,15 @@ const LiqueursRouter = require("./routes/liqueursRoutes.js");
 const venteDego = require("./routes/venteDegoRoutes.js");
 const SuiviDepenseRouter = require("./routes/suiviDepenseRoutes.js");
 const SuiviDetteRouter = require("./routes/suiviDetteRouter.js");
+const AlimentationAutrePRodduitRouter = require('./routes/alimentation/alimentationAutreProduitRouter.js');
+const AlimentationBralima = require('./routes/alimentation/alimentationBralimaRouter.js');
+const AlimentationBrasimba = require('./routes/alimentation/alimentationBrasimbaRouter.js');
+const AlimentationLiqueurs = require('./routes/alimentation/alimentationLiqueursRouter.js');
+
+
 
 //3) Routes
+//dego Bar
 app.use("/api/v1/autreProduit", AutreProduitRouter);
 app.use ("/api/v1/bralima", BralimaRouter);
 app.use ("/api/v1/brasimba", BrasimbaRouter);
@@ -34,6 +41,11 @@ app.use('/api/v1/liqueurs', LiqueursRouter);
 app.use("/api/v1/vente", venteDego);
 app.use("/api/v1/suiviDepense", SuiviDepenseRouter);
 app.use ("/api/v1/suiviDette", SuiviDetteRouter);
+//alimentation
+app.use("/api/v1/autreProduit", AlimentationAutrePRodduitRouter );
+app.use("/api/v1/bralima", AlimentationBralima );
+app.use("/api/v1/brasimba", AlimentationBrasimba );
+app.use("/api/v1/liqueurs", AlimentationLiqueurs );
 
 app.all("*", (req, res, next) => {
   next(new AppError(`Cannot find ${req.originalUrl} this server`, 404));
