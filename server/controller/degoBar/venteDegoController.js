@@ -1,11 +1,11 @@
-const VenteDego = require(`${__dirname}/../models/venteDegoModel.js`);
-const catchAssynch = require(`${__dirname}/../utils/catchAssynch.js`);
+const VenteDego = require(`../../models/degoBar/venteDegoModel`);
+const catchAssynch = require(`../../utils/catchAssynch`);
 const {
   getVente,
   pushDataVente,
   updatevente,
   monthStatsVente
-} = require ('./functions/venteDegoFunction');
+} = require ('../functions/venteDegoFunction');
 
 exports.getVenteDego = catchAssynch(async (req, res, next) => {
   getVente({req: req, res: res, next: next, collection: VenteDego});

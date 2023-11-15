@@ -9,7 +9,7 @@ const {
   AllProductStatsCollection, 
   yearStatsCollection,
   lastCreatedData
-} = require ("../../functions/suiviStockVenteAlimentationFucntion");
+} = require ("../../functions/alimentation/suiviStockVenteAlimentationFucntion");
 
 exports.getAutreProduit = catchAssynch(async (req, res ) => {
   

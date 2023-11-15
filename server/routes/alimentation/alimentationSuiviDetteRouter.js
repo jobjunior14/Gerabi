@@ -9,7 +9,7 @@ const {
     mensualStasSuiviDette,
     mensualStasSuiviDetteDetail,
     totalDette
-} = require('../controller/suiviDette/suiviDetteController');
+} = require('../../controller/alimentation/suiviDette/suiviDetteAlimentationController');
 
 router
     .route('/rapportJournalier/:year/:month/:day')

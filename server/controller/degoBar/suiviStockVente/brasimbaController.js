@@ -1,5 +1,5 @@
-const Brasimba = require(`../../models/brasimbaModel`);
-const catchAssynch = require(`../../utils/catchAssynch.js`);
+const Brasimba = require(`../../../models/degoBar/brasimbaModel`);
+const catchAssynch = require(`../../../utils/catchAssynch.js`);
 const {
   getCollection, 
   pushDataCollection, 
@@ -10,7 +10,7 @@ const {
   suiviDetailStatsCollection,
   yearStatsCollection,
   lastCreatedData
-} =  require ("../functions/suiviStockVenteFunction");
+} =   require ("../../functions/degoBar/suiviStockVenteFunction");
 
 exports.getBrasimba = catchAssynch(async (req, res ) => {
   

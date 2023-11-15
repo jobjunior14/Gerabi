@@ -1,5 +1,5 @@
 const VenteAlimentation = require('../../models/alimentation/venteAlimentationModel');
-const catchAssynch = require(`${__dirname}/../utils/catchAssynch.js`);
+const catchAssynch = require(`../../utils/catchAssynch`);
 const {
   getVente,
   pushDataVente,

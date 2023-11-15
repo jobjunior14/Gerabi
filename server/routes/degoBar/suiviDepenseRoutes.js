@@ -7,7 +7,7 @@ const {
     updateSuiviDepense,
     lastCreatedDataSuiviDepense,
     mensualStasSuiviDepense
-} = require('../controller/suiviDepense/suiviDepenseController');
+} = require('../../controller/degoBar/suiviDepense/suiviDepenseController');
 
 router
     .route('/rapportJournalier/:year/:month/:day')

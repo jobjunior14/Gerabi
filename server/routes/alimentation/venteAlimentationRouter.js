@@ -6,7 +6,7 @@ const {
   pushDataVenteDego,
   updateventeDego,
   monthStatsVenteDego,
-} = require("../controller/venteDegoController");
+} = require("../../controller/alimentation/venteAlimentationController");
 
 router.route("/").post(pushDataVenteDego);
 

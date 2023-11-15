@@ -12,28 +12,28 @@ const {
 } = require ('../../controller/alimentation/suiviStockVente/alimentationBralimaController');
 
 router
-  .route("alimentation/raportJournalier/:year/:month/:day")
+  .route("/raportJournalier/:year/:month/:day")
   .get(getAutreProduit)
   .post(updateDataAutreProduit);
 
-router.route("alimentation/raportJournalier").post(pushDataAutreProduit);
+router.route("/raportJournalier").post(pushDataAutreProduit);
 
 // stats
 router
-  .route("alimentation/raportMensuel/stasts/:year/:month")
+  .route("/raportMensuel/stasts/:year/:month")
   .get(stastAutreProduit);
 
 router
-  .route("alimentation/raportMensuel/Allstast/:year/:month")
+  .route("/raportMensuel/Allstast/:year/:month")
   .get(AllProductStatsAutreProduit);
 
 router
-  .route("alimentation/raportMensuel/yearStats/:year")
+  .route("/raportMensuel/yearStats/:year")
   .get(yearStatsAutreProduit);
 
   //last created element
 router
-  .route("alimentation/raportJournalier/lastElement")
+  .route("/raportJournalier/lastElement")
   .get(lastCreatedData);
 
 module.exports = router;

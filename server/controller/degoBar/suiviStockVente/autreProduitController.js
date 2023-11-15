@@ -1,5 +1,5 @@
-const AutreProduit = require('../../models/autreProduitModel');
-const catchAssynch = require(`../../utils/catchAssynch`);
+const AutreProduit = require('../../../models/degoBar/autreProduitModel');
+const catchAssynch = require(`../../../utils/catchAssynch`);
 
 const {
   getCollection, 
@@ -11,7 +11,7 @@ const {
   suiviDetailStatsCollection,
   yearStatsCollection,
   lastCreatedData
-} =  require ("../functions/suiviStockVenteFunction");
+} =  require ("../../functions/degoBar/suiviStockVenteFunction");
 
 exports.getAutreProduit = catchAssynch(async (req, res ) => {
   

@@ -1,6 +1,4 @@
-const SuiviDette = require(`../../models/suiviDettesModel`);
-const AppError = require("../../utils/appError");
-const catchAssynch = require(`../../utils/catchAssynch.js`);
+const AppError = require('../../utils/appError');
 
 const loopingData = (array, year, month, day) => {
 
@@ -154,26 +152,26 @@ const statsAll = async (year, month, path, SuiviDette) => {
     return data
 }
 
-exports.getSuiviDette = catchAssynch (async (req, res) => {
+exports.getSuiviDetteCollection = async (data) => {
 
-    const suiviDette = await SuiviDette.find();
+    const suiviDette = await data.collection.find();
 
     res.status(200).json({
         status: 'success',
-        data: loopingData (suiviDette, Number (req.params.year), Number (req.params.month), Number (req.params.day))
+        data: loopingData (suiviDette, Number (data.req.params.year), Number (data.req.params.month), Number (data.req.params.day))
     });
-});
+};
 
-exports.pushSuiviDette = catchAssynch (async (req, res) => {
+exports.pushSuiviDetteCollection = async (data) => {
 
-    const suiviDette = await SuiviDette.find();
+    const suiviDette = await data.collection.find();
 
     //data from body request
-    const body = req.body.data.data;
+    const body = data.req.body.data.data;
     //query's date
-    const year = Number (req.query.year);
-    const month = Number (req.query.month);
-    const day = Number (req.query.day);
+    const year = Number (data.req.query.year);
+    const month = Number (data.req.query.month);
+    const day = Number (data.req.query.day);
 
     if (suiviDette.length > 0){
         
@@ -210,7 +208,7 @@ exports.pushSuiviDette = catchAssynch (async (req, res) => {
     
                         } else {
                             
-                            return next (new AppError ('La section nom ne doit pas etre vide'), 404);
+                            return data.next (new AppError ('La section nom ne doit pas etre vide'), 404);
                         };
                     };
                     //for clients
@@ -236,7 +234,7 @@ exports.pushSuiviDette = catchAssynch (async (req, res) => {
     
                         } else {
                             
-                            return next (new AppError ('La section nom ne doit pas etre vide'), 404);
+                            return data.next (new AppError ('La section nom ne doit pas etre vide'), 404);
                         };
                     };
                     //for musiciens
@@ -262,7 +260,7 @@ exports.pushSuiviDette = catchAssynch (async (req, res) => {
     
                         } else {
                             
-                            return next (new AppError ('La section nom ne doit pas etre vide'), 404);
+                            return data.next (new AppError ('La section nom ne doit pas etre vide'), 404);
                         };
                     };
     
@@ -306,19 +304,19 @@ exports.pushSuiviDette = catchAssynch (async (req, res) => {
             data: loopingData([newSuiviDette], year, month, day)
         });
     };
-});
+};
 
-exports.updateSuiviDette = catchAssynch (async (req, res, next) => {
+exports.updateSuiviDetteCollection = async (data) => {
     
-    const suiviDette = await SuiviDette.find();
+    const suiviDette = await data.collection.find();
     
-    const year = Number (req.params.year);
-    const month = Number (req.params.month);
-    const day = Number (req.params.day);
+    const year = Number (data.req.params.year);
+    const month = Number (data.req.params.month);
+    const day = Number (data.req.params.day);
 
     console.log (year, month, day);
 
-    const body = req.body.data.data;
+    const body = data.req.body.data.data;
     
     
     for ( let i = 0; i < suiviDette.length; i++) {
@@ -354,16 +352,16 @@ exports.updateSuiviDette = catchAssynch (async (req, res, next) => {
                                 
                             } else {
 
-                                return next (new AppError ('cette donnee est inexistante', 404))
+                                return data.next (new AppError ('cette donnee est inexistante', 404))
                             }
     
                         } else {
-                            return next (new AppError ('cette donnee est inexistante', 404));
+                            return data.next (new AppError ('cette donnee est inexistante', 404));
                         };
     
                     } else {
                         
-                        return next (new AppError ('La section nom ne doit pas etre vide'), 404);
+                        return data.next (new AppError ('La section nom ne doit pas etre vide'), 404);
                     };
                 };
                 //for clients
@@ -389,16 +387,16 @@ exports.updateSuiviDette = catchAssynch (async (req, res, next) => {
                                 };
                             } else {
 
-                                return next (new AppError ('cette donnee est inexistante', 404));
+                                return data.next (new AppError ('cette donnee est inexistante', 404));
                             }
     
                         } else {
-                            return next (new AppError ('cette donnee est inexistante', 404));
+                            return data.next (new AppError ('cette donnee est inexistante', 404));
                         };
     
                     } else {
                         
-                        return next (new AppError ('La section nom ne doit pas etre vide'), 404);
+                        return data.next (new AppError ('La section nom ne doit pas etre vide'), 404);
                     };
                 };
                 //for musiciens
@@ -426,16 +424,16 @@ exports.updateSuiviDette = catchAssynch (async (req, res, next) => {
                                 
                             } else {
 
-                                return next (new AppError ('cette donnee est inexistante', 404))
+                                return data.next (new AppError ('cette donnee est inexistante', 404))
                             }
     
                         } else {
-                            return next (new AppError ('cette donnee est inexistante', 404));
+                            return data.next (new AppError ('cette donnee est inexistante', 404));
                         };
     
                     } else {
                         
-                        return next (new AppError ('La section nom ne doit pas etre vide'), 404);
+                        return data.next (new AppError ('La section nom ne doit pas etre vide'), 404);
                     };
                 };
 
@@ -444,12 +442,12 @@ exports.updateSuiviDette = catchAssynch (async (req, res, next) => {
     
             } else {
     
-                return next (new AppError ('Ce mois est inexistant dans la base des donnees', 404));
+                return data.next (new AppError ('Ce mois est inexistant dans la base des donnees', 404));
             };
             
         } else {
             
-            return next (new AppError ('Cette annee est inexistante dans la base des donnees', 404));
+            return data.next (new AppError ('Cette annee est inexistante dans la base des donnees', 404));
         };
     };
     
@@ -458,14 +456,14 @@ exports.updateSuiviDette = catchAssynch (async (req, res, next) => {
         status: 'success',
         data: loopingData(suiviDette, year, month, day)
     });
-});
+};
 
-exports.lastCreatedDataSuiviDette = catchAssynch (async (req, res,) => {
+exports.lastCreatedDataSuiviDetteCollection = async (data) => {
 
-    const suiviDette = await SuiviDette.find();
+    const suiviDette = await data.collection.find();
     
-    const year = Number (req.params.year);
-    const month = Number (req.params.month);
+    const year = Number (data.req.params.year);
+    const month = Number (data.req.params.month);
 
     if (suiviDette.length > 0) {
         
@@ -531,12 +529,12 @@ exports.lastCreatedDataSuiviDette = catchAssynch (async (req, res,) => {
             data: null
         })
     };
-});
+};
 
-exports.mensualStasSuiviDette = catchAssynch (async (req, res, next) => {
+exports.mensualStasSuiviDetteCollection = async (data) => {
 
-    const year = Number (req.params.year);
-    const month = Number (req.params.month);
+    const year = Number (data.req.params.year);
+    const month = Number (data.req.params.month);
 
     const agents = statsAll(year, month, 'agents', SuiviDette);
     const musiciens = statsAll(year, month, 'musiciens', SuiviDette);
@@ -550,12 +548,12 @@ exports.mensualStasSuiviDette = catchAssynch (async (req, res, next) => {
             clients: clients
         }
     });
-});
+};
 
-exports.mensualStasSuiviDetteDetail = catchAssynch (async (req, res, next) => {
+exports.mensualStasSuiviDetteDetailCollection = async (data) => {
 
-    const year = Number (req.params.year);
-    const month = Number (req.params.month);
+    const year = Number (data.req.params.year);
+    const month = Number (data.req.params.month);
 
     const agents = await statsDetail(year, month,'agents',SuiviDette);
     const musiciens = await statsDetail(year, month,'musiciens',SuiviDette);
@@ -569,15 +567,15 @@ exports.mensualStasSuiviDetteDetail = catchAssynch (async (req, res, next) => {
             agents: agents
         }
     });
-});
+};
 
-exports.totalDette = catchAssynch (async (req, res) => {
+exports.totalDetteCollection = async (data) => {
 
-    const suiviDette = await SuiviDette.find();
+    const suiviDette = await data.collection.find();
 
-    const year = Number (req.params.year);
-    const month = Number (req.params.month);
-    const day = Number (req.params.day);
+    const year = Number (data.req.params.year);
+    const month = Number (data.req.params.month);
+    const day = Number (data.req.params.day);
 
     const data = loopingData(suiviDette, year, month, day);
     let totDette = 0;
@@ -598,5 +596,5 @@ exports.totalDette = catchAssynch (async (req, res) => {
         status: 'success',
         data: totDette
     })
-})
+};
 

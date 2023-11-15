@@ -1,6 +1,4 @@
-const SuiviDepense = require(`../../models/suiviDepenseModel`);
-const AppError = require("../../utils/appError");
-const catchAssynch = require(`../../utils/catchAssynch.js`);
+const AppError = require("../../../utils/appError");
 
 const loopingData = (array, year, month, day) => {
 
@@ -77,27 +75,27 @@ const loopingData = (array, year, month, day) => {
 };
 
 
-exports.getSuiviDepense = catchAssynch( async (req, res) => {
+exports.getSuiviDepenseCollection = async (data) => {
 
-    const suiviDepense = await  SuiviDepense.find();
+    const suiviDepense = await  data.collection.find();
 
     res.status(200).json({
 
         status: 'success',
-        data: loopingData(suiviDepense , Number (req.params.year), Number (req.params.month), Number (req.params.day))
+        data: loopingData(suiviDepense , Number (data.req.params.year), Number (data.req.params.month), Number (data.req.params.day))
     }); 
-});
+};
 
-exports.pushSuiviDepense = catchAssynch (async (req, res, next) => {
+exports.pushSuiviDepenseCollection = async (data) => {
 
-    const suiviDepense = await SuiviDepense.find();
+    const suiviDepense = await data.collection.find();
 
     //data for body request
-    const body = req.body.data.data;
+    const body = data.req.body.data.data;
     //query's date
-    const year = Number (req.query.year);
-    const month = Number (req.query.month);
-    const day = Number (req.query.day);
+    const year = Number (data.req.query.year);
+    const month = Number (data.req.query.month);
+    const day = Number (data.req.query.day);
 
     if (suiviDepense.length > 0){
         
@@ -134,7 +132,7 @@ exports.pushSuiviDepense = catchAssynch (async (req, res, next) => {
     
                         } else {
                             
-                            return next (new AppError ('La section nom ne doit pas etre vide'), 404);
+                            return data.next (new AppError ('La section nom ne doit pas etre vide'), 404);
                         };
                     };
     
@@ -169,7 +167,7 @@ exports.pushSuiviDepense = catchAssynch (async (req, res, next) => {
                                     }
                                 } else {
                                     
-                                    return next (new AppError ('La section label ne doit pas etre vide'), 404);
+                                    return data.next (new AppError ('La section label ne doit pas etre vide'), 404);
                                 };
     
                             } else {
@@ -178,7 +176,7 @@ exports.pushSuiviDepense = catchAssynch (async (req, res, next) => {
     
                         } else {
                             
-                            return next (new AppError ('La section nom ne doit pas etre vide'), 404);
+                            return data.next (new AppError ('La section nom ne doit pas etre vide'), 404);
                         };
                     };
     
@@ -210,7 +208,7 @@ exports.pushSuiviDepense = catchAssynch (async (req, res, next) => {
             } else {
                 
                 //creating the data it's a new year
-                const NewsuiviDepense = await SuiviDepense.create(req.body);
+                const NewsuiviDepense = await SuiviDepense.create(data.req.body);
     
                 res.status(200).json({
                     status: 'success',
@@ -221,24 +219,24 @@ exports.pushSuiviDepense = catchAssynch (async (req, res, next) => {
     } else {
         
         //creating the data if collection is empty
-        const NewsuiviDepense = await SuiviDepense.create(req.body);
+        const NewsuiviDepense = await SuiviDepense.create(data.req.body);
         
         res.status(200).json({
             status: 'success',
             data: loopingData([NewsuiviDepense], year, month, day)
         });
     };
-});
+};
 
-exports.updateSuiviDepense = catchAssynch (async (req, res, next) => {
+exports.updateSuiviDepenseCollection = async (data) => {
     
-    const suiviDepense = await SuiviDepense.find();
+    const suiviDepense = await data.collection.find();
     
-    const year = Number (req.params.year);
-    const month = Number (req.params.month);
-    const day = Number (req.params.day);
+    const year = Number (data.req.params.year);
+    const month = Number (data.req.params.month);
+    const day = Number (data.req.params.day);
 
-    const body = req.body.data.data;
+    const body = data.req.body.data.data;
     
     
     for ( let i = 0; i < suiviDepense.length; i++) {
@@ -300,7 +298,7 @@ exports.updateSuiviDepense = catchAssynch (async (req, res, next) => {
                                 };
                             } else {
 
-                                return next (new AppError ('cette donnee est inexistante', 404))
+                                return data.next (new AppError ('cette donnee est inexistante', 404))
                             }
     
                         } else {
@@ -309,7 +307,7 @@ exports.updateSuiviDepense = catchAssynch (async (req, res, next) => {
     
                     } else {
                         
-                        return next (new AppError ('La section nom ne doit pas etre vide'), 404);
+                        return data.next (new AppError ('La section nom ne doit pas etre vide'), 404);
                     };
                 };
     
@@ -368,25 +366,25 @@ exports.updateSuiviDepense = catchAssynch (async (req, res, next) => {
                         
                                         } else {
     
-                                            return next (new AppError ('cette donnee est inexistante', 404));
+                                            return data.next (new AppError ('cette donnee est inexistante', 404));
                                         };
                                     } else {
         
-                                        return next (new AppError ('cette donnee est inexistante', 404));
+                                        return data.next (new AppError ('cette donnee est inexistante', 404));
                                     };
                                 } else {
                                     
-                                    return next (new AppError ('La section label ne doit pas etre vide'), 404);
+                                    return data.next (new AppError ('La section label ne doit pas etre vide'), 404);
                                 };
                             };
     
                         } else {
-                            return next (new AppError ('cette donnee est inexistante', 404));
+                            return data.next (new AppError ('cette donnee est inexistante', 404));
                         };
     
                     } else {
                         
-                        return next (new AppError ('La section nom ne doit pas etre vide'), 404);
+                        return data.next (new AppError ('La section nom ne doit pas etre vide'), 404);
                     };
                 };
     
@@ -430,16 +428,16 @@ exports.updateSuiviDepense = catchAssynch (async (req, res, next) => {
 
                     await suiviDepense[yearIndex].save();
                 } else {
-                    return next ( new AppError ('cette donnee est inexistante', 404));
+                    return data.next ( new AppError ('cette donnee est inexistante', 404));
                 }
             } else {
     
-                return next (new AppError ('Ce mois est inexistant dans la base des donnees', 404));
+                return data.next (new AppError ('Ce mois est inexistant dans la base des donnees', 404));
             };
             
         } else {
             
-            return next (new AppError ('Cette annee est inexistante dans la base des donnees', 404));
+            return data.next (new AppError ('Cette annee est inexistante dans la base des donnees', 404));
         };
     };
     
@@ -448,14 +446,14 @@ exports.updateSuiviDepense = catchAssynch (async (req, res, next) => {
         status: 'success',
         data: loopingData(suiviDepense, year, month, day)
     });
-});
+};
 
-exports.lastCreatedDataSuiviDepense = catchAssynch (async (req, res,) => {
+exports.lastCreatedDataSuiviDepenseCollection = async (data) => {
 
-    const suiviDepense = await SuiviDepense.find();
+    const suiviDepense = await data.collection.find();
     
-    const year = Number (req.params.year);
-    const month = Number (req.params.month);
+    const year = Number (data.req.params.year);
+    const month = Number (data.req.params.month);
 
     if (suiviDepense.length > 0) {
         
@@ -520,12 +518,12 @@ exports.lastCreatedDataSuiviDepense = catchAssynch (async (req, res,) => {
             data: null
         })
     };
-});
+};
 
-exports.mensualStasSuiviDepense = catchAssynch (async (req, res, next) => {
+exports.mensualStasSuiviDepenseCollection = async (data) => {
 
-    const year = Number (req.params.year);
-    const month = Number (req.params.month);
+    const year = Number (data.req.params.year);
+    const month = Number (data.req.params.month);
 
     const entreeCaisse = await SuiviDepense.aggregate([
 
@@ -576,4 +574,4 @@ exports.mensualStasSuiviDepense = catchAssynch (async (req, res, next) => {
         status: 'success',
         data: entreeCaisse
     });
-});
+};

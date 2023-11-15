@@ -11,7 +11,7 @@ const {
   suiviDetailStatsBralima,
   yearStatsBralima,
   lastCreatedData
-} = require("../controller/suiviStockVente/bralimaController");
+} = require("../../controller/degoBar/suiviStockVente/bralimaController");
 
 router
   .route("/raportJournalier/:year/:month/:day")
