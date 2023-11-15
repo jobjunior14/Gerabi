@@ -22,7 +22,7 @@ router.route("/raportJournalier").post(pushDataBrasimba);
 
 // stats
 router
-  .route("/raportMensuel/stasts/:year/:month")
+  .route("/raportMensuel/stats/:year/:month")
   .get(stastBrasimba);
 
 router
