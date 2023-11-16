@@ -14,36 +14,36 @@ const {
 } = require("../../controller/degoBar/suiviStockVente/autreProduitController");
 
 router
-  .route("/raportJournalier/:year/:month/:day")
+  .route("/rapportJournalier/:year/:month/:day")
   .get(getAutreProduit)
   .post(updateDataAutreProduit);
 
-router.route("/raportJournalier/").post(pushDataAutreProduit);
+router.route("/rapportJournalier/").post(pushDataAutreProduit);
 
 // stats
 router
-  .route("/raportMensuel/stats/:year/:month")
+  .route("/rapportMensuel/stats/:year/:month")
   .get(stastAutreProduit);
 
 router
-  .route("/raportMensuel/Allstast/:year/:month")
+  .route("/rapportMensuel/Allstast/:year/:month")
   .get(AllProductStatsAutreProduit);
 
 router
-  .route("/raportMensuel/suiviAllStats/:year/:month")
+  .route("/rapportMensuel/suiviAllStats/:year/:month")
   .get(suiviAllStatsAutreProduit);
 
 router
-  .route("/raportMensuel/suiviDetailStats/:year/:month")
+  .route("/rapportMensuel/suiviDetailStats/:year/:month")
   .get(suiviDetailStatsAutreProduit);
 
 router
-  .route("/raportMensuel/yearStats/:year")
+  .route("/rapportMensuel/yearStats/:year")
   .get(yearStatsAutreProduit);
 
 //last created element
 router
-  .route("/raportJournalier/lastElement")
+  .route("/rapportJournalier/lastElement")
   .get(lastCreatedData);
 
 module.exports = router;

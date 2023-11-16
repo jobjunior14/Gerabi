@@ -21,7 +21,7 @@ exports.getAutreProduit = catchAssynch(async (req, res ) => {
 
 exports.pushDataAutreProduit = catchAssynch(async (req, res, next ) => {
  
-  pushDataCollection(req, AutreProduit, res)
+  await pushDataCollection(req, AutreProduit, res)
   
 });
 

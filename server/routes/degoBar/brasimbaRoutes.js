@@ -14,36 +14,36 @@ const {
 } = require("../../controller/degoBar/suiviStockVente/brasimbaController");
 
 router
-  .route("/raportJournalier/:year/:month/:day")
+  .route("/rapportJournalier/:year/:month/:day")
   .get(getBrasimba)
   .post(updateDataBrasimba);
 
-router.route("/raportJournalier").post(pushDataBrasimba);
+router.route("/rapportJournalier").post(pushDataBrasimba);
 
 // stats
 router
-  .route("/raportMensuel/stats/:year/:month")
+  .route("/rapportMensuel/stats/:year/:month")
   .get(stastBrasimba);
 
 router
-  .route("/raportMensuel/Allstast/:year/:month")
+  .route("/rapportMensuel/Allstast/:year/:month")
   .get(AllProductStatsBrasimba);
 
 router
-  .route("/raportMensuel/suiviAllStats/:year/:month")
+  .route("/rapportMensuel/suiviAllStats/:year/:month")
   .get(suiviAllStatsBrasimba);
 
 router
-  .route("/raportMensuel/suiviDetailStats/:year/:month")
+  .route("/rapportMensuel/suiviDetailStats/:year/:month")
   .get(suiviDetailStatsBrasimba);
 
 router
-  .route("/raportMensuel/yearStats/:year")
+  .route("/rapportMensuel/yearStats/:year")
   .get(yearStatsBrasimba);
 
   //last created element
 router
-  .route("/raportJournalier/lastElement")
+  .route("/rapportJournalier/lastElement")
   .get(lastCreatedData);
 
 module.exports = router;

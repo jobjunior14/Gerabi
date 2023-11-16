@@ -57,7 +57,7 @@ function postAndUpdateData (errMessage, errorMessage, year, month, day, productD
         dispatch(productActions.setProductdata(null));
         console.log(id);
         // if id we update Data and if not we push or create it 
-        const response = id ? await axios.post( `http://localhost:5001/api/v1/${props.produit}/raportJournalier/${year}/${month}/${day}`, {id: [...id], data: [...newData]} ) : await axios.post( `http://localhost:5001/api/v1/${props.produit}/raportJournalier?year=${year}&month=${month}&day=${day}`, newData);
+        const response = id ? await axios.post( `http://localhost:5001/api/v1/${props.produit}/rapportJournalier/${year}/${month}/${day}`, {id: [...id], data: [...newData]} ) : await axios.post( `http://localhost:5001/api/v1/${props.produit}/rapportJournalier?year=${year}&month=${month}&day=${day}`, newData);
         const responseventeDego = id ? await axios.post( `http://localhost:5001/api/v1/vente/${year}/${month}/${day}`, newDataVente ) : await axios.post( `http://localhost:5001/api/v1/vente?year=${year}&month=${month}&day=${day}`, newDataVente);
 
         dispatch(productActions.setUpdate(true));
@@ -454,7 +454,7 @@ export default function Product (props) {
 
           dispatch(productActions.setProductdata(null));
 
-          const dataApi = await axios.get( `http://localhost:5001/api/v1/${props.produit}/raportJournalier/${year}/${month}/${day}`);
+          const dataApi = await axios.get( `http://localhost:5001/api/v1/${props.produit}/rapportJournalier/${year}/${month}/${day}`);
           const dataVente = await axios.get (`http://localhost:5001/api/v1/vente/${year}/${month}/${day}`);
           
           if (dataApi.data.data.day.length > 0 ){
@@ -467,7 +467,7 @@ export default function Product (props) {
             dispatch(productActions.setReadOnly(true));
           } else {
             
-            const lastCreatedData = await axios.get(`http://localhost:5001/api/v1/${props.produit}/raportJournalier/lastElement`); 
+            const lastCreatedData = await axios.get(`http://localhost:5001/api/v1/${props.produit}/rapportJournalier/lastElement`); 
             
             if (lastCreatedData.data.data){
               
@@ -505,7 +505,7 @@ export default function Product (props) {
             
             if ( storageState.date.year === prevYear && storageState.date.month === prevMonth && storageState.date.day === prevDay) { 
 
-              const dataApi = await axios.get(`http://localhost:5001/api/v1/${props.produit}/raportJournalier/${currentYear}/${currentMonth}/${currentDay}`);
+              const dataApi = await axios.get(`http://localhost:5001/api/v1/${props.produit}/rapportJournalier/${currentYear}/${currentMonth}/${currentDay}`);
               const dataVente = await axios.get (`http://localhost:5001/api/v1/vente/${currentYear}/${currentMonth}/${currentDay}`);
 
               if (dataApi.data.data.day.length === 0) {
@@ -538,12 +538,12 @@ export default function Product (props) {
 
             dispatch(productActions.setProductdata (null));
             
-            const dataApi = await axios.get(`http://localhost:5001/api/v1/${props.produit}/raportJournalier/${currentYear}/${currentMonth}/${currentDay}`);
+            const dataApi = await axios.get(`http://localhost:5001/api/v1/${props.produit}/rapportJournalier/${currentYear}/${currentMonth}/${currentDay}`);
             const dataVente = await axios.get (`http://localhost:5001/api/v1/vente/${currentYear}/${currentMonth}/${currentDay}`);
             
             if (dataApi.data.data.day.length === 0) {
 
-              const previousData = await axios.get(`http://localhost:5001/api/v1/${props.produit}/raportJournalier/lastElement`);              
+              const previousData = await axios.get(`http://localhost:5001/api/v1/${props.produit}/rapportJournalier/lastElement`);              
               
               if (dataVente.data.data.day){
                 dispatch(productActions.setVenteDego(dataVente.data.data.day.valeur))

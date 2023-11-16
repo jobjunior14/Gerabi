@@ -1,3 +1,4 @@
+const catchA = require ('../../../utils/catchAssynch')
 
 function loopingData(array, year, month, day) {
 
@@ -41,7 +42,7 @@ exports.getCollection = async (collection, request, response) =>{
   }); 
 };
 
-exports.pushDataCollection = async (request, collection, response ) => {
+exports.pushDataCollection =  async (request, collection, response ) => {
 
   //data  from collection
   const collectionData = await collection.find();
@@ -221,7 +222,7 @@ exports.pushDataCollection = async (request, collection, response ) => {
       if ( o.name !== "") {
 
         const newBralimaData = await collection.create(o);
-  
+        
         //initialize the stats object and doing some calcul
         const statsObj = {
           annee: year,

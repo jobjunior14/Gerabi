@@ -1,8 +1,8 @@
 const AppError = require('../../utils/appError');
 
 function loopingData(array, year, month, day) {
-  let dayData = null;
 
+  let dayData = null;
   //iterate through i of
   for (let i of array) {
     //check if the year is true of false
@@ -30,7 +30,7 @@ exports.getVente = async (data) => {
   const vente = await data.collection.find();
 
   // then the response ....
-  res.status(200).json({
+  data.res.status(200).json({
     status: "success",
     data: {
       day: loopingData(
@@ -47,6 +47,7 @@ exports.pushDataVente = async (data) => {
 
   const vente = await data.collection.find();
 
+  console.log (data.req.query);
   const year = Number(data.req.query.year);
   const month = Number(data.req.query.month);
   const day = Number(data.req.query.day);
@@ -63,16 +64,16 @@ exports.pushDataVente = async (data) => {
 
       if (dayIndex === -1) {
 
-        vente[yearIndex].data[monthIndex].data.push(req.body);
+        vente[yearIndex].data[monthIndex].data.push(data.req.body);
       }
     } else {
 
-      vente[yearIndex].data.push({ data: req.body });
+      vente[yearIndex].data.push({ data: data.req.body });
     };
     
     await vente[yearIndex].save();
 
-    res.status(200).json({
+    data.res.status(200).json({
       statusbar: "success",
       data: {
         day: loopingData(vente, year, month, day),
@@ -81,14 +82,14 @@ exports.pushDataVente = async (data) => {
 
   } else {
 
-    const newVente = await VenteDego.create({
+    const newVente = await data.collection.create({
 
       data: {
-        data: req.body,
+        data: data.req.body,
       },
     });
 
-    res.status(200).json({
+    data.res.status(200).json({
       status: "success",
       data: {
         day: loopingData([newVente], year, month, day)
@@ -118,7 +119,7 @@ exports.updatevente = async (data) => {
 
         if (dayIndex !== -1) {
 
-          vente[yearIndex].data[monthIndex].data[dayIndex] = {...req.body, createdAt: `${year}-${month}-${day}T07:22:54.930Z` };
+          vente[yearIndex].data[monthIndex].data[dayIndex] = {...data.req.body, createdAt: `${year}-${month}-${day}T07:22:54.930Z` };
           vente[yearIndex].data[monthIndex].markModified('data');
 
 
@@ -142,7 +143,7 @@ exports.updatevente = async (data) => {
     });
 
 
-  res.status(200).json({
+  data.res.status(200).json({
     status: "success",
     data: {
       day: loopingData(vente, year, month, day),
@@ -154,7 +155,7 @@ exports.monthStatsVente = async (data) => {
   const year = Number(data.req.params.year);
   const month = Number(data.req.params.month);
 
-  const stats = await VenteDego.aggregate([
+  const stats = await data.collection.aggregate([
     {
       $match: { annee: { $eq: year } },
     },
@@ -192,7 +193,7 @@ exports.monthStatsVente = async (data) => {
     },
   ]);
 
-  res.status(200).json({
+  data.res.status(200).json({
     status: "success",
     stats: {
       stats,

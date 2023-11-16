@@ -19,7 +19,7 @@ exports.getAutreProduit = catchAssynch(async (req, res ) => {
 
 exports.pushDataAutreProduit = catchAssynch(async (req, res, next ) => {
  
-  pushDataCollection(req, AlimentationAutreProduit, res)
+  await pushDataCollection(req, AlimentationAutreProduit, res)
   
 });
 

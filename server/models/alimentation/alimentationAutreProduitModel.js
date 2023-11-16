@@ -44,6 +44,7 @@ const arraySchema = new mongoose.Schema({
 
     sortie_dego: {
       type: Number,
+      require: [true, 'vous devez taper la valeur de sortie dego']
     },
 
     stock_cave: {
@@ -69,7 +70,7 @@ const arraySchema = new mongoose.Schema({
       require: [true, "vous devez taper le nombre des bouteilles par caisses "],
       // validate: [validator.isNumeric, "dois contenir que des chiffres"]
     },
-    qt_vendue_comptoir: {
+    qt_vendue: {
       type: Number,
     },
     valeur: {
@@ -169,38 +170,20 @@ const AutreProduitSchema = new mongoose.Schema({
 });
 
 arraySchema.pre("save", function (next) {
-  this.achat_journalier.qt_btll =
-    this.achat_journalier.qt_caisse * this.achat_journalier.nbr_btll;
-  this.benefice_sur_achat.val_gros_approvisionnement =
-    this.achat_journalier.qt_caisse * this.achat_journalier.prix_achat_gros;
-  this.benefice_sur_achat.val_det =
-    this.achat_journalier.qt_btll * this.vente_journaliere.ref_prix_det;
-  this.benefice_sur_achat.benefice =
-    this.benefice_sur_achat.val_det -
-    this.benefice_sur_achat.val_gros_approvisionnement;
-  this.business_projection.stock_gen =
-    this.val_precedente.stock_apres_ventente_rest_stock_comptoir_qt_btll +
-    this.val_precedente.stock_apres_ventente_rest_stock_depot_qt_btll +
-    this.achat_journalier.qt_btll;
-  this.business_projection.stock_cave =
-    this.business_projection.stock_gen - this.business_projection.sortie_dego;
-  this.business_projection.val_stock_det =
-    this.business_projection.stock_gen * this.vente_journaliere.ref_prix_det;
-  this.business_projection.ref_prix_gros = (
-    this.achat_journalier.prix_achat_gros / this.achat_journalier.nbr_btll
-  ).toFixed(2);
-  this.business_projection.val_stock_gros =
-    this.business_projection.ref_prix_gros * this.business_projection.stock_gen;
-  this.stock_apres_vente.reste_stock_depot.qt_btll =
-    this.stock_apres_vente.reste_stock_depot.qt_caisses *
-    this.achat_journalier.nbr_btll;
-  this.business_projection.marge_beneficiaire =
-    this.business_projection.val_stock_det -
-    this.business_projection.val_stock_gros;
-
-  this.vente_journaliere.qt_vendue_comptoir = this.business_projection.reste_stock - this.stock_apres_vente.reste_stock;
-  this.vente_journaliere.valeur = this.vente_journaliere.ref_prix_det * this.vente_journaliere.qt_vendue_comptoir;
-  this.benefice_sur_vente = ( (this.vente_journaliere.qt_vendue_comptoir * this.business_projection.marge_beneficiaire) / this.business_projection.stock_gen).toFixed(2);
+  this.achat_journalier.qt_btll = this.achat_journalier.qt_caisse * this.achat_journalier.nbr_btll;
+  this.benefice_sur_achat.val_gros_approvisionnement = this.achat_journalier.qt_caisse * this.achat_journalier.prix_achat_gros;
+  this.benefice_sur_achat.val_det = this.achat_journalier.qt_btll * this.vente_journaliere.ref_prix_det;
+  this.benefice_sur_achat.benefice = this.benefice_sur_achat.val_det - this.benefice_sur_achat.val_gros_approvisionnement;
+  this.business_projection.stock_gen = this.val_precedente.stock_apres_ventente_rest_stock_comptoir_qt_btll + this.val_precedente.stock_apres_ventente_rest_stock_depot_qt_btll + this.achat_journalier.qt_btll;
+  this.business_projection.stock_cave = this.business_projection.stock_gen - this.business_projection.sortie_dego;
+  this.business_projection.val_stock_det = this.business_projection.stock_gen * this.vente_journaliere.ref_prix_det;
+  this.business_projection.ref_prix_gros = ( this.achat_journalier.prix_achat_gros / this.achat_journalier.nbr_btll).toFixed(2);
+  this.business_projection.val_stock_gros = this.business_projection.ref_prix_gros * this.business_projection.stock_gen;
+ 
+  this.business_projection.marge_beneficiaire = this.business_projection.val_stock_det - this.business_projection.val_stock_gros;
+  this.vente_journaliere.qt_vendue = this.business_projection.stock_cave - this.stock_apres_vente.reste_stock;
+  this.vente_journaliere.valeur = this.vente_journaliere.ref_prix_det * this.vente_journaliere.qt_vendue;
+  this.benefice_sur_vente = ( (this.vente_journaliere.qt_vendue * this.business_projection.marge_beneficiaire) / this.business_projection.stock_gen).toFixed(2);
   this.stock_consignaions.valeur = this.stock_consignaions.qt * this.vente_journaliere.ref_prix_det;
   this.stock_apres_vente.valeur = this.stock_apres_vente.reste_stock * this.vente_journaliere.ref_prix_det
   

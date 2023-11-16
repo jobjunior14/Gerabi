@@ -40,10 +40,10 @@ export default function SuiviDesVentes () {
 
             try {
 
-                const bralimaData = await axios.get(`http://localhost:5001/api/v1/bralima/raportMensuel/Allstast/${year}/${month}`);
-                const brasimbaData = await axios.get(`http://localhost:5001/api/v1/brasimba/raportMensuel/Allstast/${year}/${month}`);
-                const liqueursData = await axios.get(`http://localhost:5001/api/v1/liqueurs/raportMensuel/Allstast/${year}/${month}`);
-                const autreProduitData = await axios.get(`http://localhost:5001/api/v1/autreProduit/raportMensuel/Allstast/${year}/${month}`);
+                const bralimaData = await axios.get(`http://localhost:5001/api/v1/bralima/rapportMensuel/Allstast/${year}/${month}`);
+                const brasimbaData = await axios.get(`http://localhost:5001/api/v1/brasimba/rapportMensuel/Allstast/${year}/${month}`);
+                const liqueursData = await axios.get(`http://localhost:5001/api/v1/liqueurs/rapportMensuel/Allstast/${year}/${month}`);
+                const autreProduitData = await axios.get(`http://localhost:5001/api/v1/autreProduit/rapportMensuel/Allstast/${year}/${month}`);
             
                 dispatch(mensRapportActions.setMensualData({
                     bralima: bralimaData.data.stats.stats,

@@ -79,7 +79,7 @@ exports.getSuiviDepenseCollection = async (data) => {
 
     const suiviDepense = await  data.collection.find();
 
-    res.status(200).json({
+    data.res.status(200).json({
 
         status: 'success',
         data: loopingData(suiviDepense , Number (data.req.params.year), Number (data.req.params.month), Number (data.req.params.day))
@@ -200,7 +200,7 @@ exports.pushSuiviDepenseCollection = async (data) => {
                 };
                 await suiviDepense[yearIndex].save();
                 
-                res.status(200).json({
+                data.res.status(200).json({
                     status: 'success',
                     data: loopingData(suiviDepense, year, month, day)
                 });
@@ -208,9 +208,9 @@ exports.pushSuiviDepenseCollection = async (data) => {
             } else {
                 
                 //creating the data it's a new year
-                const NewsuiviDepense = await SuiviDepense.create(data.req.body);
+                const NewsuiviDepense = await data.collection.create(data.req.body);
     
-                res.status(200).json({
+                data.res.status(200).json({
                     status: 'success',
                     data: loopingData(NewsuiviDepense, year, month, day)
                 });
@@ -219,9 +219,9 @@ exports.pushSuiviDepenseCollection = async (data) => {
     } else {
         
         //creating the data if collection is empty
-        const NewsuiviDepense = await SuiviDepense.create(data.req.body);
+        const NewsuiviDepense = await data.collection.create(data.req.body);
         
-        res.status(200).json({
+        data.res.status(200).json({
             status: 'success',
             data: loopingData([NewsuiviDepense], year, month, day)
         });
@@ -238,214 +238,218 @@ exports.updateSuiviDepenseCollection = async (data) => {
 
     const body = data.req.body.data.data;
     
-    
-    for ( let i = 0; i < suiviDepense.length; i++) {
-    
-        const yearIndex = suiviDepense.findIndex (el => el.annee === year);
-        
-        if (yearIndex !== -1) {
+    if (suiviDepense.length === 0) {
+
+
+        for ( let i = 0; i < suiviDepense.length; i++) {
             
-            const monthIndex = suiviDepense[yearIndex].data.findIndex ( el => el.mois === month);
+            const yearIndex = suiviDepense.findIndex (el => el.annee === year);
+            
+            if (yearIndex !== -1) {
+                
+                const monthIndex = suiviDepense[yearIndex].data.findIndex ( el => el.mois === month);
+        
+                if (monthIndex !== -1) {
+        
+                    //for entree caisse
+                    for (let p = 0; p < body.entreeCaisse.length; p ++){
+        
+                        if (body.entreeCaisse[p].name !== "") {
     
-            if (monthIndex !== -1) {
-    
-                //for entree caisse
-                for (let p = 0; p < body.entreeCaisse.length; p ++){
-    
-                    if (body.entreeCaisse[p].name !== "") {
-
-                        const indexNameEntree = suiviDepense[yearIndex].data[monthIndex].data.entreeCaisse.findIndex ( el => el.name.toUpperCase () === body.entreeCaisse[p].name.toUpperCase());
-                        
-                        if (indexNameEntree !== -1){
+                            const indexNameEntree = suiviDepense[yearIndex].data[monthIndex].data.entreeCaisse.findIndex ( el => el.name.toUpperCase () === body.entreeCaisse[p].name.toUpperCase());
                             
-                            const existingDataIndex = suiviDepense[yearIndex].data[monthIndex].data.entreeCaisse[indexNameEntree].data.findIndex (el => Number (JSON.stringify(el.createdAt).slice(9, 11)) === day);
-                            
-                            
-                            if (existingDataIndex !== -1) {
+                            if (indexNameEntree !== -1){
                                 
-                                //put the date at the rigt format
-                                if ( month >= 10 && day >= 10){
-
-                                    suiviDepense[yearIndex].data[monthIndex].data.entreeCaisse[indexNameEntree].data[existingDataIndex] = {
-    
-                                        amount: body.entreeCaisse[p].data.amount,
-                                        createdAt: `${year}-${month}-${day}T07:22:54.930Z`,
-                                    };
+                                const existingDataIndex = suiviDepense[yearIndex].data[monthIndex].data.entreeCaisse[indexNameEntree].data.findIndex (el => Number (JSON.stringify(el.createdAt).slice(9, 11)) === day);
+                                
+                                
+                                if (existingDataIndex !== -1) {
                                     
-                                } else if ( month >= 10 && day < 10){
-                                    
-                                    suiviDepense[yearIndex].data[monthIndex].data.entreeCaisse[indexNameEntree].data[existingDataIndex] = {
+                                    //put the date at the rigt format
+                                    if ( month >= 10 && day >= 10){
     
-                                        amount: body.entreeCaisse[p].data.amount,
-                                        createdAt: `${year}-${month}-0${day}T07:22:54.930Z`,
-                                    };
-                                    
-                                } else if ( month < 10 && day >= 10) {
-                                    
-                                    suiviDepense[yearIndex].data[monthIndex].data.entreeCaisse[indexNameEntree].data[existingDataIndex] = {
-    
-                                        amount: body.entreeCaisse[p].data.amount,
-                                        createdAt: `${year}-0${month}-${day}T07:22:54.930Z`,
-                                    };
-                                    
-                                } else {
-                                    
-                                    suiviDepense[yearIndex].data[monthIndex].data.entreeCaisse[indexNameEntree].data[existingDataIndex] = {
-    
-                                        amount: body.entreeCaisse[p].data.amount,
-                                        createdAt: `${year}-0${month}-0${day}T07:22:54.930Z`,
-                                    };
-                                };
-                            } else {
-
-                                return data.next (new AppError ('cette donnee est inexistante', 404))
-                            }
-    
-                        } else {
-                            suiviDepense[yearIndex].data[monthIndex].data.entreeCaisse.push(body.entreeCaisse[p]);
-                        };
-    
-                    } else {
-                        
-                        return data.next (new AppError ('La section nom ne doit pas etre vide'), 404);
-                    };
-                };
-    
-                //for sortie caisse
-                for (let p = 0; p < body.sortieCaisse.length; p ++){
-    
-                    if (body.sortieCaisse[p].name !== "") {
-    
-                        const indexNameSortie = suiviDepense[yearIndex].data[monthIndex].data.sortieCaisse.findIndex ( el => el.name.toUpperCase () === body.sortieCaisse[p].name.toUpperCase());
-    
-                        if (indexNameSortie !== -1) {
-                            
-                            for (let g = 0; g < body.sortieCaisse[p].data.length; g++) {
-
-
-                                if (body.sortieCaisse[p].data[g].libel !== "") {
+                                        suiviDepense[yearIndex].data[monthIndex].data.entreeCaisse[indexNameEntree].data[existingDataIndex] = {
         
-                                    const indexLibelSortie = suiviDepense[yearIndex].data[monthIndex].data.sortieCaisse[indexNameSortie].data.findIndex (el => el.libel.toUpperCase() === body.sortieCaisse[p].data[g].libel.toUpperCase());
-        
-                                    if (indexLibelSortie !== -1){
+                                            amount: body.entreeCaisse[p].data.amount,
+                                            createdAt: `${year}-${month}-${day}T07:22:54.930Z`,
+                                        };
                                         
-                                        const existingDataIndex = suiviDepense[yearIndex].data[monthIndex].data.sortieCaisse[indexNameSortie].data[indexLibelSortie].amount.findIndex (el => Number (JSON.stringify(el.createdAt).slice(9, 11)) === day);
-                                        if (existingDataIndex !== -1) {
+                                    } else if ( month >= 10 && day < 10){
+                                        
+                                        suiviDepense[yearIndex].data[monthIndex].data.entreeCaisse[indexNameEntree].data[existingDataIndex] = {
+        
+                                            amount: body.entreeCaisse[p].data.amount,
+                                            createdAt: `${year}-${month}-0${day}T07:22:54.930Z`,
+                                        };
+                                        
+                                    } else if ( month < 10 && day >= 10) {
+                                        
+                                        suiviDepense[yearIndex].data[monthIndex].data.entreeCaisse[indexNameEntree].data[existingDataIndex] = {
+        
+                                            amount: body.entreeCaisse[p].data.amount,
+                                            createdAt: `${year}-0${month}-${day}T07:22:54.930Z`,
+                                        };
+                                        
+                                    } else {
+                                        
+                                        suiviDepense[yearIndex].data[monthIndex].data.entreeCaisse[indexNameEntree].data[existingDataIndex] = {
+        
+                                            amount: body.entreeCaisse[p].data.amount,
+                                            createdAt: `${year}-0${month}-0${day}T07:22:54.930Z`,
+                                        };
+                                    };
+                                } else {
+    
+                                    return data.next (new AppError ('cette donnee est inexistante', 404))
+                                }
+        
+                            } else {
+                                suiviDepense[yearIndex].data[monthIndex].data.entreeCaisse.push(body.entreeCaisse[p]);
+                            };
+        
+                        } else {
+                            
+                            return data.next (new AppError ('La section nom ne doit pas etre vide'), 404);
+                        };
+                    };
+        
+                    //for sortie caisse
+                    for (let p = 0; p < body.sortieCaisse.length; p ++){
+        
+                        if (body.sortieCaisse[p].name !== "") {
+        
+                            const indexNameSortie = suiviDepense[yearIndex].data[monthIndex].data.sortieCaisse.findIndex ( el => el.name.toUpperCase () === body.sortieCaisse[p].name.toUpperCase());
+        
+                            if (indexNameSortie !== -1) {
+                                
+                                for (let g = 0; g < body.sortieCaisse[p].data.length; g++) {
+    
+    
+                                    if (body.sortieCaisse[p].data[g].libel !== "") {
+            
+                                        const indexLibelSortie = suiviDepense[yearIndex].data[monthIndex].data.sortieCaisse[indexNameSortie].data.findIndex (el => el.libel.toUpperCase() === body.sortieCaisse[p].data[g].libel.toUpperCase());
+            
+                                        if (indexLibelSortie !== -1){
                                             
-                                            //put the date at the right format
-                                            if (month > 10 && day > 10){
-    
-                                                suiviDepense[yearIndex].data[monthIndex].data.sortieCaisse[indexNameSortie].data[indexLibelSortie].amount[existingDataIndex] = {
-        
-                                                    valeur: body.sortieCaisse[p].data[g].amount.valeur,
-                                                    createdAt: `${year}-${month}-${day}T07:22:54.930Z`,
-                                                };
+                                            const existingDataIndex = suiviDepense[yearIndex].data[monthIndex].data.sortieCaisse[indexNameSortie].data[indexLibelSortie].amount.findIndex (el => Number (JSON.stringify(el.createdAt).slice(9, 11)) === day);
+                                            if (existingDataIndex !== -1) {
                                                 
-                                            } else if (month > 10 && day < 10){
-                                                
-                                                suiviDepense[yearIndex].data[monthIndex].data.sortieCaisse[indexNameSortie].data[indexLibelSortie].amount[existingDataIndex] = {
+                                                //put the date at the right format
+                                                if (month > 10 && day > 10){
         
-                                                    valeur: body.sortieCaisse[p].data[g].amount.valeur,
-                                                    createdAt: `${year}-${month}-0${day}T07:22:54.930Z`,
-                                                };
-                                            } else if (month < 10 && day > 10){
-                                                
-                                                suiviDepense[yearIndex].data[monthIndex].data.sortieCaisse[indexNameSortie].data[indexLibelSortie].amount[existingDataIndex] = {
-        
-                                                    valeur: body.sortieCaisse[p].data[g].amount.valeur,
-                                                    createdAt: `${year}-0${month}-${day}T07:22:54.930Z`,
-                                                };
+                                                    suiviDepense[yearIndex].data[monthIndex].data.sortieCaisse[indexNameSortie].data[indexLibelSortie].amount[existingDataIndex] = {
+            
+                                                        valeur: body.sortieCaisse[p].data[g].amount.valeur,
+                                                        createdAt: `${year}-${month}-${day}T07:22:54.930Z`,
+                                                    };
+                                                    
+                                                } else if (month > 10 && day < 10){
+                                                    
+                                                    suiviDepense[yearIndex].data[monthIndex].data.sortieCaisse[indexNameSortie].data[indexLibelSortie].amount[existingDataIndex] = {
+            
+                                                        valeur: body.sortieCaisse[p].data[g].amount.valeur,
+                                                        createdAt: `${year}-${month}-0${day}T07:22:54.930Z`,
+                                                    };
+                                                } else if (month < 10 && day > 10){
+                                                    
+                                                    suiviDepense[yearIndex].data[monthIndex].data.sortieCaisse[indexNameSortie].data[indexLibelSortie].amount[existingDataIndex] = {
+            
+                                                        valeur: body.sortieCaisse[p].data[g].amount.valeur,
+                                                        createdAt: `${year}-0${month}-${day}T07:22:54.930Z`,
+                                                    };
+                                                } else {
+                                                    
+                                                    suiviDepense[yearIndex].data[monthIndex].data.sortieCaisse[indexNameSortie].data[indexLibelSortie].amount[existingDataIndex] = {
+            
+                                                        valeur: body.sortieCaisse[p].data[g].amount.valeur,
+                                                        createdAt: `${year}-0${month}-0${day}T07:22:54.930Z`,
+                                                    };
+                                                }
+                            
                                             } else {
-                                                
-                                                suiviDepense[yearIndex].data[monthIndex].data.sortieCaisse[indexNameSortie].data[indexLibelSortie].amount[existingDataIndex] = {
         
-                                                    valeur: body.sortieCaisse[p].data[g].amount.valeur,
-                                                    createdAt: `${year}-0${month}-0${day}T07:22:54.930Z`,
-                                                };
-                                            }
-                        
+                                                return data.next (new AppError ('cette donnee est inexistante', 404));
+                                            };
                                         } else {
-    
+            
                                             return data.next (new AppError ('cette donnee est inexistante', 404));
                                         };
                                     } else {
-        
-                                        return data.next (new AppError ('cette donnee est inexistante', 404));
+                                        
+                                        return data.next (new AppError ('La section label ne doit pas etre vide'), 404);
                                     };
-                                } else {
-                                    
-                                    return data.next (new AppError ('La section label ne doit pas etre vide'), 404);
                                 };
+        
+                            } else {
+                                return data.next (new AppError ('cette donnee est inexistante', 404));
+                            };
+        
+                        } else {
+                            
+                            return data.next (new AppError ('La section nom ne doit pas etre vide'), 404);
+                        };
+                    };
+        
+                    //for prev Sold
+                    const indexPrevSold = suiviDepense[yearIndex].data[monthIndex].data.soldCaisse.findIndex (el => Number(JSON.stringify(el.createdAt).slice(9, 11)) === day);
+        
+                    if (indexPrevSold !== -1){
+                        
+                        //put the date at the correct format
+                        if (month > 10 && day > 10){
+    
+                            suiviDepense[yearIndex].data[monthIndex].data.soldCaisse = {
+        
+                                amount: body.soldCaisse.amount,
+                                createdAt: `${year}-${month}-${day}T07:22:54.930Z`,
+                            };
+                            
+                        } else if (month > 10 && day < 10){
+                            
+                            suiviDepense[yearIndex].data[monthIndex].data.soldCaisse = {
+        
+                                amount: body.soldCaisse.amount,
+                                createdAt: `${year}-${month}-0${day}T07:22:54.930Z`,
+                            };
+                        } else if (month < 10 && day > 10){
+                            
+                            suiviDepense[yearIndex].data[monthIndex].data.soldCaisse = {
+        
+                                amount: body.soldCaisse.amount,
+                                createdAt: `${year}-0${month}-${day}T07:22:54.930Z`,
+                            };
+                        } else {
+                            
+                            suiviDepense[yearIndex].data[monthIndex].data.soldCaisse = {
+        
+                                amount: body.soldCaisse.amount,
+                                createdAt: `${year}-0${month}-0${day}T07:22:54.930Z`,
                             };
     
-                        } else {
-                            return data.next (new AppError ('cette donnee est inexistante', 404));
-                        };
+                        }
     
+                        await suiviDepense[yearIndex].save();
                     } else {
-                        
-                        return data.next (new AppError ('La section nom ne doit pas etre vide'), 404);
-                    };
-                };
-    
-                //for prev Sold
-                const indexPrevSold = suiviDepense[yearIndex].data[monthIndex].data.soldCaisse.findIndex (el => Number(JSON.stringify(el.createdAt).slice(9, 11)) === day);
-    
-                if (indexPrevSold !== -1){
-                    
-                    //put the date at the correct format
-                    if (month > 10 && day > 10){
-
-                        suiviDepense[yearIndex].data[monthIndex].data.soldCaisse = {
-    
-                            amount: body.soldCaisse.amount,
-                            createdAt: `${year}-${month}-${day}T07:22:54.930Z`,
-                        };
-                        
-                    } else if (month > 10 && day < 10){
-                        
-                        suiviDepense[yearIndex].data[monthIndex].data.soldCaisse = {
-    
-                            amount: body.soldCaisse.amount,
-                            createdAt: `${year}-${month}-0${day}T07:22:54.930Z`,
-                        };
-                    } else if (month < 10 && day > 10){
-                        
-                        suiviDepense[yearIndex].data[monthIndex].data.soldCaisse = {
-    
-                            amount: body.soldCaisse.amount,
-                            createdAt: `${year}-0${month}-${day}T07:22:54.930Z`,
-                        };
-                    } else {
-                        
-                        suiviDepense[yearIndex].data[monthIndex].data.soldCaisse = {
-    
-                            amount: body.soldCaisse.amount,
-                            createdAt: `${year}-0${month}-0${day}T07:22:54.930Z`,
-                        };
-
+                        return data.next ( new AppError ('cette donnee est inexistante', 404));
                     }
-
-                    await suiviDepense[yearIndex].save();
                 } else {
-                    return data.next ( new AppError ('cette donnee est inexistante', 404));
-                }
+        
+                    return data.next (new AppError ('Ce mois est inexistant dans la base des donnees', 404));
+                };
+                
             } else {
-    
-                return data.next (new AppError ('Ce mois est inexistant dans la base des donnees', 404));
+                
+                return data.next (new AppError ('Cette annee est inexistante dans la base des donnees', 404));
             };
-            
-        } else {
-            
-            return data.next (new AppError ('Cette annee est inexistante dans la base des donnees', 404));
         };
-    };
-    
-    
-    res.status(200).json({
-        status: 'success',
-        data: loopingData(suiviDepense, year, month, day)
-    });
+        
+        data.res.status(200).json({
+            status: 'success',
+            data: loopingData(suiviDepense, year, month, day)
+        });
+    } else {
+        return data.next (new AppError (' la collection est completement vide, impossi de mette a  jour une donnee inexistante'));
+    }
 };
 
 exports.lastCreatedDataSuiviDepenseCollection = async (data) => {
@@ -464,8 +468,6 @@ exports.lastCreatedDataSuiviDepenseCollection = async (data) => {
             sortieCaisse: [],
             soldCaisse: 0
         };
-
-
 
         for (let i of suiviDepense){
 
@@ -506,14 +508,14 @@ exports.lastCreatedDataSuiviDepenseCollection = async (data) => {
             };
         };
 
-        res.status(200).json({
+        data.res.status(200).json({
             status: 'success',
             data: dayData
         });
 
     } else {
 
-        res.status(200).json({
+        data.res.status(200).json({
             status: 'success',
             data: null
         })
@@ -570,7 +572,7 @@ exports.mensualStasSuiviDepenseCollection = async (data) => {
 
     ]);
 
-    res.status(200).json({
+    data.res.status(200).json({
         status: 'success',
         data: entreeCaisse
     });

@@ -44,6 +44,7 @@ const arraySchema = new mongoose.Schema({
 
     sortie_dego: {
       type: Number,
+      require: [true, 'vous devez taper la valeur de sortie dego']
     },
 
     stock_cave: {
@@ -189,14 +190,9 @@ arraySchema.pre("save", function (next) {
   this.business_projection.ref_prix_gros = (
     this.achat_journalier.prix_achat_gros / this.achat_journalier.nbr_btll
   ).toFixed(2);
-  this.business_projection.val_stock_gros =
-    this.business_projection.ref_prix_gros * this.business_projection.stock_gen;
-  this.stock_apres_vente.reste_stock_depot.qt_btll =
-    this.stock_apres_vente.reste_stock_depot.qt_caisses *
-    this.achat_journalier.nbr_btll;
-  this.business_projection.marge_beneficiaire =
-    this.business_projection.val_stock_det -
-    this.business_projection.val_stock_gros;
+  this.business_projection.val_stock_gros = this.business_projection.ref_prix_gros * this.business_projection.stock_gen;
+  this.stock_apres_vente.valeur = this.stock_apres_vente.reste_stock * this.vente_journaliere.ref_prix_det;
+ 
 
   this.vente_journaliere.qt_vendue_comptoir = this.business_projection.reste_stock - this.stock_apres_vente.reste_stock;
   this.vente_journaliere.valeur = this.vente_journaliere.ref_prix_det * this.vente_journaliere.qt_vendue_comptoir;
