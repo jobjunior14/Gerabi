@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
-import { suiviDepenseActions } from "../../store/suiviDepense-slice";
+import { suiviDepenseActions } from "../../../store/suiviDepense-slice";
 import { useSearchParams } from "react-router-dom";
 import SoriteCaisse from "./sortieCaisse";
 import EntreeCaisse from "./entreeCaisse";
-import DailyFilter from "../../filter/filterDailyRap";
+import DailyFilter from "../../../filter/filterDailyRap";
 import SoldCaisse from "./soldCaisse";
 
 function postAndUpdate (entreeCaisse, sortieCaisse, year, month, day, dispacth, update,  totalSortieCaisse, totalSoldCaisse, totalDette) {

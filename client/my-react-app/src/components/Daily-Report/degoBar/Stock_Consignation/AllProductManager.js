@@ -4,210 +4,12 @@ import { useSearchParams } from "react-router-dom";
 import {useSelector, useDispatch } from 'react-redux'
 import { ExcelSecLayout } from "./productComp/Stock_Sec_Layout";
 import { TableSuivi } from "./suiviAppro/SuiviTable";
-import DailyFilter from "../../filter/filterDailyRap";
-import {productActions} from "../../store/AllProductManager-slice"
+import DailyFilter from "../../../filter/filterDailyRap";
+import {productActions} from "../../../store/AllProductManager-slice";
+import { alimProductActions } from "../../../store/AllProductManagerAlim-slice";
 import AddProduct from './addProduct';
-
-function postAndUpdateData (errMessage, errorMessage, year, month, day, productData, dispatch, id, venteDego, props) {
-
-  //calling the function to set the user's Message
-  //if there is the error, data can't be sent to the server
-  errMessage(dispatch, productActions, venteDego, productData);
-
-  const fecthData = async () => {
-
-    
-    try {
-      
-      if (!errorMessage.status) {
-
-        let newData = null;
-        let newDataVente = null;
-        let createdAt = `${year}-${month}-${day}T08:22:54.930Z`
-
-        //update data format
-        if ( month >= 10 && day >= 10) {
-          createdAt = `${year}-${month}-${day}T08:22:54.930Z`
-        } else if (month >= 10 && day < 10) { 
-          createdAt = `${year}-${month}-0${day}T08:22:54.930Z`
-        } else if (month < 10 && day >= 10) {
-          createdAt = `${year}-0${month}-${day}T08:22:54.930Z`
-        } else {         
-          createdAt = `${year}-0${month}-0${day}T08:22:54.930Z`
-        };
-
-        //modeling data to our schema
-          newData = productData.map((el) => {
-            return {
-              name: el.name,
-              data: {
-                data: {
-                  data: { ...el,  createdAt: createdAt}
-                },
-              },
-            };
-          });
-
-          //modeling data to our schema 
-          newDataVente = {
-            valeur: venteDego,
-            createdAt: createdAt
-          };
-
-        dispatch(productActions.setProductdata(null));
-        console.log(id);
-        // if id we update Data and if not we push or create it 
-        const response = id ? await axios.post( `http://localhost:5001/api/v1/${props.produit}/rapportJournalier/${year}/${month}/${day}`, {id: [...id], data: [...newData]} ) : await axios.post( `http://localhost:5001/api/v1/${props.produit}/rapportJournalier?year=${year}&month=${month}&day=${day}`, newData);
-        const responseventeDego = id ? await axios.post( `http://localhost:5001/api/v1/vente/${year}/${month}/${day}`, newDataVente ) : await axios.post( `http://localhost:5001/api/v1/vente?year=${year}&month=${month}&day=${day}`, newDataVente);
-
-        dispatch(productActions.setUpdate(true));
-        dispatch(productActions.setReadOnly(true));
-        dispatch(productActions.setVenteDego(responseventeDego.data.data.day.valeur));
-        dispatch(productActions.setProductdata( response.data.data.day.map((el, index) => { return { ...el, id: index }})));
-      };
-
-    } catch (err) {
-      if (err.message) {
-        console.log(err.data);
-      } else {
-        console.log(err);
-      }
-    };
-
-  };fecthData();
-}
-
-function objProvider(el, index){
-
-   return {
-    name: el.name,
-
-    id: index,
-
-    achat_journalier: {
-      qt_caisse: 0,
-      nbr_btll: 0,
-      qt_btll: 0,
-      prix_achat_gros: 0,
-    },
-
-    benefice_sur_achat: {
-      val_gros_approvisionnement: 0,
-      val_det: 0,
-      benefice: 0,
-    },
-
-    vente_journaliere: {
-      ref_prix_det: 0,
-      qt_vendue_comptoir: 0,
-      valeur: 0,
-    },
-
-    business_projection: {
-      sortie_cave: 0,
-      stock_gen: 0,
-      stock_dego: 0,
-      val_stock_det: 0,
-      ref_prix_gros: 0,
-      val_stock_gros: 0,
-      marge_beneficiaire: 0,
-    },
-
-    stock_consignaions: {
-      qt: 0,
-      valeur: 0,
-    },
-
-    stock_apres_vente: {
-      reste_stock_comptoir: {
-        qt_btll: 0,
-        valeur: 0,
-      },
-      reste_stock_depot: {
-        qt_caisses: 0,
-        qt_btll: 0,
-        valeur: 0,
-      },
-    },
-
-    benefice_sur_vente: 0,
-
-    val_precedente: {
-      stock_apres_ventente_rest_stock_comptoir_qt_btll: el.val_precedente.stock_apres_ventente_rest_stock_comptoir_qt_btll ||0,
-      stock_apres_ventente_rest_stock_depot_qt_btll: el.val_precedente.stock_apres_ventente_rest_stock_depot_qt_btll || 0,
-    },
-
-    suivi1: {
-      name: el.suivi1.name || "",
-      qt_caisse: 0,
-    },
-
-    suivi2: {
-      name: el.suivi2.name || "",
-      qt_caisse: 0,
-    },
-
-    suivi3: {
-      name: el.suivi3.name || "",
-      qt_caisse: 0,
-    },
-
-    suivi4: {
-      name: el.suivi4.name || "",
-      qt_caisse: 0,
-    },
-
-    suivi5: {
-      name: el.suivi5.name || "",
-      qt_caisse: 0,
-    },
-
-    suivi6: {
-      name: el.suivi6.name || "",
-      qt_caisse: 0,
-    },
-
-    suivi7: {
-      name: el.suivi7.name || "",
-      qt_caisse: 0,
-    },
-
-    suivi8: {
-      name: el.suivi8.name || "",
-      qt_caisse: 0,
-    },
-
-    suivi9: {
-      name: el.suivi9.name || "",
-      qt_caisse: 0,
-    },
-
-    suivi10: {
-      name: el.suivi10.name || "",
-      qt_caisse: 0,
-    },
-
-    suivi11: {
-      name: el.suivi11.name || "",
-      qt_caisse: 0,
-    },
-
-    suivi12: {
-      name: el.suivi12.name || "",
-      qt_caisse: 0,
-    },
-
-    suivi13: {
-      name: el.suivi13.name || "",
-      qt_caisse: 0,
-    },
-
-    suivi14: {
-      name: el.suivi14.name || "",
-      qt_caisse: 0,
-    },
-  };
-};
+import objProvider from "../../../reuseFunction/suiviStockVente/objProvider";
+import postAndUpdateData from "../../../reuseFunction/suiviStockVente/postAmdUpdateData";
 
 function errMessage (dispatch, productActions, venteDego, productData) {
 
@@ -392,23 +194,25 @@ export default function Product (props) {
 
   const dispatch = useDispatch();
 
+  //check the component name
+  const stateAction = props.componentName === 'degoBar' ? true : false;
+
   // Data we are using
-  const productData = useSelector(state => state.product.productData)
+  const productData = useSelector(state => state[props.sliceName].productData)
 
   //check if the data need an update or to be created
-  const update = useSelector (state => state.product.update);
+  const update = useSelector (state => state[props.sliceName].update);
 
   //toggle btn to display or hide useless data
-  const toggleStoc = useSelector (state => state.product.toggleStoc)
+  const toggleStoc = useSelector (state => state[props.sliceName].toggleStoc);
 
   //IDs
-  const id = useSelector (state => state.product.id);
+  const id = useSelector (state => state[props.sliceName].id);
 
-  //vente degobar
-  const venteDego = useSelector (state => state.product.venteDego);
+  //venteprops.componentName  const venteDego = useSelector (state => state.product.venteDego);
   
   //date in forms
-  const date = useSelector (state => state.product.date);
+  const date = useSelector (state => state[props.sliceName].date);
 
   //date query
   const [dateParams, setDateParams] = useSearchParams();
@@ -426,6 +230,9 @@ export default function Product (props) {
   //algo to get the previous day
   const today = new Date();
 
+  //vente journaliere
+  const venteDego = useSelector (state => state[props.sliceName].venteDego);
+
   // Soustrayez un jour à cet objet
   today.setDate(today.getDate() - 1);
 
@@ -438,7 +245,7 @@ export default function Product (props) {
   const dateState = year === currentYear && month === currentMonth && day === currentDay;
 
   //error message before sending the data to the server
-  const errorMessage =  useSelector(state => state.product.errorMessage);
+  const errorMessage =  useSelector(state => state[props.sliceName].errorMessage);
 
   //fecth the data's day
   useEffect(() => {
@@ -448,126 +255,122 @@ export default function Product (props) {
       try {
 
         //initialisation of error message
-        dispatch(productActions.setErrorMessage({status: true, message: ""}));
+        stateAction ? dispatch(productActions.setErrorMessage({status: true, message: ""})) : dispatch(alimProductActions.setErrorMessage({status: true, message: ""}))
 
         if (year < currentYear || month < currentMonth || day < currentDay) {
 
-          dispatch(productActions.setProductdata(null));
+          stateAction ? dispatch(productActions.setProductdata(null)) :  dispatch(alimProductActions.setProductdata(null));
 
-          const dataApi = await axios.get( `http://localhost:5001/api/v1/${props.produit}/rapportJournalier/${year}/${month}/${day}`);
-          const dataVente = await axios.get (`http://localhost:5001/api/v1/vente/${year}/${month}/${day}`);
+          const dataApi = await axios.get( `http://localhost:5001/api/v1/${props.componentName}/${props.produit}/rapportJournalier/${year}/${month}/${day}`);
+          const dataVente = await axios.get (`http://localhost:5001/api/v1/${props.componentName}/${props.vente}/${year}/${month}/${day}`);
           
           if (dataApi.data.data.day.length > 0 ){
 
-            
-            dispatch(productActions.setVenteDego(dataVente.data.data.day.valeur));
-            dispatch(productActions.setProductdata (dataApi.data.data.day.map((el, index) => { return { ...el, id: index }})));
-            dispatch(productActions.setId(dataApi.data.data.id));
-            dispatch(productActions.setUpdate(true));
-            dispatch(productActions.setReadOnly(true));
+            stateAction ? dispatch(productActions.setVenteDego(dataVente.data.data.day.valeur)) : dispatch(alimProductActions.setVenteDego(dataVente.data.data.day.valeur));
+            stateAction ? dispatch(productActions.setProductdata (dataApi.data.data.day.map((el, index) => { return { ...el, id: index }}))) : dispatch(alimProductActions.setProductdata (dataApi.data.data.day.map((el, index) => { return { ...el, id: index }})));
+            stateAction ? dispatch(productActions.setId(dataApi.data.data.id)) : dispatch(alimProductActions.setId(dataApi.data.data.id));
+            stateAction ? dispatch(productActions.setUpdate(true)) : dispatch(alimProductActions.setUpdate(true));
+            stateAction ? dispatch(productActions.setReadOnly(true)) : dispatch(alimProductActions.setReadOnly(true));
           } else {
             
-            const lastCreatedData = await axios.get(`http://localhost:5001/api/v1/${props.produit}/rapportJournalier/lastElement`); 
+            const lastCreatedData = await axios.get(`http://localhost:5001/api/v1/${props.componentName}/${props.produit}/rapportJournalier/lastElement`); 
             
             if (lastCreatedData.data.data){
               
-              dispatch(productActions.setVenteDego(0));
-              dispatch(productActions.setProductdata (lastCreatedData.data.data.map((el, index) =>  objProvider(el, index))));
-              dispatch(productActions.setUpdate(false));
-              dispatch(productActions.setReadOnly(false));
+              stateAction ? dispatch(productActions.setVenteDego(0)) : dispatch(alimProductActions.setVenteDego(0));
+              stateAction ? dispatch(productActions.setProductdata (lastCreatedData.data.data.map((el, index) =>  objProvider(props.componentName, el, index)))) : dispatch(alimProductActions.setProductdata (lastCreatedData.data.data.map((el, index) =>  objProvider(props.componentName, el, index))));
+              stateAction ? dispatch(productActions.setUpdate(false)) : dispatch(alimProductActions.setUpdate(false));
+              stateAction ? dispatch(productActions.setReadOnly(false)) : dispatch(alimProductActions.setReadOnly(false));
               
             } else {
               
-              dispatch(productActions.setVenteDego(0));
-              dispatch(productActions.setProductdata (dataApi.data.data.day.map((el, index) => { return { ...el, id: index }})));
-              dispatch(productActions.setId(dataApi.data.data.id));
-              dispatch(productActions.setUpdate(false));
-              dispatch(productActions.setReadOnly(false));
+              stateAction ? dispatch(productActions.setVenteDego(0)) :  dispatch(alimProductActions.setVenteDego(0));
+              stateAction ? dispatch(productActions.setProductdata (dataApi.data.data.day.map((el, index) => { return { ...el, id: index }}))) : dispatch(alimProductActions.setProductdata (dataApi.data.data.day.map((el, index) => { return { ...el, id: index }})));
+              stateAction ? dispatch(productActions.setId(dataApi.data.data.id)) : dispatch(alimProductActions.setId(dataApi.data.data.id));
+              stateAction ? dispatch(productActions.setUpdate(false)) : dispatch(alimProductActions.setUpdate(false));
+              stateAction ? dispatch(productActions.setReadOnly(false)) : dispatch(alimProductActions.setReadOnly(false));
               
             }
           };
         } else if ( dateState ) {
 
-          const storageState = JSON.parse(localStorage.getItem(`${props.produit}`));
-          const vente = localStorage.getItem('vente');
+          const storageState = JSON.parse(localStorage.getItem(`${props.produit}${props.componentName}`));
+          const vente = localStorage.getItem(props.vente);
 
           if ( storageState && storageState.data.length > 0) {
-
             if ( storageState.date.year === year && storageState.date.month === month && storageState.date.day === day) {
               
-              dispatch(productActions.setVenteDego(vente))
-              dispatch(productActions.setProductdata (storageState.data));
-              dispatch(productActions.setId(storageState.id))
-              dispatch(productActions.setUpdate(true));
-              dispatch(productActions.setReadOnly(true));
+              stateAction ? dispatch(productActions.setVenteDego(vente)) : dispatch(alimProductActions.setVenteDego(vente));
+              stateAction ? dispatch(productActions.setProductdata (storageState.data)) : dispatch(alimProductActions.setProductdata (storageState.data));
+              stateAction ? dispatch(productActions.setId(storageState.id)) : dispatch(alimProductActions.setId(storageState.id));
+              stateAction ? dispatch(productActions.setUpdate(true)) : dispatch(alimProductActions.setUpdate(true));
+              stateAction ? dispatch(productActions.setReadOnly(true)) : dispatch(alimProductActions.setReadOnly(true));
 
             };
-            
             if ( storageState.date.year === prevYear && storageState.date.month === prevMonth && storageState.date.day === prevDay) { 
 
-              const dataApi = await axios.get(`http://localhost:5001/api/v1/${props.produit}/rapportJournalier/${currentYear}/${currentMonth}/${currentDay}`);
-              const dataVente = await axios.get (`http://localhost:5001/api/v1/vente/${currentYear}/${currentMonth}/${currentDay}`);
+              const dataApi = await axios.get(`http://localhost:5001/api/v1/${props.componentName}/${props.produit}/rapportJournalier/${currentYear}/${currentMonth}/${currentDay}`);
+              const dataVente = await axios.get (`http://localhost:5001/api/v1/${props.componentName}/${props.vente}/${currentYear}/${currentMonth}/${currentDay}`);
 
               if (dataApi.data.data.day.length === 0) {
 
                 if (dataVente.data.data.day ) {
 
-                  dispatch(productActions.setVenteDego(dataVente.data.data.day.valeur));
+                  stateAction ? dispatch(productActions.setVenteDego(dataVente.data.data.day.valeur)) : dispatch(alimProductActions.setVenteDego(dataVente.data.data.day.valeur));
                 } else {
 
-                  dispatch(productActions.setVenteDego(0));
+                  stateAction ? dispatch(productActions.setVenteDego(0)) : dispatch(alimProductActions.setVenteDego(0));
                 };
 
-                dispatch(productActions.setProductdata (storageState.data.map((el, index) => objProvider(el, index))));
-                dispatch(productActions.setId(storageState.id))
-                dispatch(productActions.setUpdate(false));
-                dispatch(productActions.setReadOnly(false));
+                stateAction ? dispatch(productActions.setProductdata (storageState.data.map((el, index) => objProvider(props.componentName, el, index)))) : dispatch(alimProductActions.setProductdata (storageState.data.map((el, index) => objProvider(props.componentName, el, index))));
+                stateAction ? dispatch(productActions.setId(storageState.id)) : dispatch(alimProductActions.setId(storageState.id));
+                stateAction ? dispatch(productActions.setUpdate(false)) : dispatch(alimProductActions.setUpdate(false));
+                stateAction ? dispatch(productActions.setReadOnly(false)) : dispatch(alimProductActions.setReadOnly(false));
 
               } else {
                 
-                dispatch(productActions.setVenteDego(dataVente.data.data.day.valeur))
-                dispatch(productActions.setProductdata (dataApi.data.data.day.map((el, index) => { return { ...el, id: index }; })));
-                dispatch(productActions.setId( dataApi.data.data.id))
-                dispatch(productActions.setUpdate(true));
-                dispatch(productActions.setReadOnly(true));
+                stateAction ? dispatch(productActions.setVenteDego(dataVente.data.data.day.valeur)) : dispatch(alimProductActions.setVenteDego(dataVente.data.data.day.valeur));
+                stateAction ? dispatch(productActions.setProductdata (dataApi.data.data.day.map((el, index) => { return { ...el, id: index }; }))) : dispatch(alimProductActions.setProductdata (dataApi.data.data.day.map((el, index) => { return { ...el, id: index }; })));
+                stateAction ? dispatch(productActions.setId( dataApi.data.data.id)) :  dispatch(alimProductActions.setId( dataApi.data.data.id));
+                stateAction ? dispatch(productActions.setUpdate(true)) : dispatch(alimProductActions.setUpdate(true));
+                stateAction ? dispatch(productActions.setReadOnly(true)) : dispatch(alimProductActions.setReadOnly(true));
 
               };
             };
             
           } else {
 
-            dispatch(productActions.setProductdata (null));
+            stateAction ? dispatch(productActions.setProductdata (null)) : dispatch(alimProductActions.setProductdata (null));
             
-            const dataApi = await axios.get(`http://localhost:5001/api/v1/${props.produit}/rapportJournalier/${currentYear}/${currentMonth}/${currentDay}`);
-            const dataVente = await axios.get (`http://localhost:5001/api/v1/vente/${currentYear}/${currentMonth}/${currentDay}`);
+            const dataApi = await axios.get(`http://localhost:5001/api/v1/${props.componentName}/${props.produit}/rapportJournalier/${currentYear}/${currentMonth}/${currentDay}`);
+            const dataVente = await axios.get (`http://localhost:5001/api/v1/${props.componentName}/${props.vente}/${currentYear}/${currentMonth}/${currentDay}`);
             
             if (dataApi.data.data.day.length === 0) {
 
-              const previousData = await axios.get(`http://localhost:5001/api/v1/${props.produit}/rapportJournalier/lastElement`);              
+              const previousData = await axios.get(`http://localhost:5001/api/v1/${props.componentName}/${props.produit}/rapportJournalier/lastElement`);              
               
               if (dataVente.data.data.day){
-                dispatch(productActions.setVenteDego(dataVente.data.data.day.valeur))
+                stateAction ? dispatch(productActions.setVenteDego(dataVente.data.data.day.valeur)) : dispatch(alimProductActions.setVenteDego(dataVente.data.data.day.valeur));
               } else {
-                dispatch(productActions.setVenteDego(0))
+                stateAction ? dispatch(productActions.setVenteDego(0)) : dispatch(alimProductActions.setVenteDego(0));
               };
-              dispatch(productActions.setUpdate(false));
-              dispatch(productActions.setReadOnly(false));
+              stateAction ? dispatch(productActions.setUpdate(false)) : dispatch(alimProductActions.setUpdate(false));
+              stateAction ? dispatch(productActions.setReadOnly(false)) : dispatch(alimProductActions.setReadOnly(false));
               
               if (previousData.data.data) {
                 
-                dispatch(productActions.setProductdata (previousData.data.data.map((el, index) => objProvider(el, index))));
+                stateAction ? dispatch(productActions.setProductdata (previousData.data.data.map((el, index) => objProvider(props.componentName, el, index)))) : dispatch(alimProductActions.setProductdata (previousData.data.data.map((el, index) => objProvider(props.componentName, el, index))));
   
               } else {
-
-                dispatch(productActions.setProductdata (dataApi.data.data.day.map((el, index) => { return { ...el, id: index };})));
-                dispatch(productActions.setId( dataApi.data.data.id))
+                stateAction ? dispatch(productActions.setProductdata (dataApi.data.data.day.map((el, index) => { return { ...el, id: index };}))) : dispatch(alimProductActions.setProductdata (dataApi.data.data.day.map((el, index) => { return { ...el, id: index };})));
+                stateAction ? dispatch(productActions.setId( dataApi.data.data.id)) :  dispatch(alimProductActions.setId( dataApi.data.data.id));
               }
             } else {
-              dispatch(productActions.setVenteDego(dataVente.data.data.day.valeur));
-              dispatch(productActions.setProductdata (dataApi.data.data.day.map((el, index) => { return { ...el, id: index }; })));
-              dispatch(productActions.setId( dataApi.data.data.id))
-              dispatch(productActions.setUpdate(true));
-              dispatch(productActions.setReadOnly(true));
+              stateAction ? dispatch(productActions.setVenteDego(dataVente.data.data.day.valeur)) : dispatch(alimProductActions.setVenteDego(dataVente.data.data.day.valeur));
+              stateAction ? dispatch(productActions.setProductdata (dataApi.data.data.day.map((el, index) => { return { ...el, id: index }; }))) : dispatch(alimProductActions.setProductdata (dataApi.data.data.day.map((el, index) => { return { ...el, id: index }; })));
+              stateAction ? dispatch(productActions.setId( dataApi.data.data.id)) : dispatch(alimProductActions.setId( dataApi.data.data.id));
+              stateAction ? dispatch(productActions.setUpdate(true)) : dispatch(alimProductActions.setUpdate(true));
+              stateAction ? dispatch(productActions.setReadOnly(true)) : dispatch(alimProductActions.setReadOnly(true));
 
             };
           };
@@ -604,12 +407,13 @@ export default function Product (props) {
       dispatch,
       null,
       venteDego,
-      props
+      props,
+      props.componentName
     );
 
     if ( dateState && !errorMessage.status ) {
 
-      localStorage.setItem(`${props.produit}`, JSON.stringify({
+      localStorage.setItem(`${props.produit}${props.componentName}`, JSON.stringify({
         date: {
           year: year,
           month: month,
@@ -618,7 +422,7 @@ export default function Product (props) {
         data: productData,
         id: id,
       }));
-      localStorage.setItem('vente', venteDego);
+      localStorage.setItem(props.vente, venteDego);
     };
   };
 
@@ -642,12 +446,13 @@ export default function Product (props) {
       dispatch,
       id,
       venteDego,
-      props
+      props,
+      props.componentName
     );
 
     if ( dateState ) {
 
-      localStorage.setItem(`${props.produit}`, JSON.stringify({
+      localStorage.setItem(`${props.produit}${props.componentName}`, JSON.stringify({
         date: {
           year: year,
           month: month,
@@ -656,7 +461,7 @@ export default function Product (props) {
         data: productData,
         id: id,
       }));
-      localStorage.setItem('vente', venteDego);
+      localStorage.setItem(props.vente, venteDego);
     };
 
   };

@@ -1,7 +1,7 @@
 import React from "react";
 import EntreeCaisseComp from "./components/entreeCaisseComp";
 import { useSelector, useDispatch } from "react-redux";
-import { suiviDepenseActions } from "../../store/suiviDepense-slice";
+import { suiviDepenseActions } from "../../../store/suiviDepense-slice";
 import axios from "axios";
 import { useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
