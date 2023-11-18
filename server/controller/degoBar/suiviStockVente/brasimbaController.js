@@ -9,7 +9,7 @@ const {
   suiviAllStatsCollection,
   suiviDetailStatsCollection,
   yearStatsCollection,
-  lastCreatedData
+  lastCreatedDataCollection
 } =   require ("../../functions/degoBar/suiviStockVenteFunction");
 
 exports.getBrasimba = catchAssynch(async (req, res ) => {
@@ -32,7 +32,7 @@ exports.updateDataBrasimba = catchAssynch(async (req, res ) => {
 
 exports.lastCreatedData = catchAssynch( async (req, res) => {
 
-  lastCreatedData(Brasimba, req, res);
+  lastCreatedDataCollection(Brasimba, req, res);
 });
 
 exports.stastBrasimba = catchAssynch(async (req, res, next) => {

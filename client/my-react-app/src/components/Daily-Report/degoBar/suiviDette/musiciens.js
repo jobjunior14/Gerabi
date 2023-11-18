@@ -1,6 +1,6 @@
 import React from "react";
 import {useSelector, useDispatch} from 'react-redux';
-import { suiviDetteActions } from "../../store/suiviDette-slice";
+import { suiviDetteActions } from "../../../store/suiviDette-slice";
 
 export default function Musiciens (){
 

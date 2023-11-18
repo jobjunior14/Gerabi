@@ -4,6 +4,7 @@ import suiviDepenseSlice from './suiviDepense-slice';
 import suiviDetteSlice from './suiviDette-slice';
 import mensRapportSlice from './mensRepport-slice';
 import alimProductSlice from './AllProductManagerAlim-slice';
+import stateCompSlice from './stateComponent';
 const store = configureStore ( {
 
     reducer: {
@@ -12,7 +13,8 @@ const store = configureStore ( {
         mensRapport: mensRapportSlice.reducer,
         suiviDepense: suiviDepenseSlice.reducer,
         suiviDette: suiviDetteSlice.reducer,
-        alimProduct: alimProductSlice
+        alimProduct: alimProductSlice.reducer,
+        stateComp: stateCompSlice.reducer
     }
 });
 

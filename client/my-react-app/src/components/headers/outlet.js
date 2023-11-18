@@ -1,9 +1,18 @@
-import { Outlet } from "react-router-dom";
+import { Outlet , useNavigate} from "react-router-dom";
+import { useEffect } from "react";
 import FirstHeader from "./firstHeaders";
-import ProductHeaders from "./productHeader";
-import MainDailyRepport from "./mainDailyreportHeaders";
+import AlimentationHeader from "./alimentationHeaders";
+import DegoBarHeader from "./degoBarHeaders";
+import DailyRepportHeaders from "./dailyRapHeaders";
 
 export function MainNav () {
+
+    // const navigate = useNavigate();
+
+
+    // useEffect (() => {
+    //     navigate(`/rapportJournalier/degoBar/bralima?year=${new Date().getFullYear()}&month=${new Date().getMonth() + 1}&day=${new Date().getDate()}`);
+    // }, [navigate]);
 
     return (
         <div>
@@ -13,23 +22,45 @@ export function MainNav () {
     )
 };
 
-export function DailyRepportNav () {
-
+export function DailyRepportNav() {
     return (
         <div>
-            <MainDailyRepport/>
+            <DailyRepportHeaders/>
+            <Outlet/>
+        </div>
+    )
+}
+
+export function AlimNav () {
+
+    // const navigate = useNavigate ();
+
+    // useEffect (() => {
+    //     navigate('alimentation/bralima');
+    // }, [navigate]);
+
+    return (
+
+        <div>
+            <AlimentationHeader/>
             <Outlet/>
         </div>
     );
 };
 
-export function ProductNav () {
+export function DegoBarNav () {
+
+    const navigate = useNavigate ();
+
+    // useEffect (() => {
+    //     navigate('/bralima');
+    // }, [navigate]);
 
     return (
 
         <div>
-            <ProductHeaders/>
+            <DegoBarHeader/>
             <Outlet/>
         </div>
-    )
-}
+    );
+};

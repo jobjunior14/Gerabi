@@ -10,7 +10,7 @@ const {
   suiviAllStatsCollection,
   suiviDetailStatsCollection,
   yearStatsCollection,
-  lastCreatedData
+  lastCreatedDataCollection
 } =  require ("../../functions/degoBar/suiviStockVenteFunction");
 
 exports.getAutreProduit = catchAssynch(async (req, res ) => {
@@ -33,7 +33,7 @@ exports.updateDataAutreProduit = catchAssynch(async (req, res ) => {
 
 exports.lastCreatedData = catchAssynch( async (req, res) => {
 
-  lastCreatedData(AutreProduit, req, res);
+  lastCreatedDataCollection(AutreProduit, req, res);
 });
 
 exports.stastAutreProduit = catchAssynch(async (req, res) => {

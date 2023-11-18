@@ -357,7 +357,7 @@ exports.updateDataCollection = async (collection, request, response ) => {
 };
 
 //the last created data 
-exports.lastCreatedData = async (collection, request, response) => {
+exports.lastCreatedDataCollection = async (collection, request, response) => {
 
   //data from collection
   const collectionData = await collection.find();

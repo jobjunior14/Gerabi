@@ -113,8 +113,8 @@ export default function objProvider (componentName, el, index) {
     } else {
         data = {...data, 
             business_projection: {
-                stock_gen: 0,
                 sortie_dego: 0,
+                stock_gen: 0,
                 stock_cave: 0,
                 val_stock_det: 0,
                 ref_prix_gros: 0,

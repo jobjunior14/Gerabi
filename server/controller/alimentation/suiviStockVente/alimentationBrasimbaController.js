@@ -8,7 +8,7 @@ const {
   stastAutreCollection,
   AllProductStatsCollection, 
   yearStatsCollection,
-  lastCreatedData
+  lastCreatedDataCollection
 } =  require ("../../functions/alimentation/suiviStockVenteAlimentationFucntion");
 
 exports.getAutreProduit = catchAssynch(async (req, res ) => {
@@ -31,7 +31,7 @@ exports.updateDataAutreProduit = catchAssynch(async (req, res ) => {
 
 exports.lastCreatedData = catchAssynch( async (req, res) => {
 
-  lastCreatedData(AlimentationBrasimba, req, res);
+  lastCreatedDataCollection(AlimentationBrasimba, req, res);
 });
 
 exports.stastAutreProduit = catchAssynch(async (req, res) => {

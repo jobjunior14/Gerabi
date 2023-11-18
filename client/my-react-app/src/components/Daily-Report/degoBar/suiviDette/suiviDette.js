@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
-import { suiviDetteActions } from "../../store/suiviDette-slice";
+import { suiviDetteActions } from "../../../store/suiviDette-slice";
 import { useSearchParams } from "react-router-dom";
-import DailyFilter from "../../filter/filterDailyRap";
+import DailyFilter from "../../../filter/filterDailyRap";
 import Clients from "./clients"
 import Musiciens from "./musiciens";
 import Agents from "./agents";

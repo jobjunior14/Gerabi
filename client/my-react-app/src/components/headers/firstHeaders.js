@@ -1,6 +1,5 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
-
+import { NavLink,  } from 'react-router-dom';
 
 export default function FirstHeader ()
 {
@@ -13,5 +12,5 @@ export default function FirstHeader ()
                 className={ ({isActive}) => isActive ? "my-link" : null}
                 to = '/rapportJournalier'> Rapport Journalier </NavLink>
         </nav>
-    )
-}
+    );
+};

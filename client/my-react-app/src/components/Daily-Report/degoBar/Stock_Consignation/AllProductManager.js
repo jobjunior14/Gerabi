@@ -10,6 +10,7 @@ import { alimProductActions } from "../../../store/AllProductManagerAlim-slice";
 import AddProduct from './addProduct';
 import objProvider from "../../../reuseFunction/suiviStockVente/objProvider";
 import postAndUpdateData from "../../../reuseFunction/suiviStockVente/postAmdUpdateData";
+import { stateCompAction } from "../../../store/stateComponent";
 
 function errMessage (dispatch, productActions, venteDego, productData) {
 
@@ -194,8 +195,11 @@ export default function Product (props) {
 
   const dispatch = useDispatch();
 
+  //dispact the action if it's dego or alimentation
+  dispatch(stateCompAction.setStateComp( props.componentName === 'degoBar' ? true : false));
+
   //check the component name
-  const stateAction = props.componentName === 'degoBar' ? true : false;
+  const stateAction = useSelector (state => state.stateComp.stateComp);
 
   // Data we are using
   const productData = useSelector(state => state[props.sliceName].productData)
@@ -339,7 +343,6 @@ export default function Product (props) {
             };
             
           } else {
-
             stateAction ? dispatch(productActions.setProductdata (null)) : dispatch(alimProductActions.setProductdata (null));
             
             const dataApi = await axios.get(`http://localhost:5001/api/v1/${props.componentName}/${props.produit}/rapportJournalier/${currentYear}/${currentMonth}/${currentDay}`);
@@ -385,7 +388,7 @@ export default function Product (props) {
       }
     };
     fecthData();
-  }, [year, day, month, props.produit, dateState]);
+  }, [year, day, month, props.produit, dateState, props.componentName]);
 
   //change date field 
   useEffect(() => {
@@ -407,8 +410,7 @@ export default function Product (props) {
       dispatch,
       null,
       venteDego,
-      props,
-      props.componentName
+      props
     );
 
     if ( dateState && !errorMessage.status ) {
@@ -446,8 +448,7 @@ export default function Product (props) {
       dispatch,
       id,
       venteDego,
-      props,
-      props.componentName
+      props 
     );
 
     if ( dateState ) {
@@ -489,12 +490,16 @@ export default function Product (props) {
               <input type="number" name="vente" onChange={ e =>  dispatch(productActions.setVenteDego (e.target.value))} placeholder="Vente Journalière Dego" defaultValue={venteDego}/>
               <ExcelSecLayout toggle = {toggleStoc} />
               <button onClick={() => dispatch(productActions.setToggleStoc())} >{ !toggleStoc ? 'Cacher' : 'Afficher' }</button>
-              { !update && <AddProduct />}
+              { !update && <AddProduct stateAction = {stateAction} />}
 
-              <h1> Suivi Approvisinnemnt </h1>
+              {/* display or hide the suivi appro table */}
+             { stateAction && <span>
+                <h1> Suivi Approvisinnemnt </h1>
 
-              <TableSuivi />
-              <button onClick={() => dispatch (productActions.setProvivers())}>{ !update ? 'Afficher Ou Ajouter un Fournisseur' : 'Afficher plus de Fournisseur' } </button>
+                <TableSuivi />
+                <button onClick={() => dispatch (productActions.setProvivers())}>{ !update ? 'Afficher Ou Ajouter un Fournisseur' : 'Afficher plus de Fournisseur' } </button>
+              </span>}
+
               { !update ? <button onClick={postData}> Enregistrer les Donnees </button> : <button onClick={UpdateData}> Mettre à jour les données</button>}
               {errorMessage.status && <h3> {errorMessage.message} </h3>}
             </div>
@@ -506,7 +511,7 @@ export default function Product (props) {
             <div>
             
                 <DailyFilter component = {'allProduct'} prev = {date} onclick = {setFilterParams} />
-                <AddProduct />  
+                <AddProduct stateAction = {stateAction} />  
                 <h4> Ooouups cette donnée est inexistante veillez clicker sur -Ajouter un Produit- pour la créée</h4>                
             </div>
           );
