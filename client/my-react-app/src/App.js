@@ -21,8 +21,8 @@ function App() {
                 <Route path='brasimba' element = {<Product sliceName = 'product' componentName = "degoBar" vente = 'venteDego' produit = 'brasimba'/>}/>
                 <Route path='autreProdut' element = {<Product sliceName = 'product' componentName = "degoBar" vente = 'venteDego' produit = 'autreProduit'/>}/>
                 <Route path='liqueurs' element = {<Product sliceName = 'product' componentName = "degoBar" vente = 'venteDego' produit = 'liqueurs'/>}/>
-                <Route path ='suiviDette' element = {<SuiviDette/>}/>
-                <Route path = 'suiviDepense' element = {<SuiviDepense/>}/>
+                <Route path ='suiviDette' element = {<SuiviDette sliceName = 'product' componentName = 'degoBar'/>}/>
+                <Route path = 'suiviDepense' element = {<SuiviDepense sliceName = 'product' componentName = 'degoBar'/>}/>
               </Route>
 
               <Route path='alimentation' element = {<AlimNav/>}>
@@ -30,6 +30,8 @@ function App() {
                 <Route path='brasimba' element = {<Product sliceName = 'alimProduct' componentName = "alimentation" vente = 'venteAlimentation' produit = 'brasimba'/>}/>
                 <Route path='autreProdut' element = {<Product sliceName = 'alimProduct' componentName = "alimentation" vente = 'venteAlimentation' produit = 'autreProduit'/>}/>
                 <Route path='liqueurs' element = {<Product sliceName = 'alimProduct' componentName = "alimentation" vente = 'venteAlimentation' produit = 'liqueurs'/>}/>
+                <Route path ='suiviDette' element = {<SuiviDette sliceName = 'alimProduct' componentName = 'alimentation'/>}/>
+                <Route path = 'suiviDepense' element = {<SuiviDepense sliceName = 'alimProduct' componentName = 'alimentation'/>}/>
               </Route>
 
             </Route>

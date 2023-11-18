@@ -8,7 +8,7 @@ import EntreeCaisse from "./entreeCaisse";
 import DailyFilter from "../../../filter/filterDailyRap";
 import SoldCaisse from "./soldCaisse";
 
-function postAndUpdate (entreeCaisse, sortieCaisse, year, month, day, dispacth, update,  totalSortieCaisse, totalSoldCaisse, totalDette) {
+function postAndUpdate (entreeCaisse, sortieCaisse, year, month, day, dispacth, update,  totalSortieCaisse, totalSoldCaisse, totalDette, props) {
 
 
     //set Sold caisse
@@ -70,7 +70,7 @@ function postAndUpdate (entreeCaisse, sortieCaisse, year, month, day, dispacth, 
         try {
                 dispacth(suiviDepenseActions.setEntreeCaisse(null));
                 dispacth(suiviDepenseActions.setSortieCaisse(null));
-                const responseSuiviDepense = !update ?  await axios.post(`http://localhost:5001/api/v1/suiviDepense/rapportJournalier?year=${year}&month=${month}&day=${day}`, suiviDepenseData) : await axios.post(`http://localhost:5001/api/v1/suiviDepense/rapportJournalier/${year}/${month}/${day}`, suiviDepenseData)
+                const responseSuiviDepense = !update ?  await axios.post(`http://localhost:5001/api/v1/${props.componentName}/suiviDepense/rapportJournalier?year=${year}&month=${month}&day=${day}`, suiviDepenseData) : await axios.post(`http://localhost:5001/api/v1/suiviDepense/rapportJournalier/${year}/${month}/${day}`, suiviDepenseData)
 
                 //find the largest table row 
                 if (responseSuiviDepense.data.data.sortieCaisse ) {
@@ -118,7 +118,7 @@ function postAndUpdate (entreeCaisse, sortieCaisse, year, month, day, dispacth, 
 };
 
 
-export default function SuiviDepense (){
+export default function SuiviDepense (props){
 
     const dispacth = useDispatch();
 
@@ -157,8 +157,8 @@ export default function SuiviDepense (){
         const fecthData = async () => {
             try {
 
-                const suiviDepenseData = await axios.get (`http://localhost:5001/api/v1/suiviDepense/rapportJournalier/${year}/${month}/${day}`);
-                const totDette = await axios.get (`http://localhost:5001/api/v1/suiviDette/rapportJournalier/totDette/${year}/${month}/${day}`);
+                const suiviDepenseData = await axios.get (`http://localhost:5001/api/v1/${props.componentName}/suiviDepense/rapportJournalier/${year}/${month}/${day}`);
+                const totDette = await axios.get (`http://localhost:5001/api/v1/${props.componentName}/suiviDette/rapportJournalier/totDette/${year}/${month}/${day}`);
 
                 //set the total debt
                 dispacth(suiviDepenseActions.setTotalDette(totDette.data.data));
@@ -214,7 +214,7 @@ export default function SuiviDepense (){
                     dispacth(suiviDepenseActions.setReadOnly(false));
                     dispacth(suiviDepenseActions.setUpdate(false));
 
-                    const lastCreatedData = await axios.get(`http://localhost:5001/api/v1/suiviDepense/lastElement/${year}/${month}`);
+                    const lastCreatedData = await axios.get(`http://localhost:5001/api/v1/${props.componentName}/suiviDepense/lastElement/${year}/${month}`);
 
                     if (lastCreatedData.data.data) {
                         
@@ -307,7 +307,7 @@ export default function SuiviDepense (){
         return (
             <div>
                 <DailyFilter component = {'suiviDepense'} prev = {date} onclick = {setFilterParams} />
-                <EntreeCaisse/>
+                <EntreeCaisse componentName = {props.componentName}/>
                 <SoriteCaisse /> 
                 <SoldCaisse/>
                 <p> Total Dette du {day}-{month}-{year}: <b> {totalDailyDebt}</b></p>

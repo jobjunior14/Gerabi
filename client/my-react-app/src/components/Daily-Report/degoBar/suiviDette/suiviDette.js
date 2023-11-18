@@ -21,7 +21,7 @@ function deleteEmptyName (array) {
     return data;
 };
 
-function postAndUpdate(dispatch, agents, musiciens, clients, year, month, day, update) {
+function postAndUpdate(dispatch, agents, musiciens, clients, year, month, day, update, props) {
 
     let newDataSuiviDette = null;
     let createdAt = `${year}-${month}-${day}T07:22:54.930Z`;
@@ -55,10 +55,10 @@ function postAndUpdate(dispatch, agents, musiciens, clients, year, month, day, u
             dispatch(suiviDetteActions.setClients(null));
             dispatch(suiviDetteActions.setMusiciens(null));
     
-            const responseSuiviDette = !update ? await axios.post(`http://localhost:5001/api/v1/suiviDette/rapportJournalier?year=${year}&month=${month}&day=${day}`, newDataSuiviDette) : await axios.post(`http://localhost:5001/api/v1/suiviDette/rapportJournalier/${year}/${month}/${day}`, newDataSuiviDette);
+            const responseSuiviDette = !update ? await axios.post(`http://localhost:5001/api/v1/${props.componentName}/suiviDette/rapportJournalier?year=${year}&month=${month}&day=${day}`, newDataSuiviDette) : await axios.post(`http://localhost:5001/api/v1/suiviDette/rapportJournalier/${year}/${month}/${day}`, newDataSuiviDette);
     
     
-                const totDetailDetteAndPayment = await axios.get (`http://localhost:5001/api/v1/suiviDette/rapportMensuel/detail/${year}/${month}`);
+                const totDetailDetteAndPayment = await axios.get (`http://localhost:5001/api/v1/${props.componentName}/suiviDette/rapportMensuel/detail/${year}/${month}`);
                 //set the total amount debt and payment   
                 dispatch(suiviDetteActions.setDetailTotDetteAgents(totDetailDetteAndPayment.data.data.agents));
                 dispatch(suiviDetteActions.setDetailTotDetteMusiciens(totDetailDetteAndPayment.data.data.musiciens));
@@ -87,7 +87,7 @@ function postAndUpdate(dispatch, agents, musiciens, clients, year, month, day, u
 
 };
 
-export default function SuiviDette () {
+export default function SuiviDette (props) {
 
     const dispatch = useDispatch ();
     //params
@@ -121,8 +121,8 @@ export default function SuiviDette () {
 
             try {
 
-                const suiviDetteData = await axios.get (`http://localhost:5001/api/v1/suiviDette/rapportJournalier/${year}/${month}/${day}`);
-                const totDetailDetteAndPayment = await axios.get (`http://localhost:5001/api/v1/suiviDette/rapportMensuel/detail/${year}/${month}`);
+                const suiviDetteData = await axios.get (`http://localhost:5001/api/v1/${props.componentName}/suiviDette/rapportJournalier/${year}/${month}/${day}`);
+                const totDetailDetteAndPayment = await axios.get (`http://localhost:5001/api/v1/${props.componentName}/suiviDette/rapportMensuel/detail/${year}/${month}`);
 
                 if (suiviDetteData.data.data.agents.length > 0 && suiviDetteData.data.data.musiciens.length > 0 && suiviDetteData.data.data.clients.length > 0 ){
                     
@@ -142,7 +142,7 @@ export default function SuiviDette () {
                     dispatch(suiviDetteActions.setUpdate(false));
                     dispatch(suiviDetteActions.setReadOnly(false));
                     
-                    const lastCreatedData = await axios.get(`http://localhost:5001/api/v1/suiviDette/lastElement/${year}/${month}`);
+                    const lastCreatedData = await axios.get(`http://localhost:5001/api/v1/${props.componentName}/suiviDette/lastElement/${year}/${month}`);
                     
                     
                     if (lastCreatedData.data.data) {
@@ -189,12 +189,12 @@ export default function SuiviDette () {
 
     function postData () {
 
-        postAndUpdate(dispatch, agents, musiciens, clients, year, month, day, false);
+        postAndUpdate(dispatch, agents, musiciens, clients, year, month, day, false, props);
     };
 
     function updateData () {
 
-        postAndUpdate(dispatch, agents, musiciens, clients, year, month, day, true);
+        postAndUpdate(dispatch, agents, musiciens, clients, year, month, day, true, props);
     };
 
     //calculate the totad debt daily

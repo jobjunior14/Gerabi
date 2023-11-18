@@ -7,7 +7,7 @@ import { useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 
-export default function EntreeCaisse (){
+export default function EntreeCaisse (props){
 
     const dispatch = useDispatch ();
     const data = useSelector(state => state.suiviDepense.entreeCaisse);
@@ -46,7 +46,7 @@ export default function EntreeCaisse (){
 
         const fecthData = async () => {
 
-            const prevSuiviDepenseData = await axios.get (`http://localhost:5001/api/v1/suiviDepense/rapportJournalier/${prevYear}/${prevMonth}/${prevDay}`);
+            const prevSuiviDepenseData = await axios.get (`http://localhost:5001/api/v1/${props.componentName}/suiviDepense/rapportJournalier/${prevYear}/${prevMonth}/${prevDay}`);
 
             if (prevSuiviDepenseData.data.data.soldCaisse) {
 

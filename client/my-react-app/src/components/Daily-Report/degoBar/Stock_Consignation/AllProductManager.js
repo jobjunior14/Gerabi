@@ -12,119 +12,17 @@ import objProvider from "../../../reuseFunction/suiviStockVente/objProvider";
 import postAndUpdateData from "../../../reuseFunction/suiviStockVente/postAmdUpdateData";
 import { stateCompAction } from "../../../store/stateComponent";
 
-function errMessage (dispatch, productActions, venteDego, productData) {
+function errMessage (dispatch, productActions, venteDego, productData, stateAction) {
 
   if (venteDego <= 0) {
   
     dispatch(productActions.setErrorMessage({status: true, message: "verifier la section vente journaliere"}));
   } else {
     
-    for (let i of productData){
-  
-      if (i.name === "" ) {
-  
-        if (i.achat_journalier.qt_caisse > 0) {
-  
-          dispatch(productActions.setErrorMessage({status: true, message: "un produit sans nom ne peut etre associer à une valeur superieure à 0 dans la section >achat journalier>quantié caisse"}));
-          break;
-        } else if (i.achat_journalier.nbr_btll > 0) {
-    
-          dispatch(productActions.setErrorMessage({status: true, message: "un produit sans nom ne peut etre associer à une valeur superieure à 0 dans la section >achat journalier>nbr bouteille"}));
-          break;
-        } else if (i.achat_journalier.prix_achat_gros > 0) {
-    
-          dispatch(productActions.setErrorMessage({status: true, message: "un produit sans nom ne peut etre associer à une valeur superieure à 0 dans la section >achat journalier>prix achat gros"}));
-          break;
-        } else if (i.business_projection.sortie_cave > 0) {
-    
-          dispatch(productActions.setErrorMessage({status: true, message: "un produit sans nom ne peut etre associer à une valeur superieure à 0 dans la section >business projection>sortie cave"}));
-          break;
-        } else if (i.vente_journaliere.ref_prix_det > 0) {
-    
-          dispatch(productActions.setErrorMessage({status: true, message: "un produit sans nom ne peut etre associer à une valeur superieure à 0 dans la section >vente journaliere>reference prix detaille"}));
-          break;
-        } else if (i.stock_consignaions.qt > 0) {
-    
-          dispatch(productActions.setErrorMessage({status: true, message: "un produit sans nom ne peut etre associer à une valeur superieure à 0 dans la section >stock consignation>quantié "}));
-          break;
-        } else if (i.val_precedente.stock_apres_ventente_rest_stock_comptoir_qt_btll > 0) {
-    
-          dispatch(productActions.setErrorMessage({status: true, message: "un produit sans nom ne peut etre associer à une valeur superieure à 0 dans la section >stock initial>reste comptoir qt bouteille"}));
-          break;
-        } else if (i.val_precedente.stock_apres_ventente_rest_stock_depot_qt_btll > 0) {
-    
-          dispatch(productActions.setErrorMessage({status: true, message: "un produit sans nom ne peut etre associer à une valeur superieure à 0 dans la section >stock apres vente>reste depot qt bouteille"}));
-          break;
-        } else if (i.stock_apres_vente.reste_stock_comptoir.qt_btll > 0) {
-    
-          dispatch(productActions.setErrorMessage({status: true, message: "un produit sans nom ne peut etre associer à une valeur superieure à 0 dans la section >stock apres vente >reste comptoir>qt bouteille"}));
-          break;
-        } else if (i.stock_apres_vente.reste_stock_depot.qt_caisses > 0) {
-    
-          dispatch(productActions.setErrorMessage({status: true, message: "un produit sans nom ne peut etre associer à une valeur superieure à 0 dans la section >stock apres vente >reste depot>qt caisse"}));
-          break;
-        } else if (((i.suivi1.name === '' && i.suivi1.qt_caisse > 0 ) || i.suivi1.name === '') ) {
-  
-          dispatch(productActions.setErrorMessage({status: true, message: " aucune valuer superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
-          break;
-        } else if ((i.suivi2.name === '' && i.suivi2.qt_caisse > 0) ) {
-  
-          dispatch(productActions.setErrorMessage({status: true, message: " aucune valuer superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
-          break;
-        } else if ((i.suivi3.name === '' && i.suivi3.qt_caisse > 0) ) {
-  
-          dispatch(productActions.setErrorMessage({status: true, message: " aucune valuer superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
-          break;
-        } else if ((i.suivi4.name === '' && i.suivi4.qt_caisse > 0) ) {
-  
-          dispatch(productActions.setErrorMessage({status: true, message: " aucune valuer superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
-          break;
-        } else if ((i.suivi5.name === '' && i.suivi5.qt_caisse > 0) ) {
-  
-          dispatch(productActions.setErrorMessage({status: true, message: " aucune valuer superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
-          break;
-        } else if ((i.suivi6.name === '' && i.suivi6.qt_caisse > 0) ) {
-  
-          dispatch(productActions.setErrorMessage({status: true, message: " aucune valuer superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
-          break;
-        } else if ((i.suivi7.name === '' && i.suivi7.qt_caisse > 0) ) {
-  
-          dispatch(productActions.setErrorMessage({status: true, message: " aucune valuer superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
-          break;
-        } else if ((i.suivi8.name === '' && i.suivi8.qt_caisse > 0) ) {
-  
-          dispatch(productActions.setErrorMessage({status: true, message: " aucune valuer superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
-          break;
-        } else if ((i.suivi9.name === '' && i.suivi9.qt_caisse > 0) ) {
-  
-          dispatch(productActions.setErrorMessage({status: true, message: " aucune valuer superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
-          break;
-        } else if ((i.suivi10.name === '' && i.suivi10.qt_caisse > 0) ) {
-  
-          dispatch(productActions.setErrorMessage({status: true, message: " aucune valuer superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
-          break;
-        } else if ((i.suivi11.name === '' && i.suivi11.qt_caisse > 0) ) {
-  
-          dispatch(productActions.setErrorMessage({status: true, message: " aucune valuer superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
-          break;
-        } else if ((i.suivi12.name === '' && i.suivi12.qt_caisse > 0) ) {
-  
-          dispatch(productActions.setErrorMessage({status: true, message: " aucune valuer superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
-          break;
-        } else if ((i.suivi13.name === '' && i.suivi13.qt_caisse > 0) ) {
-  
-          dispatch(productActions.setErrorMessage({status: true, message: " aucune valuer superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
-          break;
-        } else if ((i.suivi14.name === '' && i.suivi14.qt_caisse > 0) ) {
-  
-          dispatch(productActions.setErrorMessage({status: true, message: " aucune valuer superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
-          break;
-        } else {
-  
-          dispatch(productActions.setErrorMessage({status: false, message: ""}));
-        };
-      } else {
+    if (stateAction) {
 
+      for (let i of productData){
+        
         if (((i.suivi1.name === '' && i.suivi1.qt_caisse > 0 ) || i.suivi1.name === '') ) {
   
           dispatch(productActions.setErrorMessage({status: true, message: " aucune valuer superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
@@ -183,11 +81,12 @@ function errMessage (dispatch, productActions, venteDego, productData) {
           break;
         } else {
   
-          dispatch(productActions.setErrorMessage({status: false, message: ""}));
+          dispatch(productActions.setErrorMessage({status: false, message: "Toute donnée sans nom sera automaticament supprimée"}));
         };
-      }
-  
-    };
+      };
+    } else {
+      dispatch(productActions.setErrorMessage({status: false, message: "Toute donnée sans nom sera automaticament supprimée"}));
+    }
   };
 };
 
@@ -393,7 +292,7 @@ export default function Product (props) {
   //change date field 
   useEffect(() => {
 
-    dispatch(productActions.setDate({year: year, month: month, day: day}));
+    stateAction ? dispatch(productActions.setDate({year: year, month: month, day: day})) : dispatch(alimProductActions.setDate({year: year, month: month, day: day}));
   },[props.produit, year, month, day]);
   
   //post data
@@ -410,22 +309,9 @@ export default function Product (props) {
       dispatch,
       null,
       venteDego,
-      props
+      props,
+      dateState
     );
-
-    if ( dateState && !errorMessage.status ) {
-
-      localStorage.setItem(`${props.produit}${props.componentName}`, JSON.stringify({
-        date: {
-          year: year,
-          month: month,
-          day: day
-        },
-        data: productData,
-        id: id,
-      }));
-      localStorage.setItem(props.vente, venteDego);
-    };
   };
 
   function setFilterParams() {
@@ -448,22 +334,9 @@ export default function Product (props) {
       dispatch,
       id,
       venteDego,
-      props 
+      props,
+      dateState
     );
-
-    if ( dateState ) {
-
-      localStorage.setItem(`${props.produit}${props.componentName}`, JSON.stringify({
-        date: {
-          year: year,
-          month: month,
-          day: day
-        },
-        data: productData,
-        id: id,
-      }));
-      localStorage.setItem(props.vente, venteDego);
-    };
 
   };
 
@@ -487,9 +360,9 @@ export default function Product (props) {
               <DailyFilter component = {'allProduct'}  prev = {date} onclick = {setFilterParams} />
 
               <label>Vente Journalière Dego</label>
-              <input type="number" name="vente" onChange={ e =>  dispatch(productActions.setVenteDego (e.target.value))} placeholder="Vente Journalière Dego" defaultValue={venteDego}/>
+              <input type="number" name="vente" onChange={ e =>  stateAction ? dispatch(productActions.setVenteDego (e.target.value)) : dispatch(alimProductActions.setVenteDego (e.target.value))} placeholder="Vente Journalière Dego" defaultValue={venteDego}/>
               <ExcelSecLayout toggle = {toggleStoc} />
-              <button onClick={() => dispatch(productActions.setToggleStoc())} >{ !toggleStoc ? 'Cacher' : 'Afficher' }</button>
+              <button onClick={() => stateAction ? dispatch(productActions.setToggleStoc()) : dispatch(alimProductActions.setToggleStoc())} >{ !toggleStoc ? 'Cacher' : 'Afficher' }</button>
               { !update && <AddProduct stateAction = {stateAction} />}
 
               {/* display or hide the suivi appro table */}
@@ -497,7 +370,7 @@ export default function Product (props) {
                 <h1> Suivi Approvisinnemnt </h1>
 
                 <TableSuivi />
-                <button onClick={() => dispatch (productActions.setProvivers())}>{ !update ? 'Afficher Ou Ajouter un Fournisseur' : 'Afficher plus de Fournisseur' } </button>
+                <button onClick={() => stateAction ? dispatch (productActions.setProvivers()) : dispatch (alimProductActions.setProvivers())}>{ !update ? 'Afficher Ou Ajouter un Fournisseur' : 'Afficher plus de Fournisseur' } </button>
               </span>}
 
               { !update ? <button onClick={postData}> Enregistrer les Donnees </button> : <button onClick={UpdateData}> Mettre à jour les données</button>}

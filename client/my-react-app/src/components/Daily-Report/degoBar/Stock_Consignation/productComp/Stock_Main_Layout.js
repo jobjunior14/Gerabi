@@ -4,7 +4,8 @@ import { alimProductActions } from "../../../../store/AllProductManagerAlim-slic
 
 export function ExcelMain(props)
 {
-    const readOnly = useSelector (state => state.product.readOnly);
+    const readOnlyDego = useSelector (state => state.product.readOnly);
+    const readOnlyAlim = useSelector (state => state.alimProduct.readOnly);
     const toggleStoc = useSelector (state => state.product.toggleStoc);
     const stateAction = useSelector (state => state.stateComp.stateComp);
     const dispatch = useDispatch();
@@ -19,7 +20,7 @@ export function ExcelMain(props)
                             defaultValue = { props.prev.name}
                             id = { props.prev.id }
                             name = 'name' 
-                            readOnly = {readOnly}
+                            readOnly = {readOnlyDego}
                             type = 'text'
                             placeholder = ' Taper le nom du produit '
                             onChange = { (e) =>
@@ -263,7 +264,7 @@ export function ExcelMain(props)
                             defaultValue = { props.prev.name}
                             id = { props.prev.id }
                             name = 'name' 
-                            readOnly = {readOnly}
+                            readOnly = {readOnlyAlim}
                             type = 'text'
                             placeholder = ' Taper le nom du produit '
                             onChange = { (e) =>
@@ -356,9 +357,7 @@ export function ExcelMain(props)
     
                     </td>
                 }
-    
-                { !toggleStoc && <td> { props.prev.business_projection.stock_gen} </td> }
-                       
+                           
                 { !toggleStoc && <td> { props.prev.business_projection.stock_cave} </td> }
     
                 { !toggleStoc && <td> { props.prev.business_projection.val_stock_det} </td> }

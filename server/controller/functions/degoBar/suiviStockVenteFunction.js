@@ -296,7 +296,7 @@ exports.pushDataCollection = async (request, collection, response ) => {
       }
     }; 
 
-    response.status(200).json({
+    response.status(201).json({
       status: 'success',
       data: loopingData(dataBralima, year,month, day),
     });

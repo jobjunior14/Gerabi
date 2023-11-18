@@ -2,11 +2,20 @@ import { productActions } from "../../store/AllProductManager-slice";
 import {alimProductActions } from "../../store/AllProductManagerAlim-slice";
 import axios from "axios";
 
-export default function postAndUpdateData (errMessage, errorMessage, year, month, day, productData, dispatch, id, venteDego, props) {
+export default function postAndUpdateData (errMessage, errorMessage, year, month, day, productData, dispatch, id, venteDego, props, dateState) {
 
      //calling the function to set the user's Message
   //if there is the error, data can't be sent to the server
   errMessage(dispatch, productActions, venteDego, productData);
+
+  const data = [];
+
+  for (let i of productData) {
+
+    if (i.name !== '') {
+      data.push(i);
+    }
+  }
 
   const fecthData = async () => {
 
@@ -31,7 +40,7 @@ export default function postAndUpdateData (errMessage, errorMessage, year, month
         };
 
         //modeling data to our schema
-          newData = productData.map((el) => {
+          newData = data.map((el) => {
             return {
               name: el.name,
               data: {
@@ -50,25 +59,54 @@ export default function postAndUpdateData (errMessage, errorMessage, year, month
         //////////////a revoir les dispatch ////////////////////////////////////////
         props.componentName === 'degoBar' ? dispatch(productActions.setProductdata(null)) : dispatch(alimProductActions.setProductdata(null));
         // if id we update Data and if not we push or create it 
-        const response = id ? await axios.post( `http://localhost:5001/api/v1/${props.componentName}/${props.produit}/rapportJournalier/${year}/${month}/${day}`, {id: [...id], data: [...newData]} ) : await axios.post( `http://localhost:5001/api/v1/${props.produit}/rapportJournalier?year=${year}&month=${month}&day=${day}`, newData);
+        const response = id ? await axios.post( `http://localhost:5001/api/v1/${props.componentName}/${props.produit}/rapportJournalier/${year}/${month}/${day}`, {id: [...id], data: [...newData]} ) : await axios.post( `http://localhost:5001/api/v1/${props.componentName}/${props.produit}/rapportJournalier?year=${year}&month=${month}&day=${day}`, newData);
         //check the component name to choose the right route vente system
         if (props.componentName === 'degoBar') {
             //vente dego bar
-            const responseventeSystem = id ? await axios.post( `http://localhost:5001/api/v1/venteDego/${year}/${month}/${day}`, newDataVente ) : await axios.post( `http://localhost:5001/api/v1/venteDego?year=${year}&month=${month}&day=${day}`, newDataVente);
-    
+            const responseventeSystem = id ? await axios.post( `http://localhost:5001/api/v1/venteDego/${year}/${month}/${day}`, newDataVente ) : await axios.post( `http://localhost:5001/api/v1/${props.componentName}/${props.vente}?year=${year}&month=${month}&day=${day}`, newDataVente);
+
+            if ( dateState ) {
+
+              localStorage.setItem(`${props.produit}${props.componentName}`, JSON.stringify({
+                date: {
+                  year: year,
+                  month: month,
+                  day: day
+                },
+                data: response.data.data.day.map((el, index) => { return { ...el, id: index }}),
+                id: id,
+              }));
+              localStorage.setItem(props.vente, responseventeSystem.data.data.day.valeur);
+            };
+            
             dispatch(productActions.setUpdate(true));
             dispatch(productActions.setReadOnly(true));
             dispatch(productActions.setVenteDego(responseventeSystem.data.data.day.valeur));
             dispatch(productActions.setProductdata( response.data.data.day.map((el, index) => { return { ...el, id: index }})));
-        } else  {
-          //vente alimentation
-          const responseventeSystem = id ? await axios.post( `http://localhost:5001/api/v1/venteDego/${year}/${month}/${day}`, newDataVente ) : await axios.post( `http://localhost:5001/api/v1/venteDego?year=${year}&month=${month}&day=${day}`, newDataVente);
-          /////////////a revoir les dispatch ////////////////////////////////////////
-          dispatch(alimProductActions.setUpdate(true));
-          dispatch(alimProductActions.setReadOnly(true));
-          dispatch(alimProductActions.setVenteDego(responseventeSystem.data.data.day.valeur));
-          dispatch(alimProductActions.setProductdata( response.data.data.day.map((el, index) => { return { ...el, id: index }})));
-        };
+            
+            
+          } else  {
+            //vente alimentation
+            const responseventeSystem = id ? await axios.post( `http://localhost:5001/api/v1/venteDego/${year}/${month}/${day}`, newDataVente ) : await axios.post( `http://localhost:5001/api/v1/venteDego?year=${year}&month=${month}&day=${day}`, newDataVente);
+
+            if ( dateState ) {
+  
+              localStorage.setItem(`${props.produit}${props.componentName}`, JSON.stringify({
+                date: {
+                  year: year,
+                  month: month,
+                  day: day
+                },
+                data: response.data.data.day.map((el, index) => { return { ...el, id: index }}),
+                id: id,
+              }));
+              localStorage.setItem(props.vente, responseventeSystem.data.data.day.valeur);
+            };
+            dispatch(alimProductActions.setUpdate(true));
+            dispatch(alimProductActions.setReadOnly(true));
+            dispatch(alimProductActions.setVenteDego(responseventeSystem.data.data.day.valeur));
+            dispatch(alimProductActions.setProductdata( response.data.data.day.map((el, index) => { return { ...el, id: index }})));
+          };
       };
 
     } catch (err) {

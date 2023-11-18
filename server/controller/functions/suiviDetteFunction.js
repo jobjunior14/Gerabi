@@ -156,7 +156,7 @@ exports.getSuiviDetteCollection = async (data) => {
 
     const suiviDette = await data.collection.find();
 
-    res.status(200).json({
+    data.res.status(200).json({
         status: 'success',
         data: loopingData (suiviDette, Number (data.req.params.year), Number (data.req.params.month), Number (data.req.params.day))
     });
@@ -278,7 +278,7 @@ exports.pushSuiviDetteCollection = async (data) => {
                 };
                 await suiviDette[yearIndex].save();
                 
-                res.status(200).json({
+                data.res.status(200).json({
                     status: 'success',
                     data: loopingData(suiviDette, year, month, day)
                 });
@@ -286,9 +286,9 @@ exports.pushSuiviDetteCollection = async (data) => {
             } else {
                 
                 //creating the data it's a new year
-                const newSuiviDette = await SuiviDette.create(req.body);
+                const newSuiviDette = await data.collection.create(data.req.body);
     
-                res.status(200).json({
+                data.res.status(200).json({
                     status: 'success',
                     data: loopingData([newSuiviDette], year, month, day)
                 });
@@ -297,9 +297,9 @@ exports.pushSuiviDetteCollection = async (data) => {
     } else {
         
         //creating the data if collection is empty
-        const newSuiviDette = await SuiviDette.create(req.body);
+        const newSuiviDette = await data.collection.create(data.req.body);
         
-        res.status(200).json({
+        data.res.status(200).json({
             status: 'success',
             data: loopingData([newSuiviDette], year, month, day)
         });
@@ -313,8 +313,6 @@ exports.updateSuiviDetteCollection = async (data) => {
     const year = Number (data.req.params.year);
     const month = Number (data.req.params.month);
     const day = Number (data.req.params.day);
-
-    console.log (year, month, day);
 
     const body = data.req.body.data.data;
     
@@ -339,7 +337,6 @@ exports.updateSuiviDetteCollection = async (data) => {
                         if (indexName !== -1){
                             
                             const existingDataIndex = suiviDette[yearIndex].data[monthIndex].data.agents[indexName].data.findIndex (el => Number (JSON.stringify(el.createdAt).slice(9, 11)) === day);
-                            console.log (existingDataIndex);
                             
                             if (existingDataIndex !== -1) {
                                 
@@ -452,7 +449,7 @@ exports.updateSuiviDetteCollection = async (data) => {
     };
     
     
-    res.status(200).json({
+    data.res.status(200).json({
         status: 'success',
         data: loopingData(suiviDette, year, month, day)
     });
@@ -517,14 +514,14 @@ exports.lastCreatedDataSuiviDetteCollection = async (data) => {
             };
         };
 
-        res.status(200).json({
+        data.res.status(200).json({
             status: 'success',
             data: dayData
         });
 
     } else {
 
-        res.status(200).json({
+        data.res.status(200).json({
             status: 'success',
             data: null
         })
@@ -536,11 +533,11 @@ exports.mensualStasSuiviDetteCollection = async (data) => {
     const year = Number (data.req.params.year);
     const month = Number (data.req.params.month);
 
-    const agents = statsAll(year, month, 'agents', SuiviDette);
-    const musiciens = statsAll(year, month, 'musiciens', SuiviDette);
-    const clients = statsAll(year, month, 'clients', SuiviDette);
+    const agents = statsAll(year, month, 'agents', data.collection);
+    const musiciens = statsAll(year, month, 'musiciens', data.collection);
+    const clients = statsAll(year, month, 'clients', data.collection);
 
-    res.status(200).json({
+    data.res.status(200).json({
         status: 'success',
         data: {
             agents: agents,
@@ -555,11 +552,11 @@ exports.mensualStasSuiviDetteDetailCollection = async (data) => {
     const year = Number (data.req.params.year);
     const month = Number (data.req.params.month);
 
-    const agents = await statsDetail(year, month,'agents',SuiviDette);
-    const musiciens = await statsDetail(year, month,'musiciens',SuiviDette);
-    const clients = await statsDetail(year, month,'clients',SuiviDette);
+    const agents = await statsDetail(year, month,'agents',data.collection);
+    const musiciens = await statsDetail(year, month,'musiciens',data.collection);
+    const clients = await statsDetail(year, month,'clients',data.collection);
 
-    res.status(200).json({
+    data.res.status(200).json({
         status: 'success',
         data: {
             clients: clients,
@@ -592,7 +589,7 @@ exports.totalDetteCollection = async (data) => {
         };
     };
 
-    res.status(200).json({
+    data.res.status(200).json({
         status: 'success',
         data: totDette
     })

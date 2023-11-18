@@ -334,8 +334,8 @@ export function ExcelSecLayout(props) {
               <th style={tbaleTh}> Benefice</th>
   
               <th style={tbaleTh}>STOCK GEN</th>
-              <th style={tbaleTh}>Sortie Cave</th>
-              <th style={tbaleTh}> Stock Degobar</th>
+              <th style={tbaleTh}>Sortie Dego</th>
+              <th style={tbaleTh}> Stock Cave</th>
               <th style={tbaleTh}>Valeur stock Det</th>
               <th style={tbaleTh}> Ref prix Gros</th>
               <th style={tbaleTh}>Val stock Gros</th>
