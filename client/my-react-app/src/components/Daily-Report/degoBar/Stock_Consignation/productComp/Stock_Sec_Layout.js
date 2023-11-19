@@ -5,9 +5,10 @@ const { table, tbaleTh } = require("./css.js");
 
 export function ExcelSecLayout(props) {
   
+  //house using the component
   const stateAction = useSelector (state => state.stateComp.stateComp);
   const productData = useSelector (state => stateAction ? state.product.productData : state.alimProduct.productData );
-  const toggleStoc = useSelector (state => state.product.toggleStoc);
+  const toggleStoc = useSelector (state => stateAction ?  state.product.toggleStoc : state.alimProduct.toggleStoc );
 
   let displayDataMainExcel = null;
 

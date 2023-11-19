@@ -4,10 +4,9 @@ import { alimProductActions } from "../../../../store/AllProductManagerAlim-slic
 
 export function ExcelMain(props)
 {
-    const readOnlyDego = useSelector (state => state.product.readOnly);
-    const readOnlyAlim = useSelector (state => state.alimProduct.readOnly);
-    const toggleStoc = useSelector (state => state.product.toggleStoc);
     const stateAction = useSelector (state => state.stateComp.stateComp);
+    const readOnly = useSelector (state => stateAction ? state.product.readOnly : state.alimProduct.readOnly);
+    const toggleStoc = useSelector (state => stateAction ? state.product.toggleStoc : state.alimProduct.toggleStoc);
     const dispatch = useDispatch();
     
     if (stateAction) {
@@ -20,7 +19,7 @@ export function ExcelMain(props)
                             defaultValue = { props.prev.name}
                             id = { props.prev.id }
                             name = 'name' 
-                            readOnly = {readOnlyDego}
+                            readOnly = {readOnly}
                             type = 'text'
                             placeholder = ' Taper le nom du produit '
                             onChange = { (e) =>
@@ -264,7 +263,7 @@ export function ExcelMain(props)
                             defaultValue = { props.prev.name}
                             id = { props.prev.id }
                             name = 'name' 
-                            readOnly = {readOnlyAlim}
+                            readOnly = {readOnly}
                             type = 'text'
                             placeholder = ' Taper le nom du produit '
                             onChange = { (e) =>
