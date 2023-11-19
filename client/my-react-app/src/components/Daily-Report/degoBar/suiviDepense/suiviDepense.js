@@ -70,7 +70,7 @@ function postAndUpdate (entreeCaisse, sortieCaisse, year, month, day, dispacth, 
         try {
                 dispacth(suiviDepenseActions.setEntreeCaisse(null));
                 dispacth(suiviDepenseActions.setSortieCaisse(null));
-                const responseSuiviDepense = !update ?  await axios.post(`http://localhost:5001/api/v1/${props.componentName}/suiviDepense/rapportJournalier?year=${year}&month=${month}&day=${day}`, suiviDepenseData) : await axios.post(`http://localhost:5001/api/v1/suiviDepense/rapportJournalier/${year}/${month}/${day}`, suiviDepenseData)
+                const responseSuiviDepense = !update ?  await axios.post(`http://localhost:5001/api/v1/${props.componentName}/suiviDepense/rapportJournalier?year=${year}&month=${month}&day=${day}`, suiviDepenseData) : await axios.post(`http://localhost:5001/api/v1/${props.componentName}/suiviDepense/rapportJournalier/${year}/${month}/${day}`, suiviDepenseData)
 
                 //find the largest table row 
                 if (responseSuiviDepense.data.data.sortieCaisse ) {
@@ -286,11 +286,11 @@ export default function SuiviDepense (props){
 
     function postData(){
         //post data or create it 
-        postAndUpdate(entreeCaisse, sortieCaisse, year, month, day, dispacth, false, totalSortieCaisse,totalSoldCaisse, totalDette);
+        postAndUpdate(entreeCaisse, sortieCaisse, year, month, day, dispacth, false, totalSortieCaisse,totalSoldCaisse, totalDette, props);
     };
     
     function updateData() {
-        postAndUpdate(entreeCaisse, sortieCaisse, year, month, day, dispacth, true, totalSortieCaisse,totalSoldCaisse, totalDette);
+        postAndUpdate(entreeCaisse, sortieCaisse, year, month, day, dispacth, true, totalSortieCaisse,totalSoldCaisse, totalDette, props);
     };
 
 

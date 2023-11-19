@@ -55,7 +55,7 @@ function postAndUpdate(dispatch, agents, musiciens, clients, year, month, day, u
             dispatch(suiviDetteActions.setClients(null));
             dispatch(suiviDetteActions.setMusiciens(null));
     
-            const responseSuiviDette = !update ? await axios.post(`http://localhost:5001/api/v1/${props.componentName}/suiviDette/rapportJournalier?year=${year}&month=${month}&day=${day}`, newDataSuiviDette) : await axios.post(`http://localhost:5001/api/v1/suiviDette/rapportJournalier/${year}/${month}/${day}`, newDataSuiviDette);
+            const responseSuiviDette = !update ? await axios.post(`http://localhost:5001/api/v1/${props.componentName}/suiviDette/rapportJournalier?year=${year}&month=${month}&day=${day}`, newDataSuiviDette) : await axios.post(`http://localhost:5001/api/v1/${props.componentName}/suiviDette/rapportJournalier/${year}/${month}/${day}`, newDataSuiviDette);
     
     
                 const totDetailDetteAndPayment = await axios.get (`http://localhost:5001/api/v1/${props.componentName}/suiviDette/rapportMensuel/detail/${year}/${month}`);
@@ -203,17 +203,17 @@ export default function SuiviDette (props) {
 
         for (let i of agents) {
             if (i.name !== "" ) {
-                tot += i.data.amount
+                tot += i.data.amount - i.data.payment;
             };
         };
         for (let i of musiciens) {
             if (i.name !== "" ) {
-                tot += i.data.amount
+                tot += i.data.amount - i.data.payment;
             };
         };
         for (let i of clients) {
             if (i.name !== "" ) {
-                tot += i.data.amount
+                tot += i.data.amount - i.data.payment;
             };
         };
 

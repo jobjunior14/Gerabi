@@ -120,7 +120,6 @@ export default function SoriteCaisse () {
         dispatch(suiviDepenseActions.setTotalSortieCaisse(totalSortieCaisse));
     };
 
-    // console.log (sortieCaisse);
     
    if (sortieCaisse) {
 

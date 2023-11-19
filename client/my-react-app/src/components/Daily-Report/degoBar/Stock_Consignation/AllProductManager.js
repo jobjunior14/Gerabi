@@ -12,81 +12,82 @@ import objProvider from "../../../reuseFunction/suiviStockVente/objProvider";
 import postAndUpdateData from "../../../reuseFunction/suiviStockVente/postAmdUpdateData";
 import { stateCompAction } from "../../../store/stateComponent";
 
-function errMessage (dispatch, productActions, venteDego, productData, stateAction) {
+function errMessage (dispatch, productActions, venteDego, productData, stateAction, update) {
 
   if (venteDego <= 0) {
   
-    dispatch(productActions.setErrorMessage({status: true, message: "verifier la section vente journaliere"}));
+    stateAction ? dispatch(productActions.setErrorMessage({status: true, errorAllowed: false, message: "verifier la section vente journaliere"})) : dispatch(alimProductActions.setErrorMessage({status: true, errorAllowed: false, message: "verifier la section vente journaliere"}));
   } else {
     
-    if (stateAction) {
-
+    if (stateAction && !update) {
+      
       for (let i of productData){
-        
-        if (((i.suivi1.name === '' && i.suivi1.qt_caisse > 0 ) || i.suivi1.name === '') ) {
+        if (((i.suivi1.name === '' && i.suivi1.qt_caisse > 0 ) || i.suivi1.name === '')  ) {
   
-          dispatch(productActions.setErrorMessage({status: true, message: " aucune valuer superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
+          dispatch(productActions.setErrorMessage({status: true, errorAllowed: false, message: " aucune valeur superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide ou aucun produit ne peut ne pas avoir de fournisseur"}));
           break;
         } else if ((i.suivi2.name === '' && i.suivi2.qt_caisse > 0) ) {
   
-          dispatch(productActions.setErrorMessage({status: true, message: " aucune valuer superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
+          dispatch(productActions.setErrorMessage({status: true, errorAllowed: false, message: " aucune valeur superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
           break;
         } else if ((i.suivi3.name === '' && i.suivi3.qt_caisse > 0) ) {
   
-          dispatch(productActions.setErrorMessage({status: true, message: " aucune valuer superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
+          dispatch(productActions.setErrorMessage({status: true, errorAllowed: false, message: " aucune valeur superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
           break;
         } else if ((i.suivi4.name === '' && i.suivi4.qt_caisse > 0) ) {
   
-          dispatch(productActions.setErrorMessage({status: true, message: " aucune valuer superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
+          dispatch(productActions.setErrorMessage({status: true, errorAllowed: false, message: " aucune valeur superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
           break;
         } else if ((i.suivi5.name === '' && i.suivi5.qt_caisse > 0) ) {
   
-          dispatch(productActions.setErrorMessage({status: true, message: " aucune valuer superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
+          dispatch(productActions.setErrorMessage({status: true, errorAllowed: false, message: " aucune valeur superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
           break;
         } else if ((i.suivi6.name === '' && i.suivi6.qt_caisse > 0) ) {
   
-          dispatch(productActions.setErrorMessage({status: true, message: " aucune valuer superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
+          dispatch(productActions.setErrorMessage({status: true, errorAllowed: false, message: " aucune valeur superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
           break;
         } else if ((i.suivi7.name === '' && i.suivi7.qt_caisse > 0) ) {
   
-          dispatch(productActions.setErrorMessage({status: true, message: " aucune valuer superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
+          dispatch(productActions.setErrorMessage({status: true, errorAllowed: false, message: " aucune valeur superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
           break;
         } else if ((i.suivi8.name === '' && i.suivi8.qt_caisse > 0) ) {
   
-          dispatch(productActions.setErrorMessage({status: true, message: " aucune valuer superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
+          dispatch(productActions.setErrorMessage({status: true, errorAllowed: false, message: " aucune valeur superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
           break;
         } else if ((i.suivi9.name === '' && i.suivi9.qt_caisse > 0) ) {
   
-          dispatch(productActions.setErrorMessage({status: true, message: " aucune valuer superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
+          dispatch(productActions.setErrorMessage({status: true, errorAllowed: false, message: " aucune valeur superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
           break;
         } else if ((i.suivi10.name === '' && i.suivi10.qt_caisse > 0) ) {
   
-          dispatch(productActions.setErrorMessage({status: true, message: " aucune valuer superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
+          dispatch(productActions.setErrorMessage({status: true, errorAllowed: false, message: " aucune valeur superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
           break;
         } else if ((i.suivi11.name === '' && i.suivi11.qt_caisse > 0) ) {
   
-          dispatch(productActions.setErrorMessage({status: true, message: " aucune valuer superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
+          dispatch(productActions.setErrorMessage({status: true, errorAllowed: false, message: " aucune valeur superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
           break;
         } else if ((i.suivi12.name === '' && i.suivi12.qt_caisse > 0) ) {
   
-          dispatch(productActions.setErrorMessage({status: true, message: " aucune valuer superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
+          dispatch(productActions.setErrorMessage({status: true, errorAllowed: false, message: " aucune valeur superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
           break;
         } else if ((i.suivi13.name === '' && i.suivi13.qt_caisse > 0) ) {
   
-          dispatch(productActions.setErrorMessage({status: true, message: " aucune valuer superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
+          dispatch(productActions.setErrorMessage({status: true, errorAllowed: false, message: " aucune valeur superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
           break;
         } else if ((i.suivi14.name === '' && i.suivi14.qt_caisse > 0) ) {
   
-          dispatch(productActions.setErrorMessage({status: true, message: " aucune valuer superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
+          dispatch(productActions.setErrorMessage({status: true, errorAllowed: false, message: " aucune valeur superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide"}));
           break;
         } else {
   
-          dispatch(productActions.setErrorMessage({status: false, message: "Toute donnée sans nom sera automaticament supprimée"}));
+          dispatch(productActions.setErrorMessage({status: false, errorAllowed: true, message: "Toute donnée sans nom sera automaticament supprimée, clicker encore sur *Enregistrer les données*"}));
         };
       };
-    } else {
-      dispatch(productActions.setErrorMessage({status: false, message: "Toute donnée sans nom sera automaticament supprimée"}));
-    }
+    };
+    
+    if (!stateAction && !update){
+      dispatch(alimProductActions.setErrorMessage({status: false, errorAllowed: true, message: "Toute donnée sans nom sera automaticament supprimée, clicker encore sur *Enregistrer les données*"}));
+    };
   };
 };
 
@@ -134,7 +135,7 @@ export default function Product (props) {
   const today = new Date();
 
   //vente journaliere
-  const venteDego = useSelector (state => state[props.sliceName].venteDego);
+  const venteDego = useSelector (state => state[props.sliceName].vente);
 
   // Soustrayez un jour à cet objet
   today.setDate(today.getDate() - 1);
@@ -158,7 +159,7 @@ export default function Product (props) {
       try {
 
         //initialisation of error message
-        stateAction ? dispatch(productActions.setErrorMessage({status: true, message: ""})) : dispatch(alimProductActions.setErrorMessage({status: true, message: ""}))
+        stateAction ? dispatch(productActions.setErrorMessage({status: true, errorAllowed: false, message: ""})) : dispatch(alimProductActions.setErrorMessage({status: true, errorAllowed: false, message: ""}))
 
         if (year < currentYear || month < currentMonth || day < currentDay) {
 
@@ -360,7 +361,7 @@ export default function Product (props) {
               <DailyFilter component = {'allProduct'}  prev = {date} onclick = {setFilterParams} />
 
               <label>Vente Journalière Dego</label>
-              <input type="number" name="vente" onChange={ e =>  stateAction ? dispatch(productActions.setVenteDego (e.target.value)) : dispatch(alimProductActions.setVenteDego (e.target.value))} placeholder="Vente Journalière Dego" defaultValue={venteDego}/>
+              <input type="number" name="vente" onChange={ e =>  stateAction ? dispatch(productActions.setVenteDego (e.target.value)) : dispatch(alimProductActions.setVenteDego (e.target.value))} placeholder="Vente Journalière " defaultValue={venteDego}/>
               <ExcelSecLayout toggle = {toggleStoc} />
               <button onClick={() => stateAction ? dispatch(productActions.setToggleStoc()) : dispatch(alimProductActions.setToggleStoc())} >{ !toggleStoc ? 'Cacher' : 'Afficher' }</button>
               { !update && <AddProduct stateAction = {stateAction} />}
@@ -374,7 +375,7 @@ export default function Product (props) {
               </span>}
 
               { !update ? <button onClick={postData}> Enregistrer les Donnees </button> : <button onClick={UpdateData}> Mettre à jour les données</button>}
-              {errorMessage.status && <h3> {errorMessage.message} </h3>}
+              {errorMessage.status && !errMessage.errorAllowed ? <h3> {errorMessage.message} </h3> : <h3> {errorMessage.message} </h3> }
             </div>
           );
         } else {

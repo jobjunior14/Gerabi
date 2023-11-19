@@ -9,7 +9,7 @@ const productSlice = createSlice ({
         providers: 3,
         update: true,
         id: null,
-        venteDego: null,
+        vente: null,
         date: {
             year: Number(new Date().getFullYear()),
             month: Number(new Date().getMonth() + 1),
@@ -17,7 +17,8 @@ const productSlice = createSlice ({
         },
         errorMessage: {
             
-            status: true,
+            status: false,
+            errorsAllowed: true,
             message: ""
         }
     },
@@ -59,7 +60,7 @@ const productSlice = createSlice ({
         //set data from api and manage iput vente Dego field
         setVenteDego (state, action) {
 
-            state.venteDego = action.payload;
+            state.vente = action.payload;
         },
 
         //manage inputs forms in stock
@@ -283,8 +284,9 @@ const productSlice = createSlice ({
         setErrorMessage (state, action) {
             state.errorMessage = {
                 status: action.payload.status,
+                errorsAllowed: action.payload.errorsAllowed,
                 message: action.payload.message
-            }
+            };
         }
     }
 });

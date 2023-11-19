@@ -385,7 +385,6 @@ exports.updateDataCollection = async (collection, request, response ) => {
   const month = Number (request.params.month);
   const day = Number (request.params.day);
 
-
   for (let i = 0; i < request.body.id.length; i++) {
 
     const collectionData = await collection.findById(request.body.id[i]);

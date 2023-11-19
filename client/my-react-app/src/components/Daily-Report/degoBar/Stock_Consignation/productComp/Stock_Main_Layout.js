@@ -383,7 +383,7 @@ export function ExcelMain(props)
                     </td>
                 }
     
-                { !toggleStoc && <td> { props.prev.vente_journaliere.qt_vendue_comptoir} </td> }
+                { !toggleStoc && <td> { props.prev.vente_journaliere.qt_vendue} </td> }
     
                 { !toggleStoc && <td> { props.prev.vente_journaliere.valeur} </td> }
     

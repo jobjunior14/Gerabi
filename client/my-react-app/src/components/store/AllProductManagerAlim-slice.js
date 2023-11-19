@@ -9,7 +9,7 @@ const alimProductSlice = createSlice ({
         providers: 3,
         update: true,
         id: null,
-        venteDego: null,
+        vente: null,
         date: {
             year: Number(new Date().getFullYear()),
             month: Number(new Date().getMonth() + 1),
@@ -17,7 +17,8 @@ const alimProductSlice = createSlice ({
         },
         errorMessage: {
             
-            status: true,
+            status: false,
+            errorAllowed: true,
             message: ""
         }
     },
@@ -59,7 +60,7 @@ const alimProductSlice = createSlice ({
         //set data from api and manage iput vente Dego field
         setVenteDego (state, action) {
 
-            state.venteDego = action.payload;
+            state.vente = action.payload;
         },
 
         //manage inputs forms in stock
@@ -163,6 +164,7 @@ const alimProductSlice = createSlice ({
         setErrorMessage (state, action) {
             state.errorMessage = {
                 status: action.payload.status,
+                errorAllowed: action.payload.errorAllowed,
                 message: action.payload.message
             };
         }

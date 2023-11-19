@@ -231,6 +231,7 @@ exports.pushSuiviDepenseCollection = async (data) => {
 exports.updateSuiviDepenseCollection = async (data) => {
     
     const suiviDepense = await data.collection.find();
+
     
     const year = Number (data.req.params.year);
     const month = Number (data.req.params.month);
@@ -238,7 +239,7 @@ exports.updateSuiviDepenseCollection = async (data) => {
 
     const body = data.req.body.data.data;
     
-    if (suiviDepense.length === 0) {
+    if (suiviDepense.length > 0) {
 
 
         for ( let i = 0; i < suiviDepense.length; i++) {
