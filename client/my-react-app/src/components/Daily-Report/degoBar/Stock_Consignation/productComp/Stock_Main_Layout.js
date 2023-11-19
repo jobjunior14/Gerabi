@@ -114,8 +114,6 @@ export function ExcelMain(props)
                 }
     
                 { !toggleStoc && <td> { props.prev.business_projection.stock_dego} </td> }
-
-                { !toggleStoc && <td> { props.prev.business_projection.stock_gen} </td> }
                        
                 { !toggleStoc && <td> { props.prev.business_projection.val_stock_det} </td> }
     
