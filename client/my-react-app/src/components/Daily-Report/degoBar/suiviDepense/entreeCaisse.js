@@ -47,15 +47,16 @@ export default function EntreeCaisse (props){
         const fecthData = async () => {
 
             const prevSuiviDepenseData = await axios.get (`http://localhost:5001/api/v1/${props.componentName}/suiviDepense/rapportJournalier/${prevYear}/${prevMonth}/${prevDay}`);
-
-            if (prevSuiviDepenseData.data.data.soldCaisse) {
-
-                dispatch(suiviDepenseActions.setPrevSoldCaisse(prevSuiviDepenseData.data.data.soldCaisse.amount));
-            } else {
+            
+            if (!prevSuiviDepenseData.data.data.soldCaisse) {
                 
                 setFoundPrevSold(prev => prev = true);
                 dispatch(suiviDepenseActions.setPrevSoldCaisse(soldCaisse - (totalDette + totalSortieCaisse)));
-            }
+            } else {
+
+                dispatch(suiviDepenseActions.setPrevSoldCaisse(prevSuiviDepenseData.data.data.soldCaisse.amount));
+                
+            };
         }; fecthData();
     }, [prevDay, prevMonth, prevYear]);
 

@@ -22,6 +22,7 @@ function errMessage (dispatch, productActions, venteDego, productData, stateActi
     if (stateAction && !update) {
       
       for (let i of productData){
+
         if (((i.suivi1.name === '' && i.suivi1.qt_caisse > 0 ) || i.suivi1.name === '')  ) {
   
           dispatch(productActions.setErrorMessage({status: true, errorAllowed: false, message: " aucune valeur superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide ou aucun produit ne peut ne pas avoir de fournisseur"}));

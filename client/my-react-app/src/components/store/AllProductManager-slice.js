@@ -187,72 +187,72 @@ const productSlice = createSlice ({
                     },
 
                     suivi1: {
-                    name: "",
+                    name: state.productData.length > 0 ? state.productData[0].suivi1.name : 0,
                     qt_caisse: 0,
                     },
 
                     suivi2: {
-                    name: "",
+                    name: state.productData.length > 0 ? state.productData[0].suivi2.name : 0,
                     qt_caisse: 0,
                     },
 
                     suivi3: {
-                    name: "",
+                    name: state.productData.length > 0 ? state.productData[0].suivi3.name : 0,
                     qt_caisse: 0,
                     },
 
                     suivi4: {
-                    name: "",
+                    name: state.productData.length > 0 ? state.productData[0].suivi4.name : 0,
                     qt_caisse: 0,
                     },
 
                     suivi5: {
-                    name: "",
+                    name: state.productData.length > 0 ? state.productData[0].suivi5.name : 0,
                     qt_caisse: 0,
                     },
 
                     suivi6: {
-                    name: "",
+                    name: state.productData.length > 0 ? state.productData[0].suivi6.name : 0,
                     qt_caisse: 0,
                     },
 
                     suivi7: {
-                    name: "",
+                    name: state.productData.length > 0 ? state.productData[0].suivi7.name : 0,
                     qt_caisse: 0,
                     },
 
                     suivi8: {
-                    name: "",
+                    name: state.productData.length > 0 ? state.productData[0].suivi8.name : 0,
                     qt_caisse: 0,
                     },
 
                     suivi9: {
-                    name: "",
+                    name: state.productData.length > 0 ? state.productData[0].suivi9.name : 0,
                     qt_caisse: 0,
                     },
 
                     suivi10: {
-                    name: "",
+                    name: state.productData.length > 0 ? state.productData[0].suivi10.name : 0,
                     qt_caisse: 0,
                     },
 
                     suivi11: {
-                    name: "",
+                    name: state.productData.length > 0 ? state.productData[0].suivi11.name : 0,
                     qt_caisse: 0,
                     },
 
                     suivi12: {
-                    name: "",
+                    name: state.productData.length > 0 ? state.productData[0].suivi12.name : 0,
                     qt_caisse: 0,
                     },
 
                     suivi13: {
-                    name: "",
+                    name: state.productData.length > 0 ? state.productData[0].suivi13.name : 0,
                     qt_caisse: 0,
                     },
 
                     suivi14: {
-                    name: "",
+                    name: state.productData.length > 0 ? state.productData[0].suivi14.name : 0,
                     qt_caisse: 0,
                     },
                 },
