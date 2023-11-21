@@ -10,7 +10,7 @@ export default function Benefice () {
 
         if ( data.bralima.length > 0 && data.brasimba.length > 0 && data.autreProduit.length > 0 && data.liqueurs.length > 0 ) {
 
-            const total = data.bralima.benefice + data.brasimba.benefice + data.autreProduit.benefice + data.liqueurs.benefice;
+            const total = data.bralima[0].benefice + data.brasimba[0].benefice + data.autreProduit[0].benefice + data.liqueurs[0].benefice;
 
             return (<div> 
 
@@ -24,19 +24,19 @@ export default function Benefice () {
                     </tr>
                     <tr>
                         <td> Bralima </td>
-                        <td> {data.bralima.benefice}</td>
+                        <td> {data.bralima[0].benefice}</td>
                     </tr>
                     <tr>
                         <td> Brasimba </td>
-                        <td> {data.brasimba.benefice}</td>
+                        <td> {data.brasimba[0].benefice}</td>
                     </tr>
                     <tr>
                         <td> Autre Produit </td>
-                        <td> {data.autreProduit.benefice}</td>
+                        <td> {data.autreProduit[0].benefice}</td>
                     </tr>
                     <tr>
                         <td> Liqueurs </td>
-                        <td> {data.liqueurs.benefice}</td>
+                        <td> {data.liqueurs[0].benefice}</td>
                     </tr>
                     <tr>
                         <td> Total </td>

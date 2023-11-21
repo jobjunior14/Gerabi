@@ -46,7 +46,8 @@ export default function SuiviDesVentes (props) {
                 const brasimbaData = await axios.get(`http://localhost:5001/api/v1/${componentName}/brasimba/rapportMensuel/Allstast/${year}/${month}`);
                 const liqueursData = await axios.get(`http://localhost:5001/api/v1/${componentName}/liqueurs/rapportMensuel/Allstast/${year}/${month}`);
                 const autreProduitData = await axios.get(`http://localhost:5001/api/v1/${componentName}/autreProduit/rapportMensuel/Allstast/${year}/${month}`);
-            
+                
+                console.log (bralimaData.data.stats.stats)
                 dispatch(mensRapportActions.setMensualData({
                     bralima: bralimaData.data.stats.stats,
                     brasimba: brasimbaData.data.stats.stats,

@@ -46,7 +46,7 @@ export default function VenteBar () {
 
         if ( data.bralima.length > 0 && data.brasimba.length > 0 && data.autreProduit.length > 0 ) {
 
-            const totalVenteSysteme = data.bralima.vente_bar + data.brasimba.vente_bar + data.autreProduit.vente_bar;
+            const totalVenteSysteme = data.bralima[0].vente_bar + data.brasimba[0].vente_bar + data.autreProduit[0].vente_bar;
             const pertes = totalVenteSysteme - venteDego;
 
             return (<div> 
@@ -61,15 +61,15 @@ export default function VenteBar () {
                     </tr>
                     <tr>
                         <td> Bralima </td>
-                        <td> {data.bralima.vente_bar}</td>
+                        <td> {data.bralima[0].vente_bar}</td>
                     </tr>
                     <tr>
                         <td> Brasimba </td>
-                        <td> {data.brasimba.vente_bar}</td>
+                        <td> {data.brasimba[0].vente_bar}</td>
                     </tr>
                     <tr>
                         <td> Autre Produit </td>
-                        <td> {data.autreProduit.vente_bar}</td>
+                        <td> {data.autreProduit[0].vente_bar}</td>
                     </tr>
                     <tr>
                         <td> Total Vente Sytème </td>
