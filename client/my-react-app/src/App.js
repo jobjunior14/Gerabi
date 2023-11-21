@@ -2,9 +2,10 @@ import './App.css';
 import { BrowserRouter, Routes, Route} from 'react-router-dom';
 import Product from '../src/components/Daily-Report/degoBar/Stock_Consignation/AllProductManager'
 import { MainNav, DegoBarNav, AlimNav, DailyRepportNav } from './components/headers/outlet';
-import SuiviDesVentes from './components/Mensuel Report/suivi_Des_Ventes/suiviDesVentes';
 import SuiviDepense from './components/Daily-Report/degoBar/suiviDepense/suiviDepense'
 import SuiviDette from './components/Daily-Report/degoBar/suiviDette/suiviDette';
+import { MensRepportNav } from './components/headers/outlet';
+import { MensRepport } from './components/Mensuel Report/mensualReport';
 
 function App() {
   return ( 
@@ -36,7 +37,10 @@ function App() {
 
             </Route>
 
-            <Route path='rapportMensuel' element = {<SuiviDesVentes/>}/>
+            <Route path='rapportMensuel' element = {<MensRepportNav/>}>
+              <Route path='degoBar' element = {<MensRepport componentName = 'degoBar'/>}/>
+              <Route path='alimentation' element = {<MensRepport componentName = 'alimentation'/>}/>
+            </Route>
             
           </Route>
       </Routes>

@@ -144,22 +144,27 @@ export default function SuiviDepense (props){
     const totalDailyDebt= useSelector (state => state.suiviDepense.totalDette);
 
     //data for sold caisse
-    const soldCaisse = useSelector (state => state.suiviDepense.soldCaisse);
     const totalSortieCaisse = useSelector (state => state.suiviDepense.totalSortieCaisse);
     const totalSoldCaisse = useSelector(state => state.suiviDepense.totalSoldCaisse);
     const totalDette = useSelector (state => state.suiviDepense.totalDette);
 
     useEffect (() => {
 
-        dispacth(suiviDepenseActions.setEntreeCaisse(null));
-        dispacth(suiviDepenseActions.setSortieCaisse(null));
-        
         const fecthData = async () => {
-            try {
 
+            try {
+                //initial State
+                dispacth(suiviDepenseActions.setEntreeCaisse(null));
+                dispacth(suiviDepenseActions.setSortieCaisse(null));
+                dispacth(suiviDepenseActions.setSoldCaisse(0));
+                dispacth (suiviDepenseActions.setTotalSoldCaisse(0));
+                dispacth(suiviDepenseActions.setPrevSoldCaisse(0));
+                dispacth(suiviDepenseActions.setTotalDette(0));
+                dispacth(suiviDepenseActions.setTotalSortieCaisse(0));
+                
                 const suiviDepenseData = await axios.get (`http://localhost:5001/api/v1/${props.componentName}/suiviDepense/rapportJournalier/${year}/${month}/${day}`);
                 const totDette = await axios.get (`http://localhost:5001/api/v1/${props.componentName}/suiviDette/rapportJournalier/totDette/${year}/${month}/${day}`);
-
+                
                 //set the total debt
                 dispacth(suiviDepenseActions.setTotalDette(totDette.data.data));
                 if (suiviDepenseData.data.data.sortieCaisse.length > 0 && suiviDepenseData.data.data.entreeCaisse.length > 0  && suiviDepenseData.data.data.soldCaisse) {

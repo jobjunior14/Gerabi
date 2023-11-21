@@ -4,6 +4,7 @@ import FirstHeader from "./firstHeaders";
 import AlimentationHeader from "./alimentationHeaders";
 import DegoBarHeader from "./degoBarHeaders";
 import DailyRepportHeaders from "./dailyRapHeaders";
+import MensRepportHeaders from "./mensHeaders";
 
 export function MainNav () {
 
@@ -60,6 +61,16 @@ export function DegoBarNav () {
 
         <div>
             <DegoBarHeader/>
+            <Outlet/>
+        </div>
+    );
+};
+
+export function MensRepportNav () {
+
+    return (
+        <div>
+            <MensRepportHeaders/>
             <Outlet/>
         </div>
     );

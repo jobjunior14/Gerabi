@@ -1,6 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { suiviDepenseActions } from "../../../store/suiviDepense-slice";
+import { useId } from "react";
 
 export default function SoriteCaisse () {
     
@@ -14,6 +15,7 @@ export default function SoriteCaisse () {
     const tableHeaderSortieCaisse = [];
     const tableRowData = []; 
 
+    const id = useId ();
 
     if ( sortieCaisse && sortieCaisse.length > 0) {
         
@@ -26,7 +28,7 @@ export default function SoriteCaisse () {
                     <input 
                         type="text"
                         defaultValue={sortieCaisse[i].name}
-                        id= {tableHeaderSortieCaisse.length}
+                        id= {tableHeaderSortieCaisse.length + id + "name"}
                         name="name"
                         readOnly = {readOnly}
                         placeholder="Taper la fonction de sortie"
@@ -55,7 +57,7 @@ export default function SoriteCaisse () {
                         <td key={`tdSortie${j}`}>
                             <input
                                 defaultValue={sortieCaisse[j].data[y].libel}
-                                id = {tableDataSortieCaisse.length}
+                                id = {tableDataSortieCaisse.length + id + `sortieCaisse[${j}].data[${y}].libel`}
                                 name = 'libel'
                                 readOnly = {readOnly}
                                 placeholder="Taper le libel"
@@ -72,7 +74,7 @@ export default function SoriteCaisse () {
                         <td key = {`tdsortie${j}`}>
                             <input
                                 defaultValue={sortieCaisse[j].data[y].amount}
-                                id = {tableDataSortieCaisse.length}
+                                id = {tableDataSortieCaisse.length + id + 'amount' + `sortieCaisse[${j}].data[${y}].amount`}
                                 name = 'amount'
                                 type="number"
                                 placeholder="Taper le montant"

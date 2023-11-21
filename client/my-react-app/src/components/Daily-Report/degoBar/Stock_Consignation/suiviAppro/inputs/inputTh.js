@@ -1,13 +1,14 @@
 import React from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { productActions } from '../../../../../store/AllProductManager-slice.js';
+import { useId } from "react";
 const {tbaleTh} = require ('./css.js');
 
 export default function InputsTh (props) {
 
     const dispatch = useDispatch();
     const readOnly = useSelector (state => state.product.readOnly);
-
+    const id = useId();
 
     return (
         <>
@@ -15,6 +16,7 @@ export default function InputsTh (props) {
                 <input
                     defaultValue={props.data.suivi1.name}
                     name = 'suivi1'
+                    id = {'suivi1' + id}
                     readOnly = {readOnly}
                     placeholder= {"Nom du fournisseur"}
                     onChange={ (e) => {
@@ -28,6 +30,7 @@ export default function InputsTh (props) {
                 <input
                     defaultValue={props.data.suivi2.name}
                     name = 'suivi2'
+                    id = {'suivi2' + id}
                     readOnly = {readOnly}
                     placeholder= {"Nom du fournisseur"}
                     onChange={ (e) => {
@@ -41,6 +44,7 @@ export default function InputsTh (props) {
                 <input
                     defaultValue={props.data.suivi3.name}
                     name = 'suivi3'
+                    id = {'suivi3' + id}
                     readOnly = {readOnly}
                     placeholder= {"Nom du fournisseur"}
                     onChange={ (e) => {
@@ -54,6 +58,7 @@ export default function InputsTh (props) {
                 <input
                     defaultValue={props.data.suivi4.name}
                     name = 'suivi4'
+                    id = {'suivi4' + id}
                     readOnly = {readOnly}
                     placeholder= {"Nom du fournisseur"}
                     onChange={ (e) => {
@@ -67,6 +72,7 @@ export default function InputsTh (props) {
                 <input
                     defaultValue={props.data.suivi5.name}
                     name = 'suivi5'
+                    id = {'suivi5' + id}
                     readOnly = {readOnly}
                     placeholder= {"Nom du fournisseur"}
                     onChange={ (e) => {
@@ -80,6 +86,7 @@ export default function InputsTh (props) {
                 <input
                     defaultValue={props.data.suivi6.name}
                     name = 'suivi6'
+                    id = {'suivi6' + id}
                     readOnly = {readOnly}
                     placeholder= {"Nom du fournisseur"}
                     onChange={ (e) => {
@@ -93,6 +100,7 @@ export default function InputsTh (props) {
                 <input
                     defaultValue={props.data.suivi7.name}
                     name = 'suivi7'
+                    id = {'suivi7' + id}
                     readOnly = {readOnly}
                     placeholder= {"Nom du fournisseur"}
                     onChange={ (e) => {
@@ -106,6 +114,7 @@ export default function InputsTh (props) {
                 <input
                     defaultValue={props.data.suivi8.name}
                     name = 'suivi8'
+                    id = {'suivi8' + id}
                     readOnly = {readOnly}
                     placeholder= {"Nom du fournisseur"}
                     onChange={ (e) => {
@@ -119,6 +128,7 @@ export default function InputsTh (props) {
                 <input
                     defaultValue={props.data.suivi9.name}
                     name = 'suivi9'
+                    id = {'suivi9' + id}
                     readOnly = {readOnly}
                     placeholder= {"Nom du fournisseur"}
                     onChange={ (e) => {
@@ -132,6 +142,7 @@ export default function InputsTh (props) {
                 <input
                     defaultValue={props.data.suivi10.name}
                     name = 'suivi10'
+                    id = {'suivi10' + id}
                     readOnly = {readOnly}
                     placeholder= {"Nom du fournisseur"}
                     onChange={ (e) => {
@@ -145,6 +156,7 @@ export default function InputsTh (props) {
                 <input
                     defaultValue={props.data.suivi11.name}
                     name = 'suivi11'
+                    id = {'suivi11' + id}
                     readOnly = {readOnly}
                     placeholder= {"Nom du fournisseur"}
                     onChange={ (e) => {
@@ -158,6 +170,7 @@ export default function InputsTh (props) {
                 <input
                     defaultValue={props.data.suivi12.name}
                     name = 'suivi12'
+                    id = {'suivi12' + id}
                     readOnly = {readOnly}
                     placeholder= {"Nom du fournisseur"}
                     onChange={ (e) => {
@@ -171,6 +184,7 @@ export default function InputsTh (props) {
                 <input
                     defaultValue={props.data.suivi13.name}
                     name = 'suivi13'
+                    id = {'suivi13' + id}
                     readOnly = {readOnly}
                     placeholder= {"Nom du fournisseur"}
                     onChange={ (e) => {
@@ -184,6 +198,7 @@ export default function InputsTh (props) {
                 <input
                     defaultValue={props.data.suivi14.name}
                     name = 'suivi14'
+                    id = {'suivi14' + id}
                     readOnly = {readOnly}
                     placeholder= {"Nom du fournisseur"}
                     onChange={ (e) => {

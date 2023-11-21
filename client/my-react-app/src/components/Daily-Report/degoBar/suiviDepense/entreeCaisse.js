@@ -5,6 +5,7 @@ import { suiviDepenseActions } from "../../../store/suiviDepense-slice";
 import axios from "axios";
 import { useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useId } from "react";
 
 
 export default function EntreeCaisse (props){
@@ -14,6 +15,7 @@ export default function EntreeCaisse (props){
     let totalEntreeCaisse = 0;
     const prevSoldCaisse = useSelector(state => state.suiviDepense.prevSoldCaisse);
     const readOnly = useSelector (state => state.suiviDepense.readOnly);
+    const id  = useId()
 
     //params
     const [dateParams] = useSearchParams();
@@ -104,9 +106,10 @@ export default function EntreeCaisse (props){
                 { foundPrevSold && <>
 
                     <p> Le sold caisse du {prevYear}/{prevMonth}/{prevDay}, n'a pas été trouvé </p>
-                    <label> S'il est existant veillez le taper</label>
+                    <label id = {'inputfromUser' + id}> S'il est existant veillez le taper</label>
                     <input 
                         type="number"
+                        id = {'inputfromUser' + id}
                         placeholder="Tapez le sold caisse"
                         defaultValue={prevSoldCaisse}
                         onChange={(e) => { dispatch(suiviDepenseActions.handleSoldCaisseByUser(Number (e.target.value)))} }

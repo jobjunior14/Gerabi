@@ -1,6 +1,7 @@
 import React from "react";
 import {useSelector, useDispatch} from 'react-redux';
 import { suiviDetteActions } from "../../../store/suiviDette-slice";
+import { useId } from "react";
 
 export default function Agents (){
 
@@ -9,6 +10,7 @@ export default function Agents (){
     const agentsData = useSelector (state => state.suiviDette.agents);
     const readOnly = useSelector (state => state.suiviDette.readOnly);
     const totalDetteAndPaymentAgent = useSelector(state => state.suiviDette.detailTotDetteAgents);
+    const id = useId();
 
     const dataDisplay = [];
     let totalDetteAgent = 0;
@@ -21,7 +23,7 @@ export default function Agents (){
                 <th key={`thname${i}`}>
                     <input
                         defaultValue={agentsData[i].name}
-                        id = {agentsData[i].index}
+                        id = {agentsData[i].index + id + 'nameAgent'}
                         type = 'text'
                         name = 'name'
                         readOnly = {readOnly}
@@ -35,7 +37,7 @@ export default function Agents (){
                 <td key={`tdAmount${i}`}>
                     <input
                         defaultValue={agentsData[i].data.amount}
-                        id = {agentsData[i].index}
+                        id = {agentsData[i].index + id + 'amountAgent'}
                         type = 'number'
                         name = 'amount'
                         placeholder="Taper le montant de la dette"
@@ -48,7 +50,7 @@ export default function Agents (){
                 <td key={`tdpayment${i}`}>
                     <input
                         defaultValue={agentsData[i].data.payment}
-                        id = {agentsData[i].index}
+                        id = {agentsData[i].index + id + 'paymentAgent'}
                         type = 'number'
                         name = 'payment'
                         placeholder="Taper le montant payé"

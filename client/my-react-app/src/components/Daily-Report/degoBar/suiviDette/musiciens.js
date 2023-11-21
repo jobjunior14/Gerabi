@@ -1,6 +1,7 @@
 import React from "react";
 import {useSelector, useDispatch} from 'react-redux';
 import { suiviDetteActions } from "../../../store/suiviDette-slice";
+import { useId } from "react";
 
 export default function Musiciens (){
 
@@ -11,6 +12,7 @@ export default function Musiciens (){
     const totalDetteAndPaymentMusiciens = useSelector (state => state.suiviDette.detailTotDetteMusiciens);
     const dataDisplay = [];
     let totalDetteMusiciens = 0;
+    const id = useId();
 
 
    if (musiciensData && totalDetteAndPaymentMusiciens) {
@@ -19,7 +21,7 @@ export default function Musiciens (){
                 <th>
                     <input
                         defaultValue={musiciensData[i].name}
-                        id = {musiciensData[i].index}
+                        id = {musiciensData[i].index + id + 'nameMusiciens'}
                         type = 'text'
                         name = 'name'
                         readOnly = {readOnly}
@@ -33,7 +35,7 @@ export default function Musiciens (){
                 <td>
                     <input
                         defaultValue={musiciensData[i].data.amount}
-                        id = {musiciensData[i].index}
+                        id = {musiciensData[i].index + id + 'amountMusiciens'}
                         type = 'number'
                         name = 'amount'
                         placeholder="Taper le montant de la dette"
@@ -46,7 +48,7 @@ export default function Musiciens (){
                 <td>
                     <input
                         defaultValue={musiciensData[i].data.payment}
-                        id = {musiciensData[i].index}
+                        id = {musiciensData[i].index + id + 'paymentMusiciens'}
                         type = 'number'
                         name = 'payment'
                         placeholder="Taper le montant payé"

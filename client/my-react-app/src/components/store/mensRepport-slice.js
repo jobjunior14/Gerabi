@@ -13,7 +13,8 @@ const mensRapportSlice = createSlice ({
         date: {
             year: Number (new Date().getFullYear()),
             month: Number (new Date().getMonth() + 1)
-        }
+        },
+        componentName: 'degoBar'
     },
 
     reducers: {
@@ -38,6 +39,10 @@ const mensRapportSlice = createSlice ({
             state.date = {
                ...state.date, [name]: value
             };
+        },
+
+        setComponentName (state, action) {
+            state.componentName = action.payload
         }
     }
 });

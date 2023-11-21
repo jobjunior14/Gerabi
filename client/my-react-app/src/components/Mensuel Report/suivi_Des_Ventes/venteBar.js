@@ -20,19 +20,27 @@ export default function VenteBar () {
     const year = Number(dateParams.get("year"));
     const month = Number(dateParams.get("month")); 
 
+    const componentName = useSelector (state => state.mensRapport.componentName);
+
+
     useEffect(() => {
 
-        const fecthData = async () => {
-
-            const dataVente = await axios.get(`http://localhost:5001/api/v1/vente/${year}/${month}`);
-
-            if (dataVente.data.stats.stats.length > 0){
-
-                setVenteDego(dataVente.data.stats.stats[0].venteDego);
-            };
-
-        };fecthData();
-    }, [year, month]);
+        try {
+            
+            const fecthData = async () => {
+    
+                const dataVente = await axios.get(`http://localhost:5001/api/v1/${componentName}/vente/${year}/${month}`);
+    
+                if (dataVente.data.stats.stats.length > 0){
+    
+                    setVenteDego(dataVente.data.stats.stats[0].venteDego);
+                };
+    
+            };fecthData();
+        } catch (error) {
+            console.log (error);
+        }
+    }, [year, month, componentName]);
 
     if (data.bralima && data.brasimba && data.autreProduit ) {
 

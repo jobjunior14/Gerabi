@@ -8,7 +8,7 @@ import Benefice from "./benefice";
 import VenteBar from "./venteBar";
 import MensFilter from "../../filter/filterMensRap";
 
-export default function SuiviDesVentes () {
+export default function SuiviDesVentes (props) {
 
     const dispatch = useDispatch();
 
@@ -25,6 +25,8 @@ export default function SuiviDesVentes () {
     //current date
     const currentYear = Number (new Date().getFullYear());
     const currentMonth = Number (new Date().getMonth() + 1);
+
+    const componentName = useSelector (state => state.mensRapport.componentName);
     
     //fecth the data
     useEffect (() => {
@@ -40,10 +42,10 @@ export default function SuiviDesVentes () {
 
             try {
 
-                const bralimaData = await axios.get(`http://localhost:5001/api/v1/bralima/rapportMensuel/Allstast/${year}/${month}`);
-                const brasimbaData = await axios.get(`http://localhost:5001/api/v1/brasimba/rapportMensuel/Allstast/${year}/${month}`);
-                const liqueursData = await axios.get(`http://localhost:5001/api/v1/liqueurs/rapportMensuel/Allstast/${year}/${month}`);
-                const autreProduitData = await axios.get(`http://localhost:5001/api/v1/autreProduit/rapportMensuel/Allstast/${year}/${month}`);
+                const bralimaData = await axios.get(`http://localhost:5001/api/v1/${componentName}/bralima/rapportMensuel/Allstast/${year}/${month}`);
+                const brasimbaData = await axios.get(`http://localhost:5001/api/v1/${componentName}/brasimba/rapportMensuel/Allstast/${year}/${month}`);
+                const liqueursData = await axios.get(`http://localhost:5001/api/v1/${componentName}/liqueurs/rapportMensuel/Allstast/${year}/${month}`);
+                const autreProduitData = await axios.get(`http://localhost:5001/api/v1/${componentName}/autreProduit/rapportMensuel/Allstast/${year}/${month}`);
             
                 dispatch(mensRapportActions.setMensualData({
                     bralima: bralimaData.data.stats.stats,
@@ -63,7 +65,7 @@ export default function SuiviDesVentes () {
             };
         }; fecthData();
 
-    }, [year, month]);
+    }, [year, month, componentName]);
 
     function setFilterParams() {
 

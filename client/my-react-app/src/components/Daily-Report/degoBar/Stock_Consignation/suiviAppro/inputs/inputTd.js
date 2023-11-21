@@ -1,12 +1,12 @@
 import React from 'react';
+import { useId } from 'react';
 import { useDispatch } from 'react-redux';
 import { productActions } from '../../../../../store/AllProductManager-slice.js';
 const {tableTd} = require ('./css.js');
 
 export default function InputTd (props) {
-
-
     const dispatch = useDispatch();
+    const id = useId ();
     
 
     return (
@@ -18,11 +18,11 @@ export default function InputTd (props) {
                 <input 
                     defaultValue={props.prev.suivi1.qt_caisse}
                     name = {'qt_caisse'}
-                    id = {props.prev.id}
+                    id = {props.prev.id + id + 'suivi1.qt_caisse'}
                     placeholder= {'Quantiter caisse'}
                     onChange={ (e) => {
-                        const {id, name, value} = e.target;
-                        dispatch (productActions.handleTdFormInSuivi ({id: id, name: name, value: value, path: 'suivi1'}));
+                        const {name, value} = e.target;
+                        dispatch (productActions.handleTdFormInSuivi ({id: props.prev.id, name: name, value: value, path: 'suivi1'}));
                     }}
                 />
             </td>
@@ -32,11 +32,11 @@ export default function InputTd (props) {
                 <input 
                     defaultValue={props.prev.suivi2.qt_caisse}
                     name = {'qt_caisse'}
-                    id = {props.prev.id}
+                    id = {props.prev.id + id + "suivi2.qt_caisse"}
                     placeholder= {'Quantiter caisse'}
                     onChange={ (e) => {
-                        const {id, name, value} = e.target;
-                        dispatch (productActions.handleTdFormInSuivi ({id: id, name: name, value: value, path: 'suivi2'}));
+                        const {name, value} = e.target;
+                        dispatch (productActions.handleTdFormInSuivi ({id: props.prev.id, name: name, value: value, path: 'suivi2'}));
                     }}
                 />
             </td>
@@ -46,11 +46,11 @@ export default function InputTd (props) {
                 <input 
                     defaultValue={props.prev.suivi3.qt_caisse}
                     name = {'qt_caisse'}
-                    id = {props.prev.id}
+                    id = {props.prev.id + id + "suivi3.qt_caisse"}
                     placeholder= {'Quantiter caisse'}
                     onChange={ (e) => {
-                        const {id, name, value} = e.target;
-                        dispatch (productActions.handleTdFormInSuivi ({id: id, name: name, value: value, path: 'suivi3'}))
+                        const {name, value} = e.target;
+                        dispatch (productActions.handleTdFormInSuivi ({id: props.prev.id, name: name, value: value, path: 'suivi3'}))
                     }}
                 />
             </td>
@@ -60,11 +60,11 @@ export default function InputTd (props) {
                 <input 
                     defaultValue={props.prev.suivi4.qt_caisse}
                     name = {'qt_caisse'}
-                    id = {props.prev.id}
+                    id = {props.prev.id + id + 'suivi4.qt_caisse'}
                     placeholder= {'Quantiter caisse'}
                     onChange={ (e) => {
-                        const {id, name, value} = e.target;
-                        dispatch (productActions.handleTdFormInSuivi ({id: id, name: name, value: value, path: 'suivi4'}));
+                        const {name, value} = e.target;
+                        dispatch (productActions.handleTdFormInSuivi ({id: props.prev.id, name: name, value: value, path: 'suivi4'}));
                     }}
                 />
             </td>}
@@ -74,11 +74,11 @@ export default function InputTd (props) {
                 <input 
                     defaultValue={props.prev.suivi5.qt_caisse}
                     name = {'qt_caisse'}
-                    id = {props.prev.id}
+                    id = {props.prev.id + id + 'suivi5.qt_caisse'}
                     placeholder= {'Quantiter caisse'}
                     onChange={ (e) => {
-                        const {id, name, value} = e.target;
-                        dispatch (productActions.handleTdFormInSuivi ({id: id, name: name, value: value, path: 'suivi5'}));
+                        const {name, value} = e.target;
+                        dispatch (productActions.handleTdFormInSuivi ({id: props.prev.id, name: name, value: value, path: 'suivi5'}));
                     }}
                 />
             </td>}
@@ -88,11 +88,11 @@ export default function InputTd (props) {
                 <input 
                     defaultValue={props.prev.suivi6.qt_caisse}
                     name = {'qt_caisse'}
-                    id = {props.prev.id}
+                    id = {props.prev.id + id + 'suivi6.qt_caisse'}
                     placeholder= {'Quantiter caisse'}
                     onChange={ (e) => {
-                        const {id, name, value} = e.target;
-                        dispatch (productActions.handleTdFormInSuivi ({id: id, name: name, value: value, path: 'suivi6'}));
+                        const {name, value} = e.target;
+                        dispatch (productActions.handleTdFormInSuivi ({id: props.prev.id, name: name, value: value, path: 'suivi6'}));
                     }}
                 />
             </td>}
@@ -102,11 +102,11 @@ export default function InputTd (props) {
                 <input 
                     defaultValue={props.prev.suivi7.qt_caisse}
                     name = {'qt_caisse'}
-                    id = {props.prev.id}
+                    id = {props.prev.id + id + 'suivi7.qt_caisse'}
                     placeholder= {'Quantiter caisse'}
                     onChange={ (e) => {
-                        const {id, name, value} = e.target;
-                        dispatch (productActions.handleTdFormInSuivi ({id: id, name: name, value: value, path: 'suivi7'}))
+                        const {name, value} = e.target;
+                        dispatch (productActions.handleTdFormInSuivi ({id: props.prev.id, name: name, value: value, path: 'suivi7'}))
                     }}
                 />
             </td>}
@@ -116,11 +116,11 @@ export default function InputTd (props) {
                 <input 
                     defaultValue={props.prev.suivi8.qt_caisse}
                     name = {'qt_caisse'}
-                    id = {props.prev.id}
+                    id = {props.prev.id + id + 'suivi8.qt_caisse'}
                     placeholder= {'Quantiter caisse'}
                     onChange={ (e) => {
-                        const {id, name, value} = e.target;
-                        dispatch (productActions.handleTdFormInSuivi ({id: id, name: name, value: value, path: 'suivi8'}));
+                        const {name, value} = e.target;
+                        dispatch (productActions.handleTdFormInSuivi ({id: props.prev.id, name: name, value: value, path: 'suivi8'}));
                     }}
                 />
             </td>}
@@ -130,11 +130,11 @@ export default function InputTd (props) {
                 <input 
                     defaultValue={props.prev.suivi9.qt_caisse}
                     name = {"qt_caisse"}
-                    id = {props.prev.id}
+                    id = {props.prev.id + id + 'suivi9.qt_caisse'}
                     placeholder= {'Quantiter caisse'}
                     onChange={ (e) => {
-                        const {id, name, value} = e.target;
-                        dispatch (productActions.handleTdFormInSuivi ({id: id, name: name, value: value, path: 'suivi9'}));
+                        const {name, value} = e.target;
+                        dispatch (productActions.handleTdFormInSuivi ({id: props.prev.id, name: name, value: value, path: 'suivi9'}));
                     }}
                 />
             </td>}
@@ -144,11 +144,11 @@ export default function InputTd (props) {
                 <input 
                     defaultValue={props.prev.suivi10.qt_caisse}
                     name = {"qt_caisse"}
-                    id = {props.prev.id}
+                    id = {props.prev.id + id + 'suivi10.qt_caisse'}
                     placeholder= {'Quantiter caisse'}
                     onChange={ (e) => {
-                        const {id, name, value} = e.target;
-                        dispatch (productActions.handleTdFormInSuivi ({id: id, name: name, value: value, path: 'suivi10'}));
+                        const {name, value} = e.target;
+                        dispatch (productActions.handleTdFormInSuivi ({id: props.prev.id, name: name, value: value, path: 'suivi10'}));
                     }}
                 />
             </td>}
@@ -158,11 +158,11 @@ export default function InputTd (props) {
                 <input 
                     defaultValue={props.prev.suivi11.qt_caisse}
                     name = {"qt_caisse"}
-                    id = {props.prev.id}
+                    id = {props.prev.id + id + 'suivi11.qt_caisse'}
                     placeholder= {'Quantiter caisse'}
                     onChange={ (e) => {
-                        const {id, name, value} = e.target;
-                        dispatch (productActions.handleTdFormInSuivi ({id: id, name: name, value: value, path: 'suivi11'}));
+                        const {name, value} = e.target;
+                        dispatch (productActions.handleTdFormInSuivi ({id: props.prev.id, name: name, value: value, path: 'suivi11'}));
                     }}
                 />
             </td>}
@@ -172,11 +172,11 @@ export default function InputTd (props) {
                 <input 
                     defaultValue={props.prev.suivi12.qt_caisse}
                     name = {"qt_caisse"}
-                    id = {props.prev.id}
+                    id = {props.prev.id + id + 'suivi12.qt_caisse'}
                     placeholder= {'Quantiter caisse'}
                     onChange={ (e) => {
-                        const {id, name, value} = e.target;
-                        dispatch (productActions.handleTdFormInSuivi ({id: id, name: name, value: value, path: 'suivi12'}));
+                        const {name, value} = e.target;
+                        dispatch (productActions.handleTdFormInSuivi ({id: props.prev.id, name: name, value: value, path: 'suivi12'}));
                     }}
                 />
             </td>}
@@ -186,11 +186,11 @@ export default function InputTd (props) {
                 <input 
                     defaultValue={props.prev.suivi13.qt_caisse}
                     name = {"qt_caisse"}
-                    id = {props.prev.id}
+                    id = {props.prev.id + id + 'suivi13.qt_caisse'}
                     placeholder= {'Quantiter caisse'}
                     onChange={ (e) => {
-                        const {id, name, value} = e.target;
-                        dispatch (productActions.handleTdFormInSuivi ({id: id, name: name, value: value, path: 'suivi13'}));
+                        const {name, value} = e.target;
+                        dispatch (productActions.handleTdFormInSuivi ({id: props.prev.id, name: name, value: value, path: 'suivi13'}));
                     }}
                 />
             </td>}
@@ -200,11 +200,11 @@ export default function InputTd (props) {
                 <input 
                     defaultValue={props.prev.suivi14.qt_caisse}
                     name = {"qt_caisse"}
-                    id = {props.prev.id}
+                    id = {props.prev.id + id + 'suivi14.qt_caisse'}
                     placeholder= {'Quantiter caisse'}
                     onChange={ (e) => {
-                        const {id, name, value} = e.target;
-                        dispatch (productActions.handleTdFormInSuivi ({id: id, name: name, value: value, path: 'suivi14'}));
+                        const {name, value} = e.target;
+                        dispatch (productActions.handleTdFormInSuivi ({id: props.prev.id, name: name, value: value, path: 'suivi14'}));
                     }}
                 />
             </td>}

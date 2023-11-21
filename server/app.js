@@ -40,7 +40,7 @@ app.use("/api/v1/degoBar/autreProduit", AutreProduitRouter);
 app.use ("/api/v1/degoBar/bralima", BralimaRouter);
 app.use ("/api/v1/degoBar/brasimba", BrasimbaRouter);
 app.use('/api/v1/degoBar/liqueurs', LiqueursRouter);
-app.use("/api/v1/degoBar/venteDego", venteDego);
+app.use("/api/v1/degoBar/vente", venteDego);
 app.use("/api/v1/degoBar/suiviDepense", SuiviDepenseRouter);
 app.use ("/api/v1/degoBar/suiviDette", SuiviDetteRouter);
 //alimentation
@@ -49,7 +49,7 @@ app.use("/api/v1/alimentation/bralima", AlimentationBralima );
 app.use("/api/v1/alimentation/brasimba", AlimentationBrasimba );
 app.use("/api/v1/alimentation/liqueurs", AlimentationLiqueurs );
 app.use("/api/v1/alimentation/suiviDepense", AlimentationSuiviDepenseRouter);
-app.use("/api/v1/alimentation/venteAlimentation", VenteAlimentationRouter);
+app.use("/api/v1/alimentation/vente", VenteAlimentationRouter);
 app.use("/api/v1/alimentation/suiviDette", AlimentationSuiviDette);
 
 app.all("*", (req, res, next) => {

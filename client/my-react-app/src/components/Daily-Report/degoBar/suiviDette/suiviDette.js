@@ -224,7 +224,7 @@ export default function SuiviDette (props) {
 
         return (
             <div>
-                <DailyFilter component = {'suiviDepense'} prev = {date} onclick = {setFilterParams} />
+                <DailyFilter component = {'suiviDette'} prev = {date} onclick = {setFilterParams} />
                 <h1> Ooouups vous ne pouvez demander une donnee d'une date inexistante </h1>
             </div>
         );

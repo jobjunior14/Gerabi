@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import axios from "axios";
 import { useSearchParams } from "react-router-dom";
 import {useSelector, useDispatch } from 'react-redux'
@@ -12,10 +12,12 @@ import objProvider from "../../../reuseFunction/suiviStockVente/objProvider";
 import postAndUpdateData from "../../../reuseFunction/suiviStockVente/postAmdUpdateData";
 import { stateCompAction } from "../../../store/stateComponent";
 
-function errMessage (dispatch, productActions, venteDego, productData, stateAction, update) {
+function errMessage (dispatch, productActions, venteDego, productData, stateAction, update, venteJournaliereRef) {
 
   if (venteDego <= 0) {
-  
+    
+    //focus the cursur on the error 
+    venteJournaliereRef.current.focus();
     stateAction ? dispatch(productActions.setErrorMessage({status: true, errorAllowed: false, message: "verifier la section vente journaliere"})) : dispatch(alimProductActions.setErrorMessage({status: true, errorAllowed: false, message: "verifier la section vente journaliere"}));
   } else {
     
@@ -98,6 +100,9 @@ export default function Product (props) {
 
   //dispact the action if it's dego or alimentation
   dispatch(stateCompAction.setStateComp( props.componentName === 'degoBar' ? true : false));
+
+  //vente journaliere reference 
+  const venteJournaliereRef = useRef(null);
 
   //check the component name
   const stateAction = useSelector (state => state.stateComp.stateComp);
@@ -312,7 +317,8 @@ export default function Product (props) {
       null,
       venteDego,
       props,
-      dateState
+      dateState,
+      venteJournaliereRef
     );
   };
 
@@ -337,7 +343,8 @@ export default function Product (props) {
       id,
       venteDego,
       props,
-      dateState
+      dateState,
+      venteJournaliereRef
     );
 
   };
@@ -361,8 +368,8 @@ export default function Product (props) {
             <div>
               <DailyFilter component = {'allProduct'}  prev = {date} onclick = {setFilterParams} />
 
-              <label>Vente Journalière Dego</label>
-              <input type="number" name="vente" onChange={ e =>  stateAction ? dispatch(productActions.setVenteDego (e.target.value)) : dispatch(alimProductActions.setVenteDego (e.target.value))} placeholder="Vente Journalière " defaultValue={venteDego}/>
+              <label>Vente Journalière </label>
+              <input ref={venteJournaliereRef} type="number" name="vente" onChange={ e =>  stateAction ? dispatch(productActions.setVenteDego (e.target.value)) : dispatch(alimProductActions.setVenteDego (e.target.value))} placeholder="Vente Journalière " defaultValue={venteDego}/>
               <ExcelSecLayout toggle = {toggleStoc} />
               <button onClick={() => stateAction ? dispatch(productActions.setToggleStoc()) : dispatch(alimProductActions.setToggleStoc())} >{ !toggleStoc ? 'Cacher' : 'Afficher' }</button>
               { !update && <AddProduct stateAction = {stateAction} />}

@@ -2,11 +2,11 @@ import { productActions } from "../../store/AllProductManager-slice";
 import {alimProductActions } from "../../store/AllProductManagerAlim-slice";
 import axios from "axios";
 
-export default function postAndUpdateData (errMessage, errorMessage, year, month, day, productData, dispatch, id, venteDego, props, dateState) {
+export default function postAndUpdateData (errMessage, errorMessage, year, month, day, productData, dispatch, id, venteDego, props, dateState, venteJournaliereRef) {
 
   //calling the function to set the user's Message
   //if there is the error, data can't be sent to the server
-  errMessage(dispatch, productActions, venteDego, productData, props.componentName === 'degoBar' ? true : false, id ? true : false);
+  errMessage(dispatch, productActions, venteDego, productData, props.componentName === 'degoBar' ? true : false, id ? true : false, venteJournaliereRef);
   
   let data = [];
   // deleting all data with no name
