@@ -8,6 +8,17 @@ import { MensRepportNav } from './components/headers/outlet';
 import { MensRepport } from './components/Mensuel Report/mensualReport';
 
 function App() {
+  const degoBar = {
+    sliceName: 'product',
+    componentName: 'degoBar',
+    vente: 'venteDego'
+  };
+  const alimentation = {
+    sliceName: 'alimProduct',
+    componentName: 'alimentation',
+    vente: 'venteAlimentation'
+  };
+
   return ( 
     
     <BrowserRouter>

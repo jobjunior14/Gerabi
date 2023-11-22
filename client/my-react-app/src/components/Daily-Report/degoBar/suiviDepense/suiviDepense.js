@@ -8,11 +8,11 @@ import EntreeCaisse from "./entreeCaisse";
 import DailyFilter from "../../../filter/filterDailyRap";
 import SoldCaisse from "./soldCaisse";
 
-function postAndUpdate (entreeCaisse, sortieCaisse, year, month, day, dispacth, update,  totalSortieCaisse, totalSoldCaisse, totalDette, props) {
+function postAndUpdate (entreeCaisse, sortieCaisse, year, month, day, dispacth, update,  totalSortieCaisse, totalSoldCaisse, totalDette, props, depenseEff) {
 
 
-    //set Sold caisse
-    dispacth(suiviDepenseActions.setSoldCaisse());
+    // set Sold caisse
+    // dispacth(suiviDepenseActions.setSoldCaisse());
 
     const newSortieCaisseData = [];
     let suiviDepenseData = null;
@@ -70,9 +70,11 @@ function postAndUpdate (entreeCaisse, sortieCaisse, year, month, day, dispacth, 
         try {
                 dispacth(suiviDepenseActions.setEntreeCaisse(null));
                 dispacth(suiviDepenseActions.setSortieCaisse(null));
-                const responseSuiviDepense = !update ?  await axios.post(`http://localhost:5001/api/v1/${props.componentName}/suiviDepense/rapportJournalier?year=${year}&month=${month}&day=${day}`, suiviDepenseData) : await axios.post(`http://localhost:5001/api/v1/${props.componentName}/suiviDepense/rapportJournalier/${year}/${month}/${day}`, suiviDepenseData)
+                const responseSuiviDepense = !update ?  await axios.post(`http://localhost:5001/api/v1/${props.componentName}/suiviDepense/rapportJournalier?year=${year}&month=${month}&day=${day}`, suiviDepenseData) : await axios.post(`http://localhost:5001/api/v1/${props.componentName}/suiviDepense/rapportJournalier/${year}/${month}/${day}`, suiviDepenseData);
+                const responseDepenseEff = update ? await axios.post( `http://localhost:5001/api/v1/${props.componentName}/depenseEff/${year}/${month}/${day}`, {valeur: depenseEff, createdAt: createdAt} ) : await axios.post( `http://localhost:5001/api/v1/${props.componentName}/depenseEff?year=${year}&month=${month}&day=${day}`, {valeur: depenseEff, createdAt: createdAt});
 
-                //find the largest table row 
+
+                //find the largest table row
                 if (responseSuiviDepense.data.data.sortieCaisse ) {
 
                     let saveTalbeRow = 0;
@@ -111,6 +113,8 @@ function postAndUpdate (entreeCaisse, sortieCaisse, year, month, day, dispacth, 
                 dispacth(suiviDepenseActions.setUpdate(true));
                 dispacth(suiviDepenseActions.setReadOnly(true));
 
+                //set the depense effectuee
+                dispacth(suiviDepenseActions.setDepenseEff(responseDepenseEff.data.data.day.valeur));
             } catch (error) {
                 console.log (error);
             };
@@ -138,6 +142,7 @@ export default function SuiviDepense (props){
     const currentMonth = Number (new Date().getMonth() + 1);
     const currentDay = Number (new Date().getDate());    
     //data 
+    const soldCaisse = useSelector (state => state.suiviDepense.soldCaisse);
     const entreeCaisse = useSelector (state => state.suiviDepense.entreeCaisse);
     const sortieCaisse = useSelector (state => state.suiviDepense.sortieCaisse);
     const update = useSelector (state => state.suiviDepense.update);
@@ -147,6 +152,9 @@ export default function SuiviDepense (props){
     const totalSortieCaisse = useSelector (state => state.suiviDepense.totalSortieCaisse);
     const totalSoldCaisse = useSelector(state => state.suiviDepense.totalSoldCaisse);
     const totalDette = useSelector (state => state.suiviDepense.totalDette);
+
+    //depense effectuee
+    const depenseEff = useSelector (state => state.suiviDepense.depenseEff);
 
     useEffect (() => {
 
@@ -161,13 +169,22 @@ export default function SuiviDepense (props){
                 dispacth(suiviDepenseActions.setPrevSoldCaisse(0));
                 dispacth(suiviDepenseActions.setTotalDette(0));
                 dispacth(suiviDepenseActions.setTotalSortieCaisse(0));
-                
+                dispacth(suiviDepenseActions.setDepenseEff(0));
+                //fecth the data
                 const suiviDepenseData = await axios.get (`http://localhost:5001/api/v1/${props.componentName}/suiviDepense/rapportJournalier/${year}/${month}/${day}`);
                 const totDette = await axios.get (`http://localhost:5001/api/v1/${props.componentName}/suiviDette/rapportJournalier/totDette/${year}/${month}/${day}`);
+                const depenseEffData = await axios.get (`http://localhost:5001/api/v1/${props.componentName}/depenseEff/${year}/${month}/${day}`);
                 
                 //set the total debt
                 dispacth(suiviDepenseActions.setTotalDette(totDette.data.data));
+                //set the depense effectuee
+                if (depenseEffData.data.data.day.valeur) {
+
+                    dispacth(suiviDepenseActions.setDepenseEff(depenseEffData.data.data.day.valeur));
+                };
+
                 if (suiviDepenseData.data.data.sortieCaisse.length > 0 && suiviDepenseData.data.data.entreeCaisse.length > 0  && suiviDepenseData.data.data.soldCaisse) {
+                    //set some states
                     dispacth(suiviDepenseActions.setUpdate(true));
                     dispacth(suiviDepenseActions.setReadOnly(true));
                     //find the largest table row 
@@ -203,17 +220,13 @@ export default function SuiviDepense (props){
                     //set the index and entreeCaisse Data
                     dispacth(suiviDepenseActions.setEntreeCaisse(suiviDepenseData.data.data.entreeCaisse.map((el, index) => {return {...el, index: index}})));
     
-                    //set  caisse
+                    //set  sold caisse
                     if (suiviDepenseData.data.data.soldCaisse) {
-    
                         dispacth(suiviDepenseActions.setSoldCaisse(suiviDepenseData.data.data.soldCaisse.amount));
                     } else {
-                        
                         dispacth(suiviDepenseActions.setSoldCaisse(0));
                     };
 
-                    //set the previous sold caisse
-                    // dispacth(suiviDepenseActions.setPrevSoldCaisse(soldCaisse - (totalDette + totalSortieCaisse)));
                 } else {
 
                     dispacth(suiviDepenseActions.setReadOnly(false));
@@ -279,6 +292,9 @@ export default function SuiviDepense (props){
 
     }, [year, month, day]);
 
+    // set the previous sold caisse
+    dispacth(suiviDepenseActions.setPrevSoldCaisse(soldCaisse - (totalDette + totalSortieCaisse)));
+
     function setFilterParams() {
 
         setDateParams(prev => prev = date);
@@ -291,13 +307,12 @@ export default function SuiviDepense (props){
 
     function postData(){
         //post data or create it 
-        postAndUpdate(entreeCaisse, sortieCaisse, year, month, day, dispacth, false, totalSortieCaisse,totalSoldCaisse, totalDette, props);
+        postAndUpdate(entreeCaisse, sortieCaisse, year, month, day, dispacth, false, totalSortieCaisse,totalSoldCaisse, totalDette, props, depenseEff);
     };
     
     function updateData() {
-        postAndUpdate(entreeCaisse, sortieCaisse, year, month, day, dispacth, true, totalSortieCaisse,totalSoldCaisse, totalDette, props);
+        postAndUpdate(entreeCaisse, sortieCaisse, year, month, day, dispacth, true, totalSortieCaisse,totalSoldCaisse, totalDette, props, depenseEff);
     };
-
 
     if (year > currentYear || month > currentMonth || day > currentDay) {
 
@@ -312,6 +327,10 @@ export default function SuiviDepense (props){
         return (
             <div>
                 <DailyFilter component = {'suiviDepense'} prev = {date} onclick = {setFilterParams} />
+                
+                <label >Depense Effectuées</label>
+                <input type="number" name = 'depenseEffectuee' onChange={ e => dispacth(suiviDepenseActions.setDepenseEff(Number (e.target.value)))} placeholder="Depense effectuée" defaultValue={depenseEff}/>
+                <p>{depenseEff}</p>
                 <EntreeCaisse componentName = {props.componentName}/>
                 <SoriteCaisse /> 
                 <SoldCaisse/>

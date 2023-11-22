@@ -18,6 +18,7 @@ const suiviDepenseSlice = createSlice ({
         prevSoldCaisse: 0,
         totalSortieCaisse: 0,
         totalDette: 0,
+        depenseEff: 0
     },
 
     reducers: {
@@ -203,6 +204,10 @@ const suiviDepenseSlice = createSlice ({
 
         setTotalDette (state, action) {
             state.totalDette = action.payload;
+        },
+
+        setDepenseEff (state, action) {
+            state.depenseEff = action.payload;
         }
 
     }

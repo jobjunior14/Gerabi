@@ -63,7 +63,7 @@ export default function postAndUpdateData (errMessage, errorMessage, year, month
           //check the component name to choose the right route vente system
           if (props.componentName === 'degoBar') {
               //vente dego bar
-              const responseventeSystem = id ? await axios.post( `http://localhost:5001/api/v1/${props.componentName}/${props.vente}/${year}/${month}/${day}`, newDataVente ) : await axios.post( `http://localhost:5001/api/v1/${props.componentName}/${props.vente}?year=${year}&month=${month}&day=${day}`, newDataVente);
+              const responseventeSystem = id ? await axios.post( `http://localhost:5001/api/v1/${props.componentName}/vente/${year}/${month}/${day}`, newDataVente ) : await axios.post( `http://localhost:5001/api/v1/${props.componentName}/vente?year=${year}&month=${month}&day=${day}`, newDataVente);
             
               //save the data in the local storage
               if ( dateState ) {
@@ -88,7 +88,7 @@ export default function postAndUpdateData (errMessage, errorMessage, year, month
               
             } else  {
               //vente alimentation
-              const responseventeSystem = id ? await axios.post( `http://localhost:5001/api/v1/${props.componentName}/${props.vente}/${year}/${month}/${day}`, newDataVente ) : await axios.post( `http://localhost:5001/api/v1/${props.componentName}/${props.vente}?year=${year}&month=${month}&day=${day}`, newDataVente);
+              const responseventeSystem = id ? await axios.post( `http://localhost:5001/api/v1/${props.componentName}/vente/${year}/${month}/${day}`, newDataVente ) : await axios.post( `http://localhost:5001/api/v1/${props.componentName}/vente?year=${year}&month=${month}&day=${day}`, newDataVente);
               
               //save the data in the local storage
               if ( dateState ) {

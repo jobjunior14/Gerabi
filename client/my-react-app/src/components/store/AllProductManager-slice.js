@@ -126,11 +126,12 @@ const productSlice = createSlice ({
         //add more product data
         addProduct (state) {
 
+            const lengthProd = state.productData.length 
             state.productData.push (
                 {
                     name: "",
 
-                    id: state.productData.length + 1,
+                    id: lengthProd + 1,
 
                     achat_journalier: {
                     qt_caisse: 0,
@@ -187,72 +188,72 @@ const productSlice = createSlice ({
                     },
 
                     suivi1: {
-                    name: state.productData.length > 0 ? state.productData[0].suivi1.name : 0,
+                    name: lengthProd > 0 ? state.productData[0].suivi1.name : '',
                     qt_caisse: 0,
                     },
 
                     suivi2: {
-                    name: state.productData.length > 0 ? state.productData[0].suivi2.name : 0,
+                    name: lengthProd > 0 ? state.productData[0].suivi2.name : '',
                     qt_caisse: 0,
                     },
 
                     suivi3: {
-                    name: state.productData.length > 0 ? state.productData[0].suivi3.name : 0,
+                    name: lengthProd > 0 ? state.productData[0].suivi3.name : '',
                     qt_caisse: 0,
                     },
 
                     suivi4: {
-                    name: state.productData.length > 0 ? state.productData[0].suivi4.name : 0,
+                    name: lengthProd > 0 ? state.productData[0].suivi4.name : '',
                     qt_caisse: 0,
                     },
 
                     suivi5: {
-                    name: state.productData.length > 0 ? state.productData[0].suivi5.name : 0,
+                    name: lengthProd > 0 ? state.productData[0].suivi5.name : '',
                     qt_caisse: 0,
                     },
 
                     suivi6: {
-                    name: state.productData.length > 0 ? state.productData[0].suivi6.name : 0,
+                    name: lengthProd > 0 ? state.productData[0].suivi6.name : '',
                     qt_caisse: 0,
                     },
 
                     suivi7: {
-                    name: state.productData.length > 0 ? state.productData[0].suivi7.name : 0,
+                    name: lengthProd > 0 ? state.productData[0].suivi7.name : '',
                     qt_caisse: 0,
                     },
 
                     suivi8: {
-                    name: state.productData.length > 0 ? state.productData[0].suivi8.name : 0,
+                    name: lengthProd > 0 ? state.productData[0].suivi8.name : '',
                     qt_caisse: 0,
                     },
 
                     suivi9: {
-                    name: state.productData.length > 0 ? state.productData[0].suivi9.name : 0,
+                    name: lengthProd > 0 ? state.productData[0].suivi9.name : '',
                     qt_caisse: 0,
                     },
 
                     suivi10: {
-                    name: state.productData.length > 0 ? state.productData[0].suivi10.name : 0,
+                    name: lengthProd > 0 ? state.productData[0].suivi10.name : '',
                     qt_caisse: 0,
                     },
 
                     suivi11: {
-                    name: state.productData.length > 0 ? state.productData[0].suivi11.name : 0,
+                    name: lengthProd > 0 ? state.productData[0].suivi11.name : '',
                     qt_caisse: 0,
                     },
 
                     suivi12: {
-                    name: state.productData.length > 0 ? state.productData[0].suivi12.name : 0,
+                    name: lengthProd > 0 ? state.productData[0].suivi12.name : '',
                     qt_caisse: 0,
                     },
 
                     suivi13: {
-                    name: state.productData.length > 0 ? state.productData[0].suivi13.name : 0,
+                    name: lengthProd > 0 ? state.productData[0].suivi13.name : '',
                     qt_caisse: 0,
                     },
 
                     suivi14: {
-                    name: state.productData.length > 0 ? state.productData[0].suivi14.name : 0,
+                    name: lengthProd > 0 ? state.productData[0].suivi14.name : '',
                     qt_caisse: 0,
                     },
                 },

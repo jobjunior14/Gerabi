@@ -26,6 +26,7 @@ const LiqueursRouter = require("./routes/degoBar/liqueursRoutes.js");
 const venteDego = require("./routes/degoBar/venteDegoRoutes.js");
 const SuiviDepenseRouter = require("./routes/degoBar/suiviDepenseRoutes.js");
 const SuiviDetteRouter = require("./routes/degoBar/suiviDetteRouter.js");
+const DepenseEff = require ('./routes/degoBar/depenseEffRoutes.js')
 //Alimentation
 const AlimentationAutrePRodduitRouter = require('./routes/alimentation/alimentationAutreProduitRouter.js');
 const AlimentationBralima = require('./routes/alimentation/alimentationBralimaRouter.js');
@@ -34,6 +35,7 @@ const AlimentationLiqueurs = require('./routes/alimentation/alimentationLiqueurs
 const AlimentationSuiviDepenseRouter = require ('./routes/alimentation/alimentationSuiviDepenseRouter');
 const VenteAlimentationRouter = require ('./routes/alimentation/venteAlimentationRouter');
 const AlimentationSuiviDette = require ('./routes/alimentation/alimentationSuiviDetteRouter');
+const DepenseEffAlim = require ("./routes/alimentation/alimDepenseEff.js");
 //3) Routes
 //dego Bar
 app.use("/api/v1/degoBar/autreProduit", AutreProduitRouter);
@@ -43,6 +45,7 @@ app.use('/api/v1/degoBar/liqueurs', LiqueursRouter);
 app.use("/api/v1/degoBar/vente", venteDego);
 app.use("/api/v1/degoBar/suiviDepense", SuiviDepenseRouter);
 app.use ("/api/v1/degoBar/suiviDette", SuiviDetteRouter);
+app.use ("/api/v1/degoBar/depenseEff", DepenseEff);
 //alimentation
 app.use("/api/v1/alimentation/autreProduit", AlimentationAutrePRodduitRouter );
 app.use("/api/v1/alimentation/bralima", AlimentationBralima );
@@ -51,6 +54,7 @@ app.use("/api/v1/alimentation/liqueurs", AlimentationLiqueurs );
 app.use("/api/v1/alimentation/suiviDepense", AlimentationSuiviDepenseRouter);
 app.use("/api/v1/alimentation/vente", VenteAlimentationRouter);
 app.use("/api/v1/alimentation/suiviDette", AlimentationSuiviDette);
+app.use ("/api/v1/alimentation/depenseEff", DepenseEffAlim);
 
 app.all("*", (req, res, next) => {
   next(new AppError(`Cannot find ${req.originalUrl} this server`, 404));

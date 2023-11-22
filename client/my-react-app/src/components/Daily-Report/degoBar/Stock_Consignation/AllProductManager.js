@@ -172,7 +172,7 @@ export default function Product (props) {
           stateAction ? dispatch(productActions.setProductdata(null)) :  dispatch(alimProductActions.setProductdata(null));
 
           const dataApi = await axios.get( `http://localhost:5001/api/v1/${props.componentName}/${props.produit}/rapportJournalier/${year}/${month}/${day}`);
-          const dataVente = await axios.get (`http://localhost:5001/api/v1/${props.componentName}/${props.vente}/${year}/${month}/${day}`);
+          const dataVente = await axios.get (`http://localhost:5001/api/v1/${props.componentName}/vente/${year}/${month}/${day}`);
           
           if (dataApi.data.data.day.length > 0 ){
 
@@ -220,7 +220,7 @@ export default function Product (props) {
             if ( storageState.date.year === prevYear && storageState.date.month === prevMonth && storageState.date.day === prevDay) { 
 
               const dataApi = await axios.get(`http://localhost:5001/api/v1/${props.componentName}/${props.produit}/rapportJournalier/${currentYear}/${currentMonth}/${currentDay}`);
-              const dataVente = await axios.get (`http://localhost:5001/api/v1/${props.componentName}/${props.vente}/${currentYear}/${currentMonth}/${currentDay}`);
+              const dataVente = await axios.get (`http://localhost:5001/api/v1/${props.componentName}/vente/${currentYear}/${currentMonth}/${currentDay}`);
 
               if (dataApi.data.data.day.length === 0) {
 
@@ -252,7 +252,7 @@ export default function Product (props) {
             stateAction ? dispatch(productActions.setProductdata (null)) : dispatch(alimProductActions.setProductdata (null));
             
             const dataApi = await axios.get(`http://localhost:5001/api/v1/${props.componentName}/${props.produit}/rapportJournalier/${currentYear}/${currentMonth}/${currentDay}`);
-            const dataVente = await axios.get (`http://localhost:5001/api/v1/${props.componentName}/${props.vente}/${currentYear}/${currentMonth}/${currentDay}`);
+            const dataVente = await axios.get (`http://localhost:5001/api/v1/${props.componentName}/vente/${currentYear}/${currentMonth}/${currentDay}`);
             
             if (dataApi.data.data.day.length === 0) {
 

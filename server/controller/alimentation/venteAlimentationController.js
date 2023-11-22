@@ -5,7 +5,7 @@ const {
   pushDataVente,
   updatevente,
   monthStatsVente
-} = require ('../functions/dailyVenteFunction');
+} = require ('../functions/dailyVenteFunction&depenseEff');
 
 exports.getVenteAlimentation = catchAssynch(async (req, res, next) => {
   await getVente({req: req, res: res, next: next, collection: VenteAlimentation});
