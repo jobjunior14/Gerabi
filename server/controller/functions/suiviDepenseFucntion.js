@@ -664,7 +664,7 @@ exports.mensualstatsDetailsSuiviDepenseCollection = async (data) => {
         },
         {
             $group: {
-                _id: {name: `$stats.data.entreeCaisse.name`},
+                _id: `$stats.data.entreeCaisse.name`,
                 valeur: {$sum: `$stats.data.entreeCaisse.data.amount`}
             }
         }
@@ -708,7 +708,7 @@ exports.mensualstatsDetailsSuiviDepenseCollection = async (data) => {
                 valeur: {$sum: '$stats.data.sortieCaisse.data.amount.valeur'}
             }
         }
-    ])
+    ]);
     data.res.status(200).json({
         status: 'success',
         data: {
@@ -717,4 +717,4 @@ exports.mensualstatsDetailsSuiviDepenseCollection = async (data) => {
         }
     })
 
-}
+};

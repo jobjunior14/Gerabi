@@ -4,7 +4,7 @@ const mensRapportSlice = createSlice ({
 
     name: 'mensRapport',
     initialState: {
-        mensualData: {
+        suiviVente: {
             bralima: null,
             brasimba: null,
             autreProduit: null,
@@ -14,14 +14,18 @@ const mensRapportSlice = createSlice ({
             year: Number (new Date().getFullYear()),
             month: Number (new Date().getMonth() + 1)
         },
-        componentName: 'degoBar'
+        componentName: 'degoBar',
+        paramsDate: {
+            year: Number (new Date().getFullYear()),
+            month: Number (new Date().getMonth() + 1)
+        },
     },
 
     reducers: {
 
-        setMensualData (state, actions) {
+        setSuiviVente (state, actions) {
 
-            state.mensualData = actions.payload
+            state.suiviVente = actions.payload
         },
 
         setDate (state, action ){
@@ -43,7 +47,11 @@ const mensRapportSlice = createSlice ({
 
         setComponentName (state, action) {
             state.componentName = action.payload
-        }
+        },
+
+        setParamsDate (state, action) {
+            state.paramsDate = action.payload;
+        },
     }
 });
 

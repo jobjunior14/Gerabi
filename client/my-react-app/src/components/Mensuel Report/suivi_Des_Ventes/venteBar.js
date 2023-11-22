@@ -7,7 +7,7 @@ import { useSearchParams } from "react-router-dom";
 export default function VenteBar () {
 
     //data
-    const data = useSelector(state => state.mensRapport.mensualData);
+    const data = useSelector(state => state.mensRapport.suiviVente);
 
     
     //dataDego Vente
@@ -90,8 +90,8 @@ export default function VenteBar () {
 
             return (<div>
                 <h3> VENTE BAR</h3>
-                <h4>Ouuppss!! date n'a pas de donnee</h4>
-            </div>)
+                <h4>Ouuppss!! cette date n'a pas des donnees</h4>
+            </div>);
         }
 
     } else {

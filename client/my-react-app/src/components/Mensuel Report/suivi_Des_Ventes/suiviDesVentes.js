@@ -1,26 +1,18 @@
 import { useEffect } from "react";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
-import { useSearchParams } from "react-router-dom";
 import { mensRapportActions } from "../../store/mensRepport-slice";
 import Approvisionnement from "./approvisionnement";
 import Benefice from "./benefice";
 import VenteBar from "./venteBar";
-import MensFilter from "../../filter/filterMensRap";
 
 export default function SuiviDesVentes (props) {
 
     const dispatch = useDispatch();
-
-    //params
-    const [dateParams, setDateParams] = useSearchParams();
-
-    //date in fields
-    const date = useSelector (state => state.mensRapport.date);
     
     //dependacies of useEffect
-    const year = Number(dateParams.get("year"));
-    const month = Number(dateParams.get("month")); 
+    const year = useSelector(state => state.mensRapport.paramsDate.year);
+    const month = useSelector (state => state.mensRapport.paramsDate.month);
 
     //current date
     const currentYear = Number (new Date().getFullYear());
@@ -31,7 +23,7 @@ export default function SuiviDesVentes (props) {
     //fecth the data
     useEffect (() => {
 
-        dispatch(mensRapportActions.setMensualData({
+        dispatch(mensRapportActions.setSuiviVente({
             bralima: null,
             brasimba: null,
             liqueurs: null,
@@ -47,7 +39,7 @@ export default function SuiviDesVentes (props) {
                 const liqueursData = await axios.get(`http://localhost:5001/api/v1/${componentName}/liqueurs/rapportMensuel/Allstast/${year}/${month}`);
                 const autreProduitData = await axios.get(`http://localhost:5001/api/v1/${componentName}/autreProduit/rapportMensuel/Allstast/${year}/${month}`);
                 
-                dispatch(mensRapportActions.setMensualData({
+                dispatch(mensRapportActions.setSuiviVente({
                     bralima: bralimaData.data.stats.stats,
                     brasimba: brasimbaData.data.stats.stats,
                     liqueurs: liqueursData.data.stats.stats,
@@ -66,23 +58,17 @@ export default function SuiviDesVentes (props) {
         }; fecthData();
 
     }, [year, month, componentName]);
-
-    function setFilterParams() {
-
-        setDateParams(prev => prev = date);
-    };
     
     if (year > currentYear || month > currentMonth) {
         
         return (<div>
-            <MensFilter prev = {date} onclick = {setFilterParams}/>
             <h1>Ooouups vous ne pouvez demander une donnee d'une date inexistante</h1>
         </div>
         )
     } else {
 
         return (<div>
-            <MensFilter prev = {date} onclick = {setFilterParams}/>
+            <h2>Suivi Des Ventes</h2>
             <VenteBar />
             <Approvisionnement />
             <Benefice />
