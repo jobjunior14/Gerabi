@@ -1,3 +1,4 @@
+const { collection } = require("../../models/degoBar/suiviDepenseModel");
 const AppError = require("../../utils/appError");
 
 const loopingData = (array, year, month, day) => {
@@ -73,7 +74,6 @@ const loopingData = (array, year, month, day) => {
 
     return dayData;
 };
-
 
 exports.getSuiviDepenseCollection = async (data) => {
 
@@ -523,13 +523,13 @@ exports.lastCreatedDataSuiviDepenseCollection = async (data) => {
     };
 };
 
-exports.mensualStasSuiviDepenseCollection = async (data) => {
+//musrt be annual stats
+exports.mensualStasAllSuiviDepenseCollection = async (data) => {
 
     const year = Number (data.req.params.year);
     const month = Number (data.req.params.month);
 
-    const entreeCaisse = await SuiviDepense.aggregate([
-
+    const entreeCaisse =  await data.collection.aggregate([
         {
             $match: { annee: year}
         },
@@ -542,7 +542,6 @@ exports.mensualStasSuiviDepenseCollection = async (data) => {
                         as: "data",
                         cond: {
                             $and: [
-
                                 {$gte: ["$$data.mois", month]},
                                 {$lte: ["$$data.mois", month]}
                             ]
@@ -557,17 +556,63 @@ exports.mensualStasSuiviDepenseCollection = async (data) => {
         },
 
         {
-            $unwind: {path: "$stats.data.entreeCaisse"}
+            $unwind: {path: `$stats.data.entreeCaisse`}
         },
 
         {
-            $unwind: {path: "$stats.data.entreeCaisse.data"}
+            $unwind: {path: `$stats.data.entreeCaisse.data`}
         },
 
         {
             $group: {
                 _id: null,
-                valeur: {$sum: "$stats.data.entreeCaisse.data.amount" }
+                valeur: {$sum: `$stats.data.entreeCaisse.data.amount`}
+            }
+        }
+
+    ]);
+
+    const sortieCaisse =  await data.collection.aggregate([
+
+        {
+            $match: { annee: year}
+        },
+
+        {
+            $project: {
+                stats: {
+                    $filter: {
+                        input: "$data",
+                        as: "data",
+                        cond: {
+                            $and: [
+                                {$gte: ["$$data.mois", month]},
+                                {$lte: ["$$data.mois", month]}
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+
+        {
+            $unwind: {path: "$stats"}
+        },
+
+        {
+            $unwind: {path: `$stats.data.sortieCaisse`}
+        },
+
+        {
+            $unwind: {path: `$stats.data.sortieCaisse.data`}
+        },
+        {
+            $unwind: {path: `$stats.data.sortieCaisse.data.amount`}
+        },
+        {
+            $group: {
+                _id: null,
+                valeur : {$sum: '$stats.data.sortieCaisse.data.amount.valeur'}
             }
         }
 
@@ -575,6 +620,101 @@ exports.mensualStasSuiviDepenseCollection = async (data) => {
 
     data.res.status(200).json({
         status: 'success',
-        data: entreeCaisse
+        data: {
+            entreeCaisse: entreeCaisse,
+            sortieCaisse: sortieCaisse
+        }
     });
 };
+
+exports.mensualstatsDetailsSuiviDepenseCollection = async (data) => {
+
+    const year = Number (data.req.params.year);
+    const month = Number (data.req.params.month);
+
+    const entreeCaisse = await data.collection.aggregate([
+
+        {
+            $match:{ annee: year},
+        },
+        {
+            $project: {
+                stats: {
+                    $filter: {
+                        input: "$data",
+                        as: "data",
+                        cond: {
+                            $and: [
+                                {$gte: ["$$data.mois", month]},
+                                {$lte: ["$$data.mois", month]}
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        {
+            $unwind: {path: '$stats'}
+        },
+        {
+            $unwind: {path: `$stats.data.entreeCaisse`}
+        },
+        {
+            $unwind: {path: `$stats.data.entreeCaisse.data`}
+        },
+        {
+            $group: {
+                _id: {name: `$stats.data.entreeCaisse.name`},
+                valeur: {$sum: `$stats.data.entreeCaisse.data.amount`}
+            }
+        }
+        
+    ]);
+    const sortieCaisse = await data.collection.aggregate ([
+        {
+            $match:{ annee: year},
+        },
+        {
+            $project: {
+                stats: {
+                    $filter: {
+                        input: "$data",
+                        as: "data",
+                        cond: {
+                            $and: [
+                                {$gte: ["$$data.mois", month]},
+                                {$lte: ["$$data.mois", month]}
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        {
+            $unwind: {path: '$stats'}
+        },
+        {
+            $unwind: {path: '$stats.data.sortieCaisse'}
+        },
+        {
+            $unwind: {path: '$stats.data.sortieCaisse.data'}
+        },
+        {
+            $unwind: {path: '$stats.data.sortieCaisse.data.amount'}
+        },
+        {
+            $group: {
+                _id: '$stats.data.sortieCaisse.name',
+                valeur: {$sum: '$stats.data.sortieCaisse.data.amount.valeur'}
+            }
+        }
+    ])
+    data.res.status(200).json({
+        status: 'success',
+        data: {
+            entreeCaisse: entreeCaisse,
+            sortieCaisse: sortieCaisse
+        }
+    })
+
+}
