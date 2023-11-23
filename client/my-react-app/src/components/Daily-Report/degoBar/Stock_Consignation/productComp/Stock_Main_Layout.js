@@ -5,11 +5,12 @@ import { useId } from "react";
 
 export function ExcelMain(props)
 {
-    const stateAction = useSelector (state => state.stateComp.stateComp);
+    const stateAction = useSelector (state => state.product.product);
     const readOnly = useSelector (state => stateAction ? state.product.readOnly : state.alimProduct.readOnly);
     const toggleStoc = useSelector (state => stateAction ? state.product.toggleStoc : state.alimProduct.toggleStoc);
     const dispatch = useDispatch();
     const id = useId();
+    
     if (stateAction) {
         
         return (

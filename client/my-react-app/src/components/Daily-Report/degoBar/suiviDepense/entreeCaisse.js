@@ -53,19 +53,19 @@ export default function EntreeCaisse (props){
             if (!prevSuiviDepenseData.data.data.soldCaisse) {
                 
                 setFoundPrevSold(prev => prev = true);
-                dispatch(suiviDepenseActions.setPrevSoldCaisse(soldCaisse - (totalDette + totalSortieCaisse)));
             } else {
-
+                
                 dispatch(suiviDepenseActions.setPrevSoldCaisse(prevSuiviDepenseData.data.data.soldCaisse.amount));
                 
             };
         }; fecthData();
     }, [prevDay, prevMonth, prevYear]);
-
+    
     //map the data 
     let dataDisplay  = null;
     if ( data) {
-
+        
+        dispatch(suiviDepenseActions.setPrevSoldCaisse(soldCaisse - (totalDette + totalSortieCaisse)));
         dataDisplay = data.map((el, index) => <EntreeCaisseComp key = {index}  index = {index} prev = {el} />);
 
         //calculate the total amount in entree caisse

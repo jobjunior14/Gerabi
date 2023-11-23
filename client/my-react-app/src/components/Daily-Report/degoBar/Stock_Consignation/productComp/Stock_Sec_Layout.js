@@ -1,28 +1,33 @@
 import { ExcelMain } from "./Stock_Main_Layout.js";
 import { useSelector } from "react-redux";
+import { useState, useEffect } from "react";
 
 const { table, tbaleTh } = require("./css.js");
 
 export function ExcelSecLayout(props) {
   
   //house using the component
-  const stateAction = useSelector (state => state.stateComp.stateComp);
+  const stateAction = useSelector (state => state.product.product);
   const productData = useSelector (state => stateAction ? state.product.productData : state.alimProduct.productData );
   const toggleStoc = useSelector (state => stateAction ?  state.product.toggleStoc : state.alimProduct.toggleStoc );
 
-  let displayDataMainExcel = null;
+  const [displayDataMainExcel, setDisplayDataMainExcel] = useState (null);
 
-  if (productData) {
+  //perform the side effect
+  useEffect(() => {
+    
+    if (productData) {
 
-    displayDataMainExcel = productData.map((prev) => {
-      return (
-        <ExcelMain
-          prev={prev}
-          key={prev.id}
-        />
-      );
-    });
-  };
+      setDisplayDataMainExcel(prev => prev = productData.map((prev) => {
+        return (
+          <ExcelMain
+            prev={prev}
+            key={prev.id}
+          />
+        );
+      }));
+    };
+  }, [productData])
 
   if (stateAction) {
 

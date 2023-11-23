@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { suiviDepenseActions } from "../../../store/suiviDepense-slice";
-import { useId } from "react";
+import { useId,useEffect, useState } from "react";
 
 export default function SoriteCaisse () {
     
@@ -11,116 +11,131 @@ export default function SoriteCaisse () {
     const readOnly = useSelector (state => state.suiviDepense.readOnly);
     const allTotalSortieCaisse = useSelector (state => state.suiviDepense.totalSortieCaisse);
     
-    const subTAbleHeadersSortieCaisse = [];
-    const tableHeaderSortieCaisse = [];
-    const tableRowData = []; 
+    const [subTAbleHeadersSortieCaisse, setSubTAbleHeadersSortieCaisse] = useState ([]);
+    const [tableHeaderSortieCaisse, setTableHeaderSortieCaisse] = useState ([]);
+    const [tableRowData, setTableRowData] = useState([]); 
+    const [displayTotFocnt, setDisplayTotFocnt] = useState(null);
 
     const id = useId ();
 
-    if ( sortieCaisse && sortieCaisse.length > 0) {
-        
-        for (let i = 0; i < sortieCaisse.length; i++) {
-
-            //array of main TH
-             tableHeaderSortieCaisse.push(
-                <th key={`thSortie${i}`} colSpan={2}> 
-                
-                    <input 
-                        type="text"
-                        defaultValue={sortieCaisse[i].name}
-                        id= {tableHeaderSortieCaisse.length + id + "name"}
-                        name="name"
-                        readOnly = {readOnly}
-                        placeholder="Taper la fonction de sortie"
-                        onChange={ (e) => {
-
-                            const {name, value} = e.target;
-                            dispatch (suiviDepenseActions.HandleSortieCaisse({name: name, value: value, mainindex: i, index: null }));
-                        }}
-                    />
-
-                </th>
-            );
-            //arry of Sub TH
-            subTAbleHeadersSortieCaisse.push(<td key={`tdlibel${i}`}> Libelé </td>);
-            subTAbleHeadersSortieCaisse.push (<td key={`tdmontant${i}`}> Montant </td>);
-        };
-        
-        for (let y = 0; y < sortieCaisse[0].data.length; y++) {
     
-                const tableDataSortieCaisse = [];
-        
-                for (let j = 0;  j < sortieCaisse.length; j++) {
+    //side effect 
+    useEffect (() => {
+
+        if ( sortieCaisse && sortieCaisse.length > 0) {
+            
+            const SavetableHeaderSortieCaisse = [];
+            const SavesubTAbleHeadersSortieCaisse = [];
+            for (let i = 0; i < sortieCaisse.length; i++) {
     
-    
-                    tableDataSortieCaisse.push(
-                        <td key={`tdSortie${j}`}>
-                            <input
-                                defaultValue={sortieCaisse[j].data[y].libel}
-                                id = {tableDataSortieCaisse.length + id + `sortieCaisse[${j}].data[${y}].libel`}
-                                name = 'libel'
-                                readOnly = {readOnly}
-                                placeholder="Taper le libel"
-                                onChange={ e => {
-        
-                                    const {name, value} = e.target;
-                                    dispatch (suiviDepenseActions.HandleSortieCaisse({name: name, value: value, mainindex: j, index: y }));
-                                }}
-                            />
-                        </td>
-                    );
-        
-                    tableDataSortieCaisse.push(
-                        <td key = {`tdsortie${j}`}>
-                            <input
-                                defaultValue={sortieCaisse[j].data[y].amount}
-                                id = {tableDataSortieCaisse.length + id + 'amount' + `sortieCaisse[${j}].data[${y}].amount`}
-                                name = 'amount'
-                                type="number"
-                                placeholder="Taper le montant"
-                                onChange={ e => {
-        
-                                    const {name, value} = e.target;
-                                    dispatch (suiviDepenseActions.HandleSortieCaisse({name: name, value: Number (value), mainindex: j, index: y }));
-                                }}
-                            />
-                        </td>
-                    );
+                //array of main TH
+                 SavetableHeaderSortieCaisse.push(
+                    <th key={`thSortie${i}`} colSpan={2}> 
                     
-                };
-        
-            tableRowData.push(<tr key={y}>{tableDataSortieCaisse}</tr>); 
-
-        };
-    };
-
-    //save the varaibale before dispatch it
-     let totalSortieCaisse = 0; 
-     
-     //display the total amount sortie ~for one row
-     const displayTotFocnt = [];
-   
-    //calculate the total amount of sortie caisse
-    if (sortieCaisse) {
-        
-        for (let i = 0; i < sortieCaisse.length; i++) {
-
-            let totalFocnt = 0;
-            for (let j = 0; j < sortieCaisse[i].data.length; j++) {
-                
-                if (sortieCaisse[i].data.length > 0 && sortieCaisse[i].name !== "" && sortieCaisse[i].data[j].libel !== ""){
-
-                    totalSortieCaisse += sortieCaisse[i].data[j].amount;
-                    totalFocnt += sortieCaisse[i].data[j].amount;
-                };
+                        <input 
+                            type="text"
+                            defaultValue={sortieCaisse[i].name}
+                            id= {tableHeaderSortieCaisse.length + id + `sortieCaisse[${i}].name`}
+                            name="name"
+                            readOnly = {readOnly}
+                            placeholder="Taper la fonction de sortie"
+                            onChange={ (e) => {
+    
+                                const {name, value} = e.target;
+                                dispatch (suiviDepenseActions.HandleSortieCaisse({name: name, value: value, mainindex: i, index: null }));
+                            }}
+                        />
+    
+                    </th>
+                );
+                //arry of Sub TH
+                SavesubTAbleHeadersSortieCaisse.push(<td key={`tdlibel${i}`}> Libelé </td>);
+                SavesubTAbleHeadersSortieCaisse.push (<td key={`tdmontant${i}`}> Montant </td>);
             };
-            displayTotFocnt.push (<th key={`thsoriee${i}`}> Total </th>);
-            displayTotFocnt.push (<td key = {`tdaaa${i}`}>{totalFocnt}</td>);
-        };
+            //set the state
+            setTableHeaderSortieCaisse(prev => prev = SavetableHeaderSortieCaisse);
+            setSubTAbleHeadersSortieCaisse(prev => prev = SavesubTAbleHeadersSortieCaisse);
+            
+            const savetableRowData = [];
+            for (let y = 0; y < sortieCaisse[0].data.length; y++) {
+        
+                    const tableDataSortieCaisse = [];
+            
+                    for (let j = 0;  j < sortieCaisse.length; j++) {
+        
+        
+                        tableDataSortieCaisse.push(
+                            <td key={`tdSortie${j}`}>
+                                <input
+                                    defaultValue={sortieCaisse[j].data[y].libel}
+                                    id = {tableDataSortieCaisse.length + id + `sortieCaisse[${j}].data[${y}].libel`}
+                                    name = 'libel'
+                                    readOnly = {readOnly}
+                                    placeholder="Taper le libel"
+                                    onChange={ e => {
+            
+                                        const {name, value} = e.target;
+                                        dispatch (suiviDepenseActions.HandleSortieCaisse({name: name, value: value, mainindex: j, index: y }));
+                                    }}
+                                />
+                            </td>
+                        );
+            
+                        tableDataSortieCaisse.push(
+                            <td key = {`tdsortie${j}`}>
+                                <input
+                                    defaultValue={sortieCaisse[j].data[y].amount}
+                                    id = {tableDataSortieCaisse.length + id + 'amount' + `sortieCaisse[${j}].data[${y}].amount`}
+                                    name = 'amount'
+                                    type="number"
+                                    placeholder="Taper le montant"
+                                    onChange={ e => {
+            
+                                        const {name, value} = e.target;
+                                        dispatch (suiviDepenseActions.HandleSortieCaisse({name: name, value: Number (value), mainindex: j, index: y }));
+                                    }}
+                                />
+                            </td>
+                        );
+                        
+                    };
+                savetableRowData.push(<tr key={y}>{tableDataSortieCaisse}</tr>); 
+            };
 
-        //set the sold caisse
-        dispatch(suiviDepenseActions.setTotalSortieCaisse(totalSortieCaisse));
-    };
+            setTableRowData(prev => prev = savetableRowData);
+        };
+        //save the varaibale before dispatch it
+         let totalSortieCaisse = 0; 
+         
+         //display the total amount sortie ~for one row
+         const saveDisplayTotFocnt = [];
+       
+        //calculate the total amount of sortie caisse
+        if (sortieCaisse) {
+            
+            for (let i = 0; i < sortieCaisse.length; i++) {
+    
+                let totalFocnt = 0;
+                for (let j = 0; j < sortieCaisse[i].data.length; j++) {
+                    
+                    if (sortieCaisse[i].data.length > 0 && sortieCaisse[i].name !== "" && sortieCaisse[i].data[j].libel !== ""){
+    
+                        totalSortieCaisse += sortieCaisse[i].data[j].amount;
+                        totalFocnt += sortieCaisse[i].data[j].amount;
+                    };
+                };
+                saveDisplayTotFocnt.push (<th key={`thsoriee${i}`}> Total </th>);
+                saveDisplayTotFocnt.push (<td key = {`tdaaa${i}`}>{totalFocnt}</td>);
+            };
+
+            //set the display function
+            setDisplayTotFocnt(prev => prev = saveDisplayTotFocnt);
+    
+            //set the sold caisse
+            dispatch(suiviDepenseActions.setTotalSortieCaisse(totalSortieCaisse));
+        };
+    }, [sortieCaisse, readOnly])
+
 
     
    if (sortieCaisse) {

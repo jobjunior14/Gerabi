@@ -9,6 +9,7 @@ export default function InputsTh (props) {
     const dispatch = useDispatch();
     const readOnly = useSelector (state => state.product.readOnly);
     const id = useId();
+    
 
     return (
         <>

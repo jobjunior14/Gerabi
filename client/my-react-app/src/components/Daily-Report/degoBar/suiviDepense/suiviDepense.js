@@ -28,7 +28,7 @@ function postAndUpdate (entreeCaisse, sortieCaisse, year, month, day, dispacth, 
     } else {
         createdAt = `${year}-0${month}-0${day}T08:22:54.930Z`;
     };
-
+    //delete empty name of sortie caisse
     for (let i of sortieCaisse){
         if (i.name !== "") {
 
@@ -52,11 +52,19 @@ function postAndUpdate (entreeCaisse, sortieCaisse, year, month, day, dispacth, 
             });
         };
     };
+    //delete empty name of entree caisse
+    const newEntreeCaisseData = [];
+    for (let i of entreeCaisse) {
+
+        if (i.name !== "") {
+            newEntreeCaisseData.push({name: i.name, data: {amount: i.data.amount, createdAt: createdAt}} );
+        };
+    };
 
     suiviDepenseData = {
         data:{
             data: {
-                entreeCaisse: entreeCaisse.map(el => {return {...el, data: {...el.data, createdAt: createdAt}}}),
+                entreeCaisse: newEntreeCaisseData,
                 sortieCaisse: newSortieCaisseData,
                 soldCaisse: {
                     amount: Number (totalSoldCaisse) - Number (totalSortieCaisse) - Number(totalDette),
@@ -178,7 +186,7 @@ export default function SuiviDepense (props){
                 //set the total debt
                 dispacth(suiviDepenseActions.setTotalDette(totDette.data.data));
                 //set the depense effectuee
-                if (depenseEffData.data.data.day.valeur) {
+                if (depenseEffData.data.data.day) {
 
                     dispacth(suiviDepenseActions.setDepenseEff(depenseEffData.data.data.day.valeur));
                 };
@@ -328,8 +336,8 @@ export default function SuiviDepense (props){
             <div>
                 <DailyFilter component = {'suiviDepense'} prev = {date} onclick = {setFilterParams} />
                 
-                <label >Depense Effectuées</label>
-                <input type="number" name = 'depenseEffectuee' onChange={ e => dispacth(suiviDepenseActions.setDepenseEff(Number (e.target.value)))} placeholder="Depense effectuée" defaultValue={depenseEff}/>
+                <label name = 'depenseEffectuee' >Depense Effectuées</label>
+                <input defaultValue= {depenseEff} type="number" name = 'depenseEffectuee' onChange={ e => dispacth(suiviDepenseActions.setDepenseEff(Number (e.target.value)))} placeholder="Depense effectuée"/>
                 <p>{depenseEff}</p>
                 <EntreeCaisse componentName = {props.componentName}/>
                 <SoriteCaisse /> 

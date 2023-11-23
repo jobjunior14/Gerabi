@@ -10,7 +10,6 @@ import { alimProductActions } from "../../../store/AllProductManagerAlim-slice";
 import AddProduct from './addProduct';
 import objProvider from "../../../reuseFunction/suiviStockVente/objProvider";
 import postAndUpdateData from "../../../reuseFunction/suiviStockVente/postAmdUpdateData";
-import { stateCompAction } from "../../../store/stateComponent";
 
 function errMessage (dispatch, productActions, venteDego, productData, stateAction, update, venteJournaliereRef) {
 
@@ -99,13 +98,13 @@ export default function Product (props) {
   const dispatch = useDispatch();
 
   //dispact the action if it's dego or alimentation
-  dispatch(stateCompAction.setStateComp( props.componentName === 'degoBar' ? true : false));
+  dispatch(productActions.setproduct( props.componentName === 'degoBar' ? true : false));
 
   //vente journaliere reference 
   const venteJournaliereRef = useRef(null);
 
   //check the component name
-  const stateAction = useSelector (state => state.stateComp.stateComp);
+  const stateAction = useSelector (state => state.product.product);
 
   // Data we are using
   const productData = useSelector(state => state[props.sliceName].productData)
@@ -294,13 +293,17 @@ export default function Product (props) {
       }
     };
     fecthData();
-  }, [year, day, month, props.produit, dateState, props.componentName]);
+  }, [year, day, month, props.produit, dateState, props.componentName, props.vente, stateAction,]);
 
   //change date field 
   useEffect(() => {
 
     stateAction ? dispatch(productActions.setDate({year: year, month: month, day: day})) : dispatch(alimProductActions.setDate({year: year, month: month, day: day}));
-  },[props.produit, year, month, day]);
+  },[props.produit, year, month, day, stateAction]);
+
+  useEffect(() => {
+    console.log('hey from the origine');
+  }, []);
   
   //post data
   function postData() {

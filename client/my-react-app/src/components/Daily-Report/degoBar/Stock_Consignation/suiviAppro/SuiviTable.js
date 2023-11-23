@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import InputsTh from './inputs/inputTh.js';
 import InputsTh2 from './inputs/inputTh2.js';
 import { useSelector } from 'react-redux';
@@ -9,23 +9,34 @@ export function TableSuivi (props) {
     
     const productData = useSelector (state => state.product.productData);
     const providers = useSelector (state => state.product.providers);
-    const stateAction = useSelector (state => state.stateComp.stateComp);
+    const stateAction = useSelector (state => state.product.product);
+
+    const [displayTdSuivi, setDisplayTdSuivi] = useState();
     
-    let displayTdSuivi = null;
+    //side effect of product Data suivi stock et vente 
+    useEffect (() => {
+
+        if (stateAction) {
+            
+            if (productData && productData.length > 0) {
+        
+               setDisplayTdSuivi ( prev => prev = productData.map((prev) => {
+                    return (
+                        <InputTd
+                            prev={prev}
+                            key={prev.id}
+                            providers = {providers}
+                        />
+                    );
+                }));
+            };
+           
+        }
+    }, [productData, providers]);
+
+    
     if (stateAction) {
 
-        if (productData && productData.length > 0) {
-    
-           displayTdSuivi = productData.map((prev) => {
-                return (
-                    <InputTd
-                        prev={prev}
-                        key={prev.id}
-                        providers = {providers}
-                    />
-                );
-            });
-        };
        
         return (
             <table className='table1' style={table}>

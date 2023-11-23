@@ -20,7 +20,8 @@ const productSlice = createSlice ({
             status: false,
             errorsAllowed: true,
             message: ""
-        }
+        },
+        product: true
     },
 
     reducers: {
@@ -288,6 +289,9 @@ const productSlice = createSlice ({
                 errorsAllowed: action.payload.errorsAllowed,
                 message: action.payload.message
             };
+        },
+        setproduct (state, action) {
+            state.product = action.payload;
         }
     }
 });
