@@ -19,7 +19,7 @@ function errMessage (dispatch, productActions, venteDego, productData, stateActi
     venteJournaliereRef.current.focus();
     stateAction ? dispatch(productActions.setErrorMessage({status: true, errorAllowed: false, message: "verifier la section vente journaliere"})) : dispatch(alimProductActions.setErrorMessage({status: true, errorAllowed: false, message: "verifier la section vente journaliere"}));
   } else {
-    
+    //for dego Bar
     if (stateAction && !update) {
       
       for (let i of productData){
@@ -91,6 +91,7 @@ function errMessage (dispatch, productActions, venteDego, productData, stateActi
       
     };
     
+    //for alimentation
     if (!stateAction && !update){
       dispatch(alimProductActions.setErrorMessage({status: false, errorAllowed: true, message: "Toute donnée sans nom sera automaticament supprimée, clicker encore sur *Enregistrer les données*"}));
     } else {
@@ -354,6 +355,16 @@ export default function Product (props) {
 
   };
 
+  //handle Vente Journaliere
+  function handleVente (e) {
+    stateAction ? dispatch(productActions.setVenteDego (e.target.value)) : dispatch(alimProductActions.setVenteDego (e.target.value))
+  };
+
+  //handle toggle button
+  function handleToggleBtn (e) {
+    stateAction ? dispatch(productActions.setToggleStoc()) : dispatch(alimProductActions.setToggleStoc())
+  };
+
   if ( (year > currentYear && month > currentMonth && day > currentDay) || (year === currentYear && month > currentMonth && day > currentDay) || (year === currentYear && month === currentMonth && day > currentDay)) {
 
     return (
@@ -374,9 +385,9 @@ export default function Product (props) {
               <DailyFilter component = {'allProduct'}  prev = {date} onclick = {setFilterParams} />
 
               <label>Vente Journalière </label>
-              <input ref={venteJournaliereRef} type="number" name="vente" onChange={ e =>  stateAction ? dispatch(productActions.setVenteDego (e.target.value)) : dispatch(alimProductActions.setVenteDego (e.target.value))} placeholder="Vente Journalière " value={venteDego}/>
+              <input ref={venteJournaliereRef} type="number" name="vente" onChange={handleVente} placeholder="Vente Journalière " value={venteDego}/>
               <ExcelSecLayout toggle = {toggleStoc} />
-              <button onClick={() => stateAction ? dispatch(productActions.setToggleStoc()) : dispatch(alimProductActions.setToggleStoc())} >{ !toggleStoc ? 'Cacher' : 'Afficher' }</button>
+              <button onClick={handleToggleBtn} >{ !toggleStoc ? 'Cacher' : 'Afficher' }</button>
               { !update && <AddProduct stateAction = {stateAction} />}
 
               {/* display or hide the suivi appro table */}
@@ -396,7 +407,6 @@ export default function Product (props) {
           //abillity to modify the current date and the previous date
           return (
             <div>
-            
                 <DailyFilter component = {'allProduct'} prev = {date} onclick = {setFilterParams} />
                 <AddProduct stateAction = {stateAction} />  
                 <h4> Ooouups cette donnée est inexistante veillez clicker sur -Ajouter un Produit- pour la créée</h4>                

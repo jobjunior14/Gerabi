@@ -8,6 +8,7 @@ import Clients from "./clients"
 import Musiciens from "./musiciens";
 import Agents from "./agents";
 import TotDetteDaily from "./totalDetteDaily";
+import formatDate from "../../../reuseFunction/suiviStockVente/rightFormatDate";
 
 function deleteEmptyName (array) {
     const data = [];
@@ -24,18 +25,8 @@ function deleteEmptyName (array) {
 function postAndUpdate(dispatch, agents, musiciens, clients, year, month, day, update, props) {
 
     let newDataSuiviDette = null;
-    let createdAt = `${year}-${month}-${day}T07:22:54.930Z`;
+    let createdAt = formatDate(year, month, day);
 
-    //set date to the rigth format
-    if ( month >= 10 && day >= 10){
-       createdAt = `${year}-${month}-${day}T07:22:54.930Z`;
-    } else if (month >= 10 && day < 10) {
-        createdAt = `${year}-${month}-0${day}T07:22:54.930Z`;       
-    } else if (month < 10 && day >= 10) {
-        createdAt = `${year}-0${month}-${day}T07:22:54.930Z`;     
-    } else {
-        createdAt = `${year}-0${month}-0${day}T07:22:54.930Z`;
-    };
     //modeling data to schema
     newDataSuiviDette = {
         data: {
@@ -105,12 +96,13 @@ export default function SuiviDette (props) {
     const currentYear = Number (new Date().getFullYear());
     const currentMonth = Number (new Date().getMonth() + 1);
     const currentDay = Number (new Date().getDate());
+    
+    const update = useSelector(state => state.suiviDette.update);
     //data 
     const agents = useSelector(state => state.suiviDette.agents);
     const clients = useSelector(state => state.suiviDette.clients);
     const musiciens = useSelector(state => state.suiviDette.musiciens);
-    const update = useSelector(state => state.suiviDette.update);
-    
+
     useEffect(() => {
 
         dispatch(suiviDetteActions.setAgents(null));
@@ -197,28 +189,6 @@ export default function SuiviDette (props) {
         postAndUpdate(dispatch, agents, musiciens, clients, year, month, day, true, props);
     };
 
-    //calculate the totad debt daily
-    if ( agents && musiciens && clients && agents.length > 0 && musiciens.length > 0 && clients.length > 0 ) {
-        let tot = 0;
-
-        for (let i of agents) {
-            if (i.name !== "" ) {
-                tot += i.data.amount - i.data.payment;
-            };
-        };
-        for (let i of musiciens) {
-            if (i.name !== "" ) {
-                tot += i.data.amount - i.data.payment;
-            };
-        };
-        for (let i of clients) {
-            if (i.name !== "" ) {
-                tot += i.data.amount - i.data.payment;
-            };
-        };
-
-        dispatch(suiviDetteActions.setTotalDette(tot));
-    };
 
     if (year > currentYear && month > currentMonth && day > currentDay) {
 

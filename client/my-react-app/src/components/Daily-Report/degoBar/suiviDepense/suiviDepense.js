@@ -7,6 +7,7 @@ import SoriteCaisse from "./sortieCaisse";
 import EntreeCaisse from "./entreeCaisse";
 import DailyFilter from "../../../filter/filterDailyRap";
 import SoldCaisse from "./soldCaisse";
+import formatDate from "../../../reuseFunction/suiviStockVente/rightFormatDate";
 
 function postAndUpdate (entreeCaisse, sortieCaisse, year, month, day, dispacth, update,  totalSortieCaisse, totalSoldCaisse, totalDette, props, depenseEff) {
 
@@ -16,18 +17,8 @@ function postAndUpdate (entreeCaisse, sortieCaisse, year, month, day, dispacth, 
 
     const newSortieCaisseData = [];
     let suiviDepenseData = null;
-    let createdAt = `${year}-${month}-${day}T08:22:54.930Z`;
-
-    //set the date to the right format
-    if (month >= 10 && day >= 10) {
-        createdAt = `${year}-${month}-${day}T08:22:54.930Z`;
-    } else if (month >= 10 && day < 10) {
-        createdAt = `${year}-${month}-0${day}T08:22:54.930Z`;
-    } else if (month < 10 && day >= 10) {
-        createdAt = `${year}-0${month}-${day}T08:22:54.930Z`;
-    } else {
-        createdAt = `${year}-0${month}-0${day}T08:22:54.930Z`;
-    };
+    let createdAt = formatDate (year, month, day);
+    
     //delete empty name of sortie caisse
     for (let i of sortieCaisse){
         if (i.name !== "") {

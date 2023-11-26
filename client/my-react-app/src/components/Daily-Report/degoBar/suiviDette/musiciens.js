@@ -2,69 +2,79 @@ import React from "react";
 import {useSelector, useDispatch} from 'react-redux';
 import { suiviDetteActions } from "../../../store/suiviDette-slice";
 import { useId } from "react";
+import { useState, useEffect } from "react";
+
 
 export default function Musiciens (){
 
     const dispatch = useDispatch();
 
+    const id = useId();
     const musiciensData = useSelector (state => state.suiviDette.musiciens);
     const readOnly = useSelector (state => state.suiviDette.readOnly);
     const totalDetteAndPaymentMusiciens = useSelector (state => state.suiviDette.detailTotDetteMusiciens);
-    const dataDisplay = [];
-    let totalDetteMusiciens = 0;
-    const id = useId();
+    const [totalDetteMusiciens, setTotalDetteMusiciens] = useState(0);
+    const [dataDisplay, setDataDisplay] = useState ([]);
 
+    //side effect
+    useEffect (() => {
 
-   if (musiciensData && totalDetteAndPaymentMusiciens) {
-        for (let i = 0; i < musiciensData.length; i++) {
-            dataDisplay.push(<tr key={`trmusiciens${i}$`}>
-                <th>
-                    <input
-                        value={musiciensData[i].name}
-                        id = {musiciensData[i].index + id + 'nameMusiciens'}
-                        type = 'text'
-                        name = 'name'
-                        readOnly = {readOnly}
-                        placeholder="Taper le nom "
-                        onChange={ (e) => {
-                            const {name, value} = e.target;
-                            dispatch(suiviDetteActions.HandleMusiciens({name: name, value: value, index: musiciensData[i].index}));
-                        }}
-                    />
-                </th>
-                <td>
-                    <input
-                        value={musiciensData[i].data.amount}
-                        id = {musiciensData[i].index + id + 'amountMusiciens'}
-                        type = 'number'
-                        name = 'amount'
-                        placeholder="Taper le montant de la dette"
-                        onChange={ (e) => {
-                            const {name, value} = e.target;
-                            dispatch(suiviDetteActions.HandleMusiciens({name: name, value: Number (value), index: musiciensData[i].index}));
-                        }}
-                    />
-                </td>
-                <td>
-                    <input
-                        value={musiciensData[i].data.payment}
-                        id = {musiciensData[i].index + id + 'paymentMusiciens'}
-                        type = 'number'
-                        name = 'payment'
-                        placeholder="Taper le montant payé"
-                        onChange={ (e) => {
-                            const {name, value} = e.target;
-                            dispatch(suiviDetteActions.HandleMusiciens({name: name, value: Number (value), index: musiciensData[i].index}));
-                        }}
-                    />
-                </td>
-                <td> {totalDetteAndPaymentMusiciens[i].valeurDette - totalDetteAndPaymentMusiciens[i].valeurPayment} </td>
-            </tr>)
+        if (musiciensData && totalDetteAndPaymentMusiciens) {
+            let savetotalDetteMusiciens = 0;
+            const savedataDisplay = [];
+            for (let i = 0; i < musiciensData.length; i++) {
 
-            //total Dette Agents
-            totalDetteMusiciens += musiciensData[i].data.amount;
+                savedataDisplay.push(<tr key={`trmusiciens${i}$`}>
+                    <th>
+                        <input
+                            value={musiciensData[i].name}
+                            id = {musiciensData[i].index + id + 'nameMusiciens'}
+                            type = 'text'
+                            name = 'name'
+                            readOnly = {readOnly}
+                            placeholder="Taper le nom "
+                            onChange={ (e) => {
+                                const {name, value} = e.target;
+                                dispatch(suiviDetteActions.HandleMusiciens({name: name, value: value, index: musiciensData[i].index}));
+                            }}
+                        />
+                    </th>
+                    <td>
+                        <input
+                            value={musiciensData[i].data.amount}
+                            id = {musiciensData[i].index + id + 'amountMusiciens'}
+                            type = 'number'
+                            name = 'amount'
+                            placeholder="Taper le montant de la dette"
+                            onChange={ (e) => {
+                                const {name, value} = e.target;
+                                dispatch(suiviDetteActions.HandleMusiciens({name: name, value: Number (value), index: musiciensData[i].index}));
+                            }}
+                        />
+                    </td>
+                    <td>
+                        <input
+                            value={musiciensData[i].data.payment}
+                            id = {musiciensData[i].index + id + 'paymentMusiciens'}
+                            type = 'number'
+                            name = 'payment'
+                            placeholder="Taper le montant payé"
+                            onChange={ (e) => {
+                                const {name, value} = e.target;
+                                dispatch(suiviDetteActions.HandleMusiciens({name: name, value: Number (value), index: musiciensData[i].index}));
+                            }}
+                        />
+                    </td>
+                    <td> {totalDetteAndPaymentMusiciens[i].valeurDette - totalDetteAndPaymentMusiciens[i].valeurPayment} </td>
+                </tr>)
+    
+                //total Dette Agents
+                savetotalDetteMusiciens += musiciensData[i].data.amount;
+            };
+            setDataDisplay(prev => prev = savedataDisplay);
+            setTotalDetteMusiciens (prev => prev = savetotalDetteMusiciens);
         };
-   };
+    }, [musiciensData, readOnly]);
 
    if (musiciensData) {
         if (musiciensData.length > 0) {

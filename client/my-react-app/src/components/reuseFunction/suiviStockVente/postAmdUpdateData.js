@@ -1,6 +1,7 @@
 import { productActions } from "../../store/AllProductManager-slice";
 import {alimProductActions } from "../../store/AllProductManagerAlim-slice";
 import axios from "axios";
+import formatDate from "./rightFormatDate";
 
 export default function postAndUpdateData (errMessage, errorMessage, year, month, day, productData, dispatch, id, venteDego, props, dateState, venteJournaliereRef) {
 
@@ -26,18 +27,7 @@ export default function postAndUpdateData (errMessage, errorMessage, year, month
           
           let newData = null;
           let newDataVente = null;
-          let createdAt = `${year}-${month}-${day}T08:22:54.930Z`
-  
-          //update data format
-          if ( month >= 10 && day >= 10) {
-            createdAt = `${year}-${month}-${day}T08:22:54.930Z`
-          } else if (month >= 10 && day < 10) { 
-            createdAt = `${year}-${month}-0${day}T08:22:54.930Z`
-          } else if (month < 10 && day >= 10) {
-            createdAt = `${year}-0${month}-${day}T08:22:54.930Z`
-          } else {         
-            createdAt = `${year}-0${month}-0${day}T08:22:54.930Z`
-          };
+          let createdAt = formatDate(year, month, day);
   
           //modeling data to our schema
             newData = data.map((el) => {
