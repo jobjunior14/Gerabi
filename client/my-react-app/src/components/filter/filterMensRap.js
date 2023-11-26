@@ -9,7 +9,7 @@ export default function MensFilter (props) {
         <div>
             <label> Année</label>
             <input 
-                defaultValue={props.prev.year}
+                value={props.prev.year}
                 name = 'year'
                 placeholder= "Taper l'année"
                 onChange= { e => {
@@ -20,7 +20,7 @@ export default function MensFilter (props) {
 
             <label> Mois </label>
             <input 
-                defaultValue={props.prev.month}
+                value={props.prev.month}
                 name = 'month'
                 placeholder= "Taper l'année"
                 onChange= { e => {

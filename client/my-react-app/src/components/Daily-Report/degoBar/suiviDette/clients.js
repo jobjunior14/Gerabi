@@ -22,7 +22,7 @@ export default function Clients (){
             dataDisplay.push(<tr key={`trClient${i}$`}>
                 <th>
                     <input
-                        defaultValue={clientsData[i].name}
+                        value={clientsData[i].name}
                         id = {clientsData[i].index + id + 'nameClients'}
                         type = 'text'
                         name = 'name'
@@ -36,7 +36,7 @@ export default function Clients (){
                 </th>
                 <td>
                     <input
-                        defaultValue={clientsData[i].data.amount}
+                        value={clientsData[i].data.amount}
                         id = {clientsData[i].index + id + 'amountClient'}
                         type = 'number'
                         name = 'amount'
@@ -49,7 +49,7 @@ export default function Clients (){
                 </td>
                 <td>
                     <input
-                        defaultValue={clientsData[i].data.payment}
+                        value={clientsData[i].data.payment}
                         id = {clientsData[i].index + id + 'paymentClient'}
                         type = 'number'
                         name = 'payment'

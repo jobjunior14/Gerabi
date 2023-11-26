@@ -18,7 +18,7 @@ const productSlice = createSlice ({
         errorMessage: {
             
             status: false,
-            errorsAllowed: true,
+            errorAllowed: true,
             message: ""
         },
         product: true
@@ -286,7 +286,7 @@ const productSlice = createSlice ({
         setErrorMessage (state, action) {
             state.errorMessage = {
                 status: action.payload.status,
-                errorsAllowed: action.payload.errorsAllowed,
+                errorAllowed: action.payload.errorAllowed,
                 message: action.payload.message
             };
         },

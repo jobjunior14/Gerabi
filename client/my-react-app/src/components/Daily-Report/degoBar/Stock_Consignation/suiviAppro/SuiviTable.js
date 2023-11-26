@@ -45,7 +45,7 @@ export function TableSuivi (props) {
                         <th rowSpan= '2' style={tbaleTh}> Produit </th>
                         <th rowSpan= '2' style={tbaleTh}> Prix Achat Gros  </th>
                         <th rowSpan= '2' style={tbaleTh}> Nbr Btll  </th>
-                        <InputsTh key  = {0} providers = {providers} data = {productData[0]} />
+                        <InputsTh key  = {0} providers = {providers} />
                     </tr>
                     <InputsTh2  key = {1} providers = {providers} />
                     {displayTdSuivi}

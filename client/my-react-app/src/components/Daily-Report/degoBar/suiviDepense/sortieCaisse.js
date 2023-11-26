@@ -34,7 +34,7 @@ export default function SoriteCaisse () {
                     
                         <input 
                             type="text"
-                            defaultValue={sortieCaisse[i].name}
+                            value={sortieCaisse[i].name}
                             id= {tableHeaderSortieCaisse.length + id + `sortieCaisse[${i}].name`}
                             name="name"
                             readOnly = {readOnly}
@@ -67,7 +67,7 @@ export default function SoriteCaisse () {
                         tableDataSortieCaisse.push(
                             <td key={`tdSortie${j}`}>
                                 <input
-                                    defaultValue={sortieCaisse[j].data[y].libel}
+                                    value={sortieCaisse[j].data[y].libel}
                                     id = {tableDataSortieCaisse.length + id + `sortieCaisse[${j}].data[${y}].libel`}
                                     name = 'libel'
                                     readOnly = {readOnly}
@@ -84,7 +84,7 @@ export default function SoriteCaisse () {
                         tableDataSortieCaisse.push(
                             <td key = {`tdsortie${j}`}>
                                 <input
-                                    defaultValue={sortieCaisse[j].data[y].amount}
+                                    value={sortieCaisse[j].data[y].amount}
                                     id = {tableDataSortieCaisse.length + id + 'amount' + `sortieCaisse[${j}].data[${y}].amount`}
                                     name = 'amount'
                                     type="number"

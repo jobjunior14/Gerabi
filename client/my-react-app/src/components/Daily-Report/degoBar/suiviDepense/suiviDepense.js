@@ -89,7 +89,6 @@ function postAndUpdate (entreeCaisse, sortieCaisse, year, month, day, dispacth, 
 
                     for (let i = 0; i < responseSuiviDepense.data.data.sortieCaisse.length; i++) {
                         
-                        
                         const dataLenght = responseSuiviDepense.data.data.sortieCaisse[i].data.length;
                         
                         if (saveTalbeRow < dataLenght) {
@@ -337,7 +336,7 @@ export default function SuiviDepense (props){
                 <DailyFilter component = {'suiviDepense'} prev = {date} onclick = {setFilterParams} />
                 
                 <label name = 'depenseEffectuee' >Depense Effectuées</label>
-                <input defaultValue= {depenseEff} type="number" name = 'depenseEffectuee' onChange={ e => dispacth(suiviDepenseActions.setDepenseEff(Number (e.target.value)))} placeholder="Depense effectuée"/>
+                <input value= {depenseEff} type="number" name = 'depenseEffectuee' onChange={ e => dispacth(suiviDepenseActions.setDepenseEff(Number (e.target.value)))} placeholder="Depense effectuée"/>
                 <p>{depenseEff}</p>
                 <EntreeCaisse componentName = {props.componentName}/>
                 <SoriteCaisse /> 

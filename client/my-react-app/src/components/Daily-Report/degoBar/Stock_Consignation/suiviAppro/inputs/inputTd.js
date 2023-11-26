@@ -7,7 +7,6 @@ const {tableTd} = require ('./css.js');
 export default function InputTd (props) {
     const dispatch = useDispatch();
     const id = useId ();
-    
 
     return (
         <tr>
@@ -16,7 +15,7 @@ export default function InputTd (props) {
             <td style={tableTd}>  {props.prev.achat_journalier.nbr_btll }</td>
             <td style={ tableTd}>
                 <input 
-                    defaultValue={props.prev.suivi1.qt_caisse}
+                    value={props.prev.suivi1.qt_caisse}
                     name = {'qt_caisse'}
                     id = {props.prev.id + id + 'suivi1.qt_caisse'}
                     placeholder= {'Quantiter caisse'}
@@ -30,7 +29,7 @@ export default function InputTd (props) {
 
             <td style={ tableTd}>
                 <input 
-                    defaultValue={props.prev.suivi2.qt_caisse}
+                    value={props.prev.suivi2.qt_caisse}
                     name = {'qt_caisse'}
                     id = {props.prev.id + id + "suivi2.qt_caisse"}
                     placeholder= {'Quantiter caisse'}
@@ -44,7 +43,7 @@ export default function InputTd (props) {
             
             <td style={ tableTd}>
                 <input 
-                    defaultValue={props.prev.suivi3.qt_caisse}
+                    value={props.prev.suivi3.qt_caisse}
                     name = {'qt_caisse'}
                     id = {props.prev.id + id + "suivi3.qt_caisse"}
                     placeholder= {'Quantiter caisse'}
@@ -58,7 +57,7 @@ export default function InputTd (props) {
 
             { props.providers >= 4 && <td style={ tableTd}>
                 <input 
-                    defaultValue={props.prev.suivi4.qt_caisse}
+                    value={props.prev.suivi4.qt_caisse}
                     name = {'qt_caisse'}
                     id = {props.prev.id + id + 'suivi4.qt_caisse'}
                     placeholder= {'Quantiter caisse'}
@@ -72,7 +71,7 @@ export default function InputTd (props) {
 
             { props.providers >= 5 && <td style={ tableTd}>
                 <input 
-                    defaultValue={props.prev.suivi5.qt_caisse}
+                    value={props.prev.suivi5.qt_caisse}
                     name = {'qt_caisse'}
                     id = {props.prev.id + id + 'suivi5.qt_caisse'}
                     placeholder= {'Quantiter caisse'}
@@ -86,7 +85,7 @@ export default function InputTd (props) {
 
             { props.providers >= 6 && <td style={ tableTd}>
                 <input 
-                    defaultValue={props.prev.suivi6.qt_caisse}
+                    value={props.prev.suivi6.qt_caisse}
                     name = {'qt_caisse'}
                     id = {props.prev.id + id + 'suivi6.qt_caisse'}
                     placeholder= {'Quantiter caisse'}
@@ -100,7 +99,7 @@ export default function InputTd (props) {
 
             { props.providers >= 7 && <td style={ tableTd}>
                 <input 
-                    defaultValue={props.prev.suivi7.qt_caisse}
+                    value={props.prev.suivi7.qt_caisse}
                     name = {'qt_caisse'}
                     id = {props.prev.id + id + 'suivi7.qt_caisse'}
                     placeholder= {'Quantiter caisse'}
@@ -114,7 +113,7 @@ export default function InputTd (props) {
 
             { props.providers >= 8 && <td style={ tableTd}>
                 <input 
-                    defaultValue={props.prev.suivi8.qt_caisse}
+                    value={props.prev.suivi8.qt_caisse}
                     name = {'qt_caisse'}
                     id = {props.prev.id + id + 'suivi8.qt_caisse'}
                     placeholder= {'Quantiter caisse'}
@@ -128,10 +127,9 @@ export default function InputTd (props) {
 
             { props.providers >= 9 && <td style={ tableTd}>
                 <input 
-                    defaultValue={props.prev.suivi9.qt_caisse}
+                    value={props.prev.suivi9.qt_caisse}
                     name = {"qt_caisse"}
-                    id = {props.prev.id + id + 'suivi9.qt_caisse'}
-                    placeholder= {'Quantiter caisse'}
+                    id = {props.prev.id + id + 'suivi9.qt_caisse'}                    placeholder= {'Quantiter caisse'}
                     onChange={ (e) => {
                         const {name, value} = e.target;
                         dispatch (productActions.handleTdFormInSuivi ({id: props.prev.id, name: name, value: value, path: 'suivi9'}));
@@ -142,7 +140,7 @@ export default function InputTd (props) {
 
             { props.providers >= 10 && <td style={ tableTd}>
                 <input 
-                    defaultValue={props.prev.suivi10.qt_caisse}
+                    value={props.prev.suivi10.qt_caisse}
                     name = {"qt_caisse"}
                     id = {props.prev.id + id + 'suivi10.qt_caisse'}
                     placeholder= {'Quantiter caisse'}
@@ -156,7 +154,7 @@ export default function InputTd (props) {
 
             { props.providers >= 11 && <td style={ tableTd}>
                 <input 
-                    defaultValue={props.prev.suivi11.qt_caisse}
+                    value={props.prev.suivi11.qt_caisse}
                     name = {"qt_caisse"}
                     id = {props.prev.id + id + 'suivi11.qt_caisse'}
                     placeholder= {'Quantiter caisse'}
@@ -170,7 +168,7 @@ export default function InputTd (props) {
 
            {props.providers >= 12 && <td style={ tableTd}>
                 <input 
-                    defaultValue={props.prev.suivi12.qt_caisse}
+                    value={props.prev.suivi12.qt_caisse}
                     name = {"qt_caisse"}
                     id = {props.prev.id + id + 'suivi12.qt_caisse'}
                     placeholder= {'Quantiter caisse'}
@@ -184,7 +182,7 @@ export default function InputTd (props) {
         
             { props.providers >= 13 && <td style={ tableTd}>
                 <input 
-                    defaultValue={props.prev.suivi13.qt_caisse}
+                    value={props.prev.suivi13.qt_caisse}
                     name = {"qt_caisse"}
                     id = {props.prev.id + id + 'suivi13.qt_caisse'}
                     placeholder= {'Quantiter caisse'}
@@ -198,7 +196,7 @@ export default function InputTd (props) {
         
             {props.providers >= 14 && <td style={ tableTd}>
                 <input 
-                    defaultValue={props.prev.suivi14.qt_caisse}
+                    value={props.prev.suivi14.qt_caisse}
                     name = {"qt_caisse"}
                     id = {props.prev.id + id + 'suivi14.qt_caisse'}
                     placeholder= {'Quantiter caisse'}

@@ -12,7 +12,7 @@ export default function DailyFilter (props) {
         <div>
             <label>Année </label>
             <input 
-                defaultValue={props.prev.year}
+                value={props.prev.year}
                 name = 'year'
                 placeholder= "Taper l'année"
                 onChange= { e => {
@@ -23,7 +23,7 @@ export default function DailyFilter (props) {
 
             <label> Mois </label>
             <input 
-                defaultValue={props.prev.month}
+                value={props.prev.month}
                 name = 'month'
                 placeholder= "Taper l'année"
                 onChange= { e => {
@@ -34,7 +34,7 @@ export default function DailyFilter (props) {
 
             <label> Jour </label>
             <input 
-                defaultValue={props.prev.day}
+                value={props.prev.day}
                 name = 'day'
                 placeholder= "Taper l'année"
                 onChange= { e => {

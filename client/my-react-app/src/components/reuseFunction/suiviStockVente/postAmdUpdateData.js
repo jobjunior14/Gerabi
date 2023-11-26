@@ -7,6 +7,7 @@ export default function postAndUpdateData (errMessage, errorMessage, year, month
   //calling the function to set the user's Message
   //if there is the error, data can't be sent to the server
   errMessage(dispatch, productActions, venteDego, productData, props.componentName === 'degoBar' ? true : false, id ? true : false, venteJournaliereRef);
+  console.log (errorMessage);
   
   let data = [];
   // deleting all data with no name
@@ -121,6 +122,9 @@ export default function postAndUpdateData (errMessage, errorMessage, year, month
       };
   
     };fecthData();
+
+    dispatch(productActions.setErrorMessage({status: false, errorAllowed: true, message: ""}));
+
   } else {
 
     dispatch(alimProductActions.setProductdata([]));

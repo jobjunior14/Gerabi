@@ -22,7 +22,7 @@ export default function Agents (){
             dataDisplay.push(<tr key={`trAgent${i}$`}>
                 <th key={`thname${i}`}>
                     <input
-                        defaultValue={agentsData[i].name}
+                        value={agentsData[i].name}
                         id = {agentsData[i].index + id + 'nameAgent'}
                         type = 'text'
                         name = 'name'
@@ -36,7 +36,7 @@ export default function Agents (){
                 </th>
                 <td key={`tdAmount${i}`}>
                     <input
-                        defaultValue={agentsData[i].data.amount}
+                        value={agentsData[i].data.amount}
                         id = {agentsData[i].index + id + 'amountAgent'}
                         type = 'number'
                         name = 'amount'
@@ -49,7 +49,7 @@ export default function Agents (){
                 </td>
                 <td key={`tdpayment${i}`}>
                     <input
-                        defaultValue={agentsData[i].data.payment}
+                        value={agentsData[i].data.payment}
                         id = {agentsData[i].index + id + 'paymentAgent'}
                         type = 'number'
                         name = 'payment'

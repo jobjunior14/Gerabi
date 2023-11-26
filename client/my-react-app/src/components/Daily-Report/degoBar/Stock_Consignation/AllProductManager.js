@@ -85,7 +85,10 @@ function errMessage (dispatch, productActions, venteDego, productData, stateActi
           dispatch(productActions.setErrorMessage({status: false, errorAllowed: true, message: "Toute donnée sans nom sera automaticament supprimée, clicker encore sur *Enregistrer les données*"}));
         };
       };
-    };
+    } else {
+      dispatch(productActions.setErrorMessage({status: false, errorAllowed: true, message: "vous vous appretez a mettre vos donnees a jour, clicker encore sur *Mette a jour les donnees"}));
+
+    }
     
     if (!stateAction && !update){
       dispatch(alimProductActions.setErrorMessage({status: false, errorAllowed: true, message: "Toute donnée sans nom sera automaticament supprimée, clicker encore sur *Enregistrer les données*"}));
@@ -303,7 +306,7 @@ export default function Product (props) {
 
   useEffect(() => {
     console.log('hey from the origine');
-  }, []);
+  });
   
   //post data
   function postData() {
@@ -372,7 +375,7 @@ export default function Product (props) {
               <DailyFilter component = {'allProduct'}  prev = {date} onclick = {setFilterParams} />
 
               <label>Vente Journalière </label>
-              <input ref={venteJournaliereRef} type="number" name="vente" onChange={ e =>  stateAction ? dispatch(productActions.setVenteDego (e.target.value)) : dispatch(alimProductActions.setVenteDego (e.target.value))} placeholder="Vente Journalière " defaultValue={venteDego}/>
+              <input ref={venteJournaliereRef} type="number" name="vente" onChange={ e =>  stateAction ? dispatch(productActions.setVenteDego (e.target.value)) : dispatch(alimProductActions.setVenteDego (e.target.value))} placeholder="Vente Journalière " value={venteDego}/>
               <ExcelSecLayout toggle = {toggleStoc} />
               <button onClick={() => stateAction ? dispatch(productActions.setToggleStoc()) : dispatch(alimProductActions.setToggleStoc())} >{ !toggleStoc ? 'Cacher' : 'Afficher' }</button>
               { !update && <AddProduct stateAction = {stateAction} />}

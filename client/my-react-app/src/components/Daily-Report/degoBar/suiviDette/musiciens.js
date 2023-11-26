@@ -20,7 +20,7 @@ export default function Musiciens (){
             dataDisplay.push(<tr key={`trmusiciens${i}$`}>
                 <th>
                     <input
-                        defaultValue={musiciensData[i].name}
+                        value={musiciensData[i].name}
                         id = {musiciensData[i].index + id + 'nameMusiciens'}
                         type = 'text'
                         name = 'name'
@@ -34,7 +34,7 @@ export default function Musiciens (){
                 </th>
                 <td>
                     <input
-                        defaultValue={musiciensData[i].data.amount}
+                        value={musiciensData[i].data.amount}
                         id = {musiciensData[i].index + id + 'amountMusiciens'}
                         type = 'number'
                         name = 'amount'
@@ -47,7 +47,7 @@ export default function Musiciens (){
                 </td>
                 <td>
                     <input
-                        defaultValue={musiciensData[i].data.payment}
+                        value={musiciensData[i].data.payment}
                         id = {musiciensData[i].index + id + 'paymentMusiciens'}
                         type = 'number'
                         name = 'payment'
