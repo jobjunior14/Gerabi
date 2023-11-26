@@ -47,7 +47,6 @@ exports.pushDataVente = async (data) => {
 
   const vente = await data.collection.find();
 
-  console.log (data.req.query);
   const year = Number(data.req.query.year);
   const month = Number(data.req.query.month);
   const day = Number(data.req.query.day);

@@ -7,7 +7,6 @@ export default function postAndUpdateData (errMessage, errorMessage, year, month
   //calling the function to set the user's Message
   //if there is the error, data can't be sent to the server
   errMessage(dispatch, productActions, venteDego, productData, props.componentName === 'degoBar' ? true : false, id ? true : false, venteJournaliereRef);
-  console.log (errorMessage);
   
   let data = [];
   // deleting all data with no name
@@ -86,7 +85,8 @@ export default function postAndUpdateData (errMessage, errorMessage, year, month
               dispatch(productActions.setUpdate(true));
               dispatch(productActions.setReadOnly(true));
               
-              
+              //reinitialize the error state 
+              dispatch(productActions.setErrorMessage({status: false, errorAllowed: true, message: ""}));
             } else  {
               //vente alimentation
               const responseventeSystem = id ? await axios.post( `http://localhost:5001/api/v1/${props.componentName}/vente/${year}/${month}/${day}`, newDataVente ) : await axios.post( `http://localhost:5001/api/v1/${props.componentName}/vente?year=${year}&month=${month}&day=${day}`, newDataVente);
@@ -110,6 +110,9 @@ export default function postAndUpdateData (errMessage, errorMessage, year, month
               dispatch(alimProductActions.setProductdata( response.data.data.day.map((el, index) => { return { ...el, id: index }})));
               dispatch(alimProductActions.setUpdate(true));
               dispatch(alimProductActions.setReadOnly(true));
+
+              //reinitialize the error state 
+              dispatch(productActions.setErrorMessage({status: false, errorAllowed: true, message: ""}));
             };
           };
   
@@ -123,13 +126,12 @@ export default function postAndUpdateData (errMessage, errorMessage, year, month
   
     };fecthData();
 
-    dispatch(productActions.setErrorMessage({status: false, errorAllowed: true, message: ""}));
 
   } else {
 
     dispatch(alimProductActions.setProductdata([]));
     dispatch(alimProductActions.setUpdate(false));
     dispatch(alimProductActions.setReadOnly(false));
-  }
+  };
 
 };

@@ -24,6 +24,7 @@ function errMessage (dispatch, productActions, venteDego, productData, stateActi
       
       for (let i of productData){
 
+        console.log ( (i.suivi1.name === '' && i.suivi1.qt_caisse > 0 ) || i.suivi1.name === '' )
         if (((i.suivi1.name === '' && i.suivi1.qt_caisse > 0 ) || i.suivi1.name === '')  ) {
   
           dispatch(productActions.setErrorMessage({status: true, errorAllowed: false, message: " aucune valeur superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide ou aucun produit ne peut ne pas avoir de fournisseur"}));
@@ -86,12 +87,14 @@ function errMessage (dispatch, productActions, venteDego, productData, stateActi
         };
       };
     } else {
-      dispatch(productActions.setErrorMessage({status: false, errorAllowed: true, message: "vous vous appretez a mettre vos donnees a jour, clicker encore sur *Mette a jour les donnees"}));
-
-    }
+      dispatch(productActions.setErrorMessage({status: false, errorAllowed: true, message: "vous vous appretez a mettre vos donnees a jour les donnees, clicker encore sur *Mette a jour les donnees"}));
+      
+    };
     
     if (!stateAction && !update){
       dispatch(alimProductActions.setErrorMessage({status: false, errorAllowed: true, message: "Toute donnée sans nom sera automaticament supprimée, clicker encore sur *Enregistrer les données*"}));
+    } else {
+      dispatch(alimProductActions.setErrorMessage({status: false, errorAllowed: true, message: "vous vous appretez a mettre vos donnees a jour les donnees, clicker encore sur *Mette a jour les donnees"}));
     };
   };
 };
@@ -304,10 +307,6 @@ export default function Product (props) {
     stateAction ? dispatch(productActions.setDate({year: year, month: month, day: day})) : dispatch(alimProductActions.setDate({year: year, month: month, day: day}));
   },[props.produit, year, month, day, stateAction]);
 
-  useEffect(() => {
-    console.log('hey from the origine');
-  });
-  
   //post data
   function postData() {
     
