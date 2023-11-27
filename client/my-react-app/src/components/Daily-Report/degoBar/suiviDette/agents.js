@@ -2,8 +2,9 @@ import React, {useEffect, useState} from "react";
 import {useSelector, useDispatch} from 'react-redux';
 import { suiviDetteActions } from "../../../store/suiviDette-slice";
 import { useId } from "react";
+import { indexMatcher } from "../../../reuseFunction/suividette/indexMatch";
 
-export default function Agents (){
+export default function Agents ({toot}){
 
     const dispatch = useDispatch();
 
@@ -16,68 +17,81 @@ export default function Agents (){
 
     //side effect
     useEffect (() => {
-        
-        let savetotalDetteAgent = 0;
-        let savedataDisplay = [];
-        if (agentsData && totalDetteAndPaymentAgent) {
-     
-             for (let i = 0; i < agentsData.length; i++) {
-     
-                savedataDisplay.push(<tr key={`trAgent${i}$`}>
-                     <th key={`thname${i}`}>
-                         <input
-                             value={agentsData[i].name}
-                             id = {agentsData[i].index + id + 'nameAgent'}
-                             type = 'text'
-                             name = 'name'
-                             readOnly = {readOnly}
-                             placeholder="Taper le nom "
-                             onChange={ (e) => {
-                                 const {name, value} = e.target;
-                                 dispatch(suiviDetteActions.HandleAgents({name: name, value: value, index: agentsData[i].index}));
-                             }}
-                         />
-                     </th>
-                     <td key={`tdAmount${i}`}>
-                         <input
-                             value={agentsData[i].data.amount}
-                             id = {agentsData[i].index + id + 'amountAgent'}
-                             type = 'number'
-                             name = 'amount'
-                             placeholder="Taper le montant de la dette"
-                             onChange={ (e) => {
-                                 const {name, value} = e.target;
-                                 dispatch(suiviDetteActions.HandleAgents({name: name, value: Number (value), index: agentsData[i].index}));
-                             }}
-                         />
-                     </td>
-                     <td key={`tdpayment${i}`}>
-                         <input
-                             value={agentsData[i].data.payment}
-                             id = {agentsData[i].index + id + 'paymentAgent'}
-                             type = 'number'
-                             name = 'payment'
-                             placeholder="Taper le montant payé"
-                             onChange={ (e) => {
-                                 const {name, value} = e.target;
-                                 dispatch(suiviDetteActions.HandleAgents({name: name, value: Number (value), index: agentsData[i].index}));
-                             }}
-                         />
-                     </td>
-                     <td> { (totalDetteAndPaymentAgent[i].valeurDette ) - ( totalDetteAndPaymentAgent[i].valeurPayment )}  </td>
-                 </tr>)
-     
-                //total Dette Agents
-                savetotalDetteAgent += agentsData[i].data.amount;
-            };
-        };
-        //set the total Dette agent
-        setTotalDetteAgent(prev => prev = savetotalDetteAgent);
-        //set the array of agents (JSX elements)
-        setDataDisplay (prev => prev = savedataDisplay);
-    }, [agentsData, readOnly, totalDetteAndPaymentAgent]);
 
-   //set total Dette Agents
+        let savetotalDetteAgent = 0;
+        
+        if (agentsData && totalDetteAndPaymentAgent && (agentsData.length === totalDetteAndPaymentAgent.length)) {
+            
+            const saveTotalDetteAndPaymentAgent = indexMatcher(agentsData, totalDetteAndPaymentAgent);
+            // //match the index in the totalDetteAndPaymentAgent array and agentsData
+            // for (let i = 0; i < agentsData.length; i++) {
+            //     const index1 = agentsData.findIndex(el => el.name === agentsData[i].name);
+            //     const index2 = agentsData.findIndex(el => el.name === saveTotalDetteAndPaymentAgent[i]._id);
+
+            //     let save = null;
+            //     if (!(index1 === index2)) {
+            //         save = saveTotalDetteAndPaymentAgent[index2];
+            //         saveTotalDetteAndPaymentAgent[index2] = saveTotalDetteAndPaymentAgent[index1];
+            //         saveTotalDetteAndPaymentAgent[index1] = save;
+            //     };
+            // };
+
+            //set the total Dette agent
+            setDataDisplay( agentsData.map((el, i) =>  {
+                
+                savetotalDetteAgent += el.data.amount;
+                return (
+                    <tr key={`trAgent${i}$`}>
+                        <th key={`thname${i}`}>
+                         <input
+                            value = {el.name}
+                            id = {el.index + id + 'nameAgent'}
+                            type = 'text'
+                            name = 'name'
+                            readOnly = {readOnly}
+                            placeholder="Taper le nom "
+                            onChange={ (e) => {
+                                const {name, value} = e.target;
+                                dispatch(suiviDetteActions.HandleAgents({name: name, value: value, index: el.index}));
+                            }}
+                        />
+                    </th>
+                    <td key={`tdAmount${i}`}>
+                        <input
+                            value={el.data.amount}
+                            id = {el.index + id + 'amountAgent'}
+                            type = 'number'
+                            name = 'amount'
+                            placeholder="Taper le montant de la dette"
+                            onChange={ (e) => {
+                                const {name, value} = e.target;
+                                dispatch(suiviDetteActions.HandleAgents({name: name, value: Number (value), index: el.index}));
+                            }}
+                        />
+                    </td>
+                    <td key={`tdpayment${i}`}>
+                        <input
+                            value={el.data.payment}
+                            id = {el.index + id + 'paymentAgent'}
+                            type = 'number'
+                            name = 'payment'
+                            placeholder="Taper le montant payé"
+                            onChange={ (e) => {
+                                const {name, value} = e.target;
+                                dispatch(suiviDetteActions.HandleAgents({name: name, value: Number (value), index: el.index}));
+                            }}
+                        />
+                    </td>
+                    <td> {saveTotalDetteAndPaymentAgent[i].valeurDette - saveTotalDetteAndPaymentAgent[i].valeurPayment }</td>
+                </tr>
+                )
+            }));
+    
+            //set the array of tot daily debt agents (JSX elements)
+            setTotalDetteAgent (savetotalDetteAgent);
+        };
+
+    }, [agentsData, readOnly, totalDetteAndPaymentAgent]);
 
    if (agentsData) {
         if (agentsData.length > 0) {

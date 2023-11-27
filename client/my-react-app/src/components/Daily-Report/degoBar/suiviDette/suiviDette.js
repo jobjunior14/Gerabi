@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import { suiviDetteActions } from "../../../store/suiviDette-slice";
@@ -50,20 +50,17 @@ function postAndUpdate(dispatch, agents, musiciens, clients, year, month, day, u
     
     
                 const totDetailDetteAndPayment = await axios.get (`http://localhost:5001/api/v1/${props.componentName}/suiviDette/rapportMensuel/detail/${year}/${month}`);
-                //set the total amount debt and payment   
+                //set the total amount debt and payment  
                 dispatch(suiviDetteActions.setDetailTotDetteAgents(totDetailDetteAndPayment.data.data.agents));
                 dispatch(suiviDetteActions.setDetailTotDetteMusiciens(totDetailDetteAndPayment.data.data.musiciens));
                 dispatch(suiviDetteActions.setDetailTotDetteClients(totDetailDetteAndPayment.data.data.clients));
-            
-    
-    
+                
             dispatch(suiviDetteActions.setUpdate(true));
             dispatch(suiviDetteActions.setReadOnly(true));
             dispatch(suiviDetteActions.setAgents(responseSuiviDette.data.data.agents.map ((el, index) => {return {...el, index: index}})));
             dispatch(suiviDetteActions.setClients(responseSuiviDette.data.data.clients.map ((el, index) => {return {...el, index: index}})));
             dispatch(suiviDetteActions.setMusiciens(responseSuiviDette.data.data.musiciens.map ((el, index) => {return {...el, index: index}})));
             if (responseSuiviDette.data.data.totalDette) {
-                
                 dispatch (suiviDetteActions.setTotalDette(responseSuiviDette.data.data.totalDette));
             } else {
     
@@ -73,9 +70,7 @@ function postAndUpdate(dispatch, agents, musiciens, clients, year, month, day, u
         
     } catch (e) {
         console.log(e);
-    }
-
-
+    };
 };
 
 export default function SuiviDette (props) {
@@ -124,8 +119,8 @@ export default function SuiviDette (props) {
                     dispatch(suiviDetteActions.setAgents(suiviDetteData.data.data.agents.map ((el, index) => {return {...el, index: index}})));
                     dispatch(suiviDetteActions.setClients(suiviDetteData.data.data.clients.map ((el, index) => {return {...el, index: index}})));
                     dispatch(suiviDetteActions.setMusiciens(suiviDetteData.data.data.musiciens.map ((el, index) => {return {...el, index: index}})));
-                    //set the total amount debt and payment   
-                    dispatch(suiviDetteActions.setDetailTotDetteAgents(totDetailDetteAndPayment.data.data.agents));
+                    //set the total amount debt and payment 
+                    dispatch(suiviDetteActions.setDetailTotDetteAgents(totDetailDetteAndPayment.data.data.agents)); 
                     dispatch(suiviDetteActions.setDetailTotDetteMusiciens(totDetailDetteAndPayment.data.data.musiciens));
                     dispatch(suiviDetteActions.setDetailTotDetteClients(totDetailDetteAndPayment.data.data.clients));
 
@@ -147,7 +142,7 @@ export default function SuiviDette (props) {
                         dispatch(suiviDetteActions.setAgents(lastCreatedData.data.data.agents.map((el, index) => {return {...el, index: index}})));
                         dispatch(suiviDetteActions.setMusiciens(lastCreatedData.data.data.musiciens.map((el, index) => {return {...el, index: index}})));
                         dispatch(suiviDetteActions.setClients(lastCreatedData.data.data.clients.map((el, index) => {return {...el, index: index}})));
-                        dispatch(suiviDetteActions.setTotalDette(lastCreatedData.data.data.clients));
+                        dispatch(suiviDetteActions.setTotalDette(lastCreatedData.data.data.totalDette));
                         
                     } else {
                         
@@ -189,6 +184,8 @@ export default function SuiviDette (props) {
         postAndUpdate(dispatch, agents, musiciens, clients, year, month, day, true, props);
     };
 
+    const totalDetteAndPaymentAgent = useSelector(state => state.suiviDette.detailTotDetteAgents);
+
 
     if (year > currentYear && month > currentMonth && day > currentDay) {
 
@@ -202,7 +199,7 @@ export default function SuiviDette (props) {
 
         return (<div>
             <DailyFilter component = {'suiviDette'}  prev = {date} onclick = {setFilterParams}/>
-            <Agents/>
+            <Agents toot = {totalDetteAndPaymentAgent}/>
             <Clients/>
             <Musiciens/>
             <TotDetteDaily day = {day} month = {month} year = {year} />

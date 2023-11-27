@@ -15,7 +15,7 @@ export default function TotDetteDaily (props) {
     //side effect
     useEffect(() => {
         //calculate the totad debt daily
-        if ( agents && musiciens && clients && agents.length > 0 && musiciens.length > 0 && clients.length > 0 ) {
+        if ( agents && musiciens && clients ) {
             let tot = 0;
     
             for (let i of agents) {
@@ -33,7 +33,6 @@ export default function TotDetteDaily (props) {
                     tot += i.data.amount - i.data.payment;
                 };
             };
-    
             dispatch(suiviDetteActions.setTotalDette(tot));
         };
 

@@ -181,6 +181,7 @@ const suiviDetteSlice = createSlice ({
 
         //set the tatal dette  and payment (detail by nama)
         setDetailTotDetteAgents (state, action ){ 
+
             state.detailTotDetteAgents = action.payload;
         },
 
