@@ -3,6 +3,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import { suiviDetteActions } from "../../../store/suiviDette-slice";
 import { useId } from "react";
 import { indexMatcher } from "../../../reuseFunction/suividette/indexMatch";
+import DebtDisplay from "../../../reuseFunction/suividette/dispalyDebtComp";
 
 export default function Clients (){
 
@@ -39,49 +40,17 @@ export default function Clients (){
         if (clientsData && totalDetteAndPaymentClients) {
             return clientsData.map((el, i) =>  {
                 return (
-                    <tr key={`trClients${i}$`}>
-                        <th key={`thname${i}`}>
-                         <input
-                            value = {el.name}
-                            id = {el.index + id + 'nameClients'}
-                            type = 'text'
-                            name = 'name'
-                            readOnly = {readOnly}
-                            placeholder="Taper le nom "
-                            onChange={ (e) => {
-                                const {name, value} = e.target;
-                                dispatch(suiviDetteActions.HandleClients({name: name, value: value, index: el.index}));
-                            }}
-                        />
-                    </th>
-                    <td key={`tdAmount${i}`}>
-                        <input
-                            value={el.data.amount}
-                            id = {el.index + id + 'amountClients'}
-                            type = 'number'
-                            name = 'amount'
-                            placeholder="Taper le montant de la dette"
-                            onChange={ (e) => {
-                                const {name, value} = e.target;
-                                dispatch(suiviDetteActions.HandleClients({name: name, value: Number (value), index: el.index}));
-                            }}
-                        />
-                    </td>
-                    <td key={`tdpayment${i}`}>
-                        <input
-                            value={el.data.payment}
-                            id = {el.index + id + 'paymentCliens'}
-                            type = 'number'
-                            name = 'payment'
-                            placeholder="Taper le montant payé"
-                            onChange={ (e) => {
-                                const {name, value} = e.target;
-                                dispatch(suiviDetteActions.HandleClients({name: name, value: Number (value), index: el.index}));
-                            }}
-                        />
-                    </td>
-                    <td> { savetotalDetteAndPaymentClients ? savetotalDetteAndPaymentClients[i].valeurDette - savetotalDetteAndPaymentClients[i].valeurPayment : 0 }</td>
-                </tr>
+                     <DebtDisplay 
+                        {...el}
+                        id = {id}
+                        tr = {`trclients:${i}`}
+                        readOnly = {readOnly}
+                        in1 = 'nameclients'
+                        in2 = 'amountclients'
+                        in3 = 'paymentclients'
+                        component = 'clients'
+                        totDebt = {savetotalDetteAndPaymentClients ? savetotalDetteAndPaymentClients[i].valeurDette - savetotalDetteAndPaymentClients[i].valeurPayment : 0 }
+                    />
                 )
             });
         }

@@ -327,7 +327,7 @@ export default function Product (props) {
       venteJournaliereRef
     );
   };
-
+  //search a specifique date 
   function setFilterParams() {
 
     setDateParams(prev => prev = date);
@@ -361,7 +361,7 @@ export default function Product (props) {
   };
 
   //handle toggle button
-  function handleToggleBtn (e) {
+  function handleToggleBtn () {
     stateAction ? dispatch(productActions.setToggleStoc()) : dispatch(alimProductActions.setToggleStoc())
   };
 

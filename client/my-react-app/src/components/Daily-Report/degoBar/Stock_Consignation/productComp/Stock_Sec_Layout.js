@@ -27,10 +27,9 @@ export function ExcelSecLayout(props) {
         );
       }));
     };
-  }, [productData])
+  }, [productData]);
 
   if (stateAction) {
-
 
     if (!toggleStoc) {
       return (
@@ -417,6 +416,5 @@ export function ExcelSecLayout(props) {
     }; 
 
     
-  }
-
+  };
 }

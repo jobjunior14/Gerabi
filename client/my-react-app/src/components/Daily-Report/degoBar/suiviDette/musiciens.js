@@ -3,6 +3,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import { suiviDetteActions } from "../../../store/suiviDette-slice";
 import { useId } from "react";
 import { indexMatcher } from "../../../reuseFunction/suividette/indexMatch";
+import DebtDisplay from "../../../reuseFunction/suividette/dispalyDebtComp";
 
 export default function Musiciens (){
 
@@ -39,55 +40,23 @@ export default function Musiciens (){
         if (musiciensData && totalDetteAndPaymentMusiciens) {
             return musiciensData.map((el, i) =>  {
                 return (
-                    <tr key={`trAgent${i}$`}>
-                        <th key={`thname${i}`}>
-                         <input
-                            value = {el.name}
-                            id = {el.index + id + 'nameMusiciens'}
-                            type = 'text'
-                            name = 'name'
-                            readOnly = {readOnly}
-                            placeholder="Taper le nom "
-                            onChange={ (e) => {
-                                const {name, value} = e.target;
-                                dispatch(suiviDetteActions.HandleMusiciens({name: name, value: value, index: el.index}));
-                            }}
-                        />
-                    </th>
-                    <td key={`tdAmount${i}`}>
-                        <input
-                            value={el.data.amount}
-                            id = {el.index + id + 'amountMusiciens'}
-                            type = 'number'
-                            name = 'amount'
-                            placeholder="Taper le montant de la dette"
-                            onChange={ (e) => {
-                                const {name, value} = e.target;
-                                dispatch(suiviDetteActions.HandleMusiciens({name: name, value: Number (value), index: el.index}));
-                            }}
-                        />
-                    </td>
-                    <td key={`tdpayment${i}`}>
-                        <input
-                            value={el.data.payment}
-                            id = {el.index + id + 'paymentMusiciens'}
-                            type = 'number'
-                            name = 'payment'
-                            placeholder="Taper le montant payé"
-                            onChange={ (e) => {
-                                const {name, value} = e.target;
-                                dispatch(suiviDetteActions.HandleMusiciens({name: name, value: Number (value), index: el.index}));
-                            }}
-                        />
-                    </td>
-                    <td> { savetotalDetteAndPaymentMusiciens ? savetotalDetteAndPaymentMusiciens[i].valeurDette - savetotalDetteAndPaymentMusiciens[i].valeurPayment : 0 }</td>
-                </tr>
+                    <DebtDisplay 
+                        {...el}
+                        id = {id}
+                        tr = {`trMusiciens:${i}`}
+                        readOnly = {readOnly}
+                        in1 = 'nameMusiciens'
+                        in2 = 'amountMusiciens'
+                        in3 = 'paymentMusiciens'
+                        component = 'musiciens'
+                        totDebt = {savetotalDetteAndPaymentMusiciens ? savetotalDetteAndPaymentMusiciens[i].valeurDette - savetotalDetteAndPaymentMusiciens[i].valeurPayment : 0 }
+                    />
                 )
             });
         }
     }, [musiciensData,readOnly, savetotalDetteAndPaymentMusiciens]);
 
-   if (musiciensData) {
+    if (musiciensData) {
         if (musiciensData.length > 0) {
 
             return (<div>

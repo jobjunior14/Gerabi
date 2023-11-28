@@ -203,6 +203,5 @@ export default function SuiviDette (props) {
             {!update ? <button onClick={postData}> Enregistrer les données</button> : <button onClick={updateData}> Mettre à les données</button> }
 
         </div>);
-    }
-
+    };
 }

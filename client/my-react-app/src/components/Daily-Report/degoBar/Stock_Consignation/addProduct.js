@@ -7,5 +7,8 @@ export default function AddProduct (props) {
 
     const dispatch = useDispatch();
     const stateAction = useSelector (state => state.product.product);
-    return (<button onClick={() => stateAction ? dispatch(productActions.addProduct()) : dispatch(alimProductActions.addProduct()) }> Ajouter un produit</button>)
+    function add (){
+        stateAction ? dispatch(productActions.addProduct()) : dispatch(alimProductActions.addProduct()) 
+    };
+    return (<button onClick={add}> Ajouter un produit</button>)
 };
