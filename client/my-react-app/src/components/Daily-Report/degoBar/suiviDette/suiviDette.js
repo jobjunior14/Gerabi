@@ -162,17 +162,14 @@ export default function SuiviDette (props) {
                 console.log (e);
             };
         }; fecthData();
+        //set the form filter 
+        setDateParams (prev => prev = date);
     }, [year, month, day]);
 
     function setFilterParams() {
 
         setDateParams(prev => prev = date);
     };
-
-    useEffect (() => {
-
-        setDateParams (prev => prev = date);
-    }, [year, month, day]);
 
     function postData () {
 

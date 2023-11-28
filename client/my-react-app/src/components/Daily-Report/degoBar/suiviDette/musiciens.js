@@ -3,7 +3,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import { suiviDetteActions } from "../../../store/suiviDette-slice";
 import { useId } from "react";
 import { indexMatcher } from "../../../reuseFunction/suividette/indexMatch";
-import DebtDisplay from "../../../reuseFunction/suividette/dispalyDebtComp";
+import DebtDisplay from "./components/dispalyDebtComp";
 
 export default function Musiciens (){
 

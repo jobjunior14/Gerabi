@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux";
 import React from "react";
-import { suiviDetteActions } from "../../store/suiviDette-slice";
+import { suiviDetteActions } from "../../../../store/suiviDette-slice";
 
 export default function DebtDisplay(props) {
 
