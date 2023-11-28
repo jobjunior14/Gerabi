@@ -41,6 +41,7 @@ export default function Clients (){
             return clientsData.map((el, i) =>  {
                 return (
                      <DebtDisplay 
+                        key = {`clients:${i}`}
                         {...el}
                         id = {id}
                         tr = {`trclients:${i}`}

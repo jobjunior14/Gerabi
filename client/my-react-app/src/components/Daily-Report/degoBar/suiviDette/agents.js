@@ -42,6 +42,7 @@ export default function Agents (){
             return agentsData.map((el, i) =>  {
                 return (
                      <DebtDisplay 
+                        key ={`agents:${i}`}
                         {...el}
                         id = {id}
                         tr = {`trAgents:${i}`}

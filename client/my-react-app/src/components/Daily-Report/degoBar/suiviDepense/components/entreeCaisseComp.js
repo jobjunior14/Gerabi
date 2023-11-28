@@ -1,17 +1,19 @@
 import React from 'react'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { suiviDepenseActions } from '../../../../store/suiviDepense-slice';
 
 export default function EntreeCaisseComp (props){
 
     const dispatch = useDispatch();
+    const readOnly = useSelector (state => state.suiviDepense.readOnly);
 
     return (<tr>
       <th>
         <input
-            value={props.prev.name}
+            defaultValue={props.prev.name}
             id = { props.prev.index}
             name = 'name'
+            readOnly = {readOnly}
             type= 'text'
             placeholder='Taper Le Libelé'
             onChange={ (e) => {
@@ -23,7 +25,7 @@ export default function EntreeCaisseComp (props){
 
       <td>
         <input
-            value={props.prev.data.amount}
+            defaultValue={props.prev.data.amount}
             id = { props.prev.id}
             name = 'amount'
             type= 'number'

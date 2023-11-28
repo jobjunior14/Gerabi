@@ -9,12 +9,10 @@ import DailyFilter from "../../../filter/filterDailyRap";
 import SoldCaisse from "./soldCaisse";
 import formatDate from "../../../reuseFunction/suiviStockVente/rightFormatDate";
 
-function postAndUpdate (entreeCaisse, sortieCaisse, year, month, day, dispacth, update,  totalSortieCaisse, totalSoldCaisse, totalDette, props, depenseEff) {
+function postAndUpdate (entreeCaisse, sortieCaisse, year, month, day, dispatch, update,  totalSortieCaisse, totalSoldCaisse, totalDette, props, depenseEff) {
 
 
     // set Sold caisse
-    // dispacth(suiviDepenseActions.setSoldCaisse());
-
     const newSortieCaisseData = [];
     let suiviDepenseData = null;
     let createdAt = formatDate (year, month, day);
@@ -67,8 +65,8 @@ function postAndUpdate (entreeCaisse, sortieCaisse, year, month, day, dispacth, 
     const fecthData = async () => {
 
         try {
-                dispacth(suiviDepenseActions.setEntreeCaisse(null));
-                dispacth(suiviDepenseActions.setSortieCaisse(null));
+                dispatch(suiviDepenseActions.setEntreeCaisse(null));
+                dispatch(suiviDepenseActions.setSortieCaisse(null));
                 const responseSuiviDepense = !update ?  await axios.post(`http://localhost:5001/api/v1/${props.componentName}/suiviDepense/rapportJournalier?year=${year}&month=${month}&day=${day}`, suiviDepenseData) : await axios.post(`http://localhost:5001/api/v1/${props.componentName}/suiviDepense/rapportJournalier/${year}/${month}/${day}`, suiviDepenseData);
                 const responseDepenseEff = update ? await axios.post( `http://localhost:5001/api/v1/${props.componentName}/depenseEff/${year}/${month}/${day}`, {valeur: depenseEff, createdAt: createdAt} ) : await axios.post( `http://localhost:5001/api/v1/${props.componentName}/depenseEff?year=${year}&month=${month}&day=${day}`, {valeur: depenseEff, createdAt: createdAt});
 
@@ -89,7 +87,7 @@ function postAndUpdate (entreeCaisse, sortieCaisse, year, month, day, dispacth, 
                         };
                     };
 
-                    dispacth(suiviDepenseActions.setSortieCaisse(responseSuiviDepense.data.data.sortieCaisse.map(
+                    dispatch(suiviDepenseActions.setSortieCaisse(responseSuiviDepense.data.data.sortieCaisse.map(
                         (el, index) => {
                             
                             const data = el.data.map((el, index) => {return {...el, index: index}});
@@ -99,20 +97,20 @@ function postAndUpdate (entreeCaisse, sortieCaisse, year, month, day, dispacth, 
                     )));
                     
                     // the greatest length
-                    dispacth(suiviDepenseActions.setSameLength(saveTalbeRow));
+                    dispatch(suiviDepenseActions.setSameLength(saveTalbeRow));
                 };
                 
                 //set the index and entreeCaisse Data
-                dispacth(suiviDepenseActions.setEntreeCaisse(responseSuiviDepense.data.data.entreeCaisse.map((el, index) => {return {...el, index: index}})));
+                dispatch(suiviDepenseActions.setEntreeCaisse(responseSuiviDepense.data.data.entreeCaisse.map((el, index) => {return {...el, index: index}})));
 
                 //set  sold caisse
-                dispacth(suiviDepenseActions.setSoldCaisse(responseSuiviDepense.data.data.soldCaisse.amount));
+                dispatch(suiviDepenseActions.setSoldCaisse(responseSuiviDepense.data.data.soldCaisse.amount));
 
-                dispacth(suiviDepenseActions.setUpdate(true));
-                dispacth(suiviDepenseActions.setReadOnly(true));
+                dispatch(suiviDepenseActions.setUpdate(true));
+                dispatch(suiviDepenseActions.setReadOnly(true));
 
                 //set the depense effectuee
-                dispacth(suiviDepenseActions.setDepenseEff(responseDepenseEff.data.data.day.valeur));
+                dispatch(suiviDepenseActions.setDepenseEff(responseDepenseEff.data.data.day.valeur));
             } catch (error) {
                 console.log (error);
             };
@@ -122,7 +120,7 @@ function postAndUpdate (entreeCaisse, sortieCaisse, year, month, day, dispacth, 
 
 export default function SuiviDepense (props){
 
-    const dispacth = useDispatch();
+    const dispatch = useDispatch();
 
     //params
     const [dateParams, setDateParams] = useSearchParams();
@@ -160,31 +158,31 @@ export default function SuiviDepense (props){
 
             try {
                 //initial State
-                dispacth(suiviDepenseActions.setEntreeCaisse(null));
-                dispacth(suiviDepenseActions.setSortieCaisse(null));
-                dispacth(suiviDepenseActions.setSoldCaisse(0));
-                dispacth (suiviDepenseActions.setTotalSoldCaisse(0));
-                dispacth(suiviDepenseActions.setPrevSoldCaisse(0));
-                dispacth(suiviDepenseActions.setTotalDette(0));
-                dispacth(suiviDepenseActions.setTotalSortieCaisse(0));
-                dispacth(suiviDepenseActions.setDepenseEff(0));
+                dispatch(suiviDepenseActions.setEntreeCaisse(null));
+                dispatch(suiviDepenseActions.setSortieCaisse(null));
+                dispatch(suiviDepenseActions.setSoldCaisse(0));
+                dispatch (suiviDepenseActions.setTotalSoldCaisse(0));
+                dispatch(suiviDepenseActions.setPrevSoldCaisse(0));
+                dispatch(suiviDepenseActions.setTotalDette(0));
+                dispatch(suiviDepenseActions.setTotalSortieCaisse(0));
+                dispatch(suiviDepenseActions.setDepenseEff(0));
                 //fecth the data
                 const suiviDepenseData = await axios.get (`http://localhost:5001/api/v1/${props.componentName}/suiviDepense/rapportJournalier/${year}/${month}/${day}`);
                 const totDette = await axios.get (`http://localhost:5001/api/v1/${props.componentName}/suiviDette/rapportJournalier/totDette/${year}/${month}/${day}`);
                 const depenseEffData = await axios.get (`http://localhost:5001/api/v1/${props.componentName}/depenseEff/${year}/${month}/${day}`);
                 
                 //set the total debt
-                dispacth(suiviDepenseActions.setTotalDette(totDette.data.data));
+                dispatch(suiviDepenseActions.setTotalDette(totDette.data.data));
                 //set the depense effectuee
                 if (depenseEffData.data.data.day) {
 
-                    dispacth(suiviDepenseActions.setDepenseEff(depenseEffData.data.data.day.valeur));
+                    dispatch(suiviDepenseActions.setDepenseEff(depenseEffData.data.data.day.valeur));
                 };
 
                 if (suiviDepenseData.data.data.sortieCaisse.length > 0 && suiviDepenseData.data.data.entreeCaisse.length > 0  && suiviDepenseData.data.data.soldCaisse) {
                     //set some states
-                    dispacth(suiviDepenseActions.setUpdate(true));
-                    dispacth(suiviDepenseActions.setReadOnly(true));
+                    dispatch(suiviDepenseActions.setUpdate(true));
+                    dispatch(suiviDepenseActions.setReadOnly(true));
                     //find the largest table row 
                     if (suiviDepenseData.data.data.sortieCaisse ) {
     
@@ -202,7 +200,7 @@ export default function SuiviDepense (props){
                             };
                         };
     
-                        dispacth(suiviDepenseActions.setSortieCaisse(suiviDepenseData.data.data.sortieCaisse.map(
+                        dispatch(suiviDepenseActions.setSortieCaisse(suiviDepenseData.data.data.sortieCaisse.map(
                             (el, index) => {
                                 
                                 const data = el.data.map((el, index) => {return {...el, index: index}});
@@ -212,23 +210,21 @@ export default function SuiviDepense (props){
                         )));
                         
                         // the greatest length
-                        dispacth(suiviDepenseActions.setSameLength(saveTalbeRow));
+                        dispatch(suiviDepenseActions.setSameLength(saveTalbeRow));
                     };
                     
                     //set the index and entreeCaisse Data
-                    dispacth(suiviDepenseActions.setEntreeCaisse(suiviDepenseData.data.data.entreeCaisse.map((el, index) => {return {...el, index: index}})));
+                    dispatch(suiviDepenseActions.setEntreeCaisse(suiviDepenseData.data.data.entreeCaisse.map((el, index) => {return {...el, index: index}})));
     
                     //set  sold caisse
                     if (suiviDepenseData.data.data.soldCaisse) {
-                        dispacth(suiviDepenseActions.setSoldCaisse(suiviDepenseData.data.data.soldCaisse.amount));
-                    } else {
-                        dispacth(suiviDepenseActions.setSoldCaisse(0));
+                        dispatch(suiviDepenseActions.setSoldCaisse(suiviDepenseData.data.data.soldCaisse.amount));
                     };
 
                 } else {
 
-                    dispacth(suiviDepenseActions.setReadOnly(false));
-                    dispacth(suiviDepenseActions.setUpdate(false));
+                    dispatch(suiviDepenseActions.setReadOnly(false));
+                    dispatch(suiviDepenseActions.setUpdate(false));
 
                     const lastCreatedData = await axios.get(`http://localhost:5001/api/v1/${props.componentName}/suiviDepense/lastElement/${year}/${month}`);
 
@@ -251,7 +247,7 @@ export default function SuiviDepense (props){
                                 };
                             };
         
-                            dispacth(suiviDepenseActions.setSortieCaisse(lastCreatedData.data.data.sortieCaisse.map(
+                            dispatch(suiviDepenseActions.setSortieCaisse(lastCreatedData.data.data.sortieCaisse.map(
                                 (el, index) => {
                                     const data = el.data.map((el, index) => {return {...el, index: index}});
             
@@ -260,20 +256,18 @@ export default function SuiviDepense (props){
                             )));
                             
                             // the greatest length
-                            dispacth(suiviDepenseActions.setSameLength(saveTalbeRow));
+                            dispatch(suiviDepenseActions.setSameLength(saveTalbeRow));
                         };
                         
                         //set the index and entreeCaisse Data
-                        dispacth(suiviDepenseActions.setEntreeCaisse(lastCreatedData.data.data.entreeCaisse.map((el, index) => {return {...el, index: index}})));
-        
-                        //set  sold caisse
-                        dispacth(suiviDepenseActions.setSoldCaisse(0)); 
+                        dispatch(suiviDepenseActions.setEntreeCaisse(lastCreatedData.data.data.entreeCaisse.map((el, index) => {return {...el, index: index}})));
+                        //sold caisse of the day must remain 0 if there is no day's data
                     } else {
 
-                        dispacth(suiviDepenseActions.setReadOnly(false));
-                        dispacth(suiviDepenseActions.setUpdate(false));
-                        dispacth(suiviDepenseActions.setEntreeCaisse([]));
-                        dispacth(suiviDepenseActions.setSortieCaisse([]));
+                        dispatch(suiviDepenseActions.setReadOnly(false));
+                        dispatch(suiviDepenseActions.setUpdate(false));
+                        dispatch(suiviDepenseActions.setEntreeCaisse([]));
+                        dispatch(suiviDepenseActions.setSortieCaisse([]));
 
                     }
                 }
@@ -287,29 +281,22 @@ export default function SuiviDepense (props){
                 }
             };
         }; fecthData();
-
+        //set the data after after every refresh
+        setDateParams (prev => prev = date);
     }, [year, month, day]);
-
-    // set the previous sold caisse
-    dispacth(suiviDepenseActions.setPrevSoldCaisse(soldCaisse - (totalDette + totalSortieCaisse)));
 
     function setFilterParams() {
 
         setDateParams(prev => prev = date);
     };
 
-    useEffect (() => {
-
-        setDateParams (prev => prev = date);
-    }, [year, month, day]);
-
     function postData(){
         //post data or create it 
-        postAndUpdate(entreeCaisse, sortieCaisse, year, month, day, dispacth, false, totalSortieCaisse,totalSoldCaisse, totalDette, props, depenseEff);
+        postAndUpdate(entreeCaisse, sortieCaisse, year, month, day, dispatch, false, totalSortieCaisse,totalSoldCaisse, totalDette, props, depenseEff);
     };
     
     function updateData() {
-        postAndUpdate(entreeCaisse, sortieCaisse, year, month, day, dispacth, true, totalSortieCaisse,totalSoldCaisse, totalDette, props, depenseEff);
+        postAndUpdate(entreeCaisse, sortieCaisse, year, month, day, dispatch, true, totalSortieCaisse,totalSoldCaisse, totalDette, props, depenseEff);
     };
 
     if (year > currentYear || month > currentMonth || day > currentDay) {
@@ -327,7 +314,7 @@ export default function SuiviDepense (props){
                 <DailyFilter component = {'suiviDepense'} prev = {date} onclick = {setFilterParams} />
                 
                 <label name = 'depenseEffectuee' >Depense Effectuées</label>
-                <input value= {depenseEff} type="number" name = 'depenseEffectuee' onChange={ e => dispacth(suiviDepenseActions.setDepenseEff(Number (e.target.value)))} placeholder="Depense effectuée"/>
+                <input value= {depenseEff} type="number" name = 'depenseEffectuee' onChange={ e => dispatch(suiviDepenseActions.setDepenseEff(Number (e.target.value)))} placeholder="Depense effectuée"/>
                 <p>{depenseEff}</p>
                 <EntreeCaisse componentName = {props.componentName}/>
                 <SoriteCaisse /> 

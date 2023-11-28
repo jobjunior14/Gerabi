@@ -40,7 +40,8 @@ export default function Musiciens (){
         if (musiciensData && totalDetteAndPaymentMusiciens) {
             return musiciensData.map((el, i) =>  {
                 return (
-                    <DebtDisplay 
+                    <DebtDisplay
+                        key = {`musiciens:${i}`}
                         {...el}
                         id = {id}
                         tr = {`trMusiciens:${i}`}

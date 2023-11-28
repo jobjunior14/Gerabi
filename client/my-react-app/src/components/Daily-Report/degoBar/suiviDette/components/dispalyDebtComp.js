@@ -8,7 +8,7 @@ export default function DebtDisplay(props) {
 
     return (
         <tr key = {props.tr}>
-            <th> 
+            <th key = {props.th}>  
                 <input 
                     value={props.name}
                     id = {props.index + props.id + props.in1}
