@@ -135,11 +135,6 @@ const suiviDetteSlice = createSlice ({
                     }
                 }
             );
-
-            state.detailTotDetteClients.push ({
-                valeurDette: 0,
-                valeurPayment: 0,
-            });
         },
         //add a new data to entree caisse
         addCaseAgents (state, action) {
@@ -154,11 +149,6 @@ const suiviDetteSlice = createSlice ({
                     }
                 }
             );
-
-            state.detailTotDetteAgents.push ({
-                valeurDette: 0,
-                valeurPayment: 0,
-            });
         },
         //add a new data to entree caisse
         addCaseMusiciens (state, action) {
@@ -173,10 +163,6 @@ const suiviDetteSlice = createSlice ({
                     }
                 }
             );
-            state.detailTotDetteMusiciens.push ({
-                valeurDette: 0,
-                valeurPayment: 0,
-            });
         },
 
         //set the tatal dette  and payment (detail by nama)

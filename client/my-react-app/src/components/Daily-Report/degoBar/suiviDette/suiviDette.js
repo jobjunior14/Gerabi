@@ -183,10 +183,7 @@ export default function SuiviDette (props) {
 
         postAndUpdate(dispatch, agents, musiciens, clients, year, month, day, true, props);
     };
-
-    const totalDetteAndPaymentAgent = useSelector(state => state.suiviDette.detailTotDetteAgents);
-
-
+    
     if (year > currentYear && month > currentMonth && day > currentDay) {
 
         return (
@@ -199,7 +196,7 @@ export default function SuiviDette (props) {
 
         return (<div>
             <DailyFilter component = {'suiviDette'}  prev = {date} onclick = {setFilterParams}/>
-            <Agents toot = {totalDetteAndPaymentAgent}/>
+            <Agents/>
             <Clients/>
             <Musiciens/>
             <TotDetteDaily day = {day} month = {month} year = {year} />

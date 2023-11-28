@@ -1,10 +1,10 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, useCallback} from "react";
 import {useSelector, useDispatch} from 'react-redux';
 import { suiviDetteActions } from "../../../store/suiviDette-slice";
 import { useId } from "react";
 import { indexMatcher } from "../../../reuseFunction/suividette/indexMatch";
 
-export default function Agents ({toot}){
+export default function Agents (){
 
     const dispatch = useDispatch();
 
@@ -13,33 +13,31 @@ export default function Agents ({toot}){
     const readOnly = useSelector (state => state.suiviDette.readOnly);
     const totalDetteAndPaymentAgent = useSelector(state => state.suiviDette.detailTotDetteAgents);
     const [totalDetteAgent, setTotalDetteAgent] = useState (0);
-    const [dataDisplay, setDataDisplay] = useState ([]);
+    const [savetotalDetteAndPaymentAgents, setSavetotalDetteAndPaymentAgents] = useState(0);
 
     //side effect
     useEffect (() => {
-
         let savetotalDetteAgent = 0;
-        
-        if (agentsData && totalDetteAndPaymentAgent && (agentsData.length === totalDetteAndPaymentAgent.length)) {
-            
-            const saveTotalDetteAndPaymentAgent = indexMatcher(agentsData, totalDetteAndPaymentAgent);
-            // //match the index in the totalDetteAndPaymentAgent array and agentsData
-            // for (let i = 0; i < agentsData.length; i++) {
-            //     const index1 = agentsData.findIndex(el => el.name === agentsData[i].name);
-            //     const index2 = agentsData.findIndex(el => el.name === saveTotalDetteAndPaymentAgent[i]._id);
+        if (agentsData && totalDetteAndPaymentAgent) {
 
-            //     let save = null;
-            //     if (!(index1 === index2)) {
-            //         save = saveTotalDetteAndPaymentAgent[index2];
-            //         saveTotalDetteAndPaymentAgent[index2] = saveTotalDetteAndPaymentAgent[index1];
-            //         saveTotalDetteAndPaymentAgent[index1] = save;
-            //     };
-            // };
-
-            //set the total Dette agent
-            setDataDisplay( agentsData.map((el, i) =>  {
+            //await data from the aerver to display the calculation of total debt to not getting error in the indexmacher function
+            if (agentsData.length > 0 && agentsData.length === totalDetteAndPaymentAgent.length) {
                 
-                savetotalDetteAgent += el.data.amount;
+                setSavetotalDetteAndPaymentAgents(indexMatcher(agentsData, totalDetteAndPaymentAgent));
+            };
+            for (let i = 0; i < agentsData.length; i++) {
+                //total Dette Agents
+                savetotalDetteAgent += agentsData[i].data.amount;
+            };
+        };
+        //set the total Dette agent
+        setTotalDetteAgent(prev => prev = savetotalDetteAgent);
+    }, [agentsData, totalDetteAndPaymentAgent]);
+
+    //side effect
+    const renderDataDisplay = useCallback(() => {
+        if (agentsData && totalDetteAndPaymentAgent) {
+            return agentsData.map((el, i) =>  {
                 return (
                     <tr key={`trAgent${i}$`}>
                         <th key={`thname${i}`}>
@@ -82,16 +80,12 @@ export default function Agents ({toot}){
                             }}
                         />
                     </td>
-                    <td> {saveTotalDetteAndPaymentAgent[i].valeurDette - saveTotalDetteAndPaymentAgent[i].valeurPayment }</td>
+                    <td> { savetotalDetteAndPaymentAgents ? savetotalDetteAndPaymentAgents[i].valeurDette - savetotalDetteAndPaymentAgents[i].valeurPayment : 0 }</td>
                 </tr>
                 )
-            }));
-    
-            //set the array of tot daily debt agents (JSX elements)
-            setTotalDetteAgent (savetotalDetteAgent);
-        };
-
-    }, [agentsData, readOnly, totalDetteAndPaymentAgent]);
+            });
+        }
+    }, [agentsData,readOnly, savetotalDetteAndPaymentAgents]);
 
    if (agentsData) {
         if (agentsData.length > 0) {
@@ -108,7 +102,7 @@ export default function Agents ({toot}){
                         </tr>
                     </thead>
                     <tbody>
-                        {dataDisplay}
+                        {renderDataDisplay()}
                     </tbody>
                     <tfoot>
                         <tr>
