@@ -19,7 +19,7 @@ export default function SoriteCaisse () {
     const id = useId ();
 
     
-    //side effect 
+    //side effect body's table
     useEffect (() => {
 
         if ( sortieCaisse && sortieCaisse.length > 0) {
@@ -53,8 +53,8 @@ export default function SoriteCaisse () {
                 SavesubTAbleHeadersSortieCaisse.push (<td key={`tdmontant${i}`}> Montant </td>);
             };
             //set the state
-            setTableHeaderSortieCaisse(prev => prev = SavetableHeaderSortieCaisse);
-            setSubTAbleHeadersSortieCaisse(prev => prev = SavesubTAbleHeadersSortieCaisse);
+            setTableHeaderSortieCaisse(prev => SavetableHeaderSortieCaisse);
+            setSubTAbleHeadersSortieCaisse(prev => SavesubTAbleHeadersSortieCaisse);
             
             const savetableRowData = [];
             for (let y = 0; y < sortieCaisse[0].data.length; y++) {
@@ -102,12 +102,13 @@ export default function SoriteCaisse () {
                 savetableRowData.push(<tr key={y}>{tableDataSortieCaisse}</tr>); 
             };
 
-            setTableRowData(prev => prev = savetableRowData);
+            setTableRowData(prev => savetableRowData);
         };
+
         //save the varaibale before dispatch it
          let totalSortieCaisse = 0; 
          
-         //display the total amount sortie ~for one row
+         //display the total amount sortie for one row
          const saveDisplayTotFocnt = [];
        
         //calculate the total amount of sortie caisse
@@ -129,12 +130,12 @@ export default function SoriteCaisse () {
             };
 
             //set the display function
-            setDisplayTotFocnt(prev => prev = saveDisplayTotFocnt);
+            setDisplayTotFocnt(prev => saveDisplayTotFocnt);
     
             //set the sold caisse
             dispatch(suiviDepenseActions.setTotalSortieCaisse(totalSortieCaisse));
         };
-    }, [sortieCaisse, readOnly])
+    }, [sortieCaisse, readOnly]);
 
 
     

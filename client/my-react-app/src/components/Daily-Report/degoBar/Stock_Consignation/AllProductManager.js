@@ -10,6 +10,7 @@ import { alimProductActions } from "../../../store/AllProductManagerAlim-slice";
 import AddProduct from './addProduct';
 import objProvider from "../../../reuseFunction/suiviStockVente/objProvider";
 import postAndUpdateData from "../../../reuseFunction/suiviStockVente/postAmdUpdateData";
+import UniqueInput from "../../../reuseFunction/uniqueInput";
 
 function errMessage (dispatch, productActions, venteDego, productData, stateAction, update, venteJournaliereRef) {
 
@@ -384,8 +385,11 @@ export default function Product (props) {
             <div>
               <DailyFilter component = {'allProduct'}  prev = {date} onclick = {setFilterParams} />
 
-              <label>Vente Journalière </label>
-              <input ref={venteJournaliereRef} type="number" name="vente" onChange={handleVente} placeholder="Vente Journalière " value={venteDego}/>
+              <UniqueInput>
+                <label>Vente Journalière </label>
+                <input ref={venteJournaliereRef} type="number" name="vente" onChange={handleVente} placeholder="Vente Journalière " value={venteDego}/>
+              </UniqueInput>
+              
               <ExcelSecLayout toggle = {toggleStoc} />
               <button onClick={handleToggleBtn} >{ !toggleStoc ? 'Cacher' : 'Afficher' }</button>
               { !update && <AddProduct stateAction = {stateAction} />}

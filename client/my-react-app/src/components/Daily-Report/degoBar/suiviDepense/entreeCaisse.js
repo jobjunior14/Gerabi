@@ -2,8 +2,6 @@ import React, {useState, useCallback, useEffect, useId}from "react";
 import EntreeCaisseComp from "./components/entreeCaisseComp";
 import { useSelector, useDispatch } from "react-redux";
 import { suiviDepenseActions } from "../../../store/suiviDepense-slice";
-import axios from "axios";
-import { useSearchParams } from "react-router-dom";
 
 
 export default function EntreeCaisse (props){
@@ -14,58 +12,16 @@ export default function EntreeCaisse (props){
     const readOnly = useSelector (state => state.suiviDepense.readOnly);
     const id  = useId();
 
-    //params
-    const [dateParams] = useSearchParams();
-
-    //dependacies of useEffect
-    const year = Number(dateParams.get("year"));
-    const month = Number(dateParams.get("month")); 
-    const day = Number(dateParams.get("day"));
-
-    //get the previous date 
-    const prevDate = new Date(year, month -1, day);
-
-    //subtract one day
-    prevDate.setDate(prevDate.getDate() - 1);
-
-    const prevYear = prevDate.getFullYear();
-    const prevMonth = prevDate.getMonth() + 1;
-    const prevDay = prevDate.getDate();
-
     //data for sold caisse
-    const soldCaisse = useSelector (state => state.suiviDepense.soldCaisse);
-    const totalSortieCaisse = useSelector (state => state.suiviDepense.totalSortieCaisse);
-    const totalDette = useSelector (state => state.suiviDepense.totalDette);
     const totalSoldCaisse = useSelector (state => state.suiviDepense.totalSoldCaisse);
     const [totalEntreeCaisse, setTotalEntreeCaisse] = useState(0);
-
-    //message and input fields if prevSold is not found
-    const [foundPrevSold, setFoundPrevSold] = useState(false);
-    //fetch data
-    useEffect(() => {
-
-        const fecthData = async () => {
-
-            const prevSuiviDepenseData = await axios.get (`http://localhost:5001/api/v1/${props.componentName}/suiviDepense/rapportJournalier/${prevYear}/${prevMonth}/${prevDay}`);
-            
-            if (!prevSuiviDepenseData.data.data.soldCaisse) {
-                
-                setFoundPrevSold(true);
-            } else {
-                
-                dispatch(suiviDepenseActions.setPrevSoldCaisse(prevSuiviDepenseData.data.data.soldCaisse.amount));
-                // set the previous sold caisse
-                dispatch(suiviDepenseActions.setPrevSoldCaisse(soldCaisse - (totalDette + totalSortieCaisse)));
-            };
-        }; fecthData();
-    }, [prevDay, prevMonth, prevYear]);
+    const [displayData, setDisplayData] = useState(null);
     
-    //side effect making calcul
-    useEffect(() => {
-
+    //side effect memorize calculations of total entree caisse
+    const memoTotEntreeCaisse = useCallback(() => {
         if (data) {
 
-            let savetotalEntreeCaisse = 0;
+            let savetotalEntreeCaisse = 0
             //set the total entree caisse
             for (let i of data) {
                 if (i.name !== "" && i.data.amount !== "") {
@@ -73,25 +29,34 @@ export default function EntreeCaisse (props){
                     savetotalEntreeCaisse += i.data.amount;
                 };
             };
-            //set the total amount entree caisse
-            setTotalEntreeCaisse(savetotalEntreeCaisse);
-            //dispatch the prev taped sold caisse
-            dispatch(suiviDepenseActions.setPrevSoldCaisse(soldCaisse - (totalDette + totalSortieCaisse)));
-            //set total SoldCaisse EntreeCaisse
-            const saveTotalSoldCaisse = totalEntreeCaisse + prevSoldCaisse
-            dispatch(suiviDepenseActions.setTotalSoldCaisse(saveTotalSoldCaisse));
+            //change the state using the parent's function
+            props.setTotEntree(savetotalEntreeCaisse);
+            return savetotalEntreeCaisse;
         };
-
-    }, [data, prevSoldCaisse, totalDette, soldCaisse]);
-
-    //side effect rendering the body of my table 
-    const renderDataDisplay = useCallback(() => {
-        if (data) {
-
-            return data.map((el, index) => <EntreeCaisseComp key = {index}  index = {index} prev = {el} />);
-        }
     },[data]);
 
+    //side effect render the body's table
+    useEffect(() => {
+        if (data) {
+            setDisplayData(data.map((el, index) => <EntreeCaisseComp key = {index}  index = {index} prev = {el} />));
+            
+        }
+    }, [data]);
+    
+    //side effect updating the totalSoldCaisse
+    useEffect(() => {
+        if (data) {
+           
+            //set the total amount entree caisse
+            setTotalEntreeCaisse( memoTotEntreeCaisse());
+
+            //dispatch the prev taped sold caisse
+            dispatch(suiviDepenseActions.setTotalSoldCaisse( memoTotEntreeCaisse() + prevSoldCaisse));
+        };
+        
+    }, [memoTotEntreeCaisse(), totalEntreeCaisse, prevSoldCaisse]);
+
+    
     if (data) {
         
         if (data.length > 0) {
@@ -101,7 +66,7 @@ export default function EntreeCaisse (props){
                 <h3>Entrée Caisse</h3>
                  <table>
                     <tbody>
-                        {renderDataDisplay()}
+                        {displayData}
                         <tr>
                             <th>Total Entrée</th>
                             <td> {totalEntreeCaisse} </td>
@@ -113,15 +78,15 @@ export default function EntreeCaisse (props){
 
                     </tbody>
                 </table>
-                { foundPrevSold && <>
+                { props.foundPrevSold && <>
 
-                    <p> Le sold caisse du {prevYear}/{prevMonth}/{prevDay}, n'a pas été trouvé </p>
+                    <p> Le sold caisse du {props.prevYear}/{props.prevMonth}/{props.prevDay}, n'a pas été trouvé </p>
                     <label id = {'inputfromUser' + id}> S'il est existant veillez le taper</label>
                     <input 
                         type="number"
                         id = {'inputfromUser' + id}
                         placeholder="Tapez le precedent sold caisse"
-                        defaultValue={prevSoldCaisse}
+                        value={prevSoldCaisse}
                         onChange={(e) => { dispatch(suiviDepenseActions.handleSoldCaisseByUser(Number (e.target.value)))} }
                     />
                 </>}
@@ -138,6 +103,6 @@ export default function EntreeCaisse (props){
         };
     } else {
         <h4> Chargement....</h4>
-    }
+    };
 }
 

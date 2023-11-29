@@ -17,7 +17,7 @@ export default function Agents (){
     const [totalDetteAgent, setTotalDetteAgent] = useState (0);
     const [savetotalDetteAndPaymentAgents, setSavetotalDetteAndPaymentAgents] = useState(0);
 
-    //side effect
+    //side effect making calcul
     useEffect (() => {
         let savetotalDetteAgent = 0;
         if (agentsData && totalDetteAndPaymentAgent) {
@@ -36,7 +36,7 @@ export default function Agents (){
         setTotalDetteAgent(prev => prev = savetotalDetteAgent);
     }, [agentsData, totalDetteAndPaymentAgent]);
 
-    //side effect
+    //side effect render the table body
     const renderDataDisplay = useCallback(() => {
         if (agentsData && totalDetteAndPaymentAgent) {
             return agentsData.map((el, i) =>  {

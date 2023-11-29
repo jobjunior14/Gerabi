@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import { suiviDepenseActions } from "../../../store/suiviDepense-slice";
@@ -8,6 +8,7 @@ import EntreeCaisse from "./entreeCaisse";
 import DailyFilter from "../../../filter/filterDailyRap";
 import SoldCaisse from "./soldCaisse";
 import formatDate from "../../../reuseFunction/suiviStockVente/rightFormatDate";
+import UniqueInput from "../../../reuseFunction/uniqueInput";
 
 function postAndUpdate (entreeCaisse, sortieCaisse, year, month, day, dispatch, update,  totalSortieCaisse, totalSoldCaisse, totalDette, props, depenseEff) {
 
@@ -138,7 +139,6 @@ export default function SuiviDepense (props){
     const currentMonth = Number (new Date().getMonth() + 1);
     const currentDay = Number (new Date().getDate());    
     //data 
-    const soldCaisse = useSelector (state => state.suiviDepense.soldCaisse);
     const entreeCaisse = useSelector (state => state.suiviDepense.entreeCaisse);
     const sortieCaisse = useSelector (state => state.suiviDepense.sortieCaisse);
     const update = useSelector (state => state.suiviDepense.update);
@@ -150,7 +150,25 @@ export default function SuiviDepense (props){
     const totalDette = useSelector (state => state.suiviDepense.totalDette);
 
     //depense effectuee
-    const depenseEff = useSelector (state => state.suiviDepense.depenseEff);
+    const [depenseEff, setDepenseEff] = useState(0);
+
+    //data for entree caisse
+    //message and input fields if prevSold is not found
+    const [foundPrevSold, setFoundPrevSold] = useState(false);
+    const soldCaisse = useSelector (state => state.suiviDepense.soldCaisse);
+    const [totalEntreeCaisse, setTotalEntreeCaisse] = useState(0);
+    //state for precedent sold caisse 
+    const [prevSoldCaisse, setPrevSoldCaisse] = useState(null);
+
+    //get the previous date 
+    const prevDate = new Date(year, month -1, day);
+
+    //subtract one day
+    prevDate.setDate(prevDate.getDate() - 1);
+
+    const prevYear = prevDate.getFullYear();
+    const prevMonth = prevDate.getMonth() + 1;
+    const prevDay = prevDate.getDate();
 
     useEffect (() => {
 
@@ -165,20 +183,22 @@ export default function SuiviDepense (props){
                 dispatch(suiviDepenseActions.setPrevSoldCaisse(0));
                 dispatch(suiviDepenseActions.setTotalDette(0));
                 dispatch(suiviDepenseActions.setTotalSortieCaisse(0));
-                dispatch(suiviDepenseActions.setDepenseEff(0));
+                setDepenseEff(0);
                 //fecth the data
                 const suiviDepenseData = await axios.get (`http://localhost:5001/api/v1/${props.componentName}/suiviDepense/rapportJournalier/${year}/${month}/${day}`);
                 const totDette = await axios.get (`http://localhost:5001/api/v1/${props.componentName}/suiviDette/rapportJournalier/totDette/${year}/${month}/${day}`);
                 const depenseEffData = await axios.get (`http://localhost:5001/api/v1/${props.componentName}/depenseEff/${year}/${month}/${day}`);
-                
+                //prev sold caisse for entree caisse 
+                const prevSuiviDepenseData = await axios.get (`http://localhost:5001/api/v1/${props.componentName}/suiviDepense/rapportJournalier/${prevYear}/${prevMonth}/${prevDay}`);
+
                 //set the total debt
                 dispatch(suiviDepenseActions.setTotalDette(totDette.data.data));
                 //set the depense effectuee
                 if (depenseEffData.data.data.day) {
 
-                    dispatch(suiviDepenseActions.setDepenseEff(depenseEffData.data.data.day.valeur));
+                    setDepenseEff(depenseEffData.data.data.day.valeur);
                 };
-
+                
                 if (suiviDepenseData.data.data.sortieCaisse.length > 0 && suiviDepenseData.data.data.entreeCaisse.length > 0  && suiviDepenseData.data.data.soldCaisse) {
                     //set some states
                     dispatch(suiviDepenseActions.setUpdate(true));
@@ -220,6 +240,8 @@ export default function SuiviDepense (props){
                     if (suiviDepenseData.data.data.soldCaisse) {
                         dispatch(suiviDepenseActions.setSoldCaisse(suiviDepenseData.data.data.soldCaisse.amount));
                     };
+
+
 
                 } else {
 
@@ -270,7 +292,10 @@ export default function SuiviDepense (props){
                         dispatch(suiviDepenseActions.setSortieCaisse([]));
 
                     }
-                }
+                };
+
+                //set precedent sold caisse
+                setPrevSoldCaisse(prev => prevSuiviDepenseData.data.data.soldCaisse);
                 
             } catch (err) {
                 if (err.message) {
@@ -284,6 +309,22 @@ export default function SuiviDepense (props){
         //set the data after after every refresh
         setDateParams (prev => prev = date);
     }, [year, month, day]);
+
+    //track the changes state to calculate the previous taped sold caisse by user
+    useEffect(() => {
+
+         //for entree caisse 
+        if (!prevSoldCaisse) {
+            
+            setFoundPrevSold(prev => true);
+            // set the previous taped  sold caisse by user
+            dispatch(suiviDepenseActions.setPrevSoldCaisse((totalDette + soldCaisse + totalSortieCaisse) - totalEntreeCaisse));
+        } else {
+            
+            setFoundPrevSold(prev => false);
+            dispatch(suiviDepenseActions.setPrevSoldCaisse(prevSoldCaisse.amount));
+        };
+    },[totalDette, soldCaisse, totalSortieCaisse, totalEntreeCaisse, prevSoldCaisse]);
 
     function setFilterParams() {
 
@@ -299,6 +340,11 @@ export default function SuiviDepense (props){
         postAndUpdate(entreeCaisse, sortieCaisse, year, month, day, dispatch, true, totalSortieCaisse,totalSoldCaisse, totalDette, props, depenseEff);
     };
 
+    //call back to update parent state form entree caisse 
+    function setTotEntree(data) {
+        setTotalEntreeCaisse(data);
+    };
+
     if (year > currentYear || month > currentMonth || day > currentDay) {
 
         return (
@@ -312,11 +358,19 @@ export default function SuiviDepense (props){
         return (
             <div>
                 <DailyFilter component = {'suiviDepense'} prev = {date} onclick = {setFilterParams} />
+
+                <UniqueInput>
+                    <label name = 'depenseEffectuee' >Depense Effectuées</label>
+                    <input value= {depenseEff} type="number" name = 'depenseEffectuee' onChange={ e => setDepenseEff(Number (e.target.value))} placeholder="Depense effectuée"/>
+                </UniqueInput>
                 
-                <label name = 'depenseEffectuee' >Depense Effectuées</label>
-                <input value= {depenseEff} type="number" name = 'depenseEffectuee' onChange={ e => dispatch(suiviDepenseActions.setDepenseEff(Number (e.target.value)))} placeholder="Depense effectuée"/>
-                <p>{depenseEff}</p>
-                <EntreeCaisse componentName = {props.componentName}/>
+                <EntreeCaisse 
+                    prevYear = {prevYear} 
+                    prevMonth = {prevMonth} 
+                    prevDay = {prevDay} 
+                    setTotEntree = {setTotEntree} 
+                    foundPrevSold = {foundPrevSold}
+                />
                 <SoriteCaisse /> 
                 <SoldCaisse/>
                 <p> Total Dette du {day}-{month}-{year}: <b> {totalDailyDebt}</b></p>

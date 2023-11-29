@@ -10,7 +10,7 @@ export default function EntreeCaisseComp (props){
     return (<tr>
       <th>
         <input
-            defaultValue={props.prev.name}
+            value={props.prev.name}
             id = { props.prev.index}
             name = 'name'
             readOnly = {readOnly}
@@ -25,7 +25,7 @@ export default function EntreeCaisseComp (props){
 
       <td>
         <input
-            defaultValue={props.prev.data.amount}
+            value={props.prev.data.amount}
             id = { props.prev.id}
             name = 'amount'
             type= 'number'
