@@ -3,12 +3,10 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-export default function MensRapSuiviDepense () {
+export default function MensRapSuiviDepense (props) {
 
     //data from API
     const [data, setData] = useState (null);
-    //componentName
-    const componentName = useSelector (state => state.mensRapport.componentName);
     //dependacies of useEffect
     const year = useSelector(state => state.mensRapport.paramsDate.year);
     const month = useSelector (state => state.mensRapport.paramsDate.month);
@@ -17,6 +15,10 @@ export default function MensRapSuiviDepense () {
     const currentYear = Number (new Date().getFullYear());
     const currentMonth = Number (new Date().getMonth() + 1);
 
+    //render data
+    const [displayEntreeCaisse, setDisplayEntreeCaisse] = useState(null);
+    const [displaySortieCaisse, setDisplaySortieCaisse] = useState(null);
+
     //fetch the data 
     useEffect(() => {
         
@@ -24,21 +26,22 @@ export default function MensRapSuiviDepense () {
             try {
                 setData(null);
 
-                const apiData = await axios.get (`http://localhost:5001/api/v1/${componentName}/suiviDepense/rapportMensuel/detail/${year}/${month}`);
+                const apiData = await axios.get (`http://localhost:5001/api/v1/${props.componentName}/suiviDepense/rapportMensuel/detail/${year}/${month}`);
                 setData(apiData.data.data);
             } catch (error) {
                 console.log(error);
             };
         };fecthData();
-    }, [year, month]);
+    }, [year, month, props.componentName]);
 
-    let displayEntreeCaisse = [];
-    let displaySortieCaisse = [];
-    //map the list to display it
-    if (data) {
-        displayEntreeCaisse = data.entreeCaisse.map (el => <tr> <th>{el._id}</th> <td>{el.valeur}</td></tr> );
-        displaySortieCaisse = data.sortieCaisse.map (el => <tr> <th>{el._id}</th> <td>{el.valeur}</td></tr> );
-    };
+    //map the list to display it //side effect
+    useEffect(() => {
+
+        if (data) {
+            setDisplayEntreeCaisse(data.entreeCaisse.map (el => <tr><th>{el._id}</th> <td>{el.valeur}</td></tr> ));
+            setDisplaySortieCaisse( data.sortieCaisse.map (el => <tr><th>{el._id}</th> <td>{el.valeur}</td></tr> ));
+        };
+    }, [data]);
      
     if (year > currentYear || month > currentMonth) {
         
@@ -86,7 +89,5 @@ export default function MensRapSuiviDepense () {
         </div>)
        }
     }
-
-    
 };
 

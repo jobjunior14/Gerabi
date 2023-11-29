@@ -6,8 +6,8 @@ const {
     pushSuiviDetteCollection,
     updateSuiviDetteCollection,
     lastCreatedDataSuiviDetteCollection,
-    mensualStasSuiviDetteCollection,
-    mensualStasSuiviDetteDetailCollection,
+    mensualStastSuiviDetteCollection,
+    mensualStastSuiviDetteDetailCollection,
     totalDetteCollection
 } = require ('../../functions/suiviDetteFunction');
 
@@ -33,12 +33,12 @@ exports.lastCreatedDataSuiviDette = catchAssynch (async (req, res,) => {
 
 exports.mensualStasSuiviDette = catchAssynch (async (req, res, next) => {
 
-    await mensualStasSuiviDetteCollection({req: req, next: next, res: res, collection: SuiviDette})
+    await mensualStastSuiviDetteCollection({req: req, next: next, res: res, collection: SuiviDette})
 });
 
 exports.mensualStasSuiviDetteDetail = catchAssynch (async (req, res, next) => {
 
-   await mensualStasSuiviDetteDetailCollection({req: req, next: next, res: res, collection: SuiviDette});
+   await mensualStastSuiviDetteDetailCollection({req: req, next: next, res: res, collection: SuiviDette});
 });
 
 exports.totalDette = catchAssynch (async (req, res) => {

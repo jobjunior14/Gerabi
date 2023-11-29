@@ -1,11 +1,15 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { useSelector } from "react-redux";
 
-export default function Benefice () {
+export default function Benefice (props) {
 
     //data
     const data = useSelector(state => state.mensRapport.suiviVente);
+    const perte = useSelector(state => state.mensRapport.perte);
     
+    // useEffect(() => {
+
+    // }, [data, perte])
     if ( data.bralima && data.brasimba && data.autreProduit && data.liqueurs ) {
 
         if ( data.bralima.length > 0 && data.brasimba.length > 0 && data.autreProduit.length > 0 && data.liqueurs.length > 0 ) {
@@ -48,15 +52,15 @@ export default function Benefice () {
                     </tr>
                     <tr>
                         <td> Pertes </td>
-                        <td> doit etre reviser </td>
+                        <td> {perte}</td>
                     </tr>
                     <tr>
                         <td> Dépenses éffectuées  </td>
-                        <td> doit etre reviser</td>
+                        <td> {props.depenseEff}</td>
                     </tr>
                     <tr>
                         <td>Benefice net  </td>
-                        <td> doit etre reviser </td>
+                        <td> {total - (perte + props.depenseEff)} </td>
                     </tr>
                 </table>
             </div>)

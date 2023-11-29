@@ -1,4 +1,4 @@
-const SuiviDette = require(`../../../models/alimentation/alimentationSuiviDetteModel`);
+const SuiviDette = require(`../../../models/degoBar/yourSuiviDetteModel.js`);
 const catchAssynch = require(`../../../utils/catchAssynch.js`);
 
 const {
@@ -9,7 +9,7 @@ const {
     mensualStastSuiviDetteCollection,
     mensualStastSuiviDetteDetailCollection,
     totalDetteCollection
-} = require ('../../functions/suiviDetteFunction');
+} = require ('../../functions/yourSuiviDetteFucntion.js');
 
 exports.getSuiviDette = catchAssynch (async (req, res) => {
 

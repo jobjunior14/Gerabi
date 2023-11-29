@@ -1,53 +1,23 @@
-import React from "react";
-import { useEffect, useState } from "react";
-import axios from "axios";
-import { useSelector } from "react-redux";
-import { useSearchParams } from "react-router-dom";
+import React, {useEffect} from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { mensRapportActions } from "../../store/mensRepport-slice";
 
-export default function VenteBar () {
+export default function VenteBar (props) {
 
+    const dispatch = useDispatch()
     //data
     const data = useSelector(state => state.mensRapport.suiviVente);
 
-    
-    //dataDego Vente
-    const [venteDego, setVenteDego] = useState(null);
+    // useEffect(() => {
 
-    //params
-    const [dateParams] = useSearchParams();
-
-    //dependacies of useEffect
-    const year = Number(dateParams.get("year"));
-    const month = Number(dateParams.get("month")); 
-
-    const componentName = useSelector (state => state.mensRapport.componentName);
-
-
-    useEffect(() => {
-
-        try {
-            
-            const fecthData = async () => {
-    
-                const dataVente = await axios.get(`http://localhost:5001/api/v1/${componentName}/vente/${year}/${month}`);
-    
-                if (dataVente.data.stats.stats.length > 0){
-    
-                    setVenteDego(dataVente.data.stats.stats[0].venteDego);
-                };
-    
-            };fecthData();
-        } catch (error) {
-            console.log (error);
-        }
-    }, [year, month, componentName]);
-
+    // }, [data])
     if (data.bralima && data.brasimba && data.autreProduit ) {
 
         if ( data.bralima.length > 0 && data.brasimba.length > 0 && data.autreProduit.length > 0 ) {
 
             const totalVenteSysteme = data.bralima[0].vente_bar + data.brasimba[0].vente_bar + data.autreProduit[0].vente_bar;
-            const pertes = totalVenteSysteme - venteDego;
+            const pertes = totalVenteSysteme - props.venteDego;
+            dispatch(mensRapportActions.setPerte(pertes));
 
             return (<div> 
 
@@ -77,7 +47,7 @@ export default function VenteBar () {
                     </tr>
                     <tr>
                         <td> Vente Dego </td>
-                        <td> {venteDego}</td>
+                        <td> {props.venteDego}</td>
                     </tr>
                     <tr>
                         <td> Pertes </td>

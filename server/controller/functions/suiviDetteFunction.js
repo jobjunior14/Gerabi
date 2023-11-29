@@ -63,6 +63,7 @@ const loopingData = (array, year, month, day) => {
     return dayData;
 };
 
+
 const statsDetail = async (year, month,path, SuiviDette) => {
 
     const data = await SuiviDette.aggregate([
@@ -150,16 +151,98 @@ const statsAll = async (year, month, path, SuiviDette) => {
     ]);
 
     return data
-}
+};
 
 exports.getSuiviDetteCollection = async (data) => {
 
-    const suiviDette = await data.collection.find();
+    const year = Number (data.req.params.year);
+    const month = Number (data.req.params.month);
+    const day = Number (data.req.params.day);
 
-    data.res.status(200).json({
-        status: 'success',
-        data: loopingData (suiviDette, Number (data.req.params.year), Number (data.req.params.month), Number (data.req.params.day))
-    });
+    const nowDay = Number ( new Date().getDate());
+    //if we are the first day of the month, we must dispaly the information about the previous month but not save it 
+    if (nowDay === 1 && day === 1) {
+
+        const prevDate = new Date(year, month -1, day);
+
+        //get the previous date
+        const prevYear = prevDate.getFullYear();
+        const prevMonth = prevDate.getMonth() + 1;
+
+        const agents = await statsDetail(prevYear, prevMonth,'agents',data.collection);
+        const musiciens = await statsDetail(prevYear, prevMonth,'musiciens',data.collection);
+        const clients = await statsDetail(prevYear, prevMonth,'clients',data.collection);
+        
+        const newAgent = [];
+        const newClients = [];
+        const newMusiciens = [];
+
+        let createdAt = `${year}-${month}-${day}T07:22:54.930Z`;
+
+        //set date to the rigth format
+        if ( month >= 10 && day >= 10){
+        createdAt = `${year}-${month}-${day}T07:22:54.930Z`;
+        } else if (month >= 10 && day < 10) {
+            createdAt = `${year}-${month}-0${day}T07:22:54.930Z`;       
+        } else if (month < 10 && day >= 10) {
+            createdAt = `${year}-0${month}-${day}T07:22:54.930Z`;     
+        } else {
+            createdAt = `${year}-0${month}-0${day}T07:22:54.930Z`;
+        };
+
+        for (let i of agents) {
+            
+            const valeurDette = i.valeurDette - i.valeurPayment;
+
+            if (valeurDette !== 0 ) {
+
+                newAgent.push({name: i._id, data: [{ amount: valeurDette, createdAt: createdAt }]});
+            };
+        };
+        for (let i of musiciens) {
+            
+            const valeurDette = i.valeurDette - i.valeurPayment;
+
+            if (valeurDette !== 0 ) {
+
+                newMusiciens.push({name: i._id, data: [{ amount: valeurDette, createdAt: createdAt }]});
+            };
+        };
+        for (let i of clients) {
+            
+            const valeurDette = i.valeurDette - i.valeurPayment;
+
+            if (valeurDette !== 0 ) {
+
+                newClients.push({name: i._id, data: [{ amount: valeurDette, createdAt: createdAt }]});
+            };
+        };
+
+        const Newdata = [{
+            annee: year,
+            data: [{
+                mois: month,
+                data: {
+                    agents: newAgent,
+                    musiciens: newMusiciens,
+                    clients: newClients,
+                }
+            }]
+        }];
+        
+        data.res.status(200).json({
+            status: 'success',
+            data: loopingData (Newdata, year, month, day)
+        });
+    } else {
+        
+        const suiviDette = await data.collection.find();
+        
+        data.res.status(200).json({
+            status: 'success',
+            data: loopingData (suiviDette, year, month, day)
+        });
+    };
 };
 
 exports.pushSuiviDetteCollection = async (data) => {
@@ -528,7 +611,7 @@ exports.lastCreatedDataSuiviDetteCollection = async (data) => {
     };
 };
 
-exports.mensualStasSuiviDetteCollection = async (data) => {
+exports.mensualStastSuiviDetteCollection = async (data) => {
 
     const year = Number (data.req.params.year);
     const month = Number (data.req.params.month);
@@ -547,7 +630,7 @@ exports.mensualStasSuiviDetteCollection = async (data) => {
     });
 };
 
-exports.mensualStasSuiviDetteDetailCollection = async (data) => {
+exports.mensualStastSuiviDetteDetailCollection = async (data) => {
 
     const year = Number (data.req.params.year);
     const month = Number (data.req.params.month);

@@ -10,7 +10,7 @@ import SoldCaisse from "./soldCaisse";
 import formatDate from "../../../reuseFunction/suiviStockVente/rightFormatDate";
 import UniqueInput from "../../../reuseFunction/uniqueInput";
 
-function postAndUpdate (entreeCaisse, sortieCaisse, year, month, day, dispatch, update,  totalSortieCaisse, totalSoldCaisse, totalDette, props, depenseEff) {
+function postAndUpdate (entreeCaisse, sortieCaisse, year, month, day, dispatch, update,  totalSortieCaisse, totalSoldCaisse, totalDailyDebt, props, depenseEff, yourTotalDette) {
 
 
     // set Sold caisse
@@ -57,7 +57,7 @@ function postAndUpdate (entreeCaisse, sortieCaisse, year, month, day, dispatch, 
                 entreeCaisse: newEntreeCaisseData,
                 sortieCaisse: newSortieCaisseData,
                 soldCaisse: {
-                    amount: Number (totalSoldCaisse) - Number (totalSortieCaisse) - Number(totalDette),
+                    amount: (Number (totalSoldCaisse) + yourTotalDette) - (Number (totalSortieCaisse) + Number(totalDailyDebt)),
                     createdAt: createdAt
                 }
             }
@@ -142,12 +142,12 @@ export default function SuiviDepense (props){
     const entreeCaisse = useSelector (state => state.suiviDepense.entreeCaisse);
     const sortieCaisse = useSelector (state => state.suiviDepense.sortieCaisse);
     const update = useSelector (state => state.suiviDepense.update);
-    const totalDailyDebt= useSelector (state => state.suiviDepense.totalDette);
 
     //data for sold caisse
     const totalSortieCaisse = useSelector (state => state.suiviDepense.totalSortieCaisse);
     const totalSoldCaisse = useSelector(state => state.suiviDepense.totalSoldCaisse);
-    const totalDette = useSelector (state => state.suiviDepense.totalDette);
+    const totalDailyDebt = useSelector (state => state.suiviDepense.totalDette);
+    const yourTotalDette = useSelector (state => state.suiviDepense.yourTotalDette);
 
     //depense effectuee
     const [depenseEff, setDepenseEff] = useState(0);
@@ -187,12 +187,16 @@ export default function SuiviDepense (props){
                 //fecth the data
                 const suiviDepenseData = await axios.get (`http://localhost:5001/api/v1/${props.componentName}/suiviDepense/rapportJournalier/${year}/${month}/${day}`);
                 const totDette = await axios.get (`http://localhost:5001/api/v1/${props.componentName}/suiviDette/rapportJournalier/totDette/${year}/${month}/${day}`);
+                const yourTotDette = await axios.get (`http://localhost:5001/api/v1/${props.componentName}/yourSuiviDette/rapportJournalier/totDette/${year}/${month}/${day}`);
                 const depenseEffData = await axios.get (`http://localhost:5001/api/v1/${props.componentName}/depenseEff/${year}/${month}/${day}`);
                 //prev sold caisse for entree caisse 
                 const prevSuiviDepenseData = await axios.get (`http://localhost:5001/api/v1/${props.componentName}/suiviDepense/rapportJournalier/${prevYear}/${prevMonth}/${prevDay}`);
 
                 //set the total debt
                 dispatch(suiviDepenseActions.setTotalDette(totDette.data.data));
+
+                //set your tot debts
+                dispatch(suiviDepenseActions.setYourTotalDette(yourTotDette.data.data));
                 //set the depense effectuee
                 if (depenseEffData.data.data.day) {
 
@@ -240,9 +244,6 @@ export default function SuiviDepense (props){
                     if (suiviDepenseData.data.data.soldCaisse) {
                         dispatch(suiviDepenseActions.setSoldCaisse(suiviDepenseData.data.data.soldCaisse.amount));
                     };
-
-
-
                 } else {
 
                     dispatch(suiviDepenseActions.setReadOnly(false));
@@ -318,13 +319,13 @@ export default function SuiviDepense (props){
             
             setFoundPrevSold(prev => true);
             // set the previous taped  sold caisse by user
-            dispatch(suiviDepenseActions.setPrevSoldCaisse((totalDette + soldCaisse + totalSortieCaisse) - totalEntreeCaisse));
+            dispatch(suiviDepenseActions.setPrevSoldCaisse((totalDailyDebt + soldCaisse + totalSortieCaisse) - totalEntreeCaisse));
         } else {
             
             setFoundPrevSold(prev => false);
             dispatch(suiviDepenseActions.setPrevSoldCaisse(prevSoldCaisse.amount));
         };
-    },[totalDette, soldCaisse, totalSortieCaisse, totalEntreeCaisse, prevSoldCaisse]);
+    },[totalDailyDebt, soldCaisse, totalSortieCaisse, totalEntreeCaisse, prevSoldCaisse]);
 
     function setFilterParams() {
 
@@ -333,11 +334,11 @@ export default function SuiviDepense (props){
 
     function postData(){
         //post data or create it 
-        postAndUpdate(entreeCaisse, sortieCaisse, year, month, day, dispatch, false, totalSortieCaisse,totalSoldCaisse, totalDette, props, depenseEff);
+        postAndUpdate(entreeCaisse, sortieCaisse, year, month, day, dispatch, false, totalSortieCaisse,totalSoldCaisse, totalDailyDebt, props, depenseEff, yourTotalDette);
     };
     
     function updateData() {
-        postAndUpdate(entreeCaisse, sortieCaisse, year, month, day, dispatch, true, totalSortieCaisse,totalSoldCaisse, totalDette, props, depenseEff);
+        postAndUpdate(entreeCaisse, sortieCaisse, year, month, day, dispatch, true, totalSortieCaisse,totalSoldCaisse, totalDailyDebt, props, depenseEff, yourTotalDette);
     };
 
     //call back to update parent state form entree caisse 
@@ -374,8 +375,9 @@ export default function SuiviDepense (props){
                 <SoriteCaisse /> 
                 <SoldCaisse/>
                 <p> Total Dette du {day}-{month}-{year}: <b> {totalDailyDebt}</b></p>
+                <p> Ton total Dette du {day}-{month}-{year}: <b> {yourTotalDette}</b> </p>
                 {!update ? <button onClick={postData}> Enregistrer les données</button> : <button onClick={updateData}> Mettre à les données</button> }
             </div>
         )
     };
-}
+};

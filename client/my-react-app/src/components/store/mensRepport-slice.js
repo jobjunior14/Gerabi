@@ -19,6 +19,7 @@ const mensRapportSlice = createSlice ({
             year: Number (new Date().getFullYear()),
             month: Number (new Date().getMonth() + 1)
         },
+        perte: 0
     },
 
     reducers: {
@@ -52,6 +53,10 @@ const mensRapportSlice = createSlice ({
         setParamsDate (state, action) {
             state.paramsDate = action.payload;
         },
+
+        setPerte(state, action ) {
+            state.perte = action.payload;
+        }
     }
 });
 

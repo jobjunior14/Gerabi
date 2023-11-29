@@ -18,6 +18,11 @@ const suiviDetteSlice = createSlice ({
         detailTotDetteAgents: null,
         detailTotDetteMusiciens: null,
         detailTotDetteClients: null,
+        fournisseurs: null,
+        yourTotalDette: 0,
+        detailTotDetteFournisseurs: null,
+       
+
     },
 
     reducers: {
@@ -179,6 +184,53 @@ const suiviDetteSlice = createSlice ({
         //set the tatal dette and payment (detail by nama)
         setDetailTotDetteClients (state, action ){ 
             state.detailTotDetteClients = action.payload;
+        },
+
+        //your Debts
+         //set debt
+        setFournisseurs (state, action ) {
+
+            state.fournisseurs = action.payload;
+        },
+        //set client data
+        setYourTotalDette(state, action ) {
+
+            state.yourTotalDette = action.payload;
+        },
+
+        //handle data in clients
+        HandleFournisseurs (state, action) {
+
+            const name = action.payload.name;
+            const value = action.payload.value;
+            const index = action.payload.index;
+
+            if (name === 'name') {
+
+                state.fournisseurs[index] = {...state.fournisseurs[index], name: value };
+            } else {
+
+                state.fournisseurs[index] = {...state.fournisseurs[index], data: {...state.fournisseurs[index]['data'], [name]: value} };
+            };
+        },
+        //add a new debt
+        addCaseFournisseurs (state, action) {
+
+            state.fournisseurs.push (
+                {
+                    index: state.fournisseurs.length,
+                    name: "",
+                    data:{
+                        amount: 0,
+                        payment: 0
+                    }
+                }
+            );
+        },
+
+        //set the tatal dette and payment (detail by nama)
+        setDetailTotDetteFournisseurs (state, action ){ 
+            state.detailTotDetteFournisseurs = action.payload;
         },
 
     }

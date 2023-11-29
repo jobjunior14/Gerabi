@@ -20,7 +20,8 @@ export default function DebtDisplay(props) {
                         const {name, value} = e.target;
                         props.component === 'musiciens' ? dispatch(suiviDetteActions.HandleMusiciens({name: name, value: value, index: props.index})) : 
                         props.component === 'agents' ? dispatch(suiviDetteActions.HandleAgents({name: name, value: value, index: props.index})) :
-                        dispatch(suiviDetteActions.HandleClients({name: name, value: value, index: props.index}));
+                        props.component === 'clients' ?dispatch(suiviDetteActions.HandleClients({name: name, value: value, index: props.index})) :
+                        dispatch(suiviDetteActions.HandleFournisseurs({name: name, value: value, index: props.index}));
                     }}
                 />
             </th>
@@ -35,7 +36,8 @@ export default function DebtDisplay(props) {
                         const {name, value} = e.target;
                         props.component === 'musiciens' ? dispatch(suiviDetteActions.HandleMusiciens({name: name, value: Number (value), index: props.index})) : 
                         props.component === 'agents' ? dispatch(suiviDetteActions.HandleAgents({name: name, value: Number (value), index: props.index})) :
-                        dispatch(suiviDetteActions.HandleClients({name: name, value: Number (value), index: props.index}));
+                        props.component === 'clients' ?dispatch(suiviDetteActions.HandleClients({name: name, value: Number (value), index: props.index})) :
+                        dispatch(suiviDetteActions.HandleFournisseurs({name: name, value: Number (value), index: props.index}));
                     }}
                 />
             </td>
@@ -50,7 +52,8 @@ export default function DebtDisplay(props) {
                         const {name, value} = e.target;
                         props.component === 'musiciens' ? dispatch(suiviDetteActions.HandleMusiciens({name: name, value: Number (value), index: props.index})) : 
                         props.component === 'agents' ? dispatch(suiviDetteActions.HandleAgents({name: name, value: Number (value), index: props.index})) :
-                        dispatch(suiviDetteActions.HandleClients({name: name, value: Number (value), index: props.index}));
+                        props.component === 'clients' ?dispatch(suiviDetteActions.HandleClients({name: name, value: Number (value), index: props.index})) :
+                        dispatch(suiviDetteActions.HandleFournisseurs({name: name, value: Number (value), index: props.index}));
                     }}
                 />
             </td>

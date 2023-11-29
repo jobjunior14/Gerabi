@@ -7,9 +7,6 @@ import MensRapSuiviDepense from "./suivi_depense/suiviDepenseMens";
 
 export function MensRepport (props) {
     const dispatch = useDispatch();
-    //dispatch the component Name 
-    dispatch(mensRapportActions.setComponentName(props.componentName));
-
     //params
     const [dateParams, setDateParams] = useSearchParams();
 
@@ -31,8 +28,8 @@ export function MensRepport (props) {
     return (
         <div>
              <MensFilter prev = {date} onclick = {setFilterParams}/>
-            <SuiviDesVentes/>
-            <MensRapSuiviDepense/>
+            <SuiviDesVentes componentName = {props.componentName}/>
+            <MensRapSuiviDepense componentName = {props.componentName}/>
         </div>
-    )
+    );
 }

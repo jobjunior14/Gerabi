@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import { mensRapportActions } from "../../store/mensRepport-slice";
@@ -18,7 +18,11 @@ export default function SuiviDesVentes (props) {
     const currentYear = Number (new Date().getFullYear());
     const currentMonth = Number (new Date().getMonth() + 1);
 
-    const componentName = useSelector (state => state.mensRapport.componentName);
+    // const props.componentName = useSelector (state => state.mensRapport.props.componentName);
+    const [depenseEff, setDepenseEff] = useState(0);
+
+    //dataDego Vente
+    const [venteDego, setVenteDego] = useState(null);
     
     //fecth the data
     useEffect (() => {
@@ -34,18 +38,29 @@ export default function SuiviDesVentes (props) {
 
             try {
 
-                const bralimaData = await axios.get(`http://localhost:5001/api/v1/${componentName}/bralima/rapportMensuel/Allstast/${year}/${month}`);
-                const brasimbaData = await axios.get(`http://localhost:5001/api/v1/${componentName}/brasimba/rapportMensuel/Allstast/${year}/${month}`);
-                const liqueursData = await axios.get(`http://localhost:5001/api/v1/${componentName}/liqueurs/rapportMensuel/Allstast/${year}/${month}`);
-                const autreProduitData = await axios.get(`http://localhost:5001/api/v1/${componentName}/autreProduit/rapportMensuel/Allstast/${year}/${month}`);
-                
+                const bralimaData = await axios.get(`http://localhost:5001/api/v1/${props.componentName}/bralima/rapportMensuel/Allstast/${year}/${month}`);
+                const brasimbaData = await axios.get(`http://localhost:5001/api/v1/${props.componentName}/brasimba/rapportMensuel/Allstast/${year}/${month}`);
+                const liqueursData = await axios.get(`http://localhost:5001/api/v1/${props.componentName}/liqueurs/rapportMensuel/Allstast/${year}/${month}`);
+                const autreProduitData = await axios.get(`http://localhost:5001/api/v1/${props.componentName}/autreProduit/rapportMensuel/Allstast/${year}/${month}`);
+                //depense Effectuees
+                const depenseEffMens = await axios.get(`http://localhost:5001/api/v1/${props.componentName}/depenseEff/${year}/${month}`);
+                //vente system
+                const dataVente = await axios.get(`http://localhost:5001/api/v1/${props.componentName}/vente/${year}/${month}`);
+                //set vente system
+                if (dataVente.data.stats.stats.length > 0){
+                    setVenteDego(dataVente.data.stats.stats[0].venteDego);
+                };
+                //set depense eff
+                if (depenseEffMens.data.stats.stats.length > 0){
+                     setDepenseEff(prev => depenseEffMens.data.stats.stats[0].venteDego);
+                }
                 dispatch(mensRapportActions.setSuiviVente({
                     bralima: bralimaData.data.stats.stats,
                     brasimba: brasimbaData.data.stats.stats,
                     liqueurs: liqueursData.data.stats.stats,
                     autreProduit: autreProduitData.data.stats.stats
                 }));
-
+               
             } catch (err) {
                 if (err.message){
 
@@ -57,7 +72,7 @@ export default function SuiviDesVentes (props) {
             };
         }; fecthData();
 
-    }, [year, month, componentName]);
+    }, [year, month, props.componentName]);
     
     if (year > currentYear || month > currentMonth) {
         
@@ -69,9 +84,9 @@ export default function SuiviDesVentes (props) {
 
         return (<div>
             <h2>Suivi Des Ventes</h2>
-            <VenteBar />
+            <VenteBar venteDego = {venteDego} />
             <Approvisionnement />
-            <Benefice />
+            <Benefice depenseEff = {depenseEff} />
         </div>)
     }
 }

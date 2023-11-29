@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import { suiviDetteActions } from "../../../store/suiviDette-slice";
@@ -9,6 +9,8 @@ import Musiciens from "./musiciens";
 import Agents from "./agents";
 import TotDetteDaily from "./totalDetteDaily";
 import formatDate from "../../../reuseFunction/suiviStockVente/rightFormatDate";
+import YourDebts from "./yourDebt";
+import YourTotDetteDaily from "./yourTotDetteDaily";
 
 function deleteEmptyName (array) {
     const data = [];
@@ -22,18 +24,25 @@ function deleteEmptyName (array) {
     return data;
 };
 
-function postAndUpdate(dispatch, agents, musiciens, clients, year, month, day, update, props) {
+function postAndUpdate(dispatch, agents, musiciens, clients, year, month, day, update, props, fournisseurs) {
 
-    let newDataSuiviDette = null;
     let createdAt = formatDate(year, month, day);
 
     //modeling data to schema
-    newDataSuiviDette = {
+    const newDataSuiviDette = {
         data: {
             data:{
                 agents: deleteEmptyName(agents).map(el => {return {...el, data:{...el.data, createdAt: createdAt, }}}),
                 musiciens: deleteEmptyName(musiciens).map(el => {return {...el, data:{...el.data, createdAt: createdAt, }}}),
                 clients: deleteEmptyName(clients).map(el => {return {...el, data:{...el.data, createdAt: createdAt, }}}),
+            }
+        }
+    };
+
+    const newDataYourSuiviDette = {
+        data:{
+            data:{
+                fournisseurs: deleteEmptyName(fournisseurs).map(el => {return {...el, data:{...el.data, createdAt: createdAt, }}}),
             }
         }
     };
@@ -45,31 +54,47 @@ function postAndUpdate(dispatch, agents, musiciens, clients, year, month, day, u
             dispatch(suiviDetteActions.setAgents(null));
             dispatch(suiviDetteActions.setClients(null));
             dispatch(suiviDetteActions.setMusiciens(null));
+
+            dispatch(suiviDetteActions.setFournisseurs(null));
     
             const responseSuiviDette = !update ? await axios.post(`http://localhost:5001/api/v1/${props.componentName}/suiviDette/rapportJournalier?year=${year}&month=${month}&day=${day}`, newDataSuiviDette) : await axios.post(`http://localhost:5001/api/v1/${props.componentName}/suiviDette/rapportJournalier/${year}/${month}/${day}`, newDataSuiviDette);
-    
+            const responseYourSuiviDette = !update ? await axios.post(`http://localhost:5001/api/v1/${props.componentName}/yourSuiviDette/rapportJournalier?year=${year}&month=${month}&day=${day}`, newDataYourSuiviDette) : await axios.post(`http://localhost:5001/api/v1/${props.componentName}/yourSuiviDette/rapportJournalier/${year}/${month}/${day}`, newDataYourSuiviDette);
     
                 const totDetailDetteAndPayment = await axios.get (`http://localhost:5001/api/v1/${props.componentName}/suiviDette/rapportMensuel/detail/${year}/${month}`);
+                const yourTotDetailDetteAndPayment = await axios.get (`http://localhost:5001/api/v1/${props.componentName}/yourSuiviDette/rapportMensuel/detail/${year}/${month}`);
                 //set the total amount debt and payment  
                 dispatch(suiviDetteActions.setDetailTotDetteAgents(totDetailDetteAndPayment.data.data.agents));
                 dispatch(suiviDetteActions.setDetailTotDetteMusiciens(totDetailDetteAndPayment.data.data.musiciens));
                 dispatch(suiviDetteActions.setDetailTotDetteClients(totDetailDetteAndPayment.data.data.clients));
+                //your debts
+                dispatch(suiviDetteActions.setDetailTotDetteFournisseurs(yourTotDetailDetteAndPayment.data.data.fournisseurs));
                 
             dispatch(suiviDetteActions.setUpdate(true));
             dispatch(suiviDetteActions.setReadOnly(true));
             dispatch(suiviDetteActions.setAgents(responseSuiviDette.data.data.agents.map ((el, index) => {return {...el, index: index}})));
             dispatch(suiviDetteActions.setClients(responseSuiviDette.data.data.clients.map ((el, index) => {return {...el, index: index}})));
             dispatch(suiviDetteActions.setMusiciens(responseSuiviDette.data.data.musiciens.map ((el, index) => {return {...el, index: index}})));
+            //your debts
+            dispatch(suiviDetteActions.setFournisseurs(responseYourSuiviDette.data.data.fournisseurs.map ((el, index) => {return {...el, index: index}})));
+
             if (responseSuiviDette.data.data.totalDette) {
                 dispatch (suiviDetteActions.setTotalDette(responseSuiviDette.data.data.totalDette));
             } else {
     
                 dispatch (suiviDetteActions.setTotalDette(0));
             };
+            //your debts
+            if (responseYourSuiviDette.data.data.totalDette) {
+                dispatch (suiviDetteActions.setYourTotalDette(responseSuiviDette.data.data.totalDette));
+            } else {
+    
+                dispatch (suiviDetteActions.setYourTotalDette(0));
+            };
         }; fecthData();
         
     } catch (e) {
         console.log(e);
+        
     };
 };
 
@@ -98,6 +123,8 @@ export default function SuiviDette (props) {
     const clients = useSelector(state => state.suiviDette.clients);
     const musiciens = useSelector(state => state.suiviDette.musiciens);
 
+    const fournisseurs = useSelector(state => state.suiviDette.fournisseurs);
+
     useEffect(() => {
 
         dispatch(suiviDetteActions.setAgents(null));
@@ -109,8 +136,11 @@ export default function SuiviDette (props) {
             try {
 
                 const suiviDetteData = await axios.get (`http://localhost:5001/api/v1/${props.componentName}/suiviDette/rapportJournalier/${year}/${month}/${day}`);
+                const yourSuiviDetteData = await axios.get (`http://localhost:5001/api/v1/${props.componentName}/yourSuiviDette/rapportJournalier/${year}/${month}/${day}`);
                 const totDetailDetteAndPayment = await axios.get (`http://localhost:5001/api/v1/${props.componentName}/suiviDette/rapportMensuel/detail/${year}/${month}`);
-
+                const yourTotDetailDetteAndPayment = await axios.get (`http://localhost:5001/api/v1/${props.componentName}/yourSuiviDette/rapportMensuel/detail/${year}/${month}`);
+                
+                //their debt to u
                 if (suiviDetteData.data.data.agents.length > 0 && suiviDetteData.data.data.musiciens.length > 0 && suiviDetteData.data.data.clients.length > 0 ){
                     
                     dispatch(suiviDetteActions.setUpdate(true));
@@ -158,6 +188,27 @@ export default function SuiviDette (props) {
                     };
                 };
 
+                //your debt
+                if (yourSuiviDetteData.data.data.fournisseurs.length > 0) {
+                    dispatch(suiviDetteActions.setFournisseurs(yourSuiviDetteData.data.data.fournisseurs.map((el, index) => {return {...el, index: index}})));
+                    //set the total amount debt
+                    dispatch(suiviDetteActions.setDetailTotDetteFournisseurs(yourTotDetailDetteAndPayment.data.data.fournisseurs));
+                } else {
+                    const yourLastCreatedData = await axios.get(`http://localhost:5001/api/v1/${props.componentName}/yourSuiviDette/lastElement/${year}/${month}`);
+                    
+                    if (yourLastCreatedData.data.data) {
+                        
+                        dispatch(suiviDetteActions.setFournisseurs(yourLastCreatedData.data.data.fournisseurs.map((el, index) => {return {...el, index: index}})));
+                        //set the total amount debt
+                        dispatch(suiviDetteActions.setDetailTotDetteFournisseurs(yourTotDetailDetteAndPayment.data.data.fournisseurs));
+                    } else {
+                        dispatch(suiviDetteActions.setFournisseurs([]));
+                        dispatch(suiviDetteActions.setDetailTotDetteFournisseurs([]));
+                        dispatch(suiviDetteActions.setYourTotalDette(0));
+                    }
+
+                };
+
             } catch (e) {
                 console.log (e);
             };
@@ -173,12 +224,12 @@ export default function SuiviDette (props) {
 
     function postData () {
 
-        postAndUpdate(dispatch, agents, musiciens, clients, year, month, day, false, props);
+        postAndUpdate(dispatch, agents, musiciens, clients, year, month, day, false, props, fournisseurs);
     };
 
     function updateData () {
 
-        postAndUpdate(dispatch, agents, musiciens, clients, year, month, day, true, props);
+        postAndUpdate(dispatch, agents, musiciens, clients, year, month, day, true, props, fournisseurs);
     };
     
     if (year > currentYear && month > currentMonth && day > currentDay) {
@@ -197,6 +248,8 @@ export default function SuiviDette (props) {
             <Clients/>
             <Musiciens/>
             <TotDetteDaily day = {day} month = {month} year = {year} />
+            <YourDebts/>
+            <YourTotDetteDaily day = {day} month = {month} year = {year} />
             {!update ? <button onClick={postData}> Enregistrer les données</button> : <button onClick={updateData}> Mettre à les données</button> }
 
         </div>);

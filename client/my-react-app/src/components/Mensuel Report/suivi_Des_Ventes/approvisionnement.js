@@ -1,11 +1,14 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { useSelector } from "react-redux";
 
 export default function Approvisionnement () {
 
     //data
     const data = useSelector(state => state.mensRapport.suiviVente);
-   
+    
+    // useEffect(() => {
+
+    // }, [data])
     if (data.bralima && data.brasimba && data.liqueurs && data.autreProduit) {
 
         if (data.bralima.length > 0 && data.brasimba.length > 0 && data.liqueurs.length > 0 && data.autreProduit.length > 0) {
