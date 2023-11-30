@@ -1,15 +1,19 @@
 const AlimentationBralima = require('../../../models/alimentation/alimentationBralimaModel');
 const catchAssynch = require(`../../../utils/catchAssynch`);
 
-const {
-  getCollection, 
+const { 
   pushDataCollection, 
-  updateDataCollection, 
+  updateDataCollection,  
+} =  require ("../../functions/alimentation/suiviStockVenteAlimentationFucntion");
+
+const {
+  getCollection,
+  lastCreatedDataCollection,
   stastAutreCollection,
-  AllProductStatsCollection, 
   yearStatsCollection,
-  lastCreatedDataCollection
-} = require ("../../functions/alimentation/suiviStockVenteAlimentationFucntion");
+  dailyRapCollection,
+  AllProductStatsCollection
+} = require('../../functions/suiviStockEtVenteFunction');
 
 exports.getAutreProduit = catchAssynch(async (req, res ) => {
   
@@ -19,34 +23,39 @@ exports.getAutreProduit = catchAssynch(async (req, res ) => {
 
 exports.pushDataAutreProduit = catchAssynch(async (req, res, next ) => {
  
-  pushDataCollection(req, AlimentationBralima, res)
+  await pushDataCollection(req, AlimentationBralima, res)
   
 });
 
 exports.updateDataAutreProduit = catchAssynch(async (req, res ) => {
   
-  updateDataCollection(AlimentationBralima, req, res );
+  await updateDataCollection(AlimentationBralima, req, res );
 
 });
 
 exports.lastCreatedData = catchAssynch( async (req, res) => {
 
-  lastCreatedDataCollection(AlimentationBralima, req, res);
+  await lastCreatedDataCollection(AlimentationBralima, req, res);
 });
 
 exports.stastAutreProduit = catchAssynch(async (req, res) => {
 
-  stastAutreCollection(AlimentationBralima, req, res);
+  await stastAutreCollection(AlimentationBralima, req, res);
 
 });
 
 exports.AllProductStatsAutreProduit = catchAssynch(async (req, res, next) => {
    
-  AllProductStatsCollection(AlimentationBralima, req, res);
+  await AllProductStatsCollection(AlimentationBralima, req, res);
 
 });
 
 exports.yearStatsAutreProduit = catchAssynch(async (req, res, next) => {
   
-  yearStatsCollection(AlimentationBralima, req, res);
+  await yearStatsCollection(AlimentationBralima, req, res);
+});
+
+exports.dailyRapAutreProduit = catchAssynch(async (req, res, next) => {
+  
+  await dailyRapCollection(AlimentationBralima, req, res);
 });

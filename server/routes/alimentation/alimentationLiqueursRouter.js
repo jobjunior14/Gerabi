@@ -8,7 +8,8 @@ const {
     lastCreatedData,
     stastAutreProduit,
     AllProductStatsAutreProduit,
-    yearStatsAutreProduit
+    yearStatsAutreProduit,
+    dailyRapAutreProduit
 } = require ('../../controller/alimentation/suiviStockVente/alimentationLiqueursController');
 
 router
@@ -35,5 +36,9 @@ router
 router
   .route("/rapportJournalier/lastElement")
   .get(lastCreatedData);
+
+router
+  .route("/rapportJournalier/dailyRap")
+  .get(dailyRapAutreProduit);
 
 module.exports = router;

@@ -15,7 +15,8 @@ export function MensRepport (props) {
 
     //dependacies of useEffect
     const year = Number(dateParams.get("year"));
-    const month = Number(dateParams.get("month")); 
+    const month = Number(dateParams.get("month"));
+    const day = Number(dateParams.get("day"));
 
     //dispatch the params date through all the components
     dispatch(mensRapportActions.setParamsDate({year: year, month: month}));

@@ -1,15 +1,19 @@
 const AlimentationBrasimba = require('../../../models/alimentation/alimentationBrasimbaModel');
 const catchAssynch = require(`../../../utils/catchAssynch`);
 
-const {
-  getCollection, 
+const { 
   pushDataCollection, 
-  updateDataCollection, 
-  stastAutreCollection,
-  AllProductStatsCollection, 
-  yearStatsCollection,
-  lastCreatedDataCollection
+  updateDataCollection,  
 } =  require ("../../functions/alimentation/suiviStockVenteAlimentationFucntion");
+
+const {
+  getCollection,
+  lastCreatedDataCollection,
+  stastAutreCollection,
+  yearStatsCollection,
+  dailyRapCollection,
+  AllProductStatsCollection
+} = require('../../functions/suiviStockEtVenteFunction');
 
 exports.getAutreProduit = catchAssynch(async (req, res ) => {
   
@@ -19,34 +23,39 @@ exports.getAutreProduit = catchAssynch(async (req, res ) => {
 
 exports.pushDataAutreProduit = catchAssynch(async (req, res, next ) => {
  
-  pushDataCollection(req, AlimentationBrasimba, res)
+  await pushDataCollection(req, AlimentationBrasimba, res)
   
 });
 
 exports.updateDataAutreProduit = catchAssynch(async (req, res ) => {
   
-  updateDataCollection(AlimentationBrasimba, req, res );
+  await updateDataCollection(AlimentationBrasimba, req, res );
 
 });
 
 exports.lastCreatedData = catchAssynch( async (req, res) => {
 
-  lastCreatedDataCollection(AlimentationBrasimba, req, res);
+  await lastCreatedDataCollection(AlimentationBrasimba, req, res);
 });
 
 exports.stastAutreProduit = catchAssynch(async (req, res) => {
 
-  stastAutreCollection(AlimentationBrasimba, req, res);
+  await stastAutreCollection(AlimentationBrasimba, req, res);
 
 });
 
 exports.AllProductStatsAutreProduit = catchAssynch(async (req, res, next) => {
    
-  AllProductStatsCollection(AlimentationBrasimba, req, res);
+  await AllProductStatsCollection(AlimentationBrasimba, req, res);
 
 });
 
 exports.yearStatsAutreProduit = catchAssynch(async (req, res, next) => {
   
-  yearStatsCollection(AlimentationBrasimba, req, res);
+  await yearStatsCollection(AlimentationBrasimba, req, res);
+});
+
+exports.dailyRapAutreProduit = catchAssynch(async (req, res, next) => {
+  
+  await dailyRapCollection(AlimentationBrasimba, req, res);
 });

@@ -10,7 +10,8 @@ const {
   suiviAllStatsLiqueurs,
   suiviDetailStatsLiqueurs,
   yearStatsLiqueurs,
-  lastCreatedData
+  lastCreatedData,
+  dailyRapLiqueurs
 } = require("../../controller/degoBar/suiviStockVente/liqueursController");
 
 router
@@ -45,5 +46,9 @@ router
 router
   .route("/rapportJournalier/lastElement")
   .get(lastCreatedData);
+
+router
+  .route("/rapportJournalier/dailyRap")
+  .get(dailyRapLiqueurs);
 
 module.exports = router;

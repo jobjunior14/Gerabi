@@ -1,16 +1,20 @@
 const Bralima = require(`../../../models/degoBar/bralimaModel`);
 const catchAssynch = require(`../../../utils/catchAssynch.js`);
 const {
-  getCollection, 
   pushDataCollection, 
   updateDataCollection, 
-  stastAutreCollection,
-  AllProductStatsCollection, 
   suiviAllStatsCollection,
   suiviDetailStatsCollection,
+} =  require ("../../functions/degoBar/suiviStockVenteFunction");
+
+const {
+  getCollection,
+  lastCreatedDataCollection,
+  stastAutreCollection,
   yearStatsCollection,
-  lastCreatedDataCollection
-} =  require("../../functions/degoBar/suiviStockVenteFunction.js");
+  dailyRapCollection,
+  AllProductStatsCollection
+} = require('../../functions/suiviStockEtVenteFunction');
 exports.getBralima = catchAssynch(async (req, res ) => {
   
  await getCollection(Bralima, req, res);
@@ -61,4 +65,9 @@ exports.suiviDetailStatsBralima = catchAssynch(async (req, res, next) => {
 exports.yearStatsBralima = catchAssynch(async (req, res, next) => {
   
   await yearStatsCollection(Bralima, req, res);
+});
+
+exports.dailyRapBralima = catchAssynch(async (req, res, next) => {
+  
+  await dailyRapCollection(Bralima, req, res);
 });

@@ -1,16 +1,20 @@
 const Liqueurs = require(`../../../models/degoBar/liqueursModel`);
 const catchAssynch = require(`../../../utils/catchAssynch.js`);
 const {
-  getCollection, 
   pushDataCollection, 
   updateDataCollection, 
-  stastAutreCollection,
-  AllProductStatsCollection, 
   suiviAllStatsCollection,
   suiviDetailStatsCollection,
+} =  require ("../../functions/degoBar/suiviStockVenteFunction");
+
+const {
+  getCollection,
+  lastCreatedDataCollection,
+  stastAutreCollection,
   yearStatsCollection,
-  lastCreatedDataCollection
-} = require ("../../functions/degoBar/suiviStockVenteFunction");
+  dailyRapCollection,
+  AllProductStatsCollection
+} = require('../../functions/suiviStockEtVenteFunction');
 
 exports.getLiqueurs = catchAssynch(async (req, res ) => {
   
@@ -62,4 +66,9 @@ exports.suiviDetailStatsLiqueurs = catchAssynch(async (req, res, next) => {
 exports.yearStatsLiqueurs = catchAssynch(async (req, res, next) => {
   
   await yearStatsCollection(Liqueurs, req, res);
+});
+
+exports.dailyRapLiqueurs = catchAssynch(async (req, res, next) => {
+  
+  await dailyRapCollection(Liqueurs, req, res);
 });

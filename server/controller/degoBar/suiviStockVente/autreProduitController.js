@@ -2,16 +2,20 @@ const AutreProduit = require('../../../models/degoBar/autreProduitModel');
 const catchAssynch = require(`../../../utils/catchAssynch`);
 
 const {
-  getCollection, 
   pushDataCollection, 
   updateDataCollection, 
-  stastAutreCollection,
-  AllProductStatsCollection, 
   suiviAllStatsCollection,
   suiviDetailStatsCollection,
-  yearStatsCollection,
-  lastCreatedDataCollection
 } =  require ("../../functions/degoBar/suiviStockVenteFunction");
+
+const {
+  getCollection,
+  lastCreatedDataCollection,
+  stastAutreCollection,
+  yearStatsCollection,
+  dailyRapCollection,
+  AllProductStatsCollection
+} = require('../../functions/suiviStockEtVenteFunction');
 
 exports.getAutreProduit = catchAssynch(async (req, res ) => {
   
@@ -27,40 +31,45 @@ exports.pushDataAutreProduit = catchAssynch(async (req, res, next ) => {
 
 exports.updateDataAutreProduit = catchAssynch(async (req, res ) => {
   
-  updateDataCollection(AutreProduit, req, res );
+  await updateDataCollection(AutreProduit, req, res );
 
 });
 
 exports.lastCreatedData = catchAssynch( async (req, res) => {
 
-  lastCreatedDataCollection(AutreProduit, req, res);
+  await lastCreatedDataCollection(AutreProduit, req, res);
 });
 
 exports.stastAutreProduit = catchAssynch(async (req, res) => {
 
-  stastAutreCollection(AutreProduit, req, res);
+  await stastAutreCollection(AutreProduit, req, res);
 
 });
 
 exports.AllProductStatsAutreProduit = catchAssynch(async (req, res, next) => {
    
-  AllProductStatsCollection(AutreProduit, req, res);
+  await AllProductStatsCollection(AutreProduit, req, res);
 
 });
 
 exports.suiviAllStatsAutreProduit = catchAssynch(async (req, res, next) => {
   
-  suiviAllStatsCollection(AutreProduit, req, res);
+  await suiviAllStatsCollection(AutreProduit, req, res);
 
 });
 
 exports.suiviDetailStatsAutreProduit = catchAssynch(async (req, res, next) => {
  
-  suiviDetailStatsCollection(AutreProduit, req, res);
+  await suiviDetailStatsCollection(AutreProduit, req, res);
 
 });
 
 exports.yearStatsAutreProduit = catchAssynch(async (req, res, next) => {
   
-  yearStatsCollection(AutreProduit, req, res);
+  await yearStatsCollection(AutreProduit, req, res);
+});
+
+exports.dailyRapAutreProduit = catchAssynch(async (req, res, next) => {
+  
+  await dailyRapCollection(AutreProduit, req, res);
 });

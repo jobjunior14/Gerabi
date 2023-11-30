@@ -10,7 +10,8 @@ const {
   suiviAllStatsBralima,
   suiviDetailStatsBralima,
   yearStatsBralima,
-  lastCreatedData
+  lastCreatedData,
+  dailyRapBralima
 } = require("../../controller/degoBar/suiviStockVente/bralimaController");
 
 router
@@ -45,5 +46,9 @@ router
 router
   .route("/rapportJournalier/lastElement")
   .get(lastCreatedData);
+
+router
+  .route("/rapportJournalier/dailyRap")
+  .get(dailyRapBralima);
 
 module.exports = router;
