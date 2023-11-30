@@ -7,7 +7,8 @@ const {
     updateSuiviDepenseCollection,
     lastCreatedDataSuiviDepenseCollection,
     mensualStasAllSuiviDepenseCollection,
-    mensualstatsDetailsSuiviDepenseCollection
+    mensualstatsDetailsSuiviDepenseCollection,
+    dailyRepportSuiviDepenseCollection
 } = require('../../functions/suiviDepenseFucntion');
 
 exports.getSuiviDepense = catchAssynch( async (req, res) => {
@@ -38,4 +39,8 @@ exports.mensualStasSuiviDepense = catchAssynch (async (req, res, next) => {
 exports.mensualDetailStasSuiviDepense = catchAssynch (async (req, res, next) => {
 
     await mensualstatsDetailsSuiviDepenseCollection({req: req, res: res, next: next, collection: SuiviDepense});
+});
+
+exports.dailyRepportSuiviDepense = catchAssynch (async (req, res, next) => {
+    await dailyRepportSuiviDepenseCollection({req: req, res: res, next: next, collection: SuiviDepense});
 });

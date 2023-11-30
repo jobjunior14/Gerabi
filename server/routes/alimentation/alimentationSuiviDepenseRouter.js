@@ -7,7 +7,8 @@ const {
     updateSuiviDepense,
     lastCreatedDataSuiviDepense,
     mensualStasSuiviDepense,
-    mensualDetailStatsSuiviDepense
+    mensualDetailStatsSuiviDepense,
+    dailyRepportSuiviDepense
 } = require('../../controller/alimentation/suiviDepense/suiviDepenseAlimentation');
 
 router
@@ -30,5 +31,7 @@ router
 router
     .route ('/rapportMensuel/detail/:year/:month')
     .get(mensualDetailStatsSuiviDepense);
+
+router.route('rapportJournalier/dailyRap/:year/:month/:day').get(dailyRepportSuiviDepense);
 
 module.exports = router;

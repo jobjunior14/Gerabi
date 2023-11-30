@@ -58,7 +58,7 @@ app.use("/api/v1/alimentation/suiviDepense", AlimentationSuiviDepenseRouter);
 app.use("/api/v1/alimentation/vente", VenteAlimentationRouter);
 app.use("/api/v1/alimentation/suiviDette", AlimentationSuiviDette);
 app.use ("/api/v1/alimentation/depenseEff", DepenseEffAlim);
-app.use ('api/v1/alimentation/yourSuiviDette', YourAlimentationSuiviDette);
+app.use ('/api/v1/alimentation/yourSuiviDette', YourAlimentationSuiviDette);
 
 app.all("*", (req, res, next) => {
   next(new AppError(`Cannot find ${req.originalUrl} this server`, 404));

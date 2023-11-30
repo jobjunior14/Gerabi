@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { mensRapportActions } from "../../store/mensRepport-slice";
 
@@ -7,10 +7,7 @@ export default function VenteBar (props) {
     const dispatch = useDispatch()
     //data
     const data = useSelector(state => state.mensRapport.suiviVente);
-
-    // useEffect(() => {
-
-    // }, [data])
+    
     if (data.bralima && data.brasimba && data.autreProduit ) {
 
         if ( data.bralima.length > 0 && data.brasimba.length > 0 && data.autreProduit.length > 0 ) {
@@ -69,6 +66,6 @@ export default function VenteBar (props) {
             <h3> VENTE BAR</h3>
             <h4> Chargement...</h4>
         </div>)
-    }
+    };
 
 }

@@ -1,28 +1,17 @@
-import {NavLink} from 'react-router-dom';
+import { Link} from 'react-router-dom';
 import React   from 'react';
 
-export default function DegoBarHeader ()
+export default function HouseRoutes (props)
 {
     return (
-        <nav>
-            <NavLink 
-                className = {( {isActive}) => isActive ? 'my-link' : null }
-                to = {`/rapportJournalier/degoBar/bralima?year=${new Date().getFullYear()}&month=${new Date().getMonth() + 1}&day=${new Date().getDate()} `}> Bralima </NavLink>
-            <NavLink 
-                className = {( {isActive}) => isActive ? 'my-link' : null }
-                to = {`/rapportJournalier/degoBar/brasimba?year=${new Date().getFullYear()}&month=${new Date().getMonth() + 1}&day=${new Date().getDate()} `}> Brasimba </NavLink>
-             <NavLink 
-                className = {( {isActive}) => isActive ? 'my-link' : null }
-                to = {`/rapportJournalier/degoBar/autreProdut?year=${new Date().getFullYear()}&month=${new Date().getMonth() + 1}&day=${new Date().getDate()} `}> Autre Produit </NavLink>
-            <NavLink 
-                className = {( {isActive}) => isActive ? 'my-link' : null }
-                to = {`/rapportJournalier/degoBar/liqueurs?year=${new Date().getFullYear()}&month=${new Date().getMonth() + 1}&day=${new Date().getDate()} `}> Liqueurs </NavLink>
-            <NavLink 
-                className = {( {isActive}) => isActive ? 'my-link' : null }
-                to = {`/rapportJournalier/degoBar/suiviDette?year=${new Date().getFullYear()}&month=${new Date().getMonth() + 1}&day=${new Date().getDate()} `}> Suivi Dette </NavLink>
-            <NavLink 
-                className = {( {isActive}) => isActive ? 'my-link' : null }
-                to = {`/rapportJournalier/degoBar/suiviDepense?year=${new Date().getFullYear()}&month=${new Date().getMonth() + 1}&day=${new Date().getDate()} `}> Suivi Depense </NavLink>
-        </nav>
+        <div>
+            <Link to = {`/rapportJournalier/${props.component}/bralima?year=${new Date().getFullYear()}&month=${new Date().getMonth() + 1}&day=${new Date().getDate()} `}> <button> Bralima</button> </Link>
+            <Link to = {`/rapportJournalier/${props.component}/brasimba?year=${new Date().getFullYear()}&month=${new Date().getMonth() + 1}&day=${new Date().getDate()} `}> <button>Brasimba</button> </Link>
+            <Link to = {`/rapportJournalier/${props.component}/autreProdut?year=${new Date().getFullYear()}&month=${new Date().getMonth() + 1}&day=${new Date().getDate()} `}> <button> Autre Produit</button> </Link>
+            <Link to = {`/rapportJournalier/${props.component}/liqueurs?year=${new Date().getFullYear()}&month=${new Date().getMonth() + 1}&day=${new Date().getDate()} `}> <button> Liqueurs</button> </Link>
+            <Link to = {`/rapportJournalier/${props.component}/suiviDette?year=${new Date().getFullYear()}&month=${new Date().getMonth() + 1}&day=${new Date().getDate()} `}> <button> Suivi Dette </button> </Link>
+            <Link to = {`/rapportJournalier/${props.component}/suiviDepense?year=${new Date().getFullYear()}&month=${new Date().getMonth() + 1}&day=${new Date().getDate()} `}> <button> Suivi Depense</button> </Link>
+            <Link to = {`/rapportJournalier/${props.component}/dailyRepport?year=${new Date().getFullYear()}&month=${new Date().getMonth() + 1}&day=${new Date().getDate()} `}> <button> Rapport Journalier </button> </Link>
+        </div>
     );
 };

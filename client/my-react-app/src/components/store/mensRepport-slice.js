@@ -12,14 +12,17 @@ const mensRapportSlice = createSlice ({
         },
         date: {
             year: Number (new Date().getFullYear()),
-            month: Number (new Date().getMonth() + 1)
+            month: Number (new Date().getMonth() + 1),
+            day: Number (new Date().getDate())
         },
         componentName: 'degoBar',
         paramsDate: {
             year: Number (new Date().getFullYear()),
-            month: Number (new Date().getMonth() + 1)
+            month: Number (new Date().getMonth() + 1),
+            day: Number (new Date().getDate)     
         },
-        perte: 0
+        perte: 0,
+        user: 'dailyRap'
     },
 
     reducers: {
@@ -31,11 +34,12 @@ const mensRapportSlice = createSlice ({
 
         setDate (state, action ){
             
-            if (action.payload.year && action.payload.month){
+            if (action.payload.year && action.payload.month && action.payload.day){
 
                 state.date = {
                     year: action.payload.year,
-                    month: action.payload.month
+                    month: action.payload.month,
+                    day: action.payload.day
                 }
             }
             const name = action.payload.name;
@@ -56,6 +60,10 @@ const mensRapportSlice = createSlice ({
 
         setPerte(state, action ) {
             state.perte = action.payload;
+        },
+        
+        setUser (state, action) {
+            state.user = action.payload;
         }
     }
 });

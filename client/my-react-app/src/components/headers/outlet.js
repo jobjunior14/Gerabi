@@ -1,8 +1,6 @@
 import { Outlet , useNavigate} from "react-router-dom";
 import { useEffect } from "react";
 import FirstHeader from "./firstHeaders";
-import AlimentationHeader from "./alimentationHeaders";
-import DegoBarHeader from "./degoBarHeaders";
 import DailyRepportHeaders from "./dailyRapHeaders";
 import MensRepportHeaders from "./mensHeaders";
 
@@ -31,40 +29,6 @@ export function DailyRepportNav() {
         </div>
     )
 }
-
-export function AlimNav () {
-
-    // const navigate = useNavigate ();
-
-    // useEffect (() => {
-    //     navigate('alimentation/bralima');
-    // }, [navigate]);
-
-    return (
-
-        <div>
-            <AlimentationHeader/>
-            <Outlet/>
-        </div>
-    );
-};
-
-export function DegoBarNav () {
-
-    const navigate = useNavigate ();
-
-    // useEffect (() => {
-    //     navigate('/bralima');
-    // }, [navigate]);
-
-    return (
-
-        <div>
-            <DegoBarHeader/>
-            <Outlet/>
-        </div>
-    );
-};
 
 export function MensRepportNav () {
 

@@ -48,7 +48,7 @@ router
   .get(lastCreatedData);
 
 router
-  .route("/rapportJournalier/dailyRap")
+  .route("/rapportJournalier/dailyRap/:year/:month/:day")
   .get(dailyRapBralima);
 
 module.exports = router;

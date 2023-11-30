@@ -7,7 +7,8 @@ const {
     updateSuiviDepense,
     lastCreatedDataSuiviDepense,
     mensualStasSuiviDepense,
-    mensualDetailStasSuiviDepense
+    mensualDetailStasSuiviDepense,
+    dailyRepportSuiviDepense
 } = require('../../controller/degoBar/suiviDepense/suiviDepenseController');
 
 router
@@ -30,6 +31,9 @@ router
 router
     .route ('/rapportMensuel/detail/:year/:month')
     .get(mensualDetailStasSuiviDepense);
+
+router.route('/rapportJournalier/dailyRap/:year/:month/:day').get(dailyRepportSuiviDepense);
+
 
 
 module.exports = router;

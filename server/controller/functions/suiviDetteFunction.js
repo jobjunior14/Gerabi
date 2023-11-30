@@ -1,6 +1,69 @@
 const AppError = require('../../utils/appError');
 
-const {statsDetail, statsAll, loopingData} = require('./suiviDetteReuseFucntions')
+const {statsDetail, statsAll} = require('./suiviDetteReuseFucntions');
+
+const loopingData = (array, year, month, day) => {
+
+    const dayData = {
+        agents: [],
+        clients: [],
+        musiciens: [],
+    };
+    
+    for (let i of array) {
+        if (i.annee === year) {
+
+            for (let j of i.data) {
+
+                if (j.mois === month) {
+
+                    //agents
+                    for (let agents of j.data.agents) {
+
+                        for (let data of agents.data) {
+
+                            if (Number (JSON.stringify(data.createdAt).slice (9, 11)) === day) {
+                                dayData.agents.push ({
+                                    name: agents.name,
+                                    data: data
+                                });
+                            };
+                        };
+                    };
+                    //clients
+                    for (let agents of j.data.clients) {
+
+                        for (let data of agents.data) {
+
+                            if (Number (JSON.stringify(data.createdAt).slice (9, 11)) === day) {
+
+                                dayData.clients.push ({
+                                    name: agents.name,
+                                    data: data
+                                });
+                            };
+                        };
+                    };
+                    //musiciens
+                    for (let agents of j.data.musiciens) {
+
+                        for (let data of agents.data) {
+
+                            if (Number (JSON.stringify(data.createdAt).slice (9, 11)) === day) {
+
+                                dayData.musiciens.push ({
+                                    name: agents.name,
+                                    data: data
+                                });
+                            };
+                        };
+                    };
+                };
+            };
+        };
+    };
+    return dayData;
+};
 
 exports.getSuiviDetteCollection = async (data) => {
 

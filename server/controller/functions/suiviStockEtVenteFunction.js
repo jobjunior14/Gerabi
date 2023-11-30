@@ -285,7 +285,7 @@ exports.dailyRapCollection = async (collection, request, response) => {
   const approvionnement = 0;
   const benefice = 0;
 
-  for (let i of dailyData.dailyData) {
+  for (let i of dailyData.day) {
 
     vente_bar += i.vente_bar;
     approvionnement += i.approvionnement;

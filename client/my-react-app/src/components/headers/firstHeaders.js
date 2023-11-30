@@ -10,7 +10,7 @@ export default function FirstHeader ()
                 to = {`/rapportMensuel?year=${new Date().getFullYear()}&month=${new Date().getMonth() + 1}&day=${new Date().getDate()} `}> Rapport Mensuel </NavLink>
             <NavLink 
                 className={ ({isActive}) => isActive ? "my-link" : null}
-                to = '/rapportJournalier'> Rapport Journalier </NavLink>
+                to = {`/rapportJournalier?year=${new Date().getFullYear()}&month=${new Date().getMonth() + 1}&day=${new Date().getDate()} `}> Rapport Journalier </NavLink>
         </nav>
     );
 };

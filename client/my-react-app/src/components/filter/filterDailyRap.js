@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { productActions } from "../store/AllProductManager-slice";
 import { suiviDepenseActions } from "../store/suiviDepense-slice";
 import { suiviDetteActions } from "../store/suiviDette-slice";
+import { mensRapportActions } from "../store/mensRepport-slice";
 
 export default function DailyFilter (props) {
 
@@ -17,7 +18,10 @@ export default function DailyFilter (props) {
                 placeholder= "Taper l'année"
                 onChange= { e => {
                     const {name, value} = e.target;
-                    props.component === 'allProduct' ? dispatch(productActions.setDate({name: name, value: Number (value)})) : 'suiviDepense' ? dispatch(suiviDepenseActions.setDate({name: name, value: Number (value)})) : dispatch(suiviDetteActions.setDate({name: name, value: Number (value)}));
+                    props.component === 'allProduct' ? dispatch(productActions.setDate({name: name, value: Number (value)})) : 
+                    props.component ==='suiviDepense' ? dispatch(suiviDepenseActions.setDate({name: name, value: Number (value)})) : 
+                    props.component === 'daily' ? dispatch(mensRapportActions.setDate({name: name, value: Number (value)})) :
+                    dispatch(suiviDetteActions.setDate({name: name, value: Number (value)}));
                 }}
             />
 
@@ -28,7 +32,10 @@ export default function DailyFilter (props) {
                 placeholder= "Taper l'année"
                 onChange= { e => {
                     const {name, value} = e.target;
-                    props.component === 'allProduct' ? dispatch(productActions.setDate({name: name, value: Number (value)})) : 'suiviDepense' ? dispatch(suiviDepenseActions.setDate({name: name, value: Number (value)})) : dispatch(suiviDetteActions.setDate({name: name, value: Number (value)}));
+                    props.component === 'allProduct' ? dispatch(productActions.setDate({name: name, value: Number (value)})) : 
+                    props.component ==='suiviDepense' ? dispatch(suiviDepenseActions.setDate({name: name, value: Number (value)})) : 
+                    props.component === 'daily' ? dispatch(mensRapportActions.setDate({name: name, value: Number (value)})) :
+                    dispatch(suiviDetteActions.setDate({name: name, value: Number (value)}));
                 }}
             />
 
@@ -39,7 +46,10 @@ export default function DailyFilter (props) {
                 placeholder= "Taper l'année"
                 onChange= { e => {
                     const {name, value} = e.target;
-                    props.component === 'allProduct' ? dispatch(productActions.setDate({name: name, value: Number (value)})) : 'suiviDepense' ? dispatch(suiviDepenseActions.setDate({name: name, value: Number (value)})) : dispatch(suiviDetteActions.setDate({name: name, value: Number (value)}));
+                    props.component === 'allProduct' ? dispatch(productActions.setDate({name: name, value: Number (value)})) : 
+                    props.component ==='suiviDepense' ? dispatch(suiviDepenseActions.setDate({name: name, value: Number (value)})) : 
+                    props.component === 'daily' ? dispatch(mensRapportActions.setDate({name: name, value: Number (value)})) :
+                    dispatch(suiviDetteActions.setDate({name: name, value: Number (value)}));
                 }}
             />
 

@@ -10,14 +10,19 @@ export default function MensRapSuiviDepense (props) {
     //dependacies of useEffect
     const year = useSelector(state => state.mensRapport.paramsDate.year);
     const month = useSelector (state => state.mensRapport.paramsDate.month);
+    const day = useSelector (state => state.mensRapport.paramsDate.day);
 
     //current date
     const currentYear = Number (new Date().getFullYear());
     const currentMonth = Number (new Date().getMonth() + 1);
+    const currentDay = Number (new Date().getDay);
 
     //render data
     const [displayEntreeCaisse, setDisplayEntreeCaisse] = useState(null);
     const [displaySortieCaisse, setDisplaySortieCaisse] = useState(null);
+
+    //current user
+    const currentUser = props.user === 'rappMens' ? true : false;
 
     //fetch the data 
     useEffect(() => {
@@ -26,13 +31,15 @@ export default function MensRapSuiviDepense (props) {
             try {
                 setData(null);
 
-                const apiData = await axios.get (`http://localhost:5001/api/v1/${props.componentName}/suiviDepense/rapportMensuel/detail/${year}/${month}`);
-                setData(apiData.data.data);
+                const apiData = currentUser ? await axios.get (`http://localhost:5001/api/v1/${props.componentName}/suiviDepense/rapportMensuel/detail/${year}/${month}`) :
+                    await axios.get (`http://localhost:5001/api/v1/${props.componentName}/suiviDepense/rapportJournalier/dailyRap/${year}/${month}/${day}`); 
+                
+                currentUser ? setData(apiData.data.data) : setData(apiData.data.data);
             } catch (error) {
                 console.log(error);
             };
         };fecthData();
-    }, [year, month, props.componentName]);
+    }, [year, month, props.componentName, currentUser]);
 
     //map the list to display it //side effect
     useEffect(() => {
@@ -43,7 +50,7 @@ export default function MensRapSuiviDepense (props) {
         };
     }, [data]);
      
-    if (year > currentYear || month > currentMonth) {
+    if (year > currentYear || month > currentMonth || day > currentDay) {
         
         return (<div>
             <h1>Ooouups vous ne pouvez demander une donnee d'une date inexistante</h1>
@@ -88,6 +95,6 @@ export default function MensRapSuiviDepense (props) {
             <h4> Chargement.....</h4>
         </div>)
        }
-    }
+    };
 };
 

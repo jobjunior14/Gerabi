@@ -1,6 +1,38 @@
 const AppError = require('../../utils/appError');
 
-const {statsDetail, statsAll, loopingData} = require('./suiviDetteReuseFucntions')
+const {statsDetail, statsAll} = require('./suiviDetteReuseFucntions')
+
+const loopingData = (array, year, month, day) => {
+
+    const dayData = {
+        fournisseurs: [],
+    };
+    
+    for (let i of array) {
+        if (i.annee === year) {
+
+            for (let j of i.data) {
+
+                if (j.mois === month) {
+                    for (let fournisseurs of j.data.fournisseurs) {
+
+                        for (let data of fournisseurs.data) {
+
+                            if (Number (JSON.stringify(data.createdAt).slice (9, 11)) === day) {
+
+                                dayData.fournisseurs.push ({
+                                    name: fournisseurs.name,
+                                    data: data
+                                });
+                            };
+                        };
+                    };
+                };
+            };
+        };
+    };
+    return dayData;
+};
 
 exports.getSuiviDetteCollection = async (data) => {
 

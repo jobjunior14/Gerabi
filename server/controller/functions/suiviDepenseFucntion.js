@@ -715,6 +715,87 @@ exports.mensualstatsDetailsSuiviDepenseCollection = async (data) => {
             entreeCaisse: entreeCaisse,
             sortieCaisse: sortieCaisse
         }
-    })
+    });
 
+};
+
+exports.dailyRepportSuiviDepenseCollection = async (data) => {
+    const year = Number (data.req.params.year);
+    const month = Number (data.req.params.month);
+    const day = Number (data.req.params.day);
+
+    const myData = await data.collection.aggregate([
+
+        {
+            $match:{ annee: year},
+        },
+        {
+            $project: {
+                stats: {
+                    $filter: {
+                        input: "$data",
+                        as: "data",
+                        cond: {
+                            $and: [
+                                {$gte: ["$$data.mois", month]},
+                                {$lte: ["$$data.mois", month]}
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        {
+            $unwind: {path: '$stats'}
+        },
+        
+    ]);
+    
+    const entreeCaisse = [];
+    const sortieCaisse = [];
+    let soldCaisse = 0;
+
+    //for entree caisse 
+    for (let i of myData[0].stats.data.entreeCaisse) {
+        
+        let valeur = 0;
+        for (let j of i.data) {
+            if (Number (JSON.stringify(j.createdAt).slice(9, 11)) === day) {
+                valeur = j.amount;
+            };
+        };
+        entreeCaisse.push({
+            _id: i.name,
+            valeur: valeur
+        });
+    };
+    //for sortie caisse
+    for (let i of myData[0].stats.data.sortieCaisse) {
+
+        let valeur = 0;
+        for (let j of i.data) {
+
+            for (let t of j.amount) {
+                if (Number (JSON.stringify(t.createdAt).slice(9, 11)) === day) {
+                    valeur += t.valeur;
+                }
+            }
+        };
+        sortieCaisse.push ({
+            _id: i.name,
+            valeur: valeur
+        })
+    };
+    //for sold caisse
+    for (let i of myData[0].stats.data.soldCaisse) {
+        if (Number (JSON.stringify(i.createdAt).slice(9, 11)) === day) soldCaisse = i.amount;
+    }
+    data.res.status(200).json({
+        status: 'success',
+        data: {
+            entreeCaisse: entreeCaisse,
+            sortieCaisse: sortieCaisse,
+            soldCaisse: soldCaisse
+        }
+    });
 };

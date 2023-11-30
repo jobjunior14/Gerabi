@@ -4,9 +4,13 @@ import { mensRapportActions } from "../store/mensRepport-slice";
 import { useSearchParams } from "react-router-dom";
 import MensFilter from "../filter/filterMensRap";
 import MensRapSuiviDepense from "./suivi_depense/suiviDepenseMens";
+import DailyFilter from "../filter/filterDailyRap";
 
 export function MensRepport (props) {
+
     const dispatch = useDispatch();
+    //dispatch the userName
+    dispatch(mensRapportActions.setUser(props.user));
     //params
     const [dateParams, setDateParams] = useSearchParams();
 
@@ -19,7 +23,7 @@ export function MensRepport (props) {
     const day = Number(dateParams.get("day"));
 
     //dispatch the params date through all the components
-    dispatch(mensRapportActions.setParamsDate({year: year, month: month}));
+    dispatch(mensRapportActions.setParamsDate({year: year, month: month, day: day}));
 
     function setFilterParams() {
 
@@ -28,9 +32,9 @@ export function MensRepport (props) {
 
     return (
         <div>
-             <MensFilter prev = {date} onclick = {setFilterParams}/>
-            <SuiviDesVentes componentName = {props.componentName}/>
-            <MensRapSuiviDepense componentName = {props.componentName}/>
+            {props.user === 'rappMens' ? <MensFilter prev = {date} onclick = {setFilterParams}/> : <DailyFilter com prev = {date} onclick = {setFilterParams} component = 'daily'/>}
+            <SuiviDesVentes componentName = {props.componentName} user = {props.user}/>
+            <MensRapSuiviDepense componentName = {props.componentName} user = {props.user}/>
         </div>
     );
 }
