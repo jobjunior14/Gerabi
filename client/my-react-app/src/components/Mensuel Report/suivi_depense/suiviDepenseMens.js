@@ -36,6 +36,7 @@ export default function MensRapSuiviDepense (props) {
                 
                 currentUser ? setData(apiData.data.data) : setData(apiData.data.data);
             } catch (error) {
+                
                 console.log(error);
             };
         };fecthData();

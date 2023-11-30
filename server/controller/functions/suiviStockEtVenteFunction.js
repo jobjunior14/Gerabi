@@ -281,9 +281,9 @@ exports.dailyRapCollection = async (collection, request, response) => {
 
   const dailyData = loopingData(data, year, month, day);
 
-  const vente_bar = 0;
-  const approvionnement = 0;
-  const benefice = 0;
+  let vente_bar = 0;
+  let approvionnement = 0;
+  let benefice = 0;
 
   for (let i of dailyData.day) {
 

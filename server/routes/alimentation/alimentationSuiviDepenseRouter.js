@@ -32,6 +32,6 @@ router
     .route ('/rapportMensuel/detail/:year/:month')
     .get(mensualDetailStatsSuiviDepense);
 
-router.route('rapportJournalier/dailyRap/:year/:month/:day').get(dailyRepportSuiviDepense);
+router.route('/rapportJournalier/dailyRap/:year/:month/:day').get(dailyRepportSuiviDepense);
 
 module.exports = router;

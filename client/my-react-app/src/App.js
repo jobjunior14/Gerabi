@@ -45,7 +45,6 @@ function App() {
                 <Route path ='alimentation/suiviDette' element = {<SuiviDette {...alimentation}/>}/>
                 <Route path = 'alimentation/suiviDepense' element = {<SuiviDepense {...alimentation}/>}/>
                 <Route path='alimentation/dailyRepport' element = {<MensRepport componentName = 'alimentation' user = 'dailyRap'/>}/>
-
             </Route>
 
             <Route path='rapportMensuel' element = {<MensRepportNav/>}>

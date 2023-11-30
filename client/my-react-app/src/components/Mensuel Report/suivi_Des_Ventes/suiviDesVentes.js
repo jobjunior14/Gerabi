@@ -100,10 +100,10 @@ export default function SuiviDesVentes (props) {
             } catch (err) {
                 if (err.message){
 
-                    console.log (err.data);
-                } else {
-
                     console.log (err);
+                } else {
+                    console.log (err);
+
                 };
             };
         }; fecthData();

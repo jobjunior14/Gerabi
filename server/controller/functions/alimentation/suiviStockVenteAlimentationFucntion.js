@@ -1,5 +1,5 @@
 
-const loopingData = require ('../suiviStockEtVenteFunction');
+const {loopingData} = require ('../suiviStockEtVenteFunction');
 
 
 exports.pushDataCollection =  async (request, collection, response ) => {
