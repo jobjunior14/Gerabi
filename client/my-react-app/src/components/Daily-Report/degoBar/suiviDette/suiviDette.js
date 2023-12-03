@@ -57,8 +57,10 @@ function postAndUpdate(dispatch, agents, musiciens, clients, year, month, day, u
 
             dispatch(suiviDetteActions.setFournisseurs(null));
     
-            const responseSuiviDette = !update ? await axios.post(`http://localhost:5001/api/v1/${props.componentName}/suiviDette/rapportJournalier?year=${year}&month=${month}&day=${day}`, newDataSuiviDette) : await axios.post(`http://localhost:5001/api/v1/${props.componentName}/suiviDette/rapportJournalier/${year}/${month}/${day}`, newDataSuiviDette);
-            const responseYourSuiviDette = !update ? await axios.post(`http://localhost:5001/api/v1/${props.componentName}/yourSuiviDette/rapportJournalier?year=${year}&month=${month}&day=${day}`, newDataYourSuiviDette) : await axios.post(`http://localhost:5001/api/v1/${props.componentName}/yourSuiviDette/rapportJournalier/${year}/${month}/${day}`, newDataYourSuiviDette);
+            const responseSuiviDette = !update ? await axios.post(`http://localhost:5001/api/v1/${props.componentName}/suiviDette/rapportJournalier?year=${year}&month=${month}&day=${day}`, newDataSuiviDette) : 
+                await axios.post(`http://localhost:5001/api/v1/${props.componentName}/suiviDette/rapportJournalier/${year}/${month}/${day}`, newDataSuiviDette);
+            const responseYourSuiviDette = !update ? await axios.post(`http://localhost:5001/api/v1/${props.componentName}/yourSuiviDette/rapportJournalier?year=${year}&month=${month}&day=${day}`, newDataYourSuiviDette) : 
+                await axios.post(`http://localhost:5001/api/v1/${props.componentName}/yourSuiviDette/rapportJournalier/${year}/${month}/${day}`, newDataYourSuiviDette);
     
                 const totDetailDetteAndPayment = await axios.get (`http://localhost:5001/api/v1/${props.componentName}/suiviDette/rapportMensuel/detail/${year}/${month}`);
                 const yourTotDetailDetteAndPayment = await axios.get (`http://localhost:5001/api/v1/${props.componentName}/yourSuiviDette/rapportMensuel/detail/${year}/${month}`);
@@ -105,7 +107,7 @@ export default function SuiviDette (props) {
     const [dateParams, setDateParams] = useSearchParams();
 
     //date in fields
-    const date = useSelector (state => state.suiviDepense.date);
+    const date = useSelector (state => state.suiviDette.date);
 
     //dependacies of useEffect
     const year = Number(dateParams.get("year"));
@@ -219,7 +221,7 @@ export default function SuiviDette (props) {
 
     function setFilterParams() {
 
-        setDateParams(prev => prev = date);
+        setDateParams(prev =>  date);
     };
 
     function postData () {

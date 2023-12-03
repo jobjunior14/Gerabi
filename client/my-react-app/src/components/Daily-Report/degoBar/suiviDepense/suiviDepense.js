@@ -315,17 +315,16 @@ export default function SuiviDepense (props){
     useEffect(() => {
 
          //for entree caisse 
-        if (!prevSoldCaisse) {
+         if (!prevSoldCaisse) {
             
             setFoundPrevSold(prev => true);
             // set the previous taped  sold caisse by user
             dispatch(suiviDepenseActions.setPrevSoldCaisse((totalDailyDebt + soldCaisse + totalSortieCaisse) - totalEntreeCaisse));
         } else {
-            
             setFoundPrevSold(prev => false);
             dispatch(suiviDepenseActions.setPrevSoldCaisse(prevSoldCaisse.amount));
         };
-    },[totalDailyDebt, soldCaisse, totalSortieCaisse, totalEntreeCaisse, prevSoldCaisse]);
+    },[totalDailyDebt, soldCaisse, totalEntreeCaisse, prevSoldCaisse]);
 
     function setFilterParams() {
 

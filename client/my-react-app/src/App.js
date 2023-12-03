@@ -6,8 +6,10 @@ import SuiviDepense from './components/Daily-Report/degoBar/suiviDepense/suiviDe
 import SuiviDette from './components/Daily-Report/degoBar/suiviDette/suiviDette';
 import { MensRepport } from './components/Mensuel Report/mensual&DailyReport';
 import HouseRoutes from './components/headers/degoBarHeaders';
+import Graphique from './components/stats/graphiques'
 
 function App() {
+
   const degoBar = {
     sliceName: 'product',
     componentName: 'degoBar',
@@ -50,6 +52,7 @@ function App() {
             <Route path='rapportMensuel' element = {<MensRepportNav/>}>
               <Route path='degoBar' element = {<MensRepport componentName = 'degoBar' user = 'rappMens' />}/>
               <Route path='alimentation' element = {<MensRepport componentName = 'alimentation' user = 'rappMens'/>}/>
+              <Route path='graphique' element = {<h1> Hello Graphique</h1>} />
             </Route>
             
           </Route>

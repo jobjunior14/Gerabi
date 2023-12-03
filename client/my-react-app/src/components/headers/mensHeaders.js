@@ -13,7 +13,7 @@ export default function MensRepportHeaders ()
                 to = {`/rapportMensuel/alimentation?year=${new Date().getFullYear()}&month=${new Date().getMonth() + 1}&day=${new Date().getDate()}`}> Alimentation </NavLink>
             <NavLink 
                 className={ ({isActive}) => isActive ? "my-link" : null}
-                to = {`/rapportMensuel/Graphique?year=${new Date().getFullYear()}&month=${new Date().getMonth() + 1}&day=${new Date().getDate()}`}> Graphique </NavLink>
+                to = {`/rapportMensuel/graphique?year=${new Date().getFullYear()}&month=${new Date().getMonth() + 1}&day=${new Date().getDate()}`}> Graphique </NavLink>
         </nav>
     );
 };
