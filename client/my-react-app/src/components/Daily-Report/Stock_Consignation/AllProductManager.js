@@ -4,13 +4,13 @@ import { useSearchParams } from "react-router-dom";
 import {useSelector, useDispatch } from 'react-redux'
 import { ExcelSecLayout } from "./productComp/Stock_Sec_Layout";
 import { TableSuivi } from "./suiviAppro/SuiviTable";
-import DailyFilter from "../../../filter/filterDailyRap";
-import {productActions} from "../../../store/AllProductManager-slice";
-import { alimProductActions } from "../../../store/AllProductManagerAlim-slice";
+import DailyFilter from "../../filter/filterDailyRap";
+import {productActions} from "../../store/AllProductManager-slice";
+import { alimProductActions } from "../../store/AllProductManagerAlim-slice";
 import AddProduct from './addProduct';
-import objProvider from "../../../reuseFunction/suiviStockVente/objProvider";
-import postAndUpdateData from "../../../reuseFunction/suiviStockVente/postAmdUpdateData";
-import UniqueInput from "../../../reuseFunction/uniqueInput";
+import objProvider from "./utils/objProvider";
+import postAndUpdateData from "../../reuseFunction/suiviStockVente/postAmdUpdateData";
+import UniqueInput from "../../reuseFunction/uniqueInput";
 
 function errMessage (dispatch, productActions, venteDego, productData, stateAction, update, venteJournaliereRef) {
 
@@ -25,7 +25,6 @@ function errMessage (dispatch, productActions, venteDego, productData, stateActi
       
       for (let i of productData){
 
-        console.log ( (i.suivi1.name === '' && i.suivi1.qt_caisse > 0 ) || i.suivi1.name === '' )
         if (((i.suivi1.name === '' && i.suivi1.qt_caisse > 0 ) || i.suivi1.name === '')  ) {
   
           dispatch(productActions.setErrorMessage({status: true, errorAllowed: false, message: " aucune valeur superieure à 0 ne peut ne pas etre relier à nom de fournisseur vide ou aucun produit ne peut ne pas avoir de fournisseur"}));

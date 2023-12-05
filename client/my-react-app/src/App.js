@@ -7,6 +7,7 @@ import SuiviDette from './components/Daily-Report/degoBar/suiviDette/suiviDette'
 import { MensRepport } from './components/Mensuel Report/mensual&DailyReport';
 import HouseRoutes from './components/headers/degoBarHeaders';
 import Graphique from './components/stats/graphiques'
+import Main from './components/stats/mainComp';
 
 function App() {
 
@@ -52,7 +53,7 @@ function App() {
             <Route path='rapportMensuel' element = {<MensRepportNav/>}>
               <Route path='degoBar' element = {<MensRepport componentName = 'degoBar' user = 'rappMens' />}/>
               <Route path='alimentation' element = {<MensRepport componentName = 'alimentation' user = 'rappMens'/>}/>
-              <Route path='graphique' element = {<h1> Hello Graphique</h1>} />
+              <Route path='graphique' element = {<Main/>} />
             </Route>
             
           </Route>
