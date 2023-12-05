@@ -29,7 +29,7 @@ exports.loopingData = (array, year, month, day) => {
 };
 
 function loopingData (array, year, month, day) {
-     let dayData = [];
+  let dayData = [];
   let id = [];
 
   for (let i of array) {
