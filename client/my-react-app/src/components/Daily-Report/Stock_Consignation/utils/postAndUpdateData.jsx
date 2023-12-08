@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useState } from 'react';
-import useDateParams from './dateParams';
+import useDateParams from '../../../reuseFunction/dateParams';
 import formatDate from '../../../reuseFunction/suiviStockVente/rightFormatDate';
 //define base url
 axios.defaults.baseURL = "http://localhost:5001/api/v1";
@@ -21,6 +21,9 @@ export default function usePostAndUpdateData ({componentName, productName, vente
     const {year, month, day, dateState} = useDateParams();
 
     async function postAndUpdate (array, id, vente) {
+        //reinitialize some state to set the loading page
+        setPandUError('');
+        setPandULoading(true);
         //filter the data and delete all data with an empty name
         const  saveData = array.filter (el => el.name !== "");
         
@@ -46,7 +49,6 @@ export default function usePostAndUpdateData ({componentName, productName, vente
                     valeur: vente,
                     createdAt: createdAt
                 };
-                console.log (newVenteData);
 
                 // if id exist so we update the data if not we only send the new Data to the server
                 const dataResponse = id ? await axios.post(`/${componentName}/${productName}/rapportJournalier/${year}/${month}/${day}`, {id: [...id], data: [...newData]}) : await axios.post (`/${componentName}/${productName}/rapportJournalier?year=${year}&month=${month}&day=${day}`, newData);

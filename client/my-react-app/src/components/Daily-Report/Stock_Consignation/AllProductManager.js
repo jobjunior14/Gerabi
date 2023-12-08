@@ -10,7 +10,7 @@ import UniqueInput from "../../reuseFunction/uniqueInput";
 import useErroMessage from "./utils/errorMessage";
 import useDataFetcherSuiviStock from "./utils/dataFetcher";
 import usePostAndUpdateData from "./utils/postAndUpdateData";
-import useDateParams from "./utils/dateParams";
+import useDateParams from "../../reuseFunction/dateParams";
 
 export default function Product ({componentName, sliceName, venteName, productName}) {
 
@@ -34,10 +34,8 @@ export default function Product ({componentName, sliceName, venteName, productNa
   //toggle btn to display or hide useless data
   const toggleStoc = useSelector (state => state[sliceName].toggleStoc);
 
-  //IDs
+  //IDs from the server
   const id = useSelector (state => state[sliceName].id);
-
-  //venteprops.componentName  const venteDego = useSelector (state => state.product.venteDego);
   
   //date in forms
   const date = useSelector (state => state[sliceName].date);
@@ -49,32 +47,29 @@ export default function Product ({componentName, sliceName, venteName, productNa
   const venteDego = useSelector (state => state[sliceName].vente);
 
   //custome hooks to post and update Data
-  const {pAnduData, pAnduError, pAnduId, pAnduLoading, pAnduReadOnly, pAnduUpdate, pAnduVente, postAndUpdate} = usePostAndUpdateData(
+  const {pAnduData, pAnduError, pAnduId, pAnduReadOnly, pAnduUpdate, pAnduLoading, pAnduVente, postAndUpdate} = usePostAndUpdateData(
     {
       componentName: componentName,
       productName: productName,
       venteName: venteName,
     }
-  )
- 
+  );
 
   //error message before sending the data to the server
   const {errObj, setTheErrorMessage} = useErroMessage ({refVenteJournaliere: venteJournaliereRef, componentName: componentName});
 
-  const {vente, customId, data, customUpdate, readOnly, loading, error} = useDataFetcherSuiviStock(
+  const {vente, customId, data, customUpdate, readOnly, error, loading} = useDataFetcherSuiviStock(
     {
       componentName: componentName,
       productName: productName,
       venteName: venteName,
     }
-  )
+  );
 
   //dispatch the fetched data across all the components 
   useEffect(() => {
-    
     //initialisation of error message
     setTheErrorMessage(true, [], false, venteDego);
-  
     //dispatch the data across other components
     stateAction ? dispatch(productActions.setVenteDego(vente)) : dispatch(alimProductActions.setVenteDego(vente));
     stateAction ? dispatch(productActions.setProductdata (data)) : dispatch(alimProductActions.setProductdata (data));
@@ -94,7 +89,6 @@ export default function Product ({componentName, sliceName, venteName, productNa
     stateAction ? dispatch(productActions.setId(pAnduId)) : dispatch(alimProductActions.setId(pAnduId));
     stateAction ? dispatch(productActions.setUpdate(pAnduReadOnly)) : dispatch(alimProductActions.setUpdate(pAnduReadOnly));
     stateAction ? dispatch(productActions.setReadOnly(pAnduUpdate)) : dispatch(alimProductActions.setReadOnly(pAnduUpdate));
-    
 
   }, [pAnduData, pAnduId]);
 
@@ -106,10 +100,9 @@ export default function Product ({componentName, sliceName, venteName, productNa
 
   //post data
   function postData() {
-
+    //call the fuction to verify that there is no erro before posting the data
     setTheErrorMessage(false, productData, null, venteDego);
 
-    console.log (errObj);
     if (!errObj.status) {
       
       //call post Data fuction
@@ -122,14 +115,12 @@ export default function Product ({componentName, sliceName, venteName, productNa
   };
   //search a specifique date 
   function setFilterParams() {
-
     setterDateParams(date);
-
   };
 
-    // console.log(pAnduError);
   //update data
   function UpdateData() {
+    //calling the function to verify that there is no error before updating the data
     setTheErrorMessage(false, productData, id, venteDego);
     
     if (!errObj.status) {
@@ -167,16 +158,15 @@ export default function Product ({componentName, sliceName, venteName, productNa
       <h1> Ouuups vous ne pouvez demander une donnée d'une date inexistante</h1>
     </div>
     );
-
     } else {
-      if (productData) {
-  
+      
+      if (!loading || !pAnduLoading) {
+
         if (productData.length > 0) {
-  
           return (
             <div>
               <DailyFilter component = {'allProduct'}  prev = {date} onclick = {setFilterParams} />
-
+    
               <UniqueInput>
                 <label>Vente Journalière </label>
                 <input ref={venteJournaliereRef} type="number" name="vente" onChange={handleVente} placeholder="Vente Journalière " value={venteDego}/>
@@ -185,21 +175,20 @@ export default function Product ({componentName, sliceName, venteName, productNa
               <ExcelSecLayout toggle = {toggleStoc} />
               <button onClick={handleToggleBtn} >{ !toggleStoc ? 'Cacher' : 'Afficher' }</button>
               { !update && <AddProduct stateAction = {stateAction} />}
-
-              {/* display or hide the suivi appro table */}
+    
+              {/* display or hide the suivi appro table basing on the component Name if it's DegoBar we will display it and if not we'll hide it */}
              { stateAction && <span>
                 <h1> Suivi Approvisinnemnt </h1>
-
+    
                 <TableSuivi />
                 <button onClick={() => stateAction ? dispatch (productActions.setProvivers()) : dispatch (alimProductActions.setProvivers())}>{ !update ? 'Afficher Ou Ajouter un Fournisseur' : 'Afficher plus de Fournisseur' } </button>
               </span>}
-
+    
               { !update ? <button onClick={postData}> Enregistrer les Donnees </button> : <button onClick={UpdateData}> Mettre à jour les données</button>}
               {errObj.status && !errObj.errorAllowed ? <h3> {errObj.message} </h3> : <h3> {errObj.message} </h3> }
             </div>
           );
         } else {
-
           //abillity to modify the current date and the previous date
           return (
             <div>
@@ -210,13 +199,15 @@ export default function Product ({componentName, sliceName, venteName, productNa
           );
 
         };
-
       } else {
-      
-          return (
-            <div> <h1> Loading...</h1> </div>
-          );
-
-      } 
-  };
-}
+        return (
+          <div> 
+            <h1> Loading...</h1> 
+            { pAnduError !== "" && <p>{pAnduError.response.data.erro.message}</p>}
+            { error !== "" && <p>{error.response.data.erro.message}</p>}
+            <h2>Internal server Error</h2>
+          </div>
+        );
+      };
+    };
+};

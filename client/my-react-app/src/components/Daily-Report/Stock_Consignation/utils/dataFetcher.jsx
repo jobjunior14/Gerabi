@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import objProvider from "./objProvider";
-import useDateParams from "./dateParams";
+import useDateParams from "../../../reuseFunction/dateParams";
+import indexSetter from "../../../reuseFunction/indexSetter";
+
 
 axios.defaults.baseURL = "http://localhost:5001/api/v1";
 
@@ -18,8 +20,7 @@ export default function useDataFetcherSuiviStock ({componentName, productName, v
     const [error, setError] = useState('');
 
     const fetchData = async () =>{
-
-        setReadOnly(true);
+        //reinitialize some state to see the loading page while posting data
         setLoading(true);
         setError('');
         try {
@@ -33,7 +34,7 @@ export default function useDataFetcherSuiviStock ({componentName, productName, v
             
                 if (apiData.data.data.day.length > 0) {
                     setVente(prev => venteData.data.data.day.valeur);
-                    setData(prev => apiData.data.data.day.map((el, index) => { return { ...el, id: index }}));
+                    setData(prev => indexSetter(apiData.data.data.day));
                     setCustomId(prev => apiData.data.data.id);
                     setCustomUpdate(prev => true);
                     setReadOnly(prev => true);
@@ -98,7 +99,7 @@ export default function useDataFetcherSuiviStock ({componentName, productName, v
                         
                         //setting the existing data
                         venteData.data.data.day ? setVente(prev => venteData.data.data.day.valeur) :  setVente(prev => 0)
-                        setData(prev => apiData.data.data.day.map((el, index) => { return { ...el, id: index }}));
+                        setData(prev => indexSetter(apiData.data.data.day));
                         setCustomId(prev => apiData.data.data.id);
                         setCustomUpdate(prev => true);
                         setReadOnly(prev => true);

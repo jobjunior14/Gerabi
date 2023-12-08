@@ -129,3 +129,4 @@ export default function objProvider (componentName, el, index) {
     };
     return data;
 };
+
