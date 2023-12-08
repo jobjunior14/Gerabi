@@ -1,4 +1,3 @@
-import React from "react";
 export default function formatDate (year, month, day) {
     let createdAt = `${year}-${month}-${day}T07:22:54.930Z`;
 

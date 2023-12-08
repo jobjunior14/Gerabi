@@ -1,8 +1,8 @@
 import React, {useEffect, useState, useCallback} from "react";
 import {useSelector, useDispatch} from 'react-redux';
-import { suiviDetteActions } from "../../../store/suiviDette-slice";
+import { suiviDetteActions } from "../../store/suiviDette-slice";
 import { useId } from "react";
-import { indexMatcher } from "../../../reuseFunction/suividette/indexMatch";
+import { indexMatcher } from "../../reuseFunction/suividette/indexMatch";
 import DebtDisplay from "./components/dispalyDebtComp";
 
 

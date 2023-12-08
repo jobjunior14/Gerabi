@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { productActions } from '../../../../../store/AllProductManager-slice.js';
+import { productActions } from '../../../../store/AllProductManager-slice.js';
 import { useId } from "react";
 const {tbaleTh} = require ('./css.js');
 

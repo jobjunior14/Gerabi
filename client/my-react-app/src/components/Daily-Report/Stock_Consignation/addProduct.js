@@ -1,7 +1,7 @@
 import React from "react";
 import {useDispatch, useSelector } from 'react-redux'
-import { productActions } from "../../../store/AllProductManager-slice";
-import { alimProductActions } from "../../../store/AllProductManagerAlim-slice";
+import { productActions } from "../../store/AllProductManager-slice";
+import { alimProductActions } from "../../store/AllProductManagerAlim-slice";
 
 export default function AddProduct (props) {
 

@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { suiviDepenseActions } from '../../../../store/suiviDepense-slice';
+import { suiviDepenseActions } from '../../../store/suiviDepense-slice';
 
 export default function EntreeCaisseComp (props){
 

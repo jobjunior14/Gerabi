@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
-import { suiviDepenseActions } from "../../../store/suiviDepense-slice";
+import { suiviDepenseActions } from "../../store/suiviDepense-slice";
 import { useSearchParams } from "react-router-dom";
 import SoriteCaisse from "./sortieCaisse";
 import EntreeCaisse from "./entreeCaisse";
-import DailyFilter from "../../../filter/filterDailyRap";
+import DailyFilter from "../../filter/filterDailyRap";
 import SoldCaisse from "./soldCaisse";
-import formatDate from "../../../reuseFunction/suiviStockVente/rightFormatDate";
-import UniqueInput from "../../../reuseFunction/uniqueInput";
+import formatDate from "../../reuseFunction/suiviStockVente/rightFormatDate";
+import UniqueInput from "../../reuseFunction/uniqueInput";
 
 function postAndUpdate (entreeCaisse, sortieCaisse, year, month, day, dispatch, update,  totalSortieCaisse, totalSoldCaisse, totalDailyDebt, props, depenseEff, yourTotalDette) {
 

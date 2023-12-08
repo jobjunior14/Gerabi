@@ -1,14 +1,14 @@
 import { useEffect } from "react";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
-import { suiviDetteActions } from "../../../store/suiviDette-slice";
+import { suiviDetteActions } from "../../store/suiviDette-slice";
 import { useSearchParams } from "react-router-dom";
-import DailyFilter from "../../../filter/filterDailyRap";
+import DailyFilter from "../../filter/filterDailyRap";
 import Clients from "./clients"
 import Musiciens from "./musiciens";
 import Agents from "./agents";
 import TotDetteDaily from "./totalDetteDaily";
-import formatDate from "../../../reuseFunction/suiviStockVente/rightFormatDate";
+import formatDate from "../../reuseFunction/suiviStockVente/rightFormatDate";
 import YourDebts from "./yourDebt";
 import YourTotDetteDaily from "./yourTotDetteDaily";
 
@@ -42,7 +42,7 @@ function postAndUpdate(dispatch, agents, musiciens, clients, year, month, day, u
     const newDataYourSuiviDette = {
         data:{
             data:{
-                fournisseurs: deleteEmptyName(fournisseurs).map(el => {return {...el, data:{...el.data, createdAt: createdAt, }}}),
+                fournisseurs: deleteEmptyName(fournisseurs).map(el => {return {...el, data:{...el.data, createdAt: createdAt}}})
             }
         }
     };

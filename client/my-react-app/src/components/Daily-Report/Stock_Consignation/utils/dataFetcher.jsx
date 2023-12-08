@@ -1,60 +1,59 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import objProvider from "./objProvider";
+import useDateParams from "./dateParams";
 
 axios.defaults.baseURL = "http://localhost:5001/api/v1";
 
-export default function useDataFetcherSuiviStock ({mainUrl, venteUrl, lastCreatedUrl}, {componentName, productName, venteName}, {year, month, day } ) {
-
-
-    //getting the current date
-    const currentYear = new Date().getFullYear();
-    const currentMonth = new Date().getMonth() + 1;
-    const currentDay = new Date().getDay();
-    //date it's all the date we are using in the component and component data
-    //is all the date about the component 
+export default function useDataFetcherSuiviStock ({componentName, productName, venteName}) {
+    //the date using in the query string and the current date 
+    const {year, month, day, currentDay, currentMonth, currentYear} = useDateParams();
+    //data
     const [vente, setVente] = useState (0);
-    const [id, setId] = useState (null);
+    const [customId, setCustomId] = useState (null);
     const [data, setData] = useState(null);
-    const [update, setUpdate] = useState(true);
+    const [customUpdate, setCustomUpdate] = useState(true);
     const [readOnly, setReadOnly] = useState(true);
     const [ loading, setLoading] = useState(true);
     const [error, setError] = useState('');
 
     const fetchData = async () =>{
 
+        setReadOnly(true);
+        setLoading(true);
+        setError('');
         try {
 
             if (year < currentYear || month < currentMonth || day < currentDay) {
 
                 //the main data
-                const apiData = await axios.get(mainUrl);
-                const venteData = await axios.get(venteUrl);
-
+                const apiData = await axios.get(`/${componentName}/${productName}/rapportJournalier/${year}/${month}/${day}`);
+                const venteData = await axios.get(`/${componentName}/vente/${year}/${month}/${day}`);
                 //if there is an existing data 
-                if (apiData.data.data.length > 0) {
+            
+                if (apiData.data.data.day.length > 0) {
                     setVente(prev => venteData.data.data.day.valeur);
                     setData(prev => apiData.data.data.day.map((el, index) => { return { ...el, id: index }}));
-                    setId(prev => apiData.data.data.id);
-                    setUpdate(prev => true);
+                    setCustomId(prev => apiData.data.data.id);
+                    setCustomUpdate(prev => true);
                     setReadOnly(prev => true);
                     
                 } else {
                     //if there is no data on the current day
                     //we call an api how give use the lastet date created from the server
-                    const lastcreatedData = await axios.get(lastCreatedUrl);
+                    const lastcreatedData = await axios.get(`/${componentName}/${productName}/rapportJournalier/lastElement`);
 
                     if (lastcreatedData.data.data) {
 
                         setVente(prev => 0);
                         setData (prev => lastcreatedData.data.data.map((el, index) =>  objProvider(componentName, el, index)));
-                        setUpdate(prev => false);
+                        setCustomUpdate(prev => false);
                         setReadOnly(prev => false);
                     } else {
                         setVente(prev => 0);
                         setData(prev => []);
-                        setId(prev => []);
-                        setUpdate(prev => false);
+                        setCustomId(prev => []);
+                        setCustomUpdate(prev => false);
                         setReadOnly(prev => false);
                     }
                 }
@@ -72,37 +71,37 @@ export default function useDataFetcherSuiviStock ({mainUrl, venteUrl, lastCreate
                         
                         setVente (dataVenteFromLocalStorage);
                         setData(dataFromLocalStorage.data);
-                        setId (dataFromLocalStorage.id);
-                        setUpdate(prev => true);
+                        setCustomId (dataFromLocalStorage.id);
+                        setCustomUpdate(prev => true);
                         setReadOnly (prev => true);
+                    };
+                } else {
+                        
+                    //the main data
+                    const apiData = await axios.get(`/${componentName}/${productName}/rapportJournalier/${year}/${month}/${day}`);
+                    const venteData = await axios.get(`/${componentName}/vente/${year}/${month}/${day}`); 
+                    if (apiData.data.data.day.length === 0) {
+                        
+                        //if there is no data on the current day
+                        //we call an api how give use the lastet date created from the server
+                        const lastcreatedData = await axios.get(`/${componentName}/${productName}/rapportJournalier/lastElement`);
+                        
+                        venteData.data.data.day ? setVente (prev => venteData.data.data.day.valeur) :
+                            setVente(prev => 0);
+                        setCustomUpdate(prev => false);
+                        setReadOnly (prev => false);
+                        
+                        lastcreatedData.data.data ? setData (prev => lastcreatedData.data.data.map((el, index) => objProvider(componentName, el, index))) : 
+                        setData(prev => []);
+                        
                     } else {
                         
-                        //the main data
-                        const apiData = await axios.get(mainUrl);
-                        const venteData = await axios.get(venteUrl); 
-                        if (apiData.data.data.day.length === 0) {
-                            
-                            //if there is no data on the current day
-                            //we call an api how give use the lastet date created from the server
-                            const lastcreatedData = await axios.get(lastCreatedUrl);
-                            
-                            venteData.data.data.day ? setVente (prev => venteData.data.data.day.valeur) :
-                            setVente(prev => 0);
-                            setUpdate(prev => false);
-                            setReadOnly (prev => false);
-                            
-                            lastcreatedData.data.data ? setData (prev => lastcreatedData.data.data.map((el, index) => objProvider(componentName, el, index))) : 
-                            setData(prev => []);
-                            
-                        } else {
-                            
-                            //setting the existing data
-                            setVente(prev => venteData.data.data.day.valeur);
-                            setData(prev => apiData.data.data.day.map((el, index) => { return { ...el, id: index }}));
-                            setId(prev => apiData.data.data.id);
-                            setUpdate(prev => true);
-                            setReadOnly(prev => true);
-                        };
+                        //setting the existing data
+                        venteData.data.data.day ? setVente(prev => venteData.data.data.day.valeur) :  setVente(prev => 0)
+                        setData(prev => apiData.data.data.day.map((el, index) => { return { ...el, id: index }}));
+                        setCustomId(prev => apiData.data.data.id);
+                        setCustomUpdate(prev => true);
+                        setReadOnly(prev => true);
                     };
                 };
             };
@@ -116,7 +115,7 @@ export default function useDataFetcherSuiviStock ({mainUrl, venteUrl, lastCreate
 
     useEffect(() => {
         fetchData();
-    }, []);
+    }, [year, month, day, productName, componentName, venteName]);
 
-    return {vente, id, data, update, readOnly, loading, error};
+    return {vente, customId, data, customUpdate, readOnly, loading, error};
 }

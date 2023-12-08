@@ -1,7 +1,7 @@
 import React, {useState, useCallback, useEffect, useId}from "react";
 import EntreeCaisseComp from "./components/entreeCaisseComp";
 import { useSelector, useDispatch } from "react-redux";
-import { suiviDepenseActions } from "../../../store/suiviDepense-slice";
+import { suiviDepenseActions } from "../../store/suiviDepense-slice";
 
 
 export default function EntreeCaisse (props){

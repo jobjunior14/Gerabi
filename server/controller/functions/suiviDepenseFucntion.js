@@ -1,4 +1,3 @@
-const { collection } = require("../../models/degoBar/suiviDepenseModel");
 const AppError = require("../../utils/appError");
 
 const loopingData = (array, year, month, day) => {
@@ -75,27 +74,27 @@ const loopingData = (array, year, month, day) => {
     return dayData;
 };
 
-exports.getSuiviDepenseCollection = async (data) => {
+exports.getSuiviDepenseCollection = async ({collection, req, res}) => {
 
-    const suiviDepense = await  data.collection.find();
+    const suiviDepense = await  collection.find();
 
-    data.res.status(200).json({
+    res.status(200).json({
 
         status: 'success',
-        data: loopingData(suiviDepense , Number (data.req.params.year), Number (data.req.params.month), Number (data.req.params.day))
+        data: loopingData(suiviDepense , Number (req.params.year), Number (req.params.month), Number (req.params.day))
     }); 
 };
 
-exports.pushSuiviDepenseCollection = async (data) => {
+exports.pushSuiviDepenseCollection = async ({collection, req, res, next}) => {
 
-    const suiviDepense = await data.collection.find();
+    const suiviDepense = await collection.find();
 
     //data for body request
-    const body = data.req.body.data.data;
+    const body = req.body.data.data;
     //query's date
-    const year = Number (data.req.query.year);
-    const month = Number (data.req.query.month);
-    const day = Number (data.req.query.day);
+    const year = Number (req.query.year);
+    const month = Number (req.query.month);
+    const day = Number (req.query.day);
 
     if (suiviDepense.length > 0){
         
@@ -132,7 +131,7 @@ exports.pushSuiviDepenseCollection = async (data) => {
     
                         } else {
                             
-                            return data.next (new AppError ('La section nom ne doit pas etre vide'), 404);
+                            return next (new AppError ('La section nom ne doit pas etre vide'), 404);
                         };
                     };
     
@@ -167,7 +166,7 @@ exports.pushSuiviDepenseCollection = async (data) => {
                                     }
                                 } else {
                                     
-                                    return data.next (new AppError ('La section label ne doit pas etre vide'), 404);
+                                    return next (new AppError ('La section label ne doit pas etre vide'), 404);
                                 };
     
                             } else {
@@ -176,7 +175,7 @@ exports.pushSuiviDepenseCollection = async (data) => {
     
                         } else {
                             
-                            return data.next (new AppError ('La section nom ne doit pas etre vide'), 404);
+                            return next (new AppError ('La section nom ne doit pas etre vide'), 404);
                         };
                     };
     
@@ -200,7 +199,7 @@ exports.pushSuiviDepenseCollection = async (data) => {
                 };
                 await suiviDepense[yearIndex].save();
                 
-                data.res.status(200).json({
+                res.status(200).json({
                     status: 'success',
                     data: loopingData(suiviDepense, year, month, day)
                 });
@@ -208,9 +207,9 @@ exports.pushSuiviDepenseCollection = async (data) => {
             } else {
                 
                 //creating the data it's a new year
-                const NewsuiviDepense = await data.collection.create(data.req.body);
+                const NewsuiviDepense = await collection.create(req.body);
     
-                data.res.status(200).json({
+                res.status(200).json({
                     status: 'success',
                     data: loopingData(NewsuiviDepense, year, month, day)
                 });
@@ -219,25 +218,25 @@ exports.pushSuiviDepenseCollection = async (data) => {
     } else {
         
         //creating the data if collection is empty
-        const NewsuiviDepense = await data.collection.create(data.req.body);
+        const NewsuiviDepense = await collection.create(req.body);
         
-        data.res.status(200).json({
+        res.status(200).json({
             status: 'success',
             data: loopingData([NewsuiviDepense], year, month, day)
         });
     };
 };
 
-exports.updateSuiviDepenseCollection = async (data) => {
+exports.updateSuiviDepenseCollection = async ({collection, req, res, next}) => {
     
-    const suiviDepense = await data.collection.find();
+    const suiviDepense = await collection.find();
 
     
-    const year = Number (data.req.params.year);
-    const month = Number (data.req.params.month);
-    const day = Number (data.req.params.day);
+    const year = Number (req.params.year);
+    const month = Number (req.params.month);
+    const day = Number (req.params.day);
 
-    const body = data.req.body.data.data;
+    const body = req.body.data.data;
     
     if (suiviDepense.length > 0) {
 
@@ -301,7 +300,7 @@ exports.updateSuiviDepenseCollection = async (data) => {
                                     };
                                 } else {
     
-                                    return data.next (new AppError ('cette donnee est inexistante', 404))
+                                    return next (new AppError ('cette donnee est inexistante', 404))
                                 }
         
                             } else {
@@ -310,7 +309,7 @@ exports.updateSuiviDepenseCollection = async (data) => {
         
                         } else {
                             
-                            return data.next (new AppError ('La section nom ne doit pas etre vide'), 404);
+                            return next (new AppError ('La section nom ne doit pas etre vide'), 404);
                         };
                     };
         
@@ -369,25 +368,25 @@ exports.updateSuiviDepenseCollection = async (data) => {
                             
                                             } else {
         
-                                                return data.next (new AppError ('cette donnee est inexistante', 404));
+                                                return next (new AppError ('cette donnee est inexistante', 404));
                                             };
                                         } else {
             
-                                            return data.next (new AppError ('cette donnee est inexistante', 404));
+                                            return next (new AppError ('cette donnee est inexistante', 404));
                                         };
                                     } else {
                                         
-                                        return data.next (new AppError ('La section label ne doit pas etre vide'), 404);
+                                        return next (new AppError ('La section label ne doit pas etre vide'), 404);
                                     };
                                 };
         
                             } else {
-                                return data.next (new AppError ('cette donnee est inexistante', 404));
+                                return next (new AppError ('cette donnee est inexistante', 404));
                             };
         
                         } else {
                             
-                            return data.next (new AppError ('La section nom ne doit pas etre vide'), 404);
+                            return next (new AppError ('La section nom ne doit pas etre vide'), 404);
                         };
                     };
         
@@ -431,34 +430,34 @@ exports.updateSuiviDepenseCollection = async (data) => {
     
                         await suiviDepense[yearIndex].save();
                     } else {
-                        return data.next ( new AppError ('cette donnee est inexistante', 404));
+                        return next ( new AppError ('cette donnee est inexistante', 404));
                     }
                 } else {
         
-                    return data.next (new AppError ('Ce mois est inexistant dans la base des donnees', 404));
+                    return next (new AppError ('Ce mois est inexistant dans la base des donnees', 404));
                 };
                 
             } else {
                 
-                return data.next (new AppError ('Cette annee est inexistante dans la base des donnees', 404));
+                return next (new AppError ('Cette annee est inexistante dans la base des donnees', 404));
             };
         };
         
-        data.res.status(200).json({
+        res.status(200).json({
             status: 'success',
             data: loopingData(suiviDepense, year, month, day)
         });
     } else {
-        return data.next (new AppError (' la collection est completement vide, impossi de mette a  jour une donnee inexistante'));
+        return next (new AppError (' la collection est completement vide, impossi de mette a  jour une donnee inexistante'));
     }
 };
 
-exports.lastCreatedDataSuiviDepenseCollection = async (data) => {
+exports.lastCreatedDataSuiviDepenseCollection = async ({collection, req, res}) => {
 
-    const suiviDepense = await data.collection.find();
+    const suiviDepense = await collection.find();
     
-    const year = Number (data.req.params.year);
-    const month = Number (data.req.params.month);
+    const year = Number (req.params.year);
+    const month = Number (req.params.month);
 
     if (suiviDepense.length > 0) {
         
@@ -509,14 +508,14 @@ exports.lastCreatedDataSuiviDepenseCollection = async (data) => {
             };
         };
 
-        data.res.status(200).json({
+        res.status(200).json({
             status: 'success',
             data: dayData
         });
 
     } else {
 
-        data.res.status(200).json({
+        res.status(200).json({
             status: 'success',
             data: null
         })
@@ -524,12 +523,12 @@ exports.lastCreatedDataSuiviDepenseCollection = async (data) => {
 };
 
 //musrt be annual stats
-exports.mensualStasAllSuiviDepenseCollection = async (data) => {
+exports.mensualStasAllSuiviDepenseCollection = async ({collection, req, res}) => {
 
-    const year = Number (data.req.params.year);
-    const month = Number (data.req.params.month);
+    const year = Number (req.params.year);
+    const month = Number (req.params.month);
 
-    const entreeCaisse =  await data.collection.aggregate([
+    const entreeCaisse =  await collection.aggregate([
         {
             $match: { annee: year}
         },
@@ -572,7 +571,7 @@ exports.mensualStasAllSuiviDepenseCollection = async (data) => {
 
     ]);
 
-    const sortieCaisse =  await data.collection.aggregate([
+    const sortieCaisse =  await collection.aggregate([
 
         {
             $match: { annee: year}
@@ -618,7 +617,7 @@ exports.mensualStasAllSuiviDepenseCollection = async (data) => {
 
     ]);
 
-    data.res.status(200).json({
+    res.status(200).json({
         status: 'success',
         data: {
             entreeCaisse: entreeCaisse,
@@ -627,12 +626,12 @@ exports.mensualStasAllSuiviDepenseCollection = async (data) => {
     });
 };
 
-exports.mensualstatsDetailsSuiviDepenseCollection = async (data) => {
+exports.mensualstatsDetailsSuiviDepenseCollection = async ({collection, req, res}) => {
 
-    const year = Number (data.req.params.year);
-    const month = Number (data.req.params.month);
+    const year = Number (req.params.year);
+    const month = Number (req.params.month);
 
-    const entreeCaisse = await data.collection.aggregate([
+    const entreeCaisse = await collection.aggregate([
 
         {
             $match:{ annee: year},
@@ -670,7 +669,7 @@ exports.mensualstatsDetailsSuiviDepenseCollection = async (data) => {
         }
         
     ]);
-    const sortieCaisse = await data.collection.aggregate ([
+    const sortieCaisse = await collection.aggregate ([
         {
             $match:{ annee: year},
         },
@@ -709,7 +708,7 @@ exports.mensualstatsDetailsSuiviDepenseCollection = async (data) => {
             }
         }
     ]);
-    data.res.status(200).json({
+    res.status(200).json({
         status: 'success',
         data: {
             entreeCaisse: entreeCaisse,
@@ -719,12 +718,12 @@ exports.mensualstatsDetailsSuiviDepenseCollection = async (data) => {
 
 };
 
-exports.dailyRepportSuiviDepenseCollection = async (data) => {
-    const year = Number (data.req.params.year);
-    const month = Number (data.req.params.month);
-    const day = Number (data.req.params.day);
+exports.dailyRepportSuiviDepenseCollection = async ({collection, req, res}) => {
+    const year = Number (req.params.year);
+    const month = Number (req.params.month);
+    const day = Number (req.params.day);
 
-    const myData = await data.collection.aggregate([
+    const myData = await collection.aggregate([
 
         {
             $match:{ annee: year},
@@ -795,7 +794,7 @@ exports.dailyRepportSuiviDepenseCollection = async (data) => {
         };
     };
     
-    data.res.status(200).json({
+    res.status(200).json({
         status: 'success',
         data: {
             entreeCaisse: entreeCaisse,

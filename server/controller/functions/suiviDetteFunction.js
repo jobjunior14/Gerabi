@@ -65,11 +65,11 @@ const loopingData = (array, year, month, day) => {
     return dayData;
 };
 
-exports.getSuiviDetteCollection = async (data) => {
+exports.getSuiviDetteCollection = async ({collection, req, res}) => {
 
-    const year = Number (data.req.params.year);
-    const month = Number (data.req.params.month);
-    const day = Number (data.req.params.day);
+    const year = Number (req.params.year);
+    const month = Number (req.params.month);
+    const day = Number (req.params.day);
 
     const nowDay = Number ( new Date().getDate());
     //if we are the first day of the month, we must dispaly the information about the previous month but not save it 
@@ -81,9 +81,9 @@ exports.getSuiviDetteCollection = async (data) => {
         const prevYear = prevDate.getFullYear();
         const prevMonth = prevDate.getMonth() + 1;
 
-        const agents = await statsDetail(prevYear, prevMonth,'agents',data.collection);
-        const musiciens = await statsDetail(prevYear, prevMonth,'musiciens',data.collection);
-        const clients = await statsDetail(prevYear, prevMonth,'clients',data.collection);
+        const agents = await statsDetail(prevYear, prevMonth,'agents',collection);
+        const musiciens = await statsDetail(prevYear, prevMonth,'musiciens',collection);
+        const clients = await statsDetail(prevYear, prevMonth,'clients',collection);
         
         const newAgent = [];
         const newClients = [];
@@ -142,31 +142,31 @@ exports.getSuiviDetteCollection = async (data) => {
             }]
         }];
         
-        data.res.status(200).json({
+        res.status(200).json({
             status: 'success',
             data: loopingData (Newdata, year, month, day)
         });
     } else {
         
-        const suiviDette = await data.collection.find();
+        const suiviDette = await collection.find();
         
-        data.res.status(200).json({
+        res.status(200).json({
             status: 'success',
             data: loopingData (suiviDette, year, month, day)
         });
     };
 };
 
-exports.pushSuiviDetteCollection = async (data) => {
+exports.pushSuiviDetteCollection = async ({collection, req, res, next}) => {
 
-    const suiviDette = await data.collection.find();
+    const suiviDette = await collection.find();
 
     //data from body request
-    const body = data.req.body.data.data;
+    const body = req.body.data.data;
     //query's date
-    const year = Number (data.req.query.year);
-    const month = Number (data.req.query.month);
-    const day = Number (data.req.query.day);
+    const year = Number (req.query.year);
+    const month = Number (req.query.month);
+    const day = Number (req.query.day);
 
     if (suiviDette.length > 0){
         
@@ -203,7 +203,7 @@ exports.pushSuiviDetteCollection = async (data) => {
     
                         } else {
                             
-                            return data.next (new AppError ('La section nom ne doit pas etre vide'), 404);
+                            return next (new AppError ('La section nom ne doit pas etre vide'), 404);
                         };
                     };
                     //for clients
@@ -229,7 +229,7 @@ exports.pushSuiviDetteCollection = async (data) => {
     
                         } else {
                             
-                            return data.next (new AppError ('La section nom ne doit pas etre vide'), 404);
+                            return next (new AppError ('La section nom ne doit pas etre vide'), 404);
                         };
                     };
                     //for musiciens
@@ -255,7 +255,7 @@ exports.pushSuiviDetteCollection = async (data) => {
     
                         } else {
                             
-                            return data.next (new AppError ('La section nom ne doit pas etre vide'), 404);
+                            return next (new AppError ('La section nom ne doit pas etre vide'), 404);
                         };
                     };
     
@@ -273,7 +273,7 @@ exports.pushSuiviDetteCollection = async (data) => {
                 };
                 await suiviDette[yearIndex].save();
                 
-                data.res.status(200).json({
+                res.status(200).json({
                     status: 'success',
                     data: loopingData(suiviDette, year, month, day)
                 });
@@ -281,9 +281,9 @@ exports.pushSuiviDetteCollection = async (data) => {
             } else {
                 
                 //creating the data it's a new year
-                const newSuiviDette = await data.collection.create(data.req.body);
+                const newSuiviDette = await collection.create(req.body);
     
-                data.res.status(200).json({
+                res.status(200).json({
                     status: 'success',
                     data: loopingData([newSuiviDette], year, month, day)
                 });
@@ -292,24 +292,24 @@ exports.pushSuiviDetteCollection = async (data) => {
     } else {
         
         //creating the data if collection is empty
-        const newSuiviDette = await data.collection.create(data.req.body);
+        const newSuiviDette = await collection.create(req.body);
         
-        data.res.status(200).json({
+        res.status(200).json({
             status: 'success',
             data: loopingData([newSuiviDette], year, month, day)
         });
     };
 };
 
-exports.updateSuiviDetteCollection = async (data) => {
+exports.updateSuiviDetteCollection = async ({collection, req, res, next}) => {
     
-    const suiviDette = await data.collection.find();
+    const suiviDette = await collection.find();
     
-    const year = Number (data.req.params.year);
-    const month = Number (data.req.params.month);
-    const day = Number (data.req.params.day);
+    const year = Number (req.params.year);
+    const month = Number (req.params.month);
+    const day = Number (req.params.day);
 
-    const body = data.req.body.data.data;
+    const body = req.body.data.data;
     
     
     for ( let i = 0; i < suiviDette.length; i++) {
@@ -344,16 +344,16 @@ exports.updateSuiviDetteCollection = async (data) => {
                                 
                             } else {
 
-                                return data.next (new AppError ('cette donnee est inexistante', 404))
+                                return next (new AppError ('cette donnee est inexistante', 404))
                             }
     
                         } else {
-                            return data.next (new AppError ('cette donnee est inexistante', 404));
+                            return next (new AppError ('cette donnee est inexistante', 404));
                         };
     
                     } else {
                         
-                        return data.next (new AppError ('La section nom ne doit pas etre vide'), 404);
+                        return next (new AppError ('La section nom ne doit pas etre vide'), 404);
                     };
                 };
                 //for clients
@@ -379,16 +379,16 @@ exports.updateSuiviDetteCollection = async (data) => {
                                 };
                             } else {
 
-                                return data.next (new AppError ('cette donnee est inexistante', 404));
+                                return next (new AppError ('cette donnee est inexistante', 404));
                             }
     
                         } else {
-                            return data.next (new AppError ('cette donnee est inexistante', 404));
+                            return next (new AppError ('cette donnee est inexistante', 404));
                         };
     
                     } else {
                         
-                        return data.next (new AppError ('La section nom ne doit pas etre vide'), 404);
+                        return next (new AppError ('La section nom ne doit pas etre vide'), 404);
                     };
                 };
                 //for musiciens
@@ -416,16 +416,16 @@ exports.updateSuiviDetteCollection = async (data) => {
                                 
                             } else {
 
-                                return data.next (new AppError ('cette donnee est inexistante', 404))
+                                return next (new AppError ('cette donnee est inexistante', 404))
                             }
     
                         } else {
-                            return data.next (new AppError ('cette donnee est inexistante', 404));
+                            return next (new AppError ('cette donnee est inexistante', 404));
                         };
     
                     } else {
                         
-                        return data.next (new AppError ('La section nom ne doit pas etre vide'), 404);
+                        return next (new AppError ('La section nom ne doit pas etre vide'), 404);
                     };
                 };
 
@@ -434,28 +434,28 @@ exports.updateSuiviDetteCollection = async (data) => {
     
             } else {
     
-                return data.next (new AppError ('Ce mois est inexistant dans la base des donnees', 404));
+                return next (new AppError ('Ce mois est inexistant dans la base des donnees', 404));
             };
             
         } else {
             
-            return data.next (new AppError ('Cette annee est inexistante dans la base des donnees', 404));
+            return next (new AppError ('Cette annee est inexistante dans la base des donnees', 404));
         };
     };
     
     
-    data.res.status(200).json({
+    res.status(200).json({
         status: 'success',
         data: loopingData(suiviDette, year, month, day)
     });
 };
 
-exports.lastCreatedDataSuiviDetteCollection = async (data) => {
+exports.lastCreatedDataSuiviDetteCollection = async ({collection, req, res}) => {
 
-    const suiviDette = await data.collection.find();
+    const suiviDette = await collection.find();
     
-    const year = Number (data.req.params.year);
-    const month = Number (data.req.params.month);
+    const year = Number (req.params.year);
+    const month = Number (req.params.month);
 
     if (suiviDette.length > 0) {
         
@@ -509,30 +509,30 @@ exports.lastCreatedDataSuiviDetteCollection = async (data) => {
             };
         };
 
-        data.res.status(200).json({
+        res.status(200).json({
             status: 'success',
             data: dayData
         });
 
     } else {
 
-        data.res.status(200).json({
+        res.status(200).json({
             status: 'success',
             data: null
         })
     };
 };
 
-exports.mensualStastSuiviDetteCollection = async (data) => {
+exports.mensualStastSuiviDetteCollection = async ({collection, req, res}) => {
 
-    const year = Number (data.req.params.year);
-    const month = Number (data.req.params.month);
+    const year = Number (req.params.year);
+    const month = Number (req.params.month);
 
-    const agents = statsAll(year, month, 'agents', data.collection);
-    const musiciens = statsAll(year, month, 'musiciens', data.collection);
-    const clients = statsAll(year, month, 'clients', data.collection);
+    const agents = statsAll(year, month, 'agents', collection);
+    const musiciens = statsAll(year, month, 'musiciens', collection);
+    const clients = statsAll(year, month, 'clients', collection);
 
-    data.res.status(200).json({
+    res.status(200).json({
         status: 'success',
         data: {
             agents: agents,
@@ -542,16 +542,16 @@ exports.mensualStastSuiviDetteCollection = async (data) => {
     });
 };
 
-exports.mensualStastSuiviDetteDetailCollection = async (data) => {
+exports.mensualStastSuiviDetteDetailCollection = async ({collection, req, res}) => {
 
-    const year = Number (data.req.params.year);
-    const month = Number (data.req.params.month);
+    const year = Number (req.params.year);
+    const month = Number (req.params.month);
 
-    const agents = await statsDetail(year, month,'agents',data.collection);
-    const musiciens = await statsDetail(year, month,'musiciens',data.collection);
-    const clients = await statsDetail(year, month,'clients',data.collection);
+    const agents = await statsDetail(year, month,'agents',collection);
+    const musiciens = await statsDetail(year, month,'musiciens',collection);
+    const clients = await statsDetail(year, month,'clients',collection);
 
-    data.res.status(200).json({
+    res.status(200).json({
         status: 'success',
         data: {
             clients: clients,
@@ -561,13 +561,13 @@ exports.mensualStastSuiviDetteDetailCollection = async (data) => {
     });
 };
 
-exports.totalDetteCollection = async (data) => {
+exports.totalDetteCollection = async ({collection, req, res}) => {
 
-    const suiviDette = await data.collection.find();
+    const suiviDette = await collection.find();
 
-    const year = Number (data.req.params.year);
-    const month = Number (data.req.params.month);
-    const day = Number (data.req.params.day);
+    const year = Number (req.params.year);
+    const month = Number (req.params.month);
+    const day = Number (req.params.day);
     const dataDay = loopingData(suiviDette, year, month, day);
     let totDette = 0;
     if (dataDay.agents.length > 0 && dataDay.musiciens.length > 0 && dataDay.clients.length > 0 ) {
@@ -584,7 +584,7 @@ exports.totalDetteCollection = async (data) => {
         };
     };
 
-    data.res.status(200).json({
+    res.status(200).json({
         status: 'success',
         data: totDette
     })

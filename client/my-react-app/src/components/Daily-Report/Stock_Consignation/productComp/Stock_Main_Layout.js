@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
-import { productActions } from "../../../../store/AllProductManager-slice";
-import { alimProductActions } from "../../../../store/AllProductManagerAlim-slice";
+import { productActions } from "../../../store/AllProductManager-slice";
+import { alimProductActions } from "../../../store/AllProductManagerAlim-slice";
 import { useId } from "react";
 
 export function ExcelMain(props)

@@ -25,31 +25,31 @@ function loopingData(array, year, month, day) {
   return dayData;
 };
 
-exports.getVente = async (data) => {
+exports.getVente = async ({collection, req, res}) => {
 
-  const vente = await data.collection.find();
+  const vente = await collection.find();
 
   // then the response ....
-  data.res.status(200).json({
+  res.status(200).json({
     status: "success",
     data: {
       day: loopingData(
         vente,
-        Number(data.req.params.year),
-        Number(data.req.params.month),
-        Number(data.req.params.day)
+        Number(req.params.year),
+        Number(req.params.month),
+        Number(req.params.day)
       ),
     },
   });
 };
 
-exports.pushDataVente = async (data) => {
+exports.pushDataVente = async ({collection, req, res}) => {
 
-  const vente = await data.collection.find();
+  const vente = await collection.find();
 
-  const year = Number(data.req.query.year);
-  const month = Number(data.req.query.month);
-  const day = Number(data.req.query.day);
+  const year = Number(req.query.year);
+  const month = Number(req.query.month);
+  const day = Number(req.query.day);
 
   const yearIndex = vente.findIndex((el) => el.annee === year);
 
@@ -63,16 +63,16 @@ exports.pushDataVente = async (data) => {
 
       if (dayIndex === -1) {
 
-        vente[yearIndex].data[monthIndex].data.push(data.req.body);
+        vente[yearIndex].data[monthIndex].data.push(req.body);
       }
     } else {
 
-      vente[yearIndex].data.push({ data: data.req.body });
+      vente[yearIndex].data.push({ data: req.body });
     };
     
     await vente[yearIndex].save();
 
-    data.res.status(200).json({
+    res.status(200).json({
       statusbar: "success",
       data: {
         day: loopingData(vente, year, month, day),
@@ -81,14 +81,14 @@ exports.pushDataVente = async (data) => {
 
   } else {
 
-    const newVente = await data.collection.create({
+    const newVente = await collection.create({
 
       data: {
-        data: data.req.body,
+        data: req.body,
       },
     });
 
-    data.res.status(200).json({
+    res.status(200).json({
       status: "success",
       data: {
         day: loopingData([newVente], year, month, day)
@@ -97,13 +97,13 @@ exports.pushDataVente = async (data) => {
   }
 };
 
-exports.updatevente = async (data) => {
+exports.updatevente = async ({collection, req, res, next}) => {
 
-  const vente = await data.collection.find();
+  const vente = await collection.find();
 
-  const year = Number(data.req.params.year);
-  const month = Number(data.req.params.month);
-  const day = Number(data.req.params.day);
+  const year = Number(req.params.year);
+  const month = Number(req.params.month);
+  const day = Number(req.params.day);
 
 
     const yearIndex = await vente.findIndex((el) => el.annee === year);
@@ -118,7 +118,7 @@ exports.updatevente = async (data) => {
 
         if (dayIndex !== -1) {
 
-          vente[yearIndex].data[monthIndex].data[dayIndex] = {...data.req.body, createdAt: `${year}-${month}-${day}T07:22:54.930Z` };
+          vente[yearIndex].data[monthIndex].data[dayIndex] = {...req.body };
           vente[yearIndex].data[monthIndex].markModified('data');
 
 
@@ -142,7 +142,7 @@ exports.updatevente = async (data) => {
     });
 
 
-  data.res.status(200).json({
+  res.status(200).json({
     status: "success",
     data: {
       day: loopingData(vente, year, month, day),
@@ -150,11 +150,11 @@ exports.updatevente = async (data) => {
   });
 };
 
-exports.monthStatsVente = async (data) => {
-  const year = Number(data.req.params.year);
-  const month = Number(data.req.params.month);
+exports.monthStatsVente = async ({collection, req, res}) => {
+  const year = Number(req.params.year);
+  const month = Number(req.params.month);
 
-  const stats = await data.collection.aggregate([
+  const stats = await collection.aggregate([
     {
       $match: { annee: { $eq: year } },
     },
@@ -192,7 +192,7 @@ exports.monthStatsVente = async (data) => {
     },
   ]);
 
-  data.res.status(200).json({
+  res.status(200).json({
     status: "success",
     stats: {
       stats,

@@ -1,6 +1,6 @@
 import {useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { suiviDetteActions } from "../../../store/suiviDette-slice";
+import { suiviDetteActions } from "../../store/suiviDette-slice";
 import { useEffect } from "react";
 
 export default function YourTotDetteDaily (props) {
