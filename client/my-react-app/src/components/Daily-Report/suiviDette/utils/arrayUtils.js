@@ -9,3 +9,7 @@ export function deleteEmptyName (array) {
     };
     return data;
 };
+
+export function dateSetter (array, date) {
+    return array.map (el => {return {...el, data: {...el.data, createdAt: date}}});
+}

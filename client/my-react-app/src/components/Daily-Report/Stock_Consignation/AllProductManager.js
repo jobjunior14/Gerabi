@@ -94,7 +94,6 @@ export default function Product ({componentName, sliceName, venteName, productNa
 
   //change date field 
   useEffect(() => {
-
     stateAction ? dispatch(productActions.setDate({year: year, month: month, day: day})) : dispatch(alimProductActions.setDate({year: year, month: month, day: day}));
   },[productName, year, month, day, stateAction]);
 
@@ -131,11 +130,6 @@ export default function Product ({componentName, sliceName, venteName, productNa
         id,
         venteDego
       );
-      stateAction ? dispatch(productActions.setVenteDego(pAnduVente)) : dispatch(alimProductActions.setVenteDego(pAnduVente));
-      stateAction ? dispatch(productActions.setProductdata (pAnduData)) : dispatch(alimProductActions.setProductdata (pAnduData));
-      stateAction ? dispatch(productActions.setId(pAnduId)) : dispatch(alimProductActions.setId(pAnduId));
-      stateAction ? dispatch(productActions.setUpdate(pAnduReadOnly)) : dispatch(alimProductActions.setUpdate(pAnduReadOnly));
-      stateAction ? dispatch(productActions.setReadOnly(pAnduUpdate)) : dispatch(alimProductActions.setReadOnly(pAnduUpdate));
     };
 
   };
@@ -160,9 +154,9 @@ export default function Product ({componentName, sliceName, venteName, productNa
     );
     } else {
       
-      if (!loading || !pAnduLoading) {
+      if ((!loading || !pAnduLoading) && productData) {
 
-        if (productData.length > 0) {
+        if ( productData.length > 0) {
           return (
             <div>
               <DailyFilter component = {'allProduct'}  prev = {date} onclick = {setFilterParams} />

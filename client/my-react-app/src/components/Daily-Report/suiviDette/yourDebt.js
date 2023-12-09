@@ -6,7 +6,7 @@ import { indexMatcher } from "../../reuseFunction/suividette/indexMatch";
 import DebtDisplay from "./components/dispalyDebtComp";
 
 
-export default function YourDebts (){
+export default function YourDebts ({loading}){
 
     const dispatch = useDispatch();
 
@@ -58,7 +58,7 @@ export default function YourDebts (){
         }
     }, [fournisseursData,readOnly, savetotalDetteAndPaymentFournisseurs]);
 
-   if (fournisseursData) {
+   if (!loading) {
         if (fournisseursData.length > 0) {
 
             return (<div>
