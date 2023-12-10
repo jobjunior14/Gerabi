@@ -1,0 +1,123 @@
+import { useState, useEffect } from "react";
+import useDateParams from "../../../reuseFunction/dateParams";
+import indexSetter from "../../../reuseFunction/indexSetter";
+import axios from "axios";
+import sortieCaisseRowSetter from "./sortieCaisseUtils";
+import { indexSetterSortieCaisse } from "./sortieCaisseUtils";
+
+axios.defaults.baseURL = "http://localhost:5001/api/v1";
+
+export default function useDataFetcherSuiviDepense ({componentName}) {
+
+    const [customUpdate, setUpdate] = useState(false);
+    const [readOnly, setReadOnly] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState('');
+    const [entreeCaisse, setEntreeCaisse] = useState(null);
+    const [sortieCaisse, setSortieCaisse] = useState(null);
+    const [depense_Eff, setDepenseEff] = useState(0);
+    const [totalDebt, setTotalDebt] = useState(0);
+    const [yourTotalDebt, setYourTotalDebt] = useState(0);
+    const [soldCaisse, setSoldCaisse] = useState(0);
+    const [customPrevSoldCaisse, setPrevSoldCaisse] = useState(0);
+
+    //date params
+    const {year, month, day} = useDateParams();
+    //get the previous date 
+    const prevDate = new Date(year, month -1, day);
+
+    //subtract one day
+    prevDate.setDate(prevDate.getDate() - 1);
+
+    const prevYear = prevDate.getFullYear();
+    const prevMonth = prevDate.getMonth() + 1;
+    const prevDay = prevDate.getDate();
+
+    const fetchData = async () => {
+
+        setLoading(true);
+        try {
+            
+            const suiviDepenseData = await axios.get (`/${componentName}/suiviDepense/rapportJournalier/${year}/${month}/${day}`);
+            const totDette = await axios.get (`/${componentName}/suiviDette/rapportJournalier/totDette/${year}/${month}/${day}`);
+            const yourTotDette = await axios.get (`/${componentName}/yourSuiviDette/rapportJournalier/totDette/${year}/${month}/${day}`);
+            const depenseEffData = await axios.get (`/${componentName}/depenseEff/${year}/${month}/${day}`);
+            //previous sold caisse for entree caisse 
+            const prevSuiviDepenseData = await axios.get (`/${componentName}/suiviDepense/rapportJournalier/${prevYear}/${prevMonth}/${prevDay}`);
+            //set the deppense effectuée section
+            if (depenseEffData.data.data.day) setDepenseEff(depenseEffData.data.data.day.valeur);
+            //set the total amout of debt
+            setTotalDebt(totDette.data.data);
+            //set *your* total amount debt 
+            //*your * refer to the user/
+            setYourTotalDebt(yourTotDette.data.data);
+
+            if (suiviDepenseData.data.data.sortieCaisse.length > 0 && suiviDepenseData.data.data.entreeCaisse.length > 0  && suiviDepenseData.data.data.soldCaisse) {
+
+                //readOnly is the state to set the some inputs to readonly and update is the state to know if 
+                //the data is being updated or sending it as a new data to the server
+                setUpdate(true);
+                setReadOnly(true);
+                
+                //set all the data in sortie caisse to the same row 
+                const save_sortieCaisse = sortieCaisseRowSetter(suiviDepenseData.data.data.sortieCaisse);
+                //set the sortie caisse data 
+                setSortieCaisse(indexSetterSortieCaisse(save_sortieCaisse));
+
+                //set the entree caisse data
+                setEntreeCaisse(indexSetter(suiviDepenseData.data.data.entreeCaisse));
+                //set the sold caisse
+                if (suiviDepenseData.data.data.soldCaisse) setSoldCaisse(suiviDepenseData.data.data.soldCaisse.amount);
+            } else {
+
+                setReadOnly(false);
+                setUpdate(false);
+
+                const lastCreatedData = await axios.get(`/${componentName}/suiviDepense/lastElement/${year}/${month}`);
+
+                if (lastCreatedData.data.data) {
+                    
+                    if (lastCreatedData.data.data.sortieCaisse) {
+
+                        const save_sortieCaisse = sortieCaisseRowSetter(lastCreatedData.data.data.sortieCaisse);
+                        setSortieCaisse(indexSetterSortieCaisse(save_sortieCaisse));
+                    };  
+                    setEntreeCaisse(indexSetter(lastCreatedData.data.data.entreeCaisse));
+
+                } else {
+                    setReadOnly(false);
+                    setUpdate(false);
+                    setEntreeCaisse([]);
+                    setSoldCaisse([]);
+                };
+            };
+
+            //set the previous sold caisse
+            setPrevSoldCaisse(prevSuiviDepenseData.data.data.soldCaisse);
+
+        } catch (error) {
+            setError(error);
+            setLoading(false);
+        }  finally {
+            setLoading(false);
+        };
+    };
+
+    useEffect (() => {
+        fetchData();
+    }, [year, month, day, componentName]);
+
+    return {
+        customUpdate,
+        readOnly,
+        loading,
+        error,
+        entreeCaisse,
+        sortieCaisse,
+        depense_Eff,
+        totalDebt,
+        yourTotalDebt,
+        soldCaisse,
+        customPrevSoldCaisse
+    }
+}

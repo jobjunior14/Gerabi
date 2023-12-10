@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import useDateParams from '../../../reuseFunction/dateParams';
 import formatData from '../../../reuseFunction/rightFormatDate';
 import { deleteEmptyName } from './arrayUtils';
@@ -82,9 +82,6 @@ export default function usePostAndUpdata ({componentName}) {
         ///////////////////
         setUpdate(true);
         setReadOnly(true);
-
-        responseSuiviDette.data.data.totalDette ? setTotalDette (responseSuiviDette.data.data.totalDette) : 
-            setTotalDette (0);
         
         //set *your* debt
         responseYourSuiviDette.data.data.totalDette ? setYourTotalDebtAndPayment (responseYourSuiviDette.data.data.totalDette) : 
