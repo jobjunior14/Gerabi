@@ -127,22 +127,6 @@ const suiviDepenseSlice = createSlice ({
             );
         },
 
-        //set the sortie caisse to the same length to have a good reading of data 
-        setSameLength (state, action ) {
-
-            for (let i = 0; i < state.sortieCaisse.length; i++) {
-
-                if (state.sortieCaisse[i].data.length < action.payload) {
-
-                    const emptyToPush = action.payload - state.sortieCaisse[i].data.length;
-                    for (let j = 0; j < emptyToPush; j ++) {
-
-                        state.sortieCaisse[i].data.push({libel: "", amount: "", index: state.sortieCaisse[i].data.length});
-                    }
-                }
-            }
-        },
-
         //add a function to a sortie caisse array
         addFonctionSortie (state){
 

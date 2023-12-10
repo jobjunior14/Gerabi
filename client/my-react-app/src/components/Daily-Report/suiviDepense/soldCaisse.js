@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 
-export default function SoldCaisse () {
+export default function SoldCaisse ({loading}) {
 
 
     const sortieCaisseData = useSelector (state => state.suiviDepense.sortieCaisse);
@@ -9,7 +9,7 @@ export default function SoldCaisse () {
     const soldCaisse = useSelector (state => state.suiviDepense.soldCaisse);
 
 
-    if (sortieCaisseData){
+    if (!loading && sortieCaisseData){
 
         if (sortieCaisseData.length > 0) {
 

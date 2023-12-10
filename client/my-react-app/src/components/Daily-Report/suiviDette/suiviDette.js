@@ -138,7 +138,7 @@ export default function SuiviDette ({componentName}) {
             </div>
         );
     } else {
-        console.log(loading || pLoading);
+        
         return (<div>
             <DailyFilter component = {'suiviDette'}  prev = {date} onclick = {setFilterParams}/>
             <Agents loading = {loading || pLoading}/>

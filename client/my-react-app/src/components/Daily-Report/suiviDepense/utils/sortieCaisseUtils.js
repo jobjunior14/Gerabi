@@ -32,7 +32,36 @@ export function indexSetterSortieCaisse (array) {
 
     return (array.map ((el, index) => {
 
-        const data = el.data((el, index) => {return {...el, index:  index}});
+        const data = el.data.map((el, index) => {return {...el, index:  index}});
         return {...el, index: index, data: data};
-    }))
+    }));
+};
+
+export function deleteEmptyNameSortieCaisse (array, date) {
+
+    const saveData = [];
+    for (let i of array) {
+        if (i.name !== "") {
+            const data = [];
+
+            for (let y of i.data) {
+                if (y.libel !== "" && y.amount !== "") {
+                    data.push({
+                        libel: y.libel,
+                        amount: {
+                            valeur: y.amount,
+                            createdAt: date
+                        }
+                    });
+                };
+            };
+
+            saveData.push({
+                name: i.name,
+                data: data
+            });
+        };
+    };
+
+    return saveData;
 }

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { suiviDepenseActions } from "../../store/suiviDepense-slice";
 import { useId,useEffect, useState } from "react";
 
-export default function SoriteCaisse () {
+export default function SoriteCaisse ({loading}) {
     
     const dispatch = useDispatch();
 
@@ -139,7 +139,7 @@ export default function SoriteCaisse () {
 
 
     
-   if (sortieCaisse) {
+   if (!loading && sortieCaisse) {
 
         if (sortieCaisse.length > 0) {
     

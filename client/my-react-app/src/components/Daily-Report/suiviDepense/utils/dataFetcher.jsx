@@ -13,12 +13,12 @@ export default function useDataFetcherSuiviDepense ({componentName}) {
     const [readOnly, setReadOnly] = useState(false);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
-    const [entreeCaisse, setEntreeCaisse] = useState(null);
-    const [sortieCaisse, setSortieCaisse] = useState(null);
+    const [entreeCaisseData, setEntreeCaisse] = useState(null);
+    const [sortieCaisseData, setSortieCaisse] = useState(null);
     const [depense_Eff, setDepenseEff] = useState(0);
     const [totalDebt, setTotalDebt] = useState(0);
     const [yourTotalDebt, setYourTotalDebt] = useState(0);
-    const [soldCaisse, setSoldCaisse] = useState(0);
+    const [soldCaisseData, setSoldCaisse] = useState(0);
     const [customPrevSoldCaisse, setPrevSoldCaisse] = useState(0);
 
     //date params
@@ -53,7 +53,7 @@ export default function useDataFetcherSuiviDepense ({componentName}) {
             setYourTotalDebt(yourTotDette.data.data);
 
             if (suiviDepenseData.data.data.sortieCaisse.length > 0 && suiviDepenseData.data.data.entreeCaisse.length > 0  && suiviDepenseData.data.data.soldCaisse) {
-
+                
                 //readOnly is the state to set the some inputs to readonly and update is the state to know if 
                 //the data is being updated or sending it as a new data to the server
                 setUpdate(true);
@@ -63,7 +63,7 @@ export default function useDataFetcherSuiviDepense ({componentName}) {
                 const save_sortieCaisse = sortieCaisseRowSetter(suiviDepenseData.data.data.sortieCaisse);
                 //set the sortie caisse data 
                 setSortieCaisse(indexSetterSortieCaisse(save_sortieCaisse));
-
+                
                 //set the entree caisse data
                 setEntreeCaisse(indexSetter(suiviDepenseData.data.data.entreeCaisse));
                 //set the sold caisse
@@ -74,13 +74,13 @@ export default function useDataFetcherSuiviDepense ({componentName}) {
                 setUpdate(false);
 
                 const lastCreatedData = await axios.get(`/${componentName}/suiviDepense/lastElement/${year}/${month}`);
-
                 if (lastCreatedData.data.data) {
                     
                     if (lastCreatedData.data.data.sortieCaisse) {
-
+                        
                         const save_sortieCaisse = sortieCaisseRowSetter(lastCreatedData.data.data.sortieCaisse);
                         setSortieCaisse(indexSetterSortieCaisse(save_sortieCaisse));
+                        console.log (save_sortieCaisse);
                     };  
                     setEntreeCaisse(indexSetter(lastCreatedData.data.data.entreeCaisse));
 
@@ -107,17 +107,19 @@ export default function useDataFetcherSuiviDepense ({componentName}) {
         fetchData();
     }, [year, month, day, componentName]);
 
+    // console.log (sortieCaisseData);
+
     return {
         customUpdate,
         readOnly,
         loading,
         error,
-        entreeCaisse,
-        sortieCaisse,
+        entreeCaisseData,
+        sortieCaisseData,
         depense_Eff,
         totalDebt,
         yourTotalDebt,
-        soldCaisse,
+        soldCaisseData,
         customPrevSoldCaisse
     }
 }

@@ -264,40 +264,7 @@ exports.updateSuiviDepenseCollection = async ({collection, req, res, next}) => {
                                 
                                 
                                 if (existingDataIndex !== -1) {
-                                    
-                                    //put the date at the rigt format
-                                    if ( month >= 10 && day >= 10){
-    
-                                        suiviDepense[yearIndex].data[monthIndex].data.entreeCaisse[indexNameEntree].data[existingDataIndex] = {
-        
-                                            amount: body.entreeCaisse[p].data.amount,
-                                            createdAt: `${year}-${month}-${day}T07:22:54.930Z`,
-                                        };
-                                        
-                                    } else if ( month >= 10 && day < 10){
-                                        
-                                        suiviDepense[yearIndex].data[monthIndex].data.entreeCaisse[indexNameEntree].data[existingDataIndex] = {
-        
-                                            amount: body.entreeCaisse[p].data.amount,
-                                            createdAt: `${year}-${month}-0${day}T07:22:54.930Z`,
-                                        };
-                                        
-                                    } else if ( month < 10 && day >= 10) {
-                                        
-                                        suiviDepense[yearIndex].data[monthIndex].data.entreeCaisse[indexNameEntree].data[existingDataIndex] = {
-        
-                                            amount: body.entreeCaisse[p].data.amount,
-                                            createdAt: `${year}-0${month}-${day}T07:22:54.930Z`,
-                                        };
-                                        
-                                    } else {
-                                        
-                                        suiviDepense[yearIndex].data[monthIndex].data.entreeCaisse[indexNameEntree].data[existingDataIndex] = {
-        
-                                            amount: body.entreeCaisse[p].data.amount,
-                                            createdAt: `${year}-0${month}-0${day}T07:22:54.930Z`,
-                                        };
-                                    };
+                                    suiviDepense[yearIndex].data[monthIndex].data.entreeCaisse[indexNameEntree].data[existingDataIndex] = {...body.entreeCaisse[p].data};
                                 } else {
     
                                     return next (new AppError ('cette donnee est inexistante', 404))
@@ -333,38 +300,7 @@ exports.updateSuiviDepenseCollection = async ({collection, req, res, next}) => {
                                             
                                             const existingDataIndex = suiviDepense[yearIndex].data[monthIndex].data.sortieCaisse[indexNameSortie].data[indexLibelSortie].amount.findIndex (el => Number (JSON.stringify(el.createdAt).slice(9, 11)) === day);
                                             if (existingDataIndex !== -1) {
-                                                
-                                                //put the date at the right format
-                                                if (month > 10 && day > 10){
-        
-                                                    suiviDepense[yearIndex].data[monthIndex].data.sortieCaisse[indexNameSortie].data[indexLibelSortie].amount[existingDataIndex] = {
-            
-                                                        valeur: body.sortieCaisse[p].data[g].amount.valeur,
-                                                        createdAt: `${year}-${month}-${day}T07:22:54.930Z`,
-                                                    };
-                                                    
-                                                } else if (month > 10 && day < 10){
-                                                    
-                                                    suiviDepense[yearIndex].data[monthIndex].data.sortieCaisse[indexNameSortie].data[indexLibelSortie].amount[existingDataIndex] = {
-            
-                                                        valeur: body.sortieCaisse[p].data[g].amount.valeur,
-                                                        createdAt: `${year}-${month}-0${day}T07:22:54.930Z`,
-                                                    };
-                                                } else if (month < 10 && day > 10){
-                                                    
-                                                    suiviDepense[yearIndex].data[monthIndex].data.sortieCaisse[indexNameSortie].data[indexLibelSortie].amount[existingDataIndex] = {
-            
-                                                        valeur: body.sortieCaisse[p].data[g].amount.valeur,
-                                                        createdAt: `${year}-0${month}-${day}T07:22:54.930Z`,
-                                                    };
-                                                } else {
-                                                    
-                                                    suiviDepense[yearIndex].data[monthIndex].data.sortieCaisse[indexNameSortie].data[indexLibelSortie].amount[existingDataIndex] = {
-            
-                                                        valeur: body.sortieCaisse[p].data[g].amount.valeur,
-                                                        createdAt: `${year}-0${month}-0${day}T07:22:54.930Z`,
-                                                    };
-                                                }
+                                                suiviDepense[yearIndex].data[monthIndex].data.sortieCaisse[indexNameSortie].data[indexLibelSortie].amount[existingDataIndex] = {...body.sortieCaisse[p].data[g].amount};
                             
                                             } else {
         
@@ -392,42 +328,10 @@ exports.updateSuiviDepenseCollection = async ({collection, req, res, next}) => {
         
                     //for prev Sold
                     const indexPrevSold = suiviDepense[yearIndex].data[monthIndex].data.soldCaisse.findIndex (el => Number(JSON.stringify(el.createdAt).slice(9, 11)) === day);
-        
                     if (indexPrevSold !== -1){
+                        suiviDepense[yearIndex].data[monthIndex].data.soldCaisse = {...body.soldCaisse};
                         
-                        //put the date at the correct format
-                        if (month > 10 && day > 10){
-    
-                            suiviDepense[yearIndex].data[monthIndex].data.soldCaisse = {
-        
-                                amount: body.soldCaisse.amount,
-                                createdAt: `${year}-${month}-${day}T07:22:54.930Z`,
-                            };
-                            
-                        } else if (month > 10 && day < 10){
-                            
-                            suiviDepense[yearIndex].data[monthIndex].data.soldCaisse = {
-        
-                                amount: body.soldCaisse.amount,
-                                createdAt: `${year}-${month}-0${day}T07:22:54.930Z`,
-                            };
-                        } else if (month < 10 && day > 10){
-                            
-                            suiviDepense[yearIndex].data[monthIndex].data.soldCaisse = {
-        
-                                amount: body.soldCaisse.amount,
-                                createdAt: `${year}-0${month}-${day}T07:22:54.930Z`,
-                            };
-                        } else {
-                            
-                            suiviDepense[yearIndex].data[monthIndex].data.soldCaisse = {
-        
-                                amount: body.soldCaisse.amount,
-                                createdAt: `${year}-0${month}-0${day}T07:22:54.930Z`,
-                            };
-    
-                        }
-    
+                        //after save the data to the database
                         await suiviDepense[yearIndex].save();
                     } else {
                         return next ( new AppError ('cette donnee est inexistante', 404));

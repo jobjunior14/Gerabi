@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { suiviDepenseActions } from "../../store/suiviDepense-slice";
 
 
-export default function EntreeCaisse (props){
+export default function EntreeCaisse ({setTotEntree, foundPrevSold, prevDay, prevMonth, prevYear, loading }){
 
     const dispatch = useDispatch ();
     const data = useSelector(state => state.suiviDepense.entreeCaisse);
@@ -30,7 +30,7 @@ export default function EntreeCaisse (props){
                 };
             };
             //change the state using the parent's function
-            props.setTotEntree(savetotalEntreeCaisse);
+            setTotEntree(savetotalEntreeCaisse);
             return savetotalEntreeCaisse;
         };
     },[data]);
@@ -57,7 +57,7 @@ export default function EntreeCaisse (props){
     }, [memoTotEntreeCaisse(), totalEntreeCaisse, prevSoldCaisse]);
 
     
-    if (data) {
+    if (!loading && data) {
         
         if (data.length > 0) {
 
@@ -78,9 +78,9 @@ export default function EntreeCaisse (props){
 
                     </tbody>
                 </table>
-                { props.foundPrevSold && <>
+                { foundPrevSold && <>
 
-                    <p> Le sold caisse du {props.prevYear}/{props.prevMonth}/{props.prevDay}, n'a pas été trouvé </p>
+                    <p> Le sold caisse du {prevYear}/{prevMonth}/{prevDay}, n'a pas été trouvé </p>
                     <label id = {'inputfromUser' + id}> S'il est existant veillez le taper</label>
                     <input 
                         type="number"

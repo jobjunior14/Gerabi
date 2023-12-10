@@ -31,62 +31,62 @@ export default function usePostAndUpdata ({componentName}) {
     const {year, month, day} = useDateParams();
 
     async function postAndUpdate (agents, musiciens, clients, update, yourDebt) {
-        //variables allows us to see the loading page while fetching data
-        setError('');
-        setLoading(true);
-        //modeling date/set it to the right format for our database
-        let createdAt = formatData (year, month, day);
-
-        //modeling data for backend 
-        const newDataSuiviDette = {
-            data: {
-                data: {
-                    agents: deleteEmptyName(dateSetter(agents, createdAt)),
-                    musiciens: deleteEmptyName(dateSetter(musiciens, createdAt)),
-                    clients: deleteEmptyName(dateSetter(clients, createdAt))
-                }
-            }
-        };
-
-        const newDataYourSuiviDette = {
-            data: {
-                data: {
-                    fournisseurs : deleteEmptyName (dateSetter(yourDebt, createdAt))
-                }
-            }
-        };
-
-        const responseSuiviDette = !update ? await axios.post(`/${componentName}/suiviDette/rapportJournalier?year=${year}&month=${month}&day=${day}`, newDataSuiviDette) : 
-            await axios.post(`/${componentName}/suiviDette/rapportJournalier/${year}/${month}/${day}`, newDataSuiviDette);
-        const responseYourSuiviDette = !update ? await axios.post(`/${componentName}/yourSuiviDette/rapportJournalier?year=${year}&month=${month}&day=${day}`, newDataYourSuiviDette) : 
-            await axios.post(`/${componentName}/yourSuiviDette/rapportJournalier/${year}/${month}/${day}`, newDataYourSuiviDette);
-
-        const totDetailDetteAndPayment = await axios.get (`/${componentName}/suiviDette/rapportMensuel/detail/${year}/${month}`);
-        const yourTotDetailDetteAndPayment = await axios.get (`/${componentName}/yourSuiviDette/rapportMensuel/detail/${year}/${month}`);
-        //set the all the total amout dabt and payments
-        setTotDetailDetteAndPaymentAgents(totDetailDetteAndPayment.data.data.agents);
-        setTotDetailDetteAndPaymentClients(totDetailDetteAndPayment.data.data.clients);
-        setTotDetailDetteAndPaymentMusiciens(totDetailDetteAndPayment.data.data.musiciens);
-        //set *your* total debt and payment
-        setYourTotalaDetailDebtAndPayment(yourTotDetailDetteAndPayment.data.data.fournisseurs);
-        /////////////////////////////////////////////////////////////////////
-        setAgentsData(indexSetter(responseSuiviDette.data.data.agents));
-        setClientsData(indexSetter(responseSuiviDette.data.data.clients));
-        setMusiciensData(indexSetter(responseSuiviDette.data.data.musiciens));
-        /////////////////
-        setTotDetailDetteAndPaymentAgents(totDetailDetteAndPayment.data.data.agents);
-        setTotDetailDetteAndPaymentClients(totDetailDetteAndPayment.data.data.clients);
-        setTotDetailDetteAndPaymentMusiciens(totDetailDetteAndPayment.data.data.musiciens);
-        //set *your debt *
-        setYourDebt(indexSetter(responseYourSuiviDette.data.data.fournisseurs));
-        ///////////////////
-        setUpdate(true);
-        setReadOnly(true);
         
-        //set *your* debt
-        responseYourSuiviDette.data.data.totalDette ? setYourTotalDebtAndPayment (responseYourSuiviDette.data.data.totalDette) : 
-            setYourTotalDebtAndPayment(0);
         try {
+            //variables allows us to see the loading page while fetching data
+            setError('');
+            setLoading(true);
+            //modeling date/set it to the right format for our database
+            let createdAt = formatData (year, month, day);
+    
+            //modeling data for backend 
+            const newDataSuiviDette = {
+                data: {
+                    data: {
+                        agents: deleteEmptyName(dateSetter(agents, createdAt)),
+                        musiciens: deleteEmptyName(dateSetter(musiciens, createdAt)),
+                        clients: deleteEmptyName(dateSetter(clients, createdAt))
+                    }
+                }
+            };
+    
+            const newDataYourSuiviDette = {
+                data: {
+                    data: {
+                        fournisseurs : deleteEmptyName (dateSetter(yourDebt, createdAt))
+                    }
+                }
+            };
+            const responseSuiviDette = !update ? await axios.post(`/${componentName}/suiviDette/rapportJournalier?year=${year}&month=${month}&day=${day}`, newDataSuiviDette) : 
+                await axios.post(`/${componentName}/suiviDette/rapportJournalier/${year}/${month}/${day}`, newDataSuiviDette);
+            const responseYourSuiviDette = !update ? await axios.post(`/${componentName}/yourSuiviDette/rapportJournalier?year=${year}&month=${month}&day=${day}`, newDataYourSuiviDette) : 
+                await axios.post(`/${componentName}/yourSuiviDette/rapportJournalier/${year}/${month}/${day}`, newDataYourSuiviDette);
+    
+            const totDetailDetteAndPayment = await axios.get (`/${componentName}/suiviDette/rapportMensuel/detail/${year}/${month}`);
+            const yourTotDetailDetteAndPayment = await axios.get (`/${componentName}/yourSuiviDette/rapportMensuel/detail/${year}/${month}`);
+            //set the all the total amout dabt and payments
+            setTotDetailDetteAndPaymentAgents(totDetailDetteAndPayment.data.data.agents);
+            setTotDetailDetteAndPaymentClients(totDetailDetteAndPayment.data.data.clients);
+            setTotDetailDetteAndPaymentMusiciens(totDetailDetteAndPayment.data.data.musiciens);
+            //set *your* total debt and payment
+            setYourTotalaDetailDebtAndPayment(yourTotDetailDetteAndPayment.data.data.fournisseurs);
+            /////////////////////////////////////////////////////////////////////
+            setAgentsData(indexSetter(responseSuiviDette.data.data.agents));
+            setClientsData(indexSetter(responseSuiviDette.data.data.clients));
+            setMusiciensData(indexSetter(responseSuiviDette.data.data.musiciens));
+            /////////////////
+            setTotDetailDetteAndPaymentAgents(totDetailDetteAndPayment.data.data.agents);
+            setTotDetailDetteAndPaymentClients(totDetailDetteAndPayment.data.data.clients);
+            setTotDetailDetteAndPaymentMusiciens(totDetailDetteAndPayment.data.data.musiciens);
+            //set *your debt *
+            setYourDebt(indexSetter(responseYourSuiviDette.data.data.fournisseurs));
+            ///////////////////
+            setUpdate(true);
+            setReadOnly(true);
+            
+            //set *your* debt
+            responseYourSuiviDette.data.data.totalDette ? setYourTotalDebtAndPayment (responseYourSuiviDette.data.data.totalDette) : 
+                setYourTotalDebtAndPayment(0);
             
         } catch (error) {
             setError(error);

@@ -4,7 +4,7 @@ import useDateParams from '../../../reuseFunction/dateParams';
 import indexSetter from '../../../reuseFunction/indexSetter';
 
 axios.defaults.baseURL = "http://localhost:5001/api/v1";
-export default function useDataFetcherSuiviDette  ({componentName}) {
+export default function useDataFetcherSuiviDepense ({componentName}) {
     
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false); 
