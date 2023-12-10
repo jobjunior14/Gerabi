@@ -27,7 +27,7 @@ export default function DebtDisplay(props) {
             </th>
             <td>
                 <input 
-                    value={props.data.amount}
+                    defaultValue={props.data.amount}
                     id = {props.index + props.id + props.in2}
                     type = 'number'
                     name = 'amount'
@@ -43,7 +43,7 @@ export default function DebtDisplay(props) {
             </td>
             <td>
                 <input 
-                    value={props.data.payment}
+                    defaultValue={props.data.payment}
                     id = {props.index + props.id + props.in3}
                     type = 'number'
                     name = 'payment'

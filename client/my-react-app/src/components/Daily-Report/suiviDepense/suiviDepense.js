@@ -7,7 +7,7 @@ import SoriteCaisse from "./sortieCaisse";
 import EntreeCaisse from "./entreeCaisse";
 import DailyFilter from "../../filter/filterDailyRap";
 import SoldCaisse from "./soldCaisse";
-import formatDate from "../../reuseFunction/suiviStockVente/rightFormatDate";
+import formatDate from "../../reuseFunction/rightFormatDate";
 import UniqueInput from "../../reuseFunction/uniqueInput";
 
 function postAndUpdate (entreeCaisse, sortieCaisse, year, month, day, dispatch, update,  totalSortieCaisse, totalSoldCaisse, totalDailyDebt, props, depenseEff, yourTotalDette) {

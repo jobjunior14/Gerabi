@@ -5,7 +5,7 @@ import { useId } from "react";
 import { indexMatcher } from "../../reuseFunction/suividette/indexMatch";
 import DebtDisplay from "./components/dispalyDebtComp";
 
-export default function Musiciens (){
+export default function Musiciens ({loading}){
 
     const dispatch = useDispatch();
 
@@ -57,7 +57,7 @@ export default function Musiciens (){
         }
     }, [musiciensData,readOnly, savetotalDetteAndPaymentMusiciens]);
 
-    if (musiciensData) {
+    if (!loading && musiciensData) {
         if (musiciensData.length > 0) {
 
             return (<div>

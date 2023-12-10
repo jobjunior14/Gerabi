@@ -12,8 +12,8 @@ export default function usePostAndUpdata ({componentName}) {
 
     //the *p* before variables refer to the post and update data 
     const [pError, setError] = useState('');
-    const [pLoading, setLoading] = useState(true); 
-    const [pCustomUpdate, setUpdate] = useState(true);
+    const [pLoading, setLoading] = useState(false); 
+    const [pCustomUpdate, setUpdate] = useState(false);
     const [pReadOnly, setReadOnly] = useState(true);
     const [pAgentsData, setAgentsData] = useState(null);
     const [pMusiciensData, setMusiciensData] = useState(null);
@@ -93,7 +93,7 @@ export default function usePostAndUpdata ({componentName}) {
             
         } catch (error) {
             setError(error);
-            setMusiciensData(false);
+            setLoading(false);
         } finally {
             setLoading(false);
         };

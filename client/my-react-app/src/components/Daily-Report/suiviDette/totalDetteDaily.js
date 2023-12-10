@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { suiviDetteActions } from "../../store/suiviDette-slice";
 import { useEffect } from "react";
 
-export default function TotDetteDaily (props) {
+export default function TotDetteDaily ({year, month, day}) {
 
     const totDette = useSelector(state => state.suiviDette.totalDette);
     const dispatch = useDispatch();
@@ -38,5 +38,5 @@ export default function TotDetteDaily (props) {
 
     }, [agents, clients, musiciens]);
 
-    return (<p> Total dette du {props.day}-{props.month}-{props.year} : <b> {totDette} </b> </p>)
+    return (<p> Total dette du {day}-{month}-{year} : <b> {totDette} </b> </p>)
 };

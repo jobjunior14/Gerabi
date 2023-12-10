@@ -1,13 +1,11 @@
 import { useEffect } from "react";
-import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
-import { suiviDetteActions } from "../../../store/suiviDette-slice";
-import DailyFilter from "../../../filter/filterDailyRap";
+import { suiviDetteActions } from "../../store/suiviDette-slice";
+import DailyFilter from "../../filter/filterDailyRap";
 import Clients from "./clients"
 import Musiciens from "./musiciens";
 import Agents from "./agents";
 import TotDetteDaily from "./totalDetteDaily";
-import formatDate from "../../../reuseFunction/suiviStockVente/rightFormatDate";
 import YourDebts from "./yourDebt";
 import YourTotDetteDaily from "./yourTotDetteDaily";
 import useDateParams from "../../reuseFunction/dateParams";
@@ -86,13 +84,10 @@ export default function SuiviDette ({componentName}) {
         //all data refering to the owner
         //*fournisseur* refer the people you took debt from 
         dispatch(suiviDetteActions.setFournisseurs(yourDebt));
-        dispatch(suiviDetteActions.setDetailTotDetteFournisseurs());
-        dispatch(suiviDetteActions.setYourTotalDette(0));
+        dispatch(suiviDetteActions.setDetailTotDetteFournisseurs(yourTotalDetailDebtAndPayment));
+        dispatch(suiviDetteActions.setYourTotalDette(yourTotalDebtAndPayment));
 
-        //////////////////////////////////////////////////////////////////////
-        setterDateParams (prev => prev = date);
-
-     }, [musiciensData, agentsData, ClientsData, totDetailDetteAndPaymentAgents, totDetailDetteAndPaymentClients, totDetailDetteAndPaymentMusiciens, yourTotalDebtAndPayment,yourDebt,totalDebt,yourTotalDetailDebtAndPayment]);
+    }, [musiciensData, agentsData, ClientsData, totDetailDetteAndPaymentAgents, totDetailDetteAndPaymentClients, totDetailDetteAndPaymentMusiciens, yourTotalDebtAndPayment,yourDebt,totalDebt,yourTotalDetailDebtAndPayment]);
 
     //set the updating and posting data
     useEffect(() => {
@@ -100,28 +95,25 @@ export default function SuiviDette ({componentName}) {
         dispatch(suiviDetteActions.setUpdate(pCustomUpdate));
         dispatch(suiviDetteActions.setReadOnly(pReadOnly));
 
-        dispatch(suiviDetteActions.setAgents(agentsData));
-        dispatch(suiviDetteActions.setClients(ClientsData));
-        dispatch(suiviDetteActions.setMusiciens(musiciensData));
+        dispatch(suiviDetteActions.setAgents(pAgentsData));
+        dispatch(suiviDetteActions.setClients(pClientsData));
+        dispatch(suiviDetteActions.setMusiciens(pMusiciensData));
         //set the total amount debt and payment 
-        dispatch(suiviDetteActions.setDetailTotDetteAgents(totDetailDetteAndPaymentAgents)); 
-        dispatch(suiviDetteActions.setDetailTotDetteMusiciens(totDetailDetteAndPaymentMusiciens));
-        dispatch(suiviDetteActions.setDetailTotDetteClients(totDetailDetteAndPaymentClients));
+        dispatch(suiviDetteActions.setDetailTotDetteAgents(pTotDetailDetteAndPaymentAgents)); 
+        dispatch(suiviDetteActions.setDetailTotDetteMusiciens(pTotDetailDetteAndPaymentMusiciens));
+        dispatch(suiviDetteActions.setDetailTotDetteClients(pTotDetailDetteAndPaymentClients));
 
         //all data refering to the owner
         //*fournisseur* refer the people you took debt from 
-        dispatch(suiviDetteActions.setFournisseurs(yourDebt));
-        dispatch(suiviDetteActions.setDetailTotDetteFournisseurs());
-        dispatch(suiviDetteActions.setYourTotalDette(0));
-
-        //////////////////////////////////////////////////////////////////////
-        setterDateParams (prev => prev = date);
+        dispatch(suiviDetteActions.setFournisseurs(pYourDebt));
+        dispatch(suiviDetteActions.setDetailTotDetteFournisseurs(pYourTotalDetailDebtAndPayment));
+        dispatch(suiviDetteActions.setYourTotalDette(pYourTotalDebtAndPayment));
 
     }, [pMusiciensData, pAgentsData, pClientsData, pTotDetailDetteAndPaymentAgents, pTotDetailDetteAndPaymentClients, pTotDetailDetteAndPaymentMusiciens, pYourTotalDebtAndPayment,pYourDebt,pTotalDebt,pYourTotalDetailDebtAndPayment]);
 
-
-    //a changer/////////////////////////////////
-    console.log (musiciensData, agentsData, ClientsData, totDetailDetteAndPaymentAgents, totDetailDetteAndPaymentClients, totDetailDetteAndPaymentMusiciens, yourTotalDebtAndPayment,yourDebt,totalDebt,yourTotalDetailDebtAndPayment);
+    useEffect(() => {
+        setterDateParams (date);
+    }, [componentName]);
 
     function setFilterParams() {
         setterDateParams(date);
@@ -146,15 +138,15 @@ export default function SuiviDette ({componentName}) {
             </div>
         );
     } else {
-
+        console.log(loading || pLoading);
         return (<div>
             <DailyFilter component = {'suiviDette'}  prev = {date} onclick = {setFilterParams}/>
             <Agents loading = {loading || pLoading}/>
             <Clients loading = {loading || pLoading}/>
             <Musiciens loading = {loading || pLoading}/>
-            <TotDetteDaily loading = {loading || pLoading} day = {day} month = {month} year = {year} />
+            <TotDetteDaily day = {day} month = {month} year = {year} />
             <YourDebts loading = {loading || pLoading}/>
-            <YourTotDetteDaily loading = {loading || pLoading} day = {day} month = {month} year = {year} />
+            <YourTotDetteDaily day = {day} month = {month} year = {year} />
             {!update ? <button onClick={postData}> Enregistrer les données</button> : <button onClick={updateData}> Mettre à les données</button> }
             {error !== ''  && <h2>{error.response.data.erro.message}</h2>}
             {pError !== "" && <h2>{pError.response.data.erro.message}</h2>}

@@ -7,13 +7,12 @@ axios.defaults.baseURL = "http://localhost:5001/api/v1";
 export default function useDataFetcherSuiviDette  ({componentName}) {
     
   const [error, setError] = useState('');
-  const [loading, setLoading] = useState(true); 
-  const [customUpdate, setUpdate] = useState(true);
+  const [loading, setLoading] = useState(false); 
+  const [customUpdate, setUpdate] = useState(false);
   const [readOnly, setReadOnly] = useState(true);
   const [agentsData, setAgentsData] = useState(null);
   const [musiciensData, setMusiciensData] = useState(null);
   const [ClientsData, setClientsData] = useState(null);
-  const [totalDebt, setTotalDette] = useState(null);
   //the total amount of debt by category
   const [totDetailDetteAndPaymentAgents, setTotDetailDetteAndPaymentAgents] = useState(null);
   const [totDetailDetteAndPaymentMusiciens, setTotDetailDetteAndPaymentMusiciens] = useState(null);
@@ -30,9 +29,9 @@ export default function useDataFetcherSuiviDette  ({componentName}) {
       //reinitialize some state to see the loading page while fetching data
 
       const suiviDetteData = await axios.get(`/${componentName}/suiviDette/rapportJournalier/${year}/${month}/${day}`);
+      const totDetailDetteAndPayment = await axios.get (`/${componentName}/suiviDette/rapportMensuel/detail/${year}/${month}`);
       //*your* refer to the owner of the application 
       const yourSuiviDetteData = await axios.get (`/${componentName}/yourSuiviDette/rapportJournalier/${year}/${month}/${day}`);
-      const totDetailDetteAndPayment = await axios.get (`/${componentName}/suiviDette/rapportMensuel/detail/${year}/${month}`);
       const yourTotDetailDetteAndPayment = await axios.get (`/${componentName}/yourSuiviDette/rapportMensuel/detail/${year}/${month}`);
 
       if (suiviDetteData.data.data.agents.length > 0 && suiviDetteData.data.data.musiciens.length > 0 && suiviDetteData.data.data.clients.length > 0 ) {
@@ -64,7 +63,6 @@ export default function useDataFetcherSuiviDette  ({componentName}) {
           setAgentsData(indexSetter(lastCreatedData.data.data.agents));
           setMusiciensData(indexSetter(lastCreatedData.data.data.musiciens))
           setClientsData(indexSetter(lastCreatedData.data.data.clients));
-          setTotalDette(lastCreatedData.data.data.totalDette);
         } else {
           //set the total amount debt and payment   
           setTotDetailDetteAndPaymentAgents([]);
@@ -74,30 +72,30 @@ export default function useDataFetcherSuiviDette  ({componentName}) {
           setAgentsData([]);
           setClientsData([]);
           setMusiciensData([]);
-          setTotalDette(0);
         };
       };
 
       //**your debt*/
       if (yourSuiviDetteData.data.data.fournisseurs.length > 0) {
-          setYourDebt(indexSetter(yourSuiviDetteData.data.data.fournisseurs));
-          //set the total amount debt
-          setYourTotalaDetailDebtAndPayment(yourTotDetailDetteAndPayment.data.data.fournisseurs);
+        setYourDebt(indexSetter(yourSuiviDetteData.data.data.fournisseurs));
+        //set the total amount debt
+        setYourTotalaDetailDebtAndPayment(yourTotDetailDetteAndPayment.data.data.fournisseurs);
 
-          const yourLastCreatedData = await axios.get(`${componentName}/yourSuiviDette/lastElement/${year}/${month}`);
-          
-          if (yourLastCreatedData.data.data) {
-              
-            setYourDebt(indexSetter(yourLastCreatedData.data.data.fournisseurs));
-              //set the total amount debt
+      } else {
+        
+        const yourLastCreatedData = await axios.get(`${componentName}/yourSuiviDette/lastElement/${year}/${month}`);
+        if (yourLastCreatedData.data.data) {
+
+          setYourDebt(indexSetter(yourLastCreatedData.data.data.fournisseurs));
+            //set the total amount debt
             setYourTotalaDetailDebtAndPayment(yourTotDetailDetteAndPayment.data.data.fournisseurs);
-          } else {
-            setYourDebt([]);
-            setYourTotalaDetailDebtAndPayment([]);
-            setYourTotalDebtAndPayment(0);
-          }
-
+        } else {
+          setYourDebt([]);
+          setYourTotalaDetailDebtAndPayment([]);
+          setYourTotalDebtAndPayment(0);
+        }
       };
+
 
     } catch (error) {
       setError(error);
@@ -118,7 +116,6 @@ export default function useDataFetcherSuiviDette  ({componentName}) {
     agentsData, 
     musiciensData, 
     ClientsData, 
-    totalDebt, 
     totDetailDetteAndPaymentAgents,
     totDetailDetteAndPaymentClients, 
     totDetailDetteAndPaymentMusiciens, 

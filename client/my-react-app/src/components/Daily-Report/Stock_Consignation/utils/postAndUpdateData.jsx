@@ -14,7 +14,7 @@ export default function usePostAndUpdateData ({componentName, productName, vente
     const [pAnduData, setPandUData] = useState(null);
     const [pAnduUpdate, setPandUUpdate] = useState(true);
     const [pAnduReadOnly, setPandUReadOnly] = useState(true);
-    const [ pAnduLoading, setPandULoading] = useState(true);
+    const [ pAnduLoading, setPandULoading] = useState(false);
     const [pAnduError, setPandUError] = useState('');
 
     //the date using in the query string

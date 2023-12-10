@@ -16,7 +16,7 @@ export default function useDataFetcherSuiviStock ({componentName, productName, v
     const [data, setData] = useState(null);
     const [customUpdate, setCustomUpdate] = useState(true);
     const [readOnly, setReadOnly] = useState(true);
-    const [ loading, setLoading] = useState(true);
+    const [ loading, setLoading] = useState(false);
     const [error, setError] = useState('');
 
     const fetchData = async () =>{

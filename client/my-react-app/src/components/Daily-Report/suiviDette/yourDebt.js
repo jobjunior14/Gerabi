@@ -58,9 +58,8 @@ export default function YourDebts ({loading}){
         }
     }, [fournisseursData,readOnly, savetotalDetteAndPaymentFournisseurs]);
 
-   if (!loading) {
+   if (!loading && fournisseursData) {
         if (fournisseursData.length > 0) {
-
             return (<div>
                 <h3> Mes Dettes </h3>
                 <table>

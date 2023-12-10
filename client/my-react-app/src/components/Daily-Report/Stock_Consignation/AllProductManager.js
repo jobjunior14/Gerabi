@@ -154,7 +154,7 @@ export default function Product ({componentName, sliceName, venteName, productNa
     );
     } else {
       
-      if ((!loading || !pAnduLoading) && productData) {
+      if (!(loading || pAnduLoading) && productData) {
 
         if ( productData.length > 0) {
           return (
@@ -199,7 +199,7 @@ export default function Product ({componentName, sliceName, venteName, productNa
             <h1> Loading...</h1> 
             { pAnduError !== "" && <p>{pAnduError.response.data.erro.message}</p>}
             { error !== "" && <p>{error.response.data.erro.message}</p>}
-            <h2>Internal server Error</h2>
+            {(pAnduError !== "" || error !== "") && <h2>Internal server Error</h2>}
           </div>
         );
       };

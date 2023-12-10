@@ -5,7 +5,7 @@ import { useId } from "react";
 import { indexMatcher } from "../../reuseFunction/suividette/indexMatch";
 import DebtDisplay from "./components/dispalyDebtComp";
 
-export default function Clients (){
+export default function Clients ({loading}){
 
     const dispatch = useDispatch();
 
@@ -57,7 +57,7 @@ export default function Clients (){
         }
     }, [clientsData,readOnly, savetotalDetteAndPaymentClients]);
 
-   if (clientsData) {
+   if (!loading && clientsData) {
         if (clientsData.length > 0) {
 
             return (<div>
