@@ -1,21 +1,15 @@
-import { useSearchParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import VenteSystemGraph from "./yearStats/venteSystem/venteSysteme";
-import axios from 'axios'
+import useDateParams from '../reuseFunction/dateParams'
 
 export default function YearStats (props) {
 
-    const [dateParams, setDateParams] = useSearchParams();
-
-    const year = dateParams.get('year');
+    const {year, currentYear, setterDateParams} = useDateParams();
 
     const [date, setDate] = useState(year);
 
-    const currentYear = Number (new Date().getFullYear());
-
-
     function setFilterParams  () {
-        setDateParams(prev => date);
+        setterDateParams(date);
     };
 
     function handleYear (e) {
@@ -30,11 +24,17 @@ export default function YearStats (props) {
             </div>
         )
     } else {
-        <div>
-            <label id = 'annee'>Année</label>
-            <input id = 'annee' type="number" defaultValue={date} onChange={handleYear} placeholder="Taper l'année" />
-            <VenteSystemGraph/>
-        </div>
+        return (
+            <div>
+                <div>
+                    <label id = 'annee'>Année</label>
+                    <input id = 'annee' type="number" defaultValue={date} onChange={handleYear} placeholder="Taper l'année" />
+                    <button onClick={setFilterParams}> Chercher</button>
+                </div>
+                <VenteSystemGraph/>
+            </div>
+
+        );
     }
 
 }

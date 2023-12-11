@@ -398,7 +398,7 @@ const statsData = new mongoose.Schema({
   vente_bar: {
     type: Number,
   },
-  approvionnement: {
+  approvisionnement: {
     type: Number,
   },
   benefice: {

@@ -51,14 +51,13 @@ export default function useDataFetcherSuiviDepense ({componentName}) {
             //set *your* total amount debt 
             //*your * refer to the user/
             setYourTotalDebt(yourTotDette.data.data);
-
+            
             if (suiviDepenseData.data.data.sortieCaisse.length > 0 && suiviDepenseData.data.data.entreeCaisse.length > 0  && suiviDepenseData.data.data.soldCaisse) {
                 
                 //readOnly is the state to set the some inputs to readonly and update is the state to know if 
                 //the data is being updated or sending it as a new data to the server
                 setUpdate(true);
                 setReadOnly(true);
-                
                 //set all the data in sortie caisse to the same row 
                 const save_sortieCaisse = sortieCaisseRowSetter(suiviDepenseData.data.data.sortieCaisse);
                 //set the sortie caisse data 
@@ -69,25 +68,25 @@ export default function useDataFetcherSuiviDepense ({componentName}) {
                 //set the sold caisse
                 if (suiviDepenseData.data.data.soldCaisse) setSoldCaisse(suiviDepenseData.data.data.soldCaisse.amount);
             } else {
-
+                
                 setReadOnly(false);
                 setUpdate(false);
-
+                
                 const lastCreatedData = await axios.get(`/${componentName}/suiviDepense/lastElement/${year}/${month}`);
                 if (lastCreatedData.data.data) {
                     
                     if (lastCreatedData.data.data.sortieCaisse) {
-                        
                         const save_sortieCaisse = sortieCaisseRowSetter(lastCreatedData.data.data.sortieCaisse);
                         setSortieCaisse(indexSetterSortieCaisse(save_sortieCaisse));
-                        console.log (save_sortieCaisse);
                     };  
                     setEntreeCaisse(indexSetter(lastCreatedData.data.data.entreeCaisse));
-
+                    
                 } else {
+                    console.log('hey');
                     setReadOnly(false);
                     setUpdate(false);
                     setEntreeCaisse([]);
+                    setSortieCaisse([]);
                     setSoldCaisse([]);
                 };
             };

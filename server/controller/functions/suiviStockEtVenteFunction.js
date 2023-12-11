@@ -207,7 +207,7 @@ exports.AllProductStatsCollection = async (collection, request, response) => {
       $group: {
         _id: { mois: "$stats.mois" },
         vente_bar: { $sum: "$stats.vente_bar" },
-        approvionnement: { $sum: "$stats.approvionnement" },
+        approvisionnement: { $sum: "$stats.approvisionnement" },
         benefice: { $sum: "$stats.benefice" },
       },
     },
@@ -256,7 +256,7 @@ exports.yearStatsCollection = async (collection, request, response) => {
       $group: {
         _id: { mois: "$stats.data.mois" },
         vente_bar: { $sum: "$stats.data.vente_bar" },
-        approvionnement: { $sum: "$stats.data.approvionnement" },
+        approvisionnement: { $sum: "$stats.data.approvisionnement" },
         benefice: { $sum: "$stats.data.benefice" },
       },
     },
@@ -282,13 +282,13 @@ exports.dailyRapCollection = async (collection, request, response) => {
   const dailyData = loopingData(data, year, month, day);
 
   let vente_bar = 0;
-  let approvionnement = 0;
+  let approvisionnement = 0;
   let benefice = 0;
 
   for (let i of dailyData.day) {
 
     vente_bar += i.vente_bar;
-    approvionnement += i.approvionnement;
+    approvisionnement += i.approvisionnement;
     benefice += i.benefice;
   };
 
@@ -297,7 +297,7 @@ exports.dailyRapCollection = async (collection, request, response) => {
     data: {
       vente_bar: vente_bar,
       benefice: benefice,
-      approvionnement: approvionnement
+      approvisionnement: approvisionnement
     }
   });
 };

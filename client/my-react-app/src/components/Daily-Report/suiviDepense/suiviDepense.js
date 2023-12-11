@@ -109,9 +109,9 @@ export default function SuiviDepense ({componentName}){
         //set the prev Sold Caisse
         setPrevSoldCaisse(customPrevSoldCaisse)
         
-              
     }, [entreeCaisseData, sortieCaisseData, pDepense_Eff, totalDebt, yourTotalDebt, customPrevSoldCaisse]);
 
+    // console.log (sortieCaisseData)
     //track the changes state to calculate the previous taped sold caisse by user
     useEffect(() => {
 
@@ -181,8 +181,8 @@ export default function SuiviDepense ({componentName}){
                 <p> Total Dette du {day}-{month}-{year}: <b> {totalDailyDebt}</b></p>
                 <p> Ton total Dette du {day}-{month}-{year}: <b> {yourTotalDette}</b> </p>
                 {!update ? <button onClick={postData}> Enregistrer les données</button> : <button onClick={updateData}> Mettre à les données</button> }
-                {/* {pError !== "" && <h3>{pError.response.data.erro.message}</h3>}
-                {error !== "" && <h3>{error.response.data.erro.message}</h3>} */}
+                 {pError !== "" && <h3>{pError.response.data.erro.message}</h3>}
+                {error !== "" && <h3>{error.response.data.erro.message}</h3>} 
             </div>
         )
     };

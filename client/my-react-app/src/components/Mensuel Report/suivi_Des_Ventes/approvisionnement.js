@@ -13,7 +13,7 @@ export default function Approvisionnement () {
 
         if (data.bralima.length > 0 && data.brasimba.length > 0 && data.liqueurs.length > 0 && data.autreProduit.length > 0) {
 
-            const total = data.bralima[0].approvionnement + data.brasimba[0].approvionnement + data.autreProduit[0].approvionnement + data.liqueurs[0].approvionnement;
+            const total = data.bralima[0].approvisionnement + data.brasimba[0].approvisionnement + data.autreProduit[0].approvisionnement + data.liqueurs[0].approvisionnement;
 
             return (<div> 
 
@@ -27,19 +27,19 @@ export default function Approvisionnement () {
                     </tr>
                     <tr>
                         <td> Bralima </td>
-                        <td> {data.bralima[0].approvionnement}</td>
+                        <td> {data.bralima[0].approvisionnement}</td>
                     </tr>
                     <tr>
                         <td> Brasimba </td>
-                        <td> {data.brasimba[0].approvionnement}</td>
+                        <td> {data.brasimba[0].approvisionnement}</td>
                     </tr>
                     <tr>
                         <td> Autre Produit </td>
-                        <td> {data.autreProduit[0].approvionnement}</td>
+                        <td> {data.autreProduit[0].approvisionnement}</td>
                     </tr>
                     <tr>
                         <td> Liqueurs </td>
-                        <td> {data.liqueurs[0].approvionnement} </td>
+                        <td> {data.liqueurs[0].approvisionnement} </td>
                     </tr>
                     <tr>
                         <td> Total </td>

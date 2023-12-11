@@ -18,7 +18,7 @@ class stats
             data:[{
                 mois: JSON.stringify(this.month).slice (6, 8) + this.name,
                 vente_bar: this.mensRapport,
-                approvionnement: this.approvionnement ,
+                approvisionnement: this.approvisionnement ,
                 benefice: this.benefice,
             }]
         };
@@ -32,7 +32,7 @@ class stats
         {
             mois: this.month,
             vente_bar: this.mensRapport,
-            approvionnement: this.approvionnement,
+            approvisionnement: this.approvisionnement,
             benefice: this.benefice
         }
 

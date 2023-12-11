@@ -86,7 +86,7 @@ exports.pushDataCollection =  async (request, collection, response ) => {
               name: collectionData[indexMainName].name,
               mois: collectionData[indexMainName].stats[index1].data[index2].mois,
               vente_bar: Number(collectionData[indexMainName].stats[index1].data[index2].vente_bar) + Number( collectionData[indexMainName].data[el1].data[el2].data[el3].vente_journaliere.valeur),
-              approvionnement: Number(collectionData[indexMainName].stats[index1].data[index2].approvionnement) + Number(collectionData[indexMainName].data[el1].data[el2].data[el3].benefice_sur_achat.val_gros_approvisionnement),
+              approvisionnement: Number(collectionData[indexMainName].stats[index1].data[index2].approvisionnement) + Number(collectionData[indexMainName].data[el1].data[el2].data[el3].benefice_sur_achat.val_gros_approvisionnement),
               benefice: Number(collectionData[indexMainName].stats[index1].data[index2].benefice) + Number( collectionData[indexMainName].data[el1].data[el2].data[el3].benefice_sur_vente),
                
             };
@@ -100,7 +100,7 @@ exports.pushDataCollection =  async (request, collection, response ) => {
               name: collectionData[indexMainName].name,
               mois: Number(new Date().toLocaleDateString().slice(3, 5)),
               vente_bar: Number( collectionData[indexMainName].data[el1].data[el2].data[el3].vente_journaliere.valeur),
-              approvionnement: Number( collectionData[indexMainName].data[el1].data[el2].data[el3].benefice_sur_achat.val_gros_approvisionnement),
+              approvisionnement: Number( collectionData[indexMainName].data[el1].data[el2].data[el3].benefice_sur_achat.val_gros_approvisionnement),
               benefice: Number( collectionData[indexMainName].data[el1].data[el2].data[el3].benefice_sur_vente),
 
             };
@@ -118,7 +118,7 @@ exports.pushDataCollection =  async (request, collection, response ) => {
                 name: collectionData[indexMainName].name,
                 mois: Number(new Date().toLocaleDateString().slice(3, 5)),
                 vente_bar: Number(collectionData[indexMainName].data[el1].data[el2].data[el3].vente_journaliere.valeur),
-                approvionnement: Number(collectionData[indexMainName].data[el1].data[el2].data[el3].benefice_sur_achat.val_gros_approvisionnement),
+                approvisionnement: Number(collectionData[indexMainName].data[el1].data[el2].data[el3].benefice_sur_achat.val_gros_approvisionnement),
                 benefice: Number( collectionData[indexMainName].data[el1].data[el2].data[el3].benefice_sur_vente),
 
               },
@@ -149,7 +149,7 @@ exports.pushDataCollection =  async (request, collection, response ) => {
   
                 //working with the last data created in this product
                 vente_bar: Number( newBralimaData.data[0].data[0].data[0].vente_journaliere.valeur),
-                approvionnement: Number( newBralimaData.data[0].data[0].data[0].benefice_sur_achat.val_gros_approvisionnement),
+                approvisionnement: Number( newBralimaData.data[0].data[0].data[0].benefice_sur_achat.val_gros_approvisionnement),
                 benefice: Number( newBralimaData.data[0].data[0].data[0].benefice_sur_vente),
   
               },
@@ -193,7 +193,7 @@ exports.pushDataCollection =  async (request, collection, response ) => {
   
               //working with the last data created in this product
               vente_bar: Number( newBralimaData.data[0].data[0].data[0].vente_journaliere.valeur),
-              approvionnement: Number( newBralimaData.data[0].data[0 ].data[0].benefice_sur_achat.val_gros_approvisionnement),
+              approvisionnement: Number( newBralimaData.data[0].data[0 ].data[0].benefice_sur_achat.val_gros_approvisionnement),
               benefice: Number( newBralimaData.data[0].data[0].data[newBralimaData.data[0].data[0 ].data.length - 1].benefice_sur_vente),
             },
           ],
@@ -260,7 +260,7 @@ exports.updateDataCollection = async (collection, request, response ) => {
               name: collectionData.name,
               mois: collectionData.stats[index1].data[index2].mois,
               vente_bar: Number(collectionData.stats[index1].data[index2].vente_bar) - Number( collectionData.data[yearIndex].data[monthIndex].data[indexof].vente_journaliere.valeur),
-              approvionnement: Number(collectionData.stats[index1].data[index2].approvionnement) - Number( collectionData.data[yearIndex].data[monthIndex].data[indexof].benefice_sur_achat.val_gros_approvisionnement),
+              approvisionnement: Number(collectionData.stats[index1].data[index2].approvisionnement) - Number( collectionData.data[yearIndex].data[monthIndex].data[indexof].benefice_sur_achat.val_gros_approvisionnement),
               benefice: Number(collectionData.stats[index1].data[index2].benefice) - Number( collectionData.data[yearIndex].data[monthIndex].data[indexof].benefice_sur_vente),
 
             };
@@ -276,7 +276,7 @@ exports.updateDataCollection = async (collection, request, response ) => {
               name: collectionData.name,
               mois: statsObj1.mois,
               vente_bar: Number( collectionData.data[yearIndex].data[monthIndex].data[indexof].vente_journaliere.valeur) + Number(statsObj1.vente_bar),
-              approvionnement: Number( collectionData.data[yearIndex].data[monthIndex].data[indexof].benefice_sur_achat.val_gros_approvisionnement) + Number(statsObj1.approvionnement),
+              approvisionnement: Number( collectionData.data[yearIndex].data[monthIndex].data[indexof].benefice_sur_achat.val_gros_approvisionnement) + Number(statsObj1.approvisionnement),
               benefice: Number( collectionData.data[yearIndex].data[monthIndex].data[indexof].benefice_sur_vente) + Number(statsObj1.benefice),
 
             };
