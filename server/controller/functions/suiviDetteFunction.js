@@ -374,7 +374,7 @@ exports.updateSuiviDetteCollection = async ({collection, req, res, next}) => {
 
                                     amount: body.clients[p].data.amount,
                                     payment: body.clients[p].data.payment,
-                                    createdAt: body.agents[p].data.createdAt
+                                    createdAt: body.clients[p].data.createdAt
 
                                 };
                             } else {
@@ -409,7 +409,7 @@ exports.updateSuiviDetteCollection = async ({collection, req, res, next}) => {
 
                                     amount: body.musiciens[p].data.amount,
                                     payment: body.musiciens[p].data.payment,
-                                    createdAt: body.agents[p].data.createdAt
+                                    createdAt: body.musiciens[p].data.createdAt
 
                                 };
                                     

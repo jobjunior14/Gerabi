@@ -14,7 +14,6 @@ export default function AllProductGraph ({componentName, productName}) {
     const benefice = [];
     const month = [];
     
-    console.log (data)
     useEffect(() => {
 
         if (data) {
@@ -63,7 +62,9 @@ export default function AllProductGraph ({componentName, productName}) {
         }
     }
 
-    const series = [
+    let series = [];
+
+    componentName === 'degoBar' ? series = [
         {
             name: 'vente Bar',
             data: venteBar
@@ -76,7 +77,17 @@ export default function AllProductGraph ({componentName, productName}) {
             name: 'Benefice',
             data: benefice
         }
+    ] : series = [
+        {
+            name: 'vente Bar',
+            data: venteBar
+        },
+        {
+            name: 'Benefice',
+            data: benefice
+        }
     ]
+     
     if (data) {
 
         if (data.length > 0) { 
@@ -87,7 +98,10 @@ export default function AllProductGraph ({componentName, productName}) {
                 </div>
             );
         } else {
-            return (<h2> Il n'a pas des donnees pour cette date</h2>);
+            return (<div>
+                <h3>{productName}</h3>
+                <h2> Il n'a pas des donnees pour cette date</h2>
+            </div>);
         }
     } else {
         return (<h1>Loading....</h1>);

@@ -114,7 +114,7 @@ export default function SuiviDette ({componentName}) {
     useEffect(() => {
         setterDateParams (date);
     }, [componentName]);
-
+    
     function setFilterParams() {
         setterDateParams(date);
     };
@@ -148,8 +148,8 @@ export default function SuiviDette ({componentName}) {
             <YourDebts loading = {loading || pLoading}/>
             <YourTotDetteDaily day = {day} month = {month} year = {year} />
             {!update ? <button onClick={postData}> Enregistrer les données</button> : <button onClick={updateData}> Mettre à les données</button> }
-            {error !== ''  && <h2>{error.response.data.erro.message}</h2>}
-            {pError !== "" && <h2>{pError.response.data.erro.message}</h2>}
+            {error !== ''  && <h2>{error.response.data.erro.message || error.response.data.stack}</h2>}
+            {pError !== "" && <h2>{pError.response.data.stack || pError.response.data.erro.message}</h2>}
 
 
         </div>);

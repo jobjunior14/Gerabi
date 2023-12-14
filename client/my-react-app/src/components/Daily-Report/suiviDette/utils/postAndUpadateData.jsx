@@ -18,7 +18,6 @@ export default function usePostAndUpdata ({componentName}) {
     const [pAgentsData, setAgentsData] = useState(null);
     const [pMusiciensData, setMusiciensData] = useState(null);
     const [pClientsData, setClientsData] = useState(null);
-    const [pTotalDebt, setTotalDette] = useState(null);
     //the total amount of debt by category
     const [pTotDetailDetteAndPaymentAgents, setTotDetailDetteAndPaymentAgents] = useState(null);
     const [pTotDetailDetteAndPaymentMusiciens, setTotDetailDetteAndPaymentMusiciens] = useState(null);
@@ -74,10 +73,7 @@ export default function usePostAndUpdata ({componentName}) {
             setAgentsData(indexSetter(responseSuiviDette.data.data.agents));
             setClientsData(indexSetter(responseSuiviDette.data.data.clients));
             setMusiciensData(indexSetter(responseSuiviDette.data.data.musiciens));
-            /////////////////
-            setTotDetailDetteAndPaymentAgents(totDetailDetteAndPayment.data.data.agents);
-            setTotDetailDetteAndPaymentClients(totDetailDetteAndPayment.data.data.clients);
-            setTotDetailDetteAndPaymentMusiciens(totDetailDetteAndPayment.data.data.musiciens);
+           
             //set *your debt *
             setYourDebt(indexSetter(responseYourSuiviDette.data.data.fournisseurs));
             ///////////////////
@@ -104,7 +100,6 @@ export default function usePostAndUpdata ({componentName}) {
         pAgentsData,
         pMusiciensData,
         pClientsData,
-        pTotalDebt,
         pTotDetailDetteAndPaymentAgents,
         pTotDetailDetteAndPaymentMusiciens,
         pTotDetailDetteAndPaymentClients,

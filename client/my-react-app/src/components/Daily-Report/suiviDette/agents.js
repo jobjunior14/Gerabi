@@ -38,7 +38,7 @@ export default function Agents ({loading}){
 
     //side effect render the table body
     const renderDataDisplay = useCallback(() => {
-        if (agentsData && totalDetteAndPaymentAgent) {
+        if ((agentsData && totalDetteAndPaymentAgent) ) {
             return agentsData.map((el, i) =>  {
                 return (
                      <DebtDisplay 

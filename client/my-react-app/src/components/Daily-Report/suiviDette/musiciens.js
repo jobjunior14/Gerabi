@@ -50,7 +50,7 @@ export default function Musiciens ({loading}){
                         in2 = 'amountMusiciens'
                         in3 = 'paymentMusiciens'
                         component = 'musiciens'
-                        totDebt = {savetotalDetteAndPaymentMusiciens ? savetotalDetteAndPaymentMusiciens[i].valeurDette - savetotalDetteAndPaymentMusiciens[i].valeurPayment : 0 }
+                        totDebt = {savetotalDetteAndPaymentMusiciens  ? savetotalDetteAndPaymentMusiciens[i].valeurDette - savetotalDetteAndPaymentMusiciens[i].valeurPayment : 0 }
                     />
                 )
             });

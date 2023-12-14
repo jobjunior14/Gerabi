@@ -91,7 +91,7 @@ export default function SuiviDepense ({componentName}){
         //depense effectuee data
         setDepenseEff(pDepense_Eff);
               
-    }, [pEntreeCaisse, pSortieCaisse, pDepense_Eff,pSoldCaisse]);
+    }, [pEntreeCaisse, pSortieCaisse, pDepense_Eff, pSoldCaisse, pCustomUpdate, pReadOnly ]);
 
     //the fetched data 
     useEffect (() => {
@@ -109,7 +109,7 @@ export default function SuiviDepense ({componentName}){
         //set the prev Sold Caisse
         setPrevSoldCaisse(customPrevSoldCaisse)
         
-    }, [entreeCaisseData, sortieCaisseData, pDepense_Eff, totalDebt, yourTotalDebt, customPrevSoldCaisse]);
+    }, [entreeCaisseData, sortieCaisseData, pDepense_Eff, totalDebt, yourTotalDebt, customPrevSoldCaisse, depense_Eff]);
 
     // console.log (sortieCaisseData)
     //track the changes state to calculate the previous taped sold caisse by user
@@ -165,7 +165,7 @@ export default function SuiviDepense ({componentName}){
 
                 <UniqueInput>
                     <label name = 'depenseEffectuee' >Depense Effectuées</label>
-                    <input value= {depenseEff} type="number" name = 'depenseEffectuee' onChange={ e => setDepenseEff(Number (e.target.value))} placeholder="Depense effectuée"/>
+                    <input defaultValue= {depenseEff} type="number" name = 'depenseEffectuee' onChange={ e => setDepenseEff(Number (e.target.value))} placeholder="Depense effectuée"/>
                 </UniqueInput>
                 
                 <EntreeCaisse 

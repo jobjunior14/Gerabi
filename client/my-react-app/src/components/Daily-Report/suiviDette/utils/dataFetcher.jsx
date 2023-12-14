@@ -4,6 +4,7 @@ import useDateParams from '../../../reuseFunction/dateParams';
 import indexSetter from '../../../reuseFunction/indexSetter';
 
 axios.defaults.baseURL = "http://localhost:5001/api/v1";
+
 export default function useDataFetcherSuiviDepense ({componentName}) {
     
   const [error, setError] = useState('');
@@ -34,7 +35,7 @@ export default function useDataFetcherSuiviDepense ({componentName}) {
       const yourSuiviDetteData = await axios.get (`/${componentName}/yourSuiviDette/rapportJournalier/${year}/${month}/${day}`);
       const yourTotDetailDetteAndPayment = await axios.get (`/${componentName}/yourSuiviDette/rapportMensuel/detail/${year}/${month}`);
 
-      if (suiviDetteData.data.data.agents.length > 0 && suiviDetteData.data.data.musiciens.length > 0 && suiviDetteData.data.data.clients.length > 0 ) {
+      if (suiviDetteData.data.data.agents.length > 0 || suiviDetteData.data.data.musiciens.length > 0 || suiviDetteData.data.data.clients.length > 0 ) {
 
         setUpdate(true);
         setReadOnly(true);
@@ -107,6 +108,7 @@ export default function useDataFetcherSuiviDepense ({componentName}) {
 
   useEffect (() => {
     fetchData();
+    console.log('data fetche');
   }, [year, month, day, componentName]);
 
   return {error, 

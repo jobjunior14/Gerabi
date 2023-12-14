@@ -82,7 +82,6 @@ export default function useDataFetcherSuiviDepense ({componentName}) {
                     setEntreeCaisse(indexSetter(lastCreatedData.data.data.entreeCaisse));
                     
                 } else {
-                    console.log('hey');
                     setReadOnly(false);
                     setUpdate(false);
                     setEntreeCaisse([]);
