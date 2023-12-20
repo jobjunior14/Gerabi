@@ -3,13 +3,16 @@ import InputsTh from './inputs/inputTh.js';
 import InputsTh2 from './inputs/inputTh2.js';
 import { useSelector } from 'react-redux';
 import InputTd from './inputs/inputTd.js';
+import useParamsGetter from '../../../reuseFunction/paramsGetter.jsx';
 const {table, tbaleTh} = require ('./css.js');
 
-export function TableSuivi (props) {
+export function TableSuivi () {
     
     const productData = useSelector (state => state.product.productData);
     const providers = useSelector (state => state.product.providers);
-    const stateAction = useSelector (state => state.product.product);
+                        /////const stateAction = useSelector (state => state.product.product);
+    //stateAction is here to know wich component is using the data based to current usrl using the Params data
+    const {stateAction} = useParamsGetter();
 
     const [displayTdSuivi, setDisplayTdSuivi] = useState();
     

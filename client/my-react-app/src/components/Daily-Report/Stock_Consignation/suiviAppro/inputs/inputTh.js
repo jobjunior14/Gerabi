@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { productActions } from '../../../../store/AllProductManager-slice.js';
 import { useId } from "react";
@@ -10,10 +10,6 @@ export default function InputsTh (props) {
     const readOnly = useSelector (state => state.product.readOnly);
     const productData = useSelector (state => state.product.productData);
     const id = useId();
-    
-    useEffect(() => {
-        console.log (productData[0].suivi1.name);
-    });
 
     return (
         <>

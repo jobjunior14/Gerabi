@@ -11,19 +11,25 @@ import useErroMessage from "./utils/errorMessage";
 import useDataFetcherSuiviStock from "./utils/dataFetcher";
 import usePostAndUpdateData from "./utils/postAndUpdateData";
 import useDateParams from "../../reuseFunction/dateParams";
+import useParamsGetter from "../../reuseFunction/paramsGetter";
 
-export default function Product ({componentName, sliceName, venteName, productName}) {
+export default function Product () {
 
   const dispatch = useDispatch();
 
   //dispact the action if it's dego or alimentation
-  dispatch(productActions.setproduct( componentName === 'degoBar' ? true : false));
+  //******************************have to change un every components*************************/
+                        // dispatch(productActions.setproduct( componentName === 'degoBar' ? true : false));
+  //*******useParamsGetter it's a custom hooks how allows to use the same logique******** */
+  //*******************in every component to get the some data using in the params and allows us */
+  //**********to send some details to the component based on the data in the url (params) */
+  const {componentName, sliceName, venteName, productName, stateAction} = useParamsGetter();
 
   //vente journaliere reference 
   const venteJournaliereRef = useRef(null);
 
   //check the component name
-  const stateAction = useSelector (state => state.product.product);
+                    // const stateAction = useSelector (state => state.product.product);
 
   // Data we are using
   const productData = useSelector(state => state[sliceName].productData)

@@ -27,7 +27,6 @@ function App() {
         
           <Route path='/' element = {<MainNav/>}>
 
-
             <Route path='rapportJournalier' element = {<DailyRepportNav/>}>
 
               <Route path='degoBar' element = {<HouseRoutes component = 'degoBar'/>}/>

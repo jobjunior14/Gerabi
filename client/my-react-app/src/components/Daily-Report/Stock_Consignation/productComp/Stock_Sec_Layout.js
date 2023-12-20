@@ -1,13 +1,15 @@
 import { ExcelMain } from "./Stock_Main_Layout.js";
 import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
-
+import useParamsGetter from "../../../reuseFunction/paramsGetter.jsx";
 const { table, tbaleTh } = require("./css.js");
 
 export function ExcelSecLayout(props) {
   
   //house using the component
-  const stateAction = useSelector (state => state.product.product);
+            //////          const stateAction = useSelector (state => state.product.product);
+  //stateAction is here to know wich component is using the data based to current usrl using the Params data
+  const {stateAction} = useParamsGetter();
   const productData = useSelector (state => stateAction ? state.product.productData : state.alimProduct.productData );
   const toggleStoc = useSelector (state => stateAction ?  state.product.toggleStoc : state.alimProduct.toggleStoc );
 

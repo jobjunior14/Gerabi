@@ -2,10 +2,13 @@ import { useSelector, useDispatch } from "react-redux";
 import { productActions } from "../../../store/AllProductManager-slice";
 import { alimProductActions } from "../../../store/AllProductManagerAlim-slice";
 import { useId } from "react";
-
+import useParamsGetter from "../../../reuseFunction/paramsGetter";
 export function ExcelMain(props)
 {
-    const stateAction = useSelector (state => state.product.product);
+    //****************************take attention to the props parameter *******************/
+                        // const stateAction = useSelector (state => state.product.product);
+    //stateAction is here to know wich component is using the data based to current usrl using the Params data
+    const {stateAction} = useParamsGetter();
     const readOnly = useSelector (state => stateAction ? state.product.readOnly : state.alimProduct.readOnly);
     const toggleStoc = useSelector (state => stateAction ? state.product.toggleStoc : state.alimProduct.toggleStoc);
     const dispatch = useDispatch();

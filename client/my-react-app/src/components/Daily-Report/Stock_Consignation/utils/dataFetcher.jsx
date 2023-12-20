@@ -65,10 +65,10 @@ export default function useDataFetcherSuiviStock ({componentName, productName, v
                 //we look in the local storage fist 
                 const dataFromLocalStorage = JSON.parse(localStorage.getItem(productName + componentName));
                 const dataVenteFromLocalStorage = JSON.parse(localStorage.getItem(venteName));
-                
                 if (dataFromLocalStorage && dataFromLocalStorage.data.length > 0) {
                     
                     if (dataFromLocalStorage.date.year === year && dataFromLocalStorage.date.month === month && dataFromLocalStorage.date.day === day) {
+                        console.log (dataFromLocalStorage);
                         
                         setVente (dataVenteFromLocalStorage);
                         setData(dataFromLocalStorage.data);
