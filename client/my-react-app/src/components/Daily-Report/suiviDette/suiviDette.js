@@ -11,11 +11,14 @@ import YourTotDetteDaily from "./yourTotDetteDaily";
 import useDateParams from "../../reuseFunction/dateParams";
 import useDataFetcherSuiviDette from "./utils/dataFetcher";
 import usePostAndUpdata from "./utils/postAndUpadateData";
+import useParamsGetter from "../../reuseFunction/paramsGetter";
 
-export default function SuiviDette ({componentName}) {
+export default function SuiviDette () {
 
     const dispatch = useDispatch ();
-    
+    //stateAction is here to know wich component is using the data based to current usrl using the Params data
+    const {componentName} = useParamsGetter();
+
     //params's date using in the whole app
     const {year, month, day, currentDay, currentMonth, currentYear, setterDateParams} = useDateParams();
     

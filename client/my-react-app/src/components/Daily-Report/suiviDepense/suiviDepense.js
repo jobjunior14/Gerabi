@@ -9,11 +9,14 @@ import UniqueInput from "../../reuseFunction/uniqueInput";
 import useDateParams from "../../reuseFunction/dateParams";
 import usePostAndUpdate from "./utils/postAndData";
 import useDataFetcherSuiviDepense from "./utils/dataFetcher";
+import useParamsGetter from "../../reuseFunction/paramsGetter";
 
-
-export default function SuiviDepense ({componentName}){
+export default function SuiviDepense (){
 
     const dispatch = useDispatch();
+
+    //stateAction is here to know wich component is using the data based to current usrl using the Params data
+    const {componentName} = useParamsGetter();
 
     //date in fields
     const date = useSelector (state => state.suiviDepense.date);

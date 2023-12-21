@@ -16,10 +16,6 @@ import useParamsGetter from "../../reuseFunction/paramsGetter";
 export default function Product () {
 
   const dispatch = useDispatch();
-
-  //dispact the action if it's dego or alimentation
-  //******************************have to change un every components*************************/
-                        // dispatch(productActions.setproduct( componentName === 'degoBar' ? true : false));
   //*******useParamsGetter it's a custom hooks how allows to use the same logique******** */
   //*******************in every component to get the some data using in the params and allows us */
   //**********to send some details to the component based on the data in the url (params) */
@@ -27,9 +23,6 @@ export default function Product () {
 
   //vente journaliere reference 
   const venteJournaliereRef = useRef(null);
-
-  //check the component name
-                    // const stateAction = useSelector (state => state.product.product);
 
   // Data we are using
   const productData = useSelector(state => state[sliceName].productData)
@@ -55,9 +48,9 @@ export default function Product () {
   //custome hooks to post and update Data
   const {pAnduData, pAnduError, pAnduId, pAnduReadOnly, pAnduUpdate, pAnduLoading, pAnduVente, postAndUpdate} = usePostAndUpdateData(
     {
-      componentName: componentName,
-      productName: productName,
-      venteName: venteName,
+      componentName,
+      productName,
+      venteName,
     }
   );
 
@@ -66,9 +59,9 @@ export default function Product () {
 
   const {vente, customId, data, customUpdate, readOnly, error, loading} = useDataFetcherSuiviStock(
     {
-      componentName: componentName,
-      productName: productName,
-      venteName: venteName,
+      componentName,
+      productName,
+      venteName
     }
   );
 

@@ -27,23 +27,17 @@ function App() {
         
           <Route path='/' element = {<MainNav/>}>
 
-
-            <Route path='rapportJournalier' element = {<DailyRepportNav/>}>
+            <Route path='/rapportJournalier' element = {<DailyRepportNav/>}>
 
               <Route path='degoBar' element = {<HouseRoutes component = 'degoBar'/>}/>
-                <Route  path='degoBar/bralima' element = {<Product {...degoBar} productName = 'bralima'/>}/>
-                <Route path='degoBar/brasimba' element = {<Product {...degoBar} productName = 'brasimba'/>}/>
-                <Route path='degoBar/autreProdut' element = {<Product {...degoBar} productName = 'autreProduit'/>}/>
-                <Route path='degoBar/liqueurs' element = {<Product {...degoBar} productName = 'liqueurs'/>}/>
-                <Route path ='degoBar/suiviDette' element = {<SuiviDette {...degoBar}/>}/>
+    
+                <Route  path='rapportJournalier/:componentName/product/:productName' element = {<Product />}/>
+                <Route path ='degoBar/suiviDette' element = {<SuiviDette />}/>
                 <Route path = 'degoBar/suiviDepense' element = {<SuiviDepense {...degoBar}/>}/>
                 <Route path='degoBar/dailyRepport' element = {<MensRepport componentName = 'degoBar' user = 'dailyRap'/>}/>
 
               <Route path='alimentation' element = {<HouseRoutes component = 'alimentation'/>}/>
-                <Route  path='alimentation/bralima' element = {<Product {...alimentation} productName = 'bralima'/>}/>
-                <Route path='alimentation/brasimba' element = {<Product {...alimentation} productName = 'brasimba'/>}/>
-                <Route path='alimentation/autreProdut' element = {<Product {...alimentation} productName = 'autreProduit'/>}/>
-                <Route path='alimentation/liqueurs' element = {<Product {...alimentation} productName = 'liqueurs'/>}/>
+                <Route  path=':componentName/product/:productName' element = {<Product {...alimentation} productName = 'bralima'/>}/>
                 <Route path ='alimentation/suiviDette' element = {<SuiviDette {...alimentation}/>}/>
                 <Route path = 'alimentation/suiviDepense' element = {<SuiviDepense {...alimentation}/>}/>
                 <Route path='alimentation/dailyRepport' element = {<MensRepport componentName = 'alimentation' user = 'dailyRap'/>}/>

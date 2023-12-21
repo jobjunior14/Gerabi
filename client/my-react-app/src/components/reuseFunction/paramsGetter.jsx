@@ -11,7 +11,7 @@ export default function useParamsGetter () {
             componentName,
             productName,
             sliceName: 'product',
-            //stateActions is there to avoid component to check ////
+            //*********stateActions is there to avoid component to check********8 ////
             //what data based on the component name are used//////////
             stateAction: true,
             venteName: 'venteDego'

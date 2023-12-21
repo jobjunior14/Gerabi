@@ -2,27 +2,26 @@ import React from 'react';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import useParamsGetter from '../../reuseFunction/paramsGetter';
+import useDateParams from '../../reuseFunction/dateParams';
 
-export default function MensRapSuiviDepense (props) {
+export default function MensRapSuiviDepense ({user}) {
+
+    //stateAction is here to know wich component is using the data based to current usrl using the Params data
+    const {componentName} = useParamsGetter();
 
     //data from API
     const [data, setData] = useState (null);
     //dependacies of useEffect
-    const year = useSelector(state => state.mensRapport.paramsDate.year);
-    const month = useSelector (state => state.mensRapport.paramsDate.month);
-    const day = useSelector (state => state.mensRapport.paramsDate.day);
 
-    //current date
-    const currentYear = Number (new Date().getFullYear());
-    const currentMonth = Number (new Date().getMonth() + 1);
-    const currentDay = Number (new Date().getDay);
+    const {year, month, day, currentDay, currentMonth, currentYear} = useDateParams();
 
     //render data
     const [displayEntreeCaisse, setDisplayEntreeCaisse] = useState(null);
     const [displaySortieCaisse, setDisplaySortieCaisse] = useState(null);
 
     //current user
-    const currentUser = props.user === 'rappMens' ? true : false;
+    const currentUser = user === 'rappMens' ? true : false;
 
     //fetch the data 
     useEffect(() => {
@@ -31,8 +30,8 @@ export default function MensRapSuiviDepense (props) {
             try {
                 setData(null);
 
-                const apiData = currentUser ? await axios.get (`http://localhost:5001/api/v1/${props.componentName}/suiviDepense/rapportMensuel/detail/${year}/${month}`) :
-                    await axios.get (`http://localhost:5001/api/v1/${props.componentName}/suiviDepense/rapportJournalier/dailyRap/${year}/${month}/${day}`); 
+                const apiData = currentUser ? await axios.get (`http://localhost:5001/api/v1/${componentName}/suiviDepense/rapportMensuel/detail/${year}/${month}`) :
+                    await axios.get (`http://localhost:5001/api/v1/${componentName}/suiviDepense/rapportJournalier/dailyRap/${year}/${month}/${day}`); 
                 
                 currentUser ? setData(apiData.data.data) : setData(apiData.data.data);
             } catch (error) {
@@ -40,7 +39,7 @@ export default function MensRapSuiviDepense (props) {
                 console.log(error);
             };
         };fecthData();
-    }, [year, month, props.componentName, currentUser]);
+    }, [year, month, componentName, currentUser]);
 
     //map the list to display it //side effect
     useEffect(() => {
