@@ -2,54 +2,57 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { mensRapportActions } from "../../store/mensRepport-slice";
 
-export default function VenteBar (props) {
+export default function VenteBar ({venteDego}) {
 
     const dispatch = useDispatch()
     //data
     const data = useSelector(state => state.mensRapport.suiviVente);
+
     
     if (data.bralima && data.brasimba && data.autreProduit ) {
 
         if ( data.bralima.length > 0 && data.brasimba.length > 0 && data.autreProduit.length > 0 ) {
 
             const totalVenteSysteme = data.bralima[0].vente_bar + data.brasimba[0].vente_bar + data.autreProduit[0].vente_bar;
-            const pertes = totalVenteSysteme - props.venteDego;
+            const pertes = totalVenteSysteme - venteDego;
             dispatch(mensRapportActions.setPerte(pertes));
 
             return (<div> 
 
                 <h3> VENTE BAR</h3>
-                <p> </p>
                 <table>
-
-                    <tr>
-                        <th> Libelé </th>
-                        <th> Montant </th>
-                    </tr>
-                    <tr>
-                        <td> Bralima </td>
-                        <td> {data.bralima[0].vente_bar}</td>
-                    </tr>
-                    <tr>
-                        <td> Brasimba </td>
-                        <td> {data.brasimba[0].vente_bar}</td>
-                    </tr>
-                    <tr>
-                        <td> Autre Produit </td>
-                        <td> {data.autreProduit[0].vente_bar}</td>
-                    </tr>
-                    <tr>
-                        <td> Total Vente Sytème </td>
-                        <td> {totalVenteSysteme}</td>
-                    </tr>
-                    <tr>
-                        <td> Vente Dego </td>
-                        <td> {props.venteDego}</td>
-                    </tr>
-                    <tr>
-                        <td> Pertes </td>
-                        <td> {pertes}</td>
-                    </tr>
+                    <thead>
+                        <tr>
+                            <th> Libelé </th>
+                            <th> Montant </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td> Bralima </td>
+                            <td> {data.bralima[0].vente_bar}</td>
+                        </tr>
+                        <tr>
+                            <td> Brasimba </td>
+                            <td> {data.brasimba[0].vente_bar}</td>
+                        </tr>
+                        <tr>
+                            <td> Autre Produit </td>
+                            <td> {data.autreProduit[0].vente_bar}</td>
+                        </tr>
+                        <tr>
+                            <td> Total Vente Sytème </td>
+                            <td> {totalVenteSysteme}</td>
+                        </tr>
+                        <tr>
+                            <td> Vente Dego </td>
+                            <td> {venteDego}</td>
+                        </tr>
+                        <tr>
+                            <td> Pertes </td>
+                            <td> {pertes}</td>
+                        </tr>
+                    </tbody>
                 </table>
 
             </div>)

@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
-import { useSelector, useDispatch } from "react-redux";
+import axios from "../../../axiosUrl"
+import { useDispatch } from "react-redux";
 import { mensRapportActions } from "../../store/mensRepport-slice";
 import Approvisionnement from "./approvisionnement";
 import Benefice from "./benefice";
 import VenteBar from "./venteBar";
 import useParamsGetter from "../../reuseFunction/paramsGetter";
-
-export default function SuiviDesVentes (props) {
+import useDateParams from "../../reuseFunction/dateParams";
+export default function SuiviDesVentes ({user}) {
 
     const dispatch = useDispatch();
     //stateAction is here to know wich component is using the data based to current usrl using the Params data
@@ -15,14 +15,7 @@ export default function SuiviDesVentes (props) {
 
     
     //dependacies of useEffect
-    const year = useSelector(state => state.mensRapport.paramsDate.year);
-    const month = useSelector (state => state.mensRapport.paramsDate.month);
-    const day = useSelector (state => state.mensRapport.paramsDate.day);
-
-    //current date
-    const currentYear = Number (new Date().getFullYear());
-    const currentMonth = Number (new Date().getMonth() + 1);
-    const currentDay = Number (new Date().getDay);
+    const {year, month, day, currentDay, currentMonth, currentYear} = useDateParams();
 
     //state to stoking the depense effectuee 
     const [depenseEff, setDepenseEff] = useState(0);
@@ -31,9 +24,9 @@ export default function SuiviDesVentes (props) {
     const [venteDego, setVenteDego] = useState(null);
 
     //set the booelen value based on the current use of the component
-    const currentUser = props.user === 'rappMens' ? true : false;
+    const currentUser = user === 'rappMens' ? true : false;
     
-    //fecth the data
+    //******************************fecth the data*************************************/
     useEffect (() => {
 
         dispatch(mensRapportActions.setSuiviVente({
@@ -46,25 +39,25 @@ export default function SuiviDesVentes (props) {
         const fecthData = async () => {
 
             try {
+                //based on the **currentUser*** variable we get different Data 
+                const bralimaData = currentUser ? await axios.get(`/${componentName}/bralima/rapportMensuel/Allstast/${year}/${month}`) :
+                    await axios.get(`/${componentName}/bralima/rapportJournalier/dailyRap/${year}/${month}/${day}`);
 
-                const bralimaData = currentUser ? await axios.get(`http://localhost:5001/api/v1/${componentName}/bralima/rapportMensuel/Allstast/${year}/${month}`) :
-                    await axios.get(`http://localhost:5001/api/v1/${componentName}/bralima/rapportJournalier/dailyRap/${year}/${month}/${day}`);
+                const brasimbaData = user === "rappMens" ? await axios.get(`/${componentName}/brasimba/rapportMensuel/Allstast/${year}/${month}`) :
+                    await axios.get(`/${componentName}/brasimba/rapportJournalier/dailyRap/${year}/${month}/${day}`);
 
-                const brasimbaData = props.user === "rappMens" ? await axios.get(`http://localhost:5001/api/v1/${componentName}/brasimba/rapportMensuel/Allstast/${year}/${month}`) :
-                    await axios.get(`http://localhost:5001/api/v1/${componentName}/brasimba/rapportJournalier/dailyRap/${year}/${month}/${day}`);
+                const liqueursData = currentUser ? await axios.get(`/${componentName}/liqueurs/rapportMensuel/Allstast/${year}/${month}`) :
+                    await axios.get(`/${componentName}/liqueurs/rapportJournalier/dailyRap/${year}/${month}/${day}`);
 
-                const liqueursData = currentUser ? await axios.get(`http://localhost:5001/api/v1/${componentName}/liqueurs/rapportMensuel/Allstast/${year}/${month}`) :
-                    await axios.get(`http://localhost:5001/api/v1/${componentName}/liqueurs/rapportJournalier/dailyRap/${year}/${month}/${day}`);
-
-                const autreProduitData = currentUser ? await axios.get(`http://localhost:5001/api/v1/${componentName}/autreProduit/rapportMensuel/Allstast/${year}/${month}`) :
-                    await axios.get(`http://localhost:5001/api/v1/${componentName}/autreProduit/rapportJournalier/dailyRap/${year}/${month}/${day}`);
+                const autreProduitData = currentUser ? await axios.get(`/${componentName}/autreProduit/rapportMensuel/Allstast/${year}/${month}`) :
+                    await axios.get(`/${componentName}/autreProduit/rapportJournalier/dailyRap/${year}/${month}/${day}`);
 
                 //depense Effectuees
-                const depenseEffMens = currentUser ? await axios.get(`http://localhost:5001/api/v1/${componentName}/depenseEff/${year}/${month}`) :
-                    await axios.get(`http://localhost:5001/api/v1/${componentName}/depenseEff/${year}/${month}/${day}`);
+                const depenseEffMens = currentUser ? await axios.get(`/${componentName}/depenseEff/${year}/${month}`) :
+                    await axios.get(`/${componentName}/depenseEff/${year}/${month}/${day}`);
                 //vente system
-                const dataVente = currentUser ? await axios.get(`http://localhost:5001/api/v1/${componentName}/vente/${year}/${month}`) :
-                    await axios.get(`http://localhost:5001/api/v1/${componentName}/vente/${year}/${month}/${day}`);
+                const dataVente = currentUser ? await axios.get(`/${componentName}/vente/${year}/${month}`) :
+                    await axios.get(`/${componentName}/vente/${year}/${month}/${day}`);
 
                 //set vente system
                 if (currentUser) {

@@ -15,12 +15,6 @@ const alimProductSlice = createSlice ({
             month: Number(new Date().getMonth() + 1),
             day: Number(new Date().getDate()),
         },
-        errorMessage: {
-            
-            status: false,
-            errorAllowed: true,
-            message: ""
-        }
     },
 
     reducers: {
@@ -161,13 +155,6 @@ const alimProductSlice = createSlice ({
             };
         },
 
-        setErrorMessage (state, action) {
-            state.errorMessage = {
-                status: action.payload.status,
-                errorAllowed: action.payload.errorAllowed,
-                message: action.payload.message
-            };
-        }
     }
 });
 

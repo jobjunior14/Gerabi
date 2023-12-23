@@ -9,17 +9,6 @@ import HouseRoutes from './components/headers/degoBarHeaders';
 import YearStats from './components/stats/yearStats';
 function App() {
 
-  const degoBar = {
-    sliceName: 'product',
-    componentName: 'degoBar',
-    venteName: 'venteDego'
-  };
-  const alimentation = {
-    sliceName: 'alimProduct',
-    componentName: 'alimentation',
-    venteName: 'venteAlimentation'
-  };
-
   return ( 
     
     <BrowserRouter>
@@ -31,21 +20,20 @@ function App() {
 
               <Route path='degoBar' element = {<HouseRoutes component = 'degoBar'/>}/>
     
-                <Route  path='rapportJournalier/:componentName/product/:productName' element = {<Product />}/>
-                <Route path ='degoBar/suiviDette' element = {<SuiviDette />}/>
-                <Route path = 'degoBar/suiviDepense' element = {<SuiviDepense {...degoBar}/>}/>
-                <Route path='degoBar/dailyRepport' element = {<MensRepport componentName = 'degoBar' user = 'dailyRap'/>}/>
+                <Route  path=':componentName/product/:productName' element = {<Product />}/>
+                <Route path = ':componentName/suiviDepense' element = {<SuiviDepense />}/>
+                <Route path =':componentName/suiviDette' element = {<SuiviDette />}/>
+                <Route path=':componentName/dailyRepport' element = {<MensRepport componentName = 'degoBar' user = 'dailyRap'/>}/>
 
               <Route path='alimentation' element = {<HouseRoutes component = 'alimentation'/>}/>
-                <Route  path=':componentName/product/:productName' element = {<Product {...alimentation} productName = 'bralima'/>}/>
-                <Route path ='alimentation/suiviDette' element = {<SuiviDette {...alimentation}/>}/>
-                <Route path = 'alimentation/suiviDepense' element = {<SuiviDepense {...alimentation}/>}/>
-                <Route path='alimentation/dailyRepport' element = {<MensRepport componentName = 'alimentation' user = 'dailyRap'/>}/>
+                <Route  path=':componentName/product/:productName' element = {<Product/>}/>
+                <Route path = ':componentName/suiviDepense' element = {<SuiviDepense />}/>
+                <Route path =':componentName/suiviDette' element = {<SuiviDette />}/>
+                <Route path=':componentName/dailyRepport' element = {<MensRepport componentName = 'alimentation' user = 'dailyRap'/>}/>
             </Route>
 
-            <Route path='rapportMensuel' element = {<MensRepportNav/>}>
-              <Route path='degoBar' element = {<MensRepport componentName = 'degoBar' user = 'rappMens' />}/>
-              <Route path='alimentation' element = {<MensRepport componentName = 'alimentation' user = 'rappMens'/>}/>
+            <Route path='/rapportMensuel' element = {<MensRepportNav/>}>
+              <Route path='products/:componentName' element = {<MensRepport user = 'rappMens' />}/>
               <Route path='graphique' element = {<YearStats/>} />
             </Route>
             

@@ -3,7 +3,7 @@ import Graphique from "../../graphiques";
 import { comparaisonDataApex } from "./utils/yearsStatsArrayUtils";
 import useDataFetcherYearStats from "./utils/dataFetcher";
 
-export default function VenteSystemGraph (props)  {
+export default function VenteSystemGraph ()  {
 
     const degoBar = 'degoBar';
     const alimentation = 'alimentation';

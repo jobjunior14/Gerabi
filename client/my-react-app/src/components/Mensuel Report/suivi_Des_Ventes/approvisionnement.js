@@ -18,33 +18,39 @@ export default function Approvisionnement () {
             return (<div> 
 
                 <h3> APPROVISIONNEMENT</h3>
-                <p> </p>
                 <table>
 
-                    <tr>
-                        <th> Libelé </th>
-                        <th> Montant </th>
-                    </tr>
-                    <tr>
-                        <td> Bralima </td>
-                        <td> {data.bralima[0].approvisionnement}</td>
-                    </tr>
-                    <tr>
-                        <td> Brasimba </td>
-                        <td> {data.brasimba[0].approvisionnement}</td>
-                    </tr>
-                    <tr>
-                        <td> Autre Produit </td>
-                        <td> {data.autreProduit[0].approvisionnement}</td>
-                    </tr>
-                    <tr>
-                        <td> Liqueurs </td>
-                        <td> {data.liqueurs[0].approvisionnement} </td>
-                    </tr>
-                    <tr>
-                        <td> Total </td>
-                        <td> {total}</td>
-                    </tr>
+                    <thead>
+                        <tr>
+                            <th> Libelé </th>
+                            <th> Montant </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td> Bralima </td>
+                            <td> {data.bralima[0].approvisionnement}</td>
+                        </tr>
+                        <tr>
+                            <td> Brasimba </td>
+                            <td> {data.brasimba[0].approvisionnement}</td>
+                        </tr>
+                        <tr>
+                            <td> Autre Produit </td>
+                            <td> {data.autreProduit[0].approvisionnement}</td>
+                        </tr>
+                        <tr>
+                            <td> Liqueurs </td>
+                            <td> {data.liqueurs[0].approvisionnement} </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td> Total </td>
+                            <td> {total}</td>
+                        </tr>
+
+                    </tfoot>
                 </table>
             </div>)
         } else {

@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
 import useDateParams from "../../../../reuseFunction/dateParams";
-import axios from 'axios';
+import axios from '../../../../../axiosUrl';
 import { dateSetter } from "./yearsStatsArrayUtils";
-axios.defaults.baseURL = 'http://localhost:5001/api/v1';
 
 export default function useDataFetcherYearStats ({componentName, productName}) {
 

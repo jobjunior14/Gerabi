@@ -2,7 +2,7 @@ import { useState } from "react";
 import VenteSystemGraph from "./yearStats/venteSystem/venteSysteme";
 import useDateParams from '../reuseFunction/dateParams'
 
-export default function YearStats (props) {
+export default function YearStats () {
 
     const {year, currentYear, setterDateParams} = useDateParams();
 

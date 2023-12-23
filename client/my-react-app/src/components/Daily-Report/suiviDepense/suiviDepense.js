@@ -123,15 +123,12 @@ export default function SuiviDepense (){
             
             setFoundPrevSold(prev => true);
             // set the previous taped  sold caisse by user
-            dispatch(suiviDepenseActions.setPrevSoldCaisse((totalDailyDebt + soldCaisse + totalSortieCaisse) - totalEntreeCaisse));
+            // dispatch(suiviDepenseActions.setPrevSoldCaisse((totalDailyDebt + soldCaisse + totalSortieCaisse) - totalEntreeCaisse));
         } else {
             setFoundPrevSold(prev => false);
-            dispatch(suiviDepenseActions.setPrevSoldCaisse(prevSoldCaisse.amount));
+            // dispatch(suiviDepenseActions.setPrevSoldCaisse(prevSoldCaisse.amount));
         };
     },[totalDailyDebt, soldCaisse, totalEntreeCaisse, prevSoldCaisse]);
-
-
-
 
     function setFilterParams() {
 
@@ -172,15 +169,16 @@ export default function SuiviDepense (){
                 </UniqueInput>
                 
                 <EntreeCaisse 
+                    key={"entreeCaisse1"}
                     prevYear = {prevYear} 
                     prevMonth = {prevMonth} 
                     prevDay = {prevDay} 
                     setTotEntree = {setTotEntree} 
                     foundPrevSold = {foundPrevSold}
-                     loading = {loading || pLoading}
+                    loading = {loading || pLoading}
                 />
-                <SoriteCaisse loading = {loading || pLoading} /> 
-                <SoldCaisse loading = {loading || pLoading}/>
+                <SoriteCaisse key={`sortieCaisse1`} loading = {loading || pLoading} /> 
+                <SoldCaisse key={`soldCaisse1`} loading = {loading || pLoading}/>
                 <p> Total Dette du {day}-{month}-{year}: <b> {totalDailyDebt}</b></p>
                 <p> Ton total Dette du {day}-{month}-{year}: <b> {yourTotalDette}</b> </p>
                 {!update ? <button onClick={postData}> Enregistrer les données</button> : <button onClick={updateData}> Mettre à les données</button> }

@@ -1,11 +1,8 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import axios from "../../../../axiosUrl";
 import objProvider from "./objProvider";
 import useDateParams from "../../../reuseFunction/dateParams";
 import indexSetter from "../../../reuseFunction/indexSetter";
-
-
-axios.defaults.baseURL = "http://localhost:5001/api/v1";
 
 export default function useDataFetcherSuiviStock ({componentName, productName, venteName}) {
     //the date using in the query string and the current date 
@@ -65,17 +62,17 @@ export default function useDataFetcherSuiviStock ({componentName, productName, v
                 //we look in the local storage fist 
                 const dataFromLocalStorage = JSON.parse(localStorage.getItem(productName + componentName));
                 const dataVenteFromLocalStorage = JSON.parse(localStorage.getItem(venteName));
-                if (dataFromLocalStorage && dataFromLocalStorage.data.length > 0) {
+                if ((dataFromLocalStorage && dataFromLocalStorage.data.length > 0) && (dataFromLocalStorage.date.year === year && dataFromLocalStorage.date.month === month && dataFromLocalStorage.date.day === day)) {
                     
-                    if (dataFromLocalStorage.date.year === year && dataFromLocalStorage.date.month === month && dataFromLocalStorage.date.day === day) {
-                        console.log (dataFromLocalStorage);
-                        
-                        setVente (dataVenteFromLocalStorage);
-                        setData(dataFromLocalStorage.data);
-                        setCustomId (dataFromLocalStorage.id);
-                        setCustomUpdate(prev => true);
-                        setReadOnly (prev => true);
-                    };
+                    //****if data exist in local storage and have the same data */
+                    //******we load it  */
+                    setVente (dataVenteFromLocalStorage);
+                    setData(dataFromLocalStorage.data);
+                    setCustomId (dataFromLocalStorage.id);
+                    setCustomUpdate(prev => true);
+                    setReadOnly (prev => true);
+
+
                 } else {
                         
                     //the main data

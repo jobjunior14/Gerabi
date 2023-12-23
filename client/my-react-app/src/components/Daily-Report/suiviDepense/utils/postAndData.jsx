@@ -4,10 +4,9 @@ import { indexSetterSortieCaisse } from "./sortieCaisseUtils";
 import useDateParams from "../../../reuseFunction/dateParams";
 import { deleteEmptyNameSortieCaisse } from "./sortieCaisseUtils";
 import formatDate from "../../../reuseFunction/rightFormatDate";
-import axios from "axios";
+import axios from "../../../../axiosUrl";
 import indexSetter from "../../../reuseFunction/indexSetter";
 
-axios.defaults.baseURL = "http://localhost:5001/api/v1";
 
 export default function usePostAndUpdate ({componentName}) {
 
@@ -90,5 +89,5 @@ export default function usePostAndUpdate ({componentName}) {
         pSortieCaisse,
         pDepense_Eff,
         postAndUpdateData
-    }
+    };
 }

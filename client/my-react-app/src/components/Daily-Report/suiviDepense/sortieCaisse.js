@@ -63,7 +63,6 @@ export default function SoriteCaisse ({loading}) {
             
                     for (let j = 0;  j < sortieCaisse.length; j++) {
         
-        
                         tableDataSortieCaisse.push(
                             <td key={`tdSortie${j}`}>
                                 <input

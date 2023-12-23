@@ -22,7 +22,6 @@ const suiviDetteSlice = createSlice ({
         yourTotalDette: 0,
         detailTotDetteFournisseurs: null,
        
-
     },
 
     reducers: {

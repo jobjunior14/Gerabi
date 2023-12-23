@@ -4,10 +4,8 @@ import { useState, useEffect } from "react";
 import useParamsGetter from "../../../reuseFunction/paramsGetter.jsx";
 const { table, tbaleTh } = require("./css.js");
 
-export function ExcelSecLayout(props) {
+export function ExcelSecLayout() {
   
-  //house using the component
-            //////          const stateAction = useSelector (state => state.product.product);
   //stateAction is here to know wich component is using the data based to current usrl using the Params data
   const {stateAction} = useParamsGetter();
   const productData = useSelector (state => stateAction ? state.product.productData : state.alimProduct.productData );

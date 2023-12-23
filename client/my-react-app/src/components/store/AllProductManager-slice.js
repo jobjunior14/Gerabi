@@ -15,13 +15,6 @@ const productSlice = createSlice ({
             month: Number(new Date().getMonth() + 1),
             day: Number(new Date().getDate()),
         },
-        errorMessage: {
-            
-            status: false,
-            errorAllowed: true,
-            message: ""
-        },
-        product: true
     },
 
     reducers: {
@@ -282,17 +275,6 @@ const productSlice = createSlice ({
                 };
             }
         },
-
-        setErrorMessage (state, action) {
-            state.errorMessage = {
-                status: action.payload.status,
-                errorAllowed: action.payload.errorAllowed,
-                message: action.payload.message
-            };
-        },
-        setproduct (state, action) {
-            state.product = action.payload;
-        }
     }
 });
 

@@ -287,9 +287,9 @@ exports.dailyRapCollection = async (collection, request, response) => {
 
   for (let i of dailyData.day) {
 
-    vente_bar += i.vente_bar;
-    approvisionnement += i.approvisionnement;
-    benefice += i.benefice;
+    vente_bar += i.vente_journaliere.valeur;
+    approvisionnement += i.benefice_sur_achat.val_gros_approvisionnement;
+    benefice += i.benefice_sur_vente;
   };
 
   response.status(200).json({

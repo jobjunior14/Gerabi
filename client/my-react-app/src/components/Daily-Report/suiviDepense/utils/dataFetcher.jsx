@@ -1,11 +1,9 @@
 import { useState, useEffect } from "react";
 import useDateParams from "../../../reuseFunction/dateParams";
 import indexSetter from "../../../reuseFunction/indexSetter";
-import axios from "axios";
+import axios from "../../../../axiosUrl";
 import sortieCaisseRowSetter from "./sortieCaisseUtils";
 import { indexSetterSortieCaisse } from "./sortieCaisseUtils";
-
-axios.defaults.baseURL = "http://localhost:5001/api/v1";
 
 export default function useDataFetcherSuiviDepense ({componentName}) {
 
@@ -104,8 +102,6 @@ export default function useDataFetcherSuiviDepense ({componentName}) {
     useEffect (() => {
         fetchData();
     }, [year, month, day, componentName]);
-
-    // console.log (sortieCaisseData);
 
     return {
         customUpdate,

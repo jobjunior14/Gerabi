@@ -1,7 +1,6 @@
 import React from 'react';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 import useParamsGetter from '../../reuseFunction/paramsGetter';
 import useDateParams from '../../reuseFunction/dateParams';
 
@@ -33,7 +32,7 @@ export default function MensRapSuiviDepense ({user}) {
                 const apiData = currentUser ? await axios.get (`http://localhost:5001/api/v1/${componentName}/suiviDepense/rapportMensuel/detail/${year}/${month}`) :
                     await axios.get (`http://localhost:5001/api/v1/${componentName}/suiviDepense/rapportJournalier/dailyRap/${year}/${month}/${day}`); 
                 
-                currentUser ? setData(apiData.data.data) : setData(apiData.data.data);
+                setData(apiData.data.data);
             } catch (error) {
                 
                 console.log(error);
@@ -45,8 +44,8 @@ export default function MensRapSuiviDepense ({user}) {
     useEffect(() => {
 
         if (data) {
-            setDisplayEntreeCaisse(data.entreeCaisse.map (el => <tr><th>{el._id}</th> <td>{el.valeur}</td></tr> ));
-            setDisplaySortieCaisse( data.sortieCaisse.map (el => <tr><th>{el._id}</th> <td>{el.valeur}</td></tr> ));
+            setDisplayEntreeCaisse(data.entreeCaisse.map (el => <tr key={`entreeCaisse${el._id}`}><th>{el._id}</th> <td>{el.valeur}</td></tr> ));
+            setDisplaySortieCaisse( data.sortieCaisse.map (el => <tr key = {`sortieCaisse${el._id}`} ><th>{el._id}</th> <td>{el.valeur}</td></tr> ));
         };
     }, [data]);
      
