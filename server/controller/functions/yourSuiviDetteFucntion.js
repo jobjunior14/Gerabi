@@ -1,38 +1,7 @@
 const AppError = require('../../utils/appError');
-
+const loopingData = require('../../utils/loopingData');
 const {statsDetail, statsAll} = require('./suiviDetteReuseFucntions')
 
-const loopingData = (array, year, month, day) => {
-
-    const dayData = {
-        fournisseurs: [],
-    };
-    
-    for (let i of array) {
-        if (i.annee === year) {
-
-            for (let j of i.data) {
-
-                if (j.mois === month) {
-                    for (let fournisseurs of j.data.fournisseurs) {
-
-                        for (let data of fournisseurs.data) {
-
-                            if (Number (JSON.stringify(data.createdAt).slice (9, 11)) === day) {
-
-                                dayData.fournisseurs.push ({
-                                    name: fournisseurs.name,
-                                    data: data
-                                });
-                            };
-                        };
-                    };
-                };
-            };
-        };
-    };
-    return dayData;
-};
 
 exports.getSuiviDetteCollection = async ({collection, res, req}) => {
 
@@ -89,7 +58,7 @@ exports.getSuiviDetteCollection = async ({collection, res, req}) => {
         
         res.status(200).json({
             status: 'success',
-            data: loopingData (Newdata, year, month, day)
+            data: new loopingData (Newdata, year, month, day).loopingDataYourSuiviDette()
         });
     } else {
         
@@ -97,7 +66,7 @@ exports.getSuiviDetteCollection = async ({collection, res, req}) => {
         
         res.status(200).json({
             status: 'success',
-            data: loopingData (suiviDette, year, month, day)
+            data: new loopingData (suiviDette, year, month, day).loopingDataYourSuiviDette()
         });
     };
 };
@@ -165,7 +134,7 @@ exports.pushSuiviDetteCollection = async ({collection, res, req, next}) => {
                 
                 res.status(200).json({
                     status: 'success',
-                    data: loopingData(suiviDette, year, month, day)
+                    data: new loopingData(suiviDette, year, month, day).loopingDataYourSuiviDette()
                 });
     
             } else {
@@ -175,7 +144,7 @@ exports.pushSuiviDetteCollection = async ({collection, res, req, next}) => {
     
                 res.status(200).json({
                     status: 'success',
-                    data: loopingData([newSuiviDette], year, month, day)
+                    data: new loopingData([newSuiviDette], year, month, day).loopingDataYourSuiviDette()
                 });
             };
         };
@@ -186,7 +155,7 @@ exports.pushSuiviDetteCollection = async ({collection, res, req, next}) => {
         
         res.status(200).json({
             status: 'success',
-            data: loopingData([newSuiviDette], year, month, day)
+            data: new loopingData([newSuiviDette], year, month, day).loopingDataYourSuiviDette()
         });
     };
 };
@@ -263,7 +232,7 @@ exports.updateSuiviDetteCollection = async ({collection, res, req, next}) => {
     
     res.status(200).json({
         status: 'success',
-        data: loopingData(suiviDette, year, month, day)
+        data: new loopingData(suiviDette, year, month, day).loopingDataYourSuiviDette()
     });
 };
 
@@ -353,7 +322,7 @@ exports.totalDetteCollection = async ({collection, res, req}) => {
     const year = Number (req.params.year);
     const month = Number (req.params.month);
     const day = Number (req.params.day);
-    const dataDay = loopingData(suiviDette, year, month, day);
+    const dataDay = new loopingData(suiviDette, year, month, day).loopingDataYourSuiviDette();
     let totDette = 0;
     if (dataDay.fournisseurs.length > 0  ) {
         

@@ -1,29 +1,6 @@
 const AppError = require('../../utils/appError');
 
-function loopingData(array, year, month, day) {
-
-  let dayData = null;
-  //iterate through i of
-  for (let i of array) {
-    //check if the year is true of false
-    if (i.annee === year) {
-      for (let o of i.data) {
-        //cheking of the month
-        if (o.mois === month) {
-          for (let p of o.data) {
-            //cheking of the day
-            if (Number(JSON.stringify(p.createdAt).slice(9, 11)) === day) {
-              //then push the product id in a array if there is a correspondance in (it's true every where)
-              dayData = p;
-            }
-          }
-        }
-      }
-    }
-  };
-
-  return dayData;
-};
+const loopingData = require('../../utils/loopingData');
 
 exports.getVente = async ({collection, req, res}) => {
 
@@ -33,12 +10,12 @@ exports.getVente = async ({collection, req, res}) => {
   res.status(200).json({
     status: "success",
     data: {
-      day: loopingData(
+      day: new loopingData(
         vente,
         Number(req.params.year),
         Number(req.params.month),
         Number(req.params.day)
-      ),
+      ).loopingDataDailyVenteAndDeppEffect(),
     },
   });
 };
@@ -75,7 +52,7 @@ exports.pushDataVente = async ({collection, req, res}) => {
     res.status(200).json({
       statusbar: "success",
       data: {
-        day: loopingData(vente, year, month, day),
+        day: new loopingData(vente, year, month, day).loopingDataDailyVenteAndDeppEffect(),
       }
     });
 
@@ -91,7 +68,7 @@ exports.pushDataVente = async ({collection, req, res}) => {
     res.status(200).json({
       status: "success",
       data: {
-        day: loopingData([newVente], year, month, day)
+        day: new loopingData([newVente], year, month, day).loopingDataDailyVenteAndDeppEffect()
       }
     });
   }
@@ -145,7 +122,7 @@ exports.updatevente = async ({collection, req, res, next}) => {
   res.status(200).json({
     status: "success",
     data: {
-      day: loopingData(vente, year, month, day),
+      day: new loopingData(vente, year, month, day).loopingDataDailyVenteAndDeppEffect(),
     },
   });
 };

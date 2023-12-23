@@ -26,6 +26,8 @@ export default function useDataFetcherSuiviDepense ({componentName}) {
   const {year, month, day} = useDateParams();
 
   const fetchData = async () => {
+
+    setError('');
     try {
       //reinitialize some state to see the loading page while fetching data
 
@@ -76,6 +78,7 @@ export default function useDataFetcherSuiviDepense ({componentName}) {
         };
       };
 
+      console.log (yourSuiviDetteData.data);
       //**your debt*/
       if (yourSuiviDetteData.data.data.fournisseurs.length > 0) {
         setYourDebt(indexSetter(yourSuiviDetteData.data.data.fournisseurs));
@@ -108,7 +111,6 @@ export default function useDataFetcherSuiviDepense ({componentName}) {
 
   useEffect (() => {
     fetchData();
-    console.log('data fetche');
   }, [year, month, day, componentName]);
 
   return {error, 

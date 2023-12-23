@@ -1,61 +1,4 @@
-exports.loopingData = (array, year, month, day) => {
-
-  let dayData = [];
-  let id = [];
-
-  for (let i of array) {
-    for (let j of i.data) {
-      //check if the year is true of false
-      if (j.annee === year) {
-        for (let o of j.data) {
-          //cheking of the month
-          if (o.mois === month) {
-            for (let p of o.data) {
-              //cheking of the day
-              if (Number(JSON.stringify(p.createdAt).slice(9, 11)) === day) {
-                //then push the product id in a array if there is a correspondance in (it's true every where)
-                id.push(i._id);
-                p.name = i.name;
-                dayData.push(p);
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-
-  return { id: id, day: dayData };
-};
-
-function loopingData (array, year, month, day) {
-  let dayData = [];
-  let id = [];
-
-  for (let i of array) {
-    for (let j of i.data) {
-      //check if the year is true of false
-      if (j.annee === year) {
-        for (let o of j.data) {
-          //cheking of the month
-          if (o.mois === month) {
-            for (let p of o.data) {
-              //cheking of the day
-              if (Number(JSON.stringify(p.createdAt).slice(9, 11)) === day) {
-                //then push the product id in a array if there is a correspondance in (it's true every where)
-                id.push(i._id);
-                p.name = i.name;
-                dayData.push(p);
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-
-  return { id: id, day: dayData };
-};
+const loopingData = require ("../../utils/loopingData")
 
 exports.getCollection = async (collection, request, response) =>{
 
@@ -65,7 +8,7 @@ exports.getCollection = async (collection, request, response) =>{
   response.status(200).json({
 
     status: 'success',
-    data: loopingData(data , Number (request.params.year), Number (request.params.month), Number (request.params.day))
+    data: new loopingData(data , Number (request.params.year), Number (request.params.month), Number (request.params.day)).loopingDataSuiviStockEtVente()
   }); 
 };
 
@@ -279,7 +222,7 @@ exports.dailyRapCollection = async (collection, request, response) => {
   const month = Number (request.params.month);
   const year = Number (request.params.year);
 
-  const dailyData = loopingData(data, year, month, day);
+  const dailyData =  new loopingData(data, year, month, day).loopingDataSuiviStockEtVente();
 
   let vente_bar = 0;
   let approvisionnement = 0;

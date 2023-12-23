@@ -1,78 +1,6 @@
 const AppError = require("../../utils/appError");
 
-const loopingData = (array, year, month, day) => {
-
-    const dayData = {
-        entreeCaisse:[],
-        sortieCaisse: [],
-        soldCaisse: null
-    };
-    
-    for (let i of array){
-
-        if( i.annee === year){
-            for ( let j of i.data){
-                
-                if (j.mois === month) {
-
-                    //entree caisse
-                    for (let entreeCaisse of j.data.entreeCaisse) {
-
-                        for (let e of entreeCaisse.data){
-
-                            if (Number (JSON.stringify (e.createdAt).slice (9, 11)) === day) {
-    
-                                dayData.entreeCaisse.push({
-                                    name: entreeCaisse.name,
-                                    data: e
-                                });
-                            };
-                        };   
-                    };
-
-                    //sortie caisse
-                    for (let sortieCaisse of j.data.sortieCaisse) {
-
-                        //store label data 
-                        const dataName = [];
-
-                        for (let e of sortieCaisse.data){
-
-                            for (let amount of e.amount){
-                                
-                                if (Number (JSON.stringify (amount.createdAt).slice (9, 11)) === day) {
-        
-                                    dataName.push({
-                                        libel: e.libel,
-                                        amount: amount.valeur
-                                    });
-                                };
-                            };
-                        }; 
-
-                        //push all the labels in a main name
-                        dayData.sortieCaisse.push ({
-                            name: sortieCaisse.name,
-                            data: dataName 
-                        });
-                    };
-            
-
-                    //sold caisse
-                    for (let soldCaisse of j.data.soldCaisse) {
-                         
-                        if (Number (JSON.stringify (soldCaisse.createdAt).slice (9, 11)) === day) {
-
-                            dayData.soldCaisse = soldCaisse;
-                        };
-                    };
-                };
-            };
-        };
-    };
-
-    return dayData;
-};
+const loopingData = require("../../utils/loopingData");
 
 exports.getSuiviDepenseCollection = async ({collection, req, res}) => {
 
@@ -81,7 +9,7 @@ exports.getSuiviDepenseCollection = async ({collection, req, res}) => {
     res.status(200).json({
 
         status: 'success',
-        data: loopingData(suiviDepense , Number (req.params.year), Number (req.params.month), Number (req.params.day))
+        data: new loopingData(suiviDepense , Number (req.params.year), Number (req.params.month), Number (req.params.day)).loopingDataSuiviDepense()
     }); 
 };
 
@@ -201,7 +129,7 @@ exports.pushSuiviDepenseCollection = async ({collection, req, res, next}) => {
                 
                 res.status(200).json({
                     status: 'success',
-                    data: loopingData(suiviDepense, year, month, day)
+                    data: new loopingData(suiviDepense, year, month, day).loopingDataSuiviDepense()
                 });
     
             } else {
@@ -211,7 +139,7 @@ exports.pushSuiviDepenseCollection = async ({collection, req, res, next}) => {
     
                 res.status(200).json({
                     status: 'success',
-                    data: loopingData(NewsuiviDepense, year, month, day)
+                    data: new loopingData(NewsuiviDepense, year, month, day).loopingDataSuiviDepense()
                 });
             };
         };
@@ -222,7 +150,7 @@ exports.pushSuiviDepenseCollection = async ({collection, req, res, next}) => {
         
         res.status(200).json({
             status: 'success',
-            data: loopingData([NewsuiviDepense], year, month, day)
+            data: new loopingData([NewsuiviDepense], year, month, day).loopingDataSuiviDepense()
         });
     };
 };
@@ -349,7 +277,7 @@ exports.updateSuiviDepenseCollection = async ({collection, req, res, next}) => {
         
         res.status(200).json({
             status: 'success',
-            data: loopingData(suiviDepense, year, month, day)
+            data: new loopingData(suiviDepense, year, month, day).loopingDataSuiviDepense()
         });
     } else {
         return next (new AppError (' la collection est completement vide, impossi de mette a  jour une donnee inexistante'));

@@ -1,3 +1,5 @@
+//reuse Function are Just functions used in a specific file and are not really reusable
+
 exports.statsDetail = async (year, month,path, SuiviDette) => {
 
     const data = await SuiviDette.aggregate([
@@ -85,36 +87,4 @@ exports.statsAll = async (year, month, path, SuiviDette) => {
     ]);
 
     return data
-};
-
-exports.loopingData = (array, year, month, day) => {
-
-    const dayData = {
-        fournisseurs: [],
-    };
-    
-    for (let i of array) {
-        if (i.annee === year) {
-
-            for (let j of i.data) {
-
-                if (j.mois === month) {
-                    for (let fournisseurs of j.data.fournisseurs) {
-
-                        for (let data of fournisseurs.data) {
-
-                            if (Number (JSON.stringify(data.createdAt).slice (9, 11)) === day) {
-
-                                dayData.fournisseurs.push ({
-                                    name: fournisseurs.name,
-                                    data: data
-                                });
-                            };
-                        };
-                    };
-                };
-            };
-        };
-    };
-    return dayData;
 };

@@ -30,10 +30,8 @@ export default function SuiviDette () {
     const agents = useSelector(state => state.suiviDette.agents);
     const clients = useSelector(state => state.suiviDette.clients);
     const musiciens = useSelector(state => state.suiviDette.musiciens);
-
+    //fournisseur is reladted to ***yourSuivi Dette Data******
     const fournisseurs = useSelector(state => state.suiviDette.fournisseurs);
-
-
 
     //data fetcher 
     const {error, 
@@ -131,7 +129,7 @@ export default function SuiviDette () {
 
         postAndUpdate(agents, musiciens, clients, true, fournisseurs);
     };
-    
+
     if (year > currentYear && month > currentMonth && day > currentDay) {
 
         return (

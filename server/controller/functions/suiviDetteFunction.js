@@ -1,69 +1,8 @@
 const AppError = require('../../utils/appError');
+const loopingData = require ('../../utils/loopingData');
 
 const {statsDetail, statsAll} = require('./suiviDetteReuseFucntions');
 
-const loopingData = (array, year, month, day) => {
-
-    const dayData = {
-        agents: [],
-        clients: [],
-        musiciens: [],
-    };
-    
-    for (let i of array) {
-        if (i.annee === year) {
-
-            for (let j of i.data) {
-
-                if (j.mois === month) {
-
-                    //agents
-                    for (let agents of j.data.agents) {
-
-                        for (let data of agents.data) {
-
-                            if (Number (JSON.stringify(data.createdAt).slice (9, 11)) === day) {
-                                dayData.agents.push ({
-                                    name: agents.name,
-                                    data: data
-                                });
-                            };
-                        };
-                    };
-                    //clients
-                    for (let agents of j.data.clients) {
-
-                        for (let data of agents.data) {
-
-                            if (Number (JSON.stringify(data.createdAt).slice (9, 11)) === day) {
-
-                                dayData.clients.push ({
-                                    name: agents.name,
-                                    data: data
-                                });
-                            };
-                        };
-                    };
-                    //musiciens
-                    for (let agents of j.data.musiciens) {
-
-                        for (let data of agents.data) {
-
-                            if (Number (JSON.stringify(data.createdAt).slice (9, 11)) === day) {
-
-                                dayData.musiciens.push ({
-                                    name: agents.name,
-                                    data: data
-                                });
-                            };
-                        };
-                    };
-                };
-            };
-        };
-    };
-    return dayData;
-};
 
 exports.getSuiviDetteCollection = async ({collection, req, res}) => {
 
@@ -144,7 +83,7 @@ exports.getSuiviDetteCollection = async ({collection, req, res}) => {
         
         res.status(200).json({
             status: 'success',
-            data: loopingData (Newdata, year, month, day)
+            data:  new loopingData(Newdata, year, month, day).loopingDataSuiviDette()
         });
     } else {
         
@@ -152,7 +91,7 @@ exports.getSuiviDetteCollection = async ({collection, req, res}) => {
         
         res.status(200).json({
             status: 'success',
-            data: loopingData (suiviDette, year, month, day)
+            data:  new loopingData (suiviDette, year, month, day).loopingDataSuiviDette()
         });
     };
 };
@@ -275,7 +214,7 @@ exports.pushSuiviDetteCollection = async ({collection, req, res, next}) => {
                 
                 res.status(200).json({
                     status: 'success',
-                    data: loopingData(suiviDette, year, month, day)
+                    data:  new loopingData(suiviDette, year, month, day).loopingDataSuiviDette()
                 });
     
             } else {
@@ -285,7 +224,7 @@ exports.pushSuiviDetteCollection = async ({collection, req, res, next}) => {
     
                 res.status(200).json({
                     status: 'success',
-                    data: loopingData([newSuiviDette], year, month, day)
+                    data:  new loopingData([newSuiviDette], year, month, day).loopingDataSuiviDette()
                 });
             };
         };
@@ -296,7 +235,7 @@ exports.pushSuiviDetteCollection = async ({collection, req, res, next}) => {
         
         res.status(200).json({
             status: 'success',
-            data: loopingData([newSuiviDette], year, month, day)
+            data:  new loopingData([newSuiviDette], year, month, day).loopingDataSuiviDette()
         });
     };
 };
@@ -446,7 +385,7 @@ exports.updateSuiviDetteCollection = async ({collection, req, res, next}) => {
     
     res.status(200).json({
         status: 'success',
-        data: loopingData(suiviDette, year, month, day)
+        data:  new loopingData(suiviDette, year, month, day).loopingDataSuiviDette()
     });
 };
 
@@ -568,7 +507,8 @@ exports.totalDetteCollection = async ({collection, req, res}) => {
     const year = Number (req.params.year);
     const month = Number (req.params.month);
     const day = Number (req.params.day);
-    const dataDay = loopingData(suiviDette, year, month, day);
+    
+    const dataDay =  new loopingData(suiviDette, year, month, day).loopingDataSuiviDette()
     let totDette = 0;
     if (dataDay.agents.length > 0 && dataDay.musiciens.length > 0 && dataDay.clients.length > 0 ) {
         

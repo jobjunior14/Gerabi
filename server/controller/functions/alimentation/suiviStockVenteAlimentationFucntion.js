@@ -1,6 +1,5 @@
 
-const {loopingData} = require ('../suiviStockEtVenteFunction');
-
+const loopingData = require ('../../../utils/loopingData');
 
 exports.pushDataCollection =  async (request, collection, response ) => {
 
@@ -166,7 +165,7 @@ exports.pushDataCollection =  async (request, collection, response ) => {
 
     response.status(200).json({
       status: 'success',
-      data: loopingData(dataBralima, year,month, day),
+      data: new loopingData(dataBralima, year,month, day).loopingDataSuiviStockEtVente()
     });
 
   } else {
@@ -208,7 +207,7 @@ exports.pushDataCollection =  async (request, collection, response ) => {
     // then the response ....
     response.status(200).json({
       status: 'success',
-      data: loopingData(createadData,  year,  month, day)
+      data: new loopingData(createadData,  year,  month, day).loopingDataSuiviStockEtVente()
     });
 
 }};
@@ -310,7 +309,7 @@ exports.updateDataCollection = async (collection, request, response ) => {
   response.status(200).json({
 
     status: "success",
-    data: loopingData( updatedDocument, year, month, day ),
+    data: new loopingData( updatedDocument, year, month, day ).loopingDataSuiviStockEtVente()
 
   });
 
