@@ -1,18 +1,21 @@
 import SuiviDesVentes from "./suivi_Des_Ventes/suiviDesVentes"
-import { useDispatch, useSelector } from "react-redux";
-import { mensRapportActions } from "../store/mensRepport-slice";
+import { useSelector } from "react-redux";
 import MensFilter from "../filter/filterMensRap";
 import MensRapSuiviDepense from "./suivi_depense/suiviDepenseMens";
 import DailyFilter from "../filter/filterDailyRap";
 import useDateParams from "../reuseFunction/dateParams";
 export function MensRepport ({user}) {
 
-    //params
-    const { setterDateParams} = useDateParams();
 
-    //date in fields
+    //params
+    const {setterDateParams} = useDateParams();
+
+    //date in fields 
+    // ********the date is selectionned cause it controller is a reducer********88
     const date = useSelector (state => state.mensRapport.date);
 
+    //a fucntion we're gonna pass to the date controller filds cause 
+    //it's using a dispatch method 
     function setFilterParams() {
 
         setterDateParams(date);

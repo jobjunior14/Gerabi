@@ -86,7 +86,7 @@ export default function Clients ({loading}){
         } else {
             return (
                 <div>
-                    <h3> Dette Agents </h3>
+                    <h3> Dette Clients </h3>
                     <button onClick={() => dispatch(suiviDetteActions.addCaseClients())}> Ajouter Un Nom</button>
                     <h4> Ooouups!!! cette date n'a pas des données </h4>
                 </div>

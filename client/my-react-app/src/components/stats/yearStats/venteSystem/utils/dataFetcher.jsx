@@ -15,6 +15,7 @@ export default function useDataFetcherYearStats ({componentName, productName}) {
     const [error, setError] = useState('')
     //date params
     const {year} = useDateParams();
+
     const fetchData = async () => {
         setLoading(true);
         try {
@@ -44,10 +45,16 @@ export default function useDataFetcherYearStats ({componentName, productName}) {
             setApprovisionnement(saveAppro);
             setBenefice(saveBenef); 
             setMonth(dateSetter(data));
-        };
+        } else {
+            
+            setVenteBar([]);
+            setApprovisionnement([]);
+            setBenefice([]); 
+            setMonth([]);
+        }
     };
-
 }, [data]);
+
     useEffect (() => {
         fetchData();
     }, [year]);

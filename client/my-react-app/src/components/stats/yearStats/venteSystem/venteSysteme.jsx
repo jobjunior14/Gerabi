@@ -35,7 +35,6 @@ export default function VenteSystemGraph ()  {
             categories: alimBralima ? alimBralima.month : []
         }
     };
-
     //////////////series for apexChart components 
     //for degoBar 
     const degoVenteBarSerie = comparaisonDataApex({autreProduit, liqueurs, bralima, brasimba }, 'venteBar');
