@@ -16,7 +16,7 @@ export default function useDateParams () {
     const dateState = year === currentYear && month === currentMonth && day === currentDay;
 
     function setterDateParams (date) {
-        setDateParams(prev => date);
+        setDateParams(date);
     }
 
     return {year, month, day, currentDay, currentMonth, currentYear, dateState, setterDateParams};

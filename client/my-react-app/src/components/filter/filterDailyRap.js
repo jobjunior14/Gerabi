@@ -5,7 +5,7 @@ import { suiviDepenseActions } from "../store/suiviDepense-slice";
 import { suiviDetteActions } from "../store/suiviDette-slice";
 import { mensRapportActions } from "../store/mensRepport-slice";
 
-export default function DailyFilter ({prev, component}) {
+export default function DailyFilter ({prev, component, onclick}) {
 
     const dispatch = useDispatch();
         
@@ -15,6 +15,7 @@ export default function DailyFilter ({prev, component}) {
             <input 
                 value={prev.year}
                 name = 'year'
+                type="number"
                 placeholder= "Taper l'année"
                 onChange= { e => {
                     const {name, value} = e.target;
@@ -28,6 +29,7 @@ export default function DailyFilter ({prev, component}) {
             <label> Mois </label>
             <input 
                 value={prev.month}
+                type="number"
                 name = 'month'
                 placeholder= "Taper l'année"
                 onChange= { e => {
@@ -43,6 +45,7 @@ export default function DailyFilter ({prev, component}) {
             <input 
                 value={prev.day}
                 name = 'day'
+                type="number"
                 placeholder= "Taper l'année"
                 onChange= { e => {
                     const {name, value} = e.target;

@@ -1,5 +1,5 @@
 import React from 'react';
-import axios from 'axios';
+import axios from '../../../axiosUrl';
 import { useEffect, useState } from 'react';
 import useParamsGetter from '../../reuseFunction/paramsGetter';
 import useDateParams from '../../reuseFunction/dateParams';
@@ -29,8 +29,8 @@ export default function MensRapSuiviDepense ({user}) {
             try {
                 setData(null);
 
-                const apiData = currentUser ? await axios.get (`http://localhost:5001/api/v1/${componentName}/suiviDepense/rapportMensuel/detail/${year}/${month}`) :
-                    await axios.get (`http://localhost:5001/api/v1/${componentName}/suiviDepense/rapportJournalier/dailyRap/${year}/${month}/${day}`); 
+                const apiData = currentUser ? await axios.get (`/${componentName}/suiviDepense/rapportMensuel/detail/${year}/${month}`) :
+                    await axios.get (`/${componentName}/suiviDepense/rapportJournalier/dailyRap/${year}/${month}/${day}`); 
                 
                 setData(apiData.data.data);
             } catch (error) {

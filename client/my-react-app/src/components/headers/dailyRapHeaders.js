@@ -4,7 +4,7 @@ import { NavLink,  } from 'react-router-dom';
 export default function DailyRepportHeaders ()
 {
     return (
-        <nav>
+        <nav className=' bg-gray-100 text-center text-2xl p-5'>
             <NavLink 
                 className={ ({isActive}) => isActive ? "my-link" : null}
                 to = {`/rapportJournalier/degoBar?year=${new Date().getFullYear()}&month=${new Date().getMonth() + 1}&day=${new Date().getDate()} `}> Dego Bar </NavLink>
