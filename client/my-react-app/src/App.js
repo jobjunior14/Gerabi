@@ -5,8 +5,8 @@ import { MainNav, DailyRepportNav, MensRepportNav } from './components/headers/o
 import SuiviDepense from './components/Daily-Report/suiviDepense/suiviDepense'
 import SuiviDette from './components/Daily-Report/suiviDette/suiviDette';
 import { MensRepport } from './components/Mensuel Report/mensual&DailyReport';
-import HouseRoutes from './components/headers/degoBarHeaders';
 import YearStats from './components/stats/yearStats';
+import { HouseNav } from './components/headers/outlet';
 function App() {
 
   return ( 
@@ -18,18 +18,13 @@ function App() {
 
             <Route path='/rapportJournalier' element = {<DailyRepportNav/>}>
 
-              <Route path='degoBar' element = {<HouseRoutes component = 'degoBar'/>}/>
-    
-                <Route  path=':componentName/product/:productName' element = {<Product />}/>
-                <Route path = ':componentName/suiviDepense' element = {<SuiviDepense />}/>
-                <Route path =':componentName/suiviDette' element = {<SuiviDette />}/>
-                <Route path=':componentName/dailyRepport' element = {<MensRepport componentName = 'degoBar' user = 'dailyRap'/>}/>
+              <Route path=':componentName' element = {<HouseNav />}>
+                <Route path='product/:productName' element = {<Product />}/>
+                <Route path = 'suiviDepense' element = {<SuiviDepense />}/>
+                <Route path ='suiviDette' element = {<SuiviDette />}/>
+                <Route path='dailyRepport' element = {<MensRepport user = 'dailyRap'/>}/>
+              </Route>
 
-              <Route path='alimentation' element = {<HouseRoutes component = 'alimentation'/>}/>
-                <Route  path=':componentName/product/:productName' element = {<Product/>}/>
-                <Route path = ':componentName/suiviDepense' element = {<SuiviDepense />}/>
-                <Route path =':componentName/suiviDette' element = {<SuiviDette />}/>
-                <Route path=':componentName/dailyRepport' element = {<MensRepport componentName = 'alimentation' user = 'dailyRap'/>}/>
             </Route>
 
             <Route path='/rapportMensuel' element = {<MensRepportNav/>}>

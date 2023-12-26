@@ -11,10 +11,11 @@ export default function MensFilter (props) {
             <input 
                 value={props.prev.year}
                 name = 'year'
+                type="number"
                 placeholder= "Taper l'année"
                 onChange= { e => {
                     const {name, value} = e.target;
-                    dispatch(mensRapportActions.setDate({name: name, value: value}));
+                    dispatch(mensRapportActions.setDate({name: name, value: Number (value)}));
                 }}
             />
 
@@ -22,10 +23,11 @@ export default function MensFilter (props) {
             <input 
                 value={props.prev.month}
                 name = 'month'
+                type="number"
                 placeholder= "Taper l'année"
                 onChange= { e => {
                     const {name, value} = e.target;
-                    dispatch(mensRapportActions.setDate({name: name, value: value}));
+                    dispatch(mensRapportActions.setDate({name: name, value: Number (value)}));
                 }}
             />
 

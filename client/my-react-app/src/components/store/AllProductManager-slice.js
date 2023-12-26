@@ -257,6 +257,8 @@ const productSlice = createSlice ({
         //manage date field 
         setDate (state, action) {
 
+            //this condition verify if the setDate reducer is user by the 
+            //onchange event in our filter components (filterDailyRap or filterMensRap) or other components
             if (action.payload.year) {
 
                 state.date = {

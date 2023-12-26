@@ -10,11 +10,8 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #3d4042;
-  background-color: #f5f0f0ad;
 }
-#root {
-  backdrop-filter: blur(20px);
-}
+
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',

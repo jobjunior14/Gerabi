@@ -133,7 +133,7 @@ const alimProductSlice = createSlice ({
             );
         },
 
-        //manage date field 
+        //manage date's field 
         setDate (state, action) {
 
             if (action.payload.year) {

@@ -5,9 +5,7 @@ import MensRapSuiviDepense from "./suivi_depense/suiviDepenseMens";
 import DailyFilter from "../filter/filterDailyRap";
 import useDateParams from "../reuseFunction/dateParams";
 export function MensRepport ({user}) {
-
-
-    //params
+    //date's query params
     const {setterDateParams} = useDateParams();
 
     //date in fields 
@@ -17,7 +15,6 @@ export function MensRepport ({user}) {
     //a fucntion we're gonna pass to the date controller filds cause 
     //it's using a dispatch method 
     function setFilterParams() {
-
         setterDateParams(date);
     };
 
