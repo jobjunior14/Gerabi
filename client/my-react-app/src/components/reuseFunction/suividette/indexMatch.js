@@ -1,4 +1,4 @@
-exports.indexMatcher = (array1, array2) => {
+export const indexMatcher = (array1, array2) => {
 
     const saveArray = [...array2]
     for (let i = 0; i < array1.length; i++) {

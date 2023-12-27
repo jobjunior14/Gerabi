@@ -1,18 +1,18 @@
-exports.table = 
+export const table = 
 {
     border: 'solid thin',
     borderCollapse: 'collapse',
     tableLayout: 'fixed'
 };
 
-exports.tbaleTh = 
+export const tbaleTh = 
 {
     border: 'solid thin',
     padding: '0.5rem 1rem',
     fontWeight: 'normal'
 };
 
-exports.tableTd = 
+export const tableTd = 
 {
     border:" solid thin",
     padding: '0.2rem',

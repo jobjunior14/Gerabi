@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import InputsTh from './inputs/inputTh.js';
-import InputsTh2 from './inputs/inputTh2.js';
+import InputsTh from './inputs/inputTh';
+import InputsTh2 from './inputs/inputTh2';
 import { useSelector } from 'react-redux';
-import InputTd from './inputs/inputTd.js';
-import useParamsGetter from '../../../reuseFunction/paramsGetter.jsx';
-const {table, tbaleTh} = require ('./css.js');
+import InputTd from './inputs/inputTd';
+import useParamsGetter from '../../../reuseFunction/paramsGetter';
+import {table, tbaleTh} from './css';
 
 export function TableSuivi () {
     

@@ -1,8 +1,8 @@
-import { ExcelMain } from "./Stock_Main_Layout.js";
+import { ExcelMain } from "./Stock_Main_Layout";
 import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
-import useParamsGetter from "../../../reuseFunction/paramsGetter.jsx";
-const { table, tbaleTh } = require("./css.js");
+import useParamsGetter from "../../../reuseFunction/paramsGetter";
+import { table, tbaleTh } from "./css";
 
 export function ExcelSecLayout() {
   

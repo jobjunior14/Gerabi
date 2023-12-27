@@ -9,8 +9,11 @@ import YearStats from './components/stats/yearStats';
 import { HouseNav } from './components/headers/outlet';
 function App() {
 
+  console.log ('hey')
+
   return ( 
-    
+  <>
+  
     <BrowserRouter>
       <Routes>
         
@@ -36,9 +39,10 @@ function App() {
       </Routes>
 
     </BrowserRouter>
+  </>  
 
 
   );
 }
 
-export default App;
+export default App

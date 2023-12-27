@@ -1,5 +1,5 @@
 import React from "react";
-const {tbaleTh} = require ('./css.js');
+import {tbaleTh} from './css';
 
 export default function InputsTh2 ({providers})
 {

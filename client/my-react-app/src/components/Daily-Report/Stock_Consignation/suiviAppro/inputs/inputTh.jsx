@@ -1,8 +1,8 @@
 import React from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { productActions } from '../../../../store/AllProductManager-slice.js';
+import { productActions } from '../../../../store/AllProductManager-slice';
 import { useId } from "react";
-const {tbaleTh} = require ('./css.js');
+import {tbaleTh} from './css';
 
 export default function InputsTh (props) {
 

@@ -1,8 +1,8 @@
 import React from 'react';
 import { useId } from 'react';
 import { useDispatch } from 'react-redux';
-import { productActions } from '../../../../store/AllProductManager-slice.js';
-const {tableTd} = require ('./css.js');
+import { productActions } from '../../../../store/AllProductManager-slice';
+import {tableTd} from './css';
 
 export default function InputTd (props) {
     const dispatch = useDispatch();
