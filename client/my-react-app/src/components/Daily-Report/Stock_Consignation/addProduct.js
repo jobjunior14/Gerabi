@@ -1,12 +1,12 @@
 import React from "react";
-import {useDispatch, useSelector } from 'react-redux'
+import {useDispatch } from 'react-redux'
 import { productActions } from "../../store/AllProductManager-slice";
 import { alimProductActions } from "../../store/AllProductManagerAlim-slice";
-
+import useParamsGetter from "../../reuseFunction/paramsGetter";
 export default function AddProduct () {
 
     const dispatch = useDispatch();
-    const stateAction = useSelector (state => state.product.product);
+    const {stateAction} = useParamsGetter();
     function add (){
         stateAction ? dispatch(productActions.addProduct()) : dispatch(alimProductActions.addProduct()) 
     };
