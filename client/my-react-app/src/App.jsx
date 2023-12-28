@@ -9,10 +9,7 @@ import YearStats from './components/stats/yearStats';
 import { HouseNav } from './components/headers/outlet';
 function App() {
 
-  console.log ('hey')
-
   return ( 
-  <>
   
     <BrowserRouter>
       <Routes>
@@ -34,13 +31,12 @@ function App() {
               <Route path='products/:componentName' element = {<MensRepport user = 'rappMens' />}/>
               <Route path='graphique' element = {<YearStats/>} />
             </Route>
+            <Route path='/documentation' element= {<h1>Documentation</h1>}/>
             
           </Route>
       </Routes>
 
     </BrowserRouter>
-  </>  
-
 
   );
 }

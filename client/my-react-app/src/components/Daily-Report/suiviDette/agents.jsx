@@ -33,7 +33,7 @@ export default function Agents ({loading}){
             };
         };
         //set the total Dette agent
-        setTotalDetteAgent(prev => prev = savetotalDetteAgent);
+        setTotalDetteAgent( savetotalDetteAgent);
     }, [agentsData, totalDetteAndPaymentAgent]);
 
     //side effect render the table body
@@ -51,7 +51,7 @@ export default function Agents ({loading}){
                         in2 = 'amountagents'
                         in3 = 'paymentagents'
                         component = 'agents'
-                        totDebt = {savetotalDetteAndPaymentAgents ? savetotalDetteAndPaymentAgents[i].valeurDette - savetotalDetteAndPaymentAgents[i].valeurPayment : 0 }
+                        totDebt = {savetotalDetteAndPaymentAgents[i] ? savetotalDetteAndPaymentAgents[i].valeurDette - savetotalDetteAndPaymentAgents[i].valeurPayment : 0 }
                     />
                 )
             });

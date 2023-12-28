@@ -78,7 +78,6 @@ export default function useDataFetcherSuiviDepense ({componentName}) {
         };
       };
 
-      console.log (yourSuiviDetteData.data);
       //**your debt*/
       if (yourSuiviDetteData.data.data.fournisseurs.length > 0) {
         setYourDebt(indexSetter(yourSuiviDetteData.data.data.fournisseurs));

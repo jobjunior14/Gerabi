@@ -50,7 +50,7 @@ export default function Clients ({loading}){
                         in2 = 'amountclients'
                         in3 = 'paymentclients'
                         component = 'clients'
-                        totDebt = {savetotalDetteAndPaymentClients ? savetotalDetteAndPaymentClients[i].valeurDette - savetotalDetteAndPaymentClients[i].valeurPayment : 0 }
+                        totDebt = {savetotalDetteAndPaymentClients[i] ? savetotalDetteAndPaymentClients[i].valeurDette - savetotalDetteAndPaymentClients[i].valeurPayment : 0 }
                     />
                 )
             });

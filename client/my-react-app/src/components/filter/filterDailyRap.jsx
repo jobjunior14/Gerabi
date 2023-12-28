@@ -1,4 +1,3 @@
-import React from "react";
 import { useDispatch } from "react-redux";
 import { productActions } from "../store/AllProductManager-slice";
 import { alimProductActions } from "../store/AllProductManagerAlim-slice";
@@ -13,7 +12,7 @@ export default function DailyFilter ({prev, component, onclick}) {
 
     return (
         <div>
-            <label>Année </label>
+            <label className="mx-2">Année: </label>
             <input 
                 value={prev.year}
                 name = 'year'
@@ -28,9 +27,9 @@ export default function DailyFilter ({prev, component, onclick}) {
                     component === 'daily' ? dispatch(mensRapportActions.setDate({name: name, value: Number (value)})) :
                     dispatch(suiviDetteActions.setDate({name: name, value: Number (value)}));
                     }}
-                    />
+                />
 
-            <label> Mois </label>
+            <label className="mx-2"> Mois: </label>
             <input 
                 value={prev.month}
                 type="number"
@@ -47,7 +46,7 @@ export default function DailyFilter ({prev, component, onclick}) {
                     }}
                     />
 
-            <label> Jour </label>
+            <label className="mx-2"> Jour: </label>
             <input 
                 value={prev.day}
                 name = 'day'

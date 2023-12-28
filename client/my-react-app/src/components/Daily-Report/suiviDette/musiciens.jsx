@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useCallback} from "react";
+import {useEffect, useState, useCallback} from "react";
 import {useSelector, useDispatch} from 'react-redux';
 import { suiviDetteActions } from "../../store/suiviDette-slice";
 import { useId } from "react";
@@ -35,6 +35,7 @@ export default function Musiciens ({loading}){
         setTotalDetteMusiciens(prev => prev = savetotalDetteMusiciens);
     }, [musiciensData, totalDetteAndPaymentMusiciens]);
 
+    console.log();
     //side effect
     const renderDataDisplay = useCallback(() => {
         if (musiciensData && totalDetteAndPaymentMusiciens) {
@@ -50,7 +51,7 @@ export default function Musiciens ({loading}){
                         in2 = 'amountMusiciens'
                         in3 = 'paymentMusiciens'
                         component = 'musiciens'
-                        totDebt = {savetotalDetteAndPaymentMusiciens  ? savetotalDetteAndPaymentMusiciens[i].valeurDette - savetotalDetteAndPaymentMusiciens[i].valeurPayment : 0 }
+                        totDebt = {savetotalDetteAndPaymentMusiciens[i]  ? savetotalDetteAndPaymentMusiciens[i].valeurDette - savetotalDetteAndPaymentMusiciens[i].valeurPayment : 0 }
                     />
                 )
             });
