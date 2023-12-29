@@ -38,5 +38,5 @@ export default function TotDetteDaily ({year, month, day}) {
 
     }, [agents, clients, musiciens]);
 
-    return (<p> Total dette du {day}-{month}-{year} : <b> {totDette} </b> </p>)
+    return (<p className="font-bold text-2xl text-gray-700 p-4"> Total dette du {day}-{month}-{year} : <b> {totDette} </b> </p>)
 };

@@ -12,6 +12,7 @@ import useDateParams from "../../reuseFunction/dateParams";
 import useDataFetcherSuiviDette from "./utils/dataFetcher";
 import usePostAndUpdata from "./utils/postAndUpadateData";
 import useParamsGetter from "../../reuseFunction/paramsGetter";
+import searchImage from "../../../assets/searchImage.png"
 
 export default function SuiviDette () {
 
@@ -130,13 +131,16 @@ export default function SuiviDette () {
         postAndUpdate(agents, musiciens, clients, true, fournisseurs);
     };
 
-    if (year > currentYear && month > currentMonth && day > currentDay) {
+    if (year > currentYear || month > currentMonth || day > currentDay) {
 
         return (
-            <div>
-                <DailyFilter component = {'suiviDette'} prev = {date} onclick = {setFilterParams} />
-                <h1> Ooouups vous ne pouvez demander une donnee d'une date inexistante </h1>
-            </div>
+            <>
+                <DailyFilter component = {'suiviDette'}  prev = {date} onclick = {setFilterParams}/>
+                <div className=" flex items-center justify-center h-3/4">
+                    <img className=" h-96 w-auto" src={searchImage} alt="search image" />
+                </div>
+                <h1 className="text-4xl text-gray-700"> Ouuups!!! vous ne pouvez demander une donnée d'une date inexistante</h1>
+            </>
         );
     } else {
         

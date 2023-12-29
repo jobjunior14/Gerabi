@@ -62,35 +62,37 @@ export default function EntreeCaisse ({setTotEntree, foundPrevSold, prevDay, pre
         if (data.length > 0) {
 
             return (
-               <div>
-                <h3>Entrée Caisse</h3>
-                 <table>
-                    <tbody>
-                        {displayData}
-                        <tr>
-                            <th>Total Entrée</th>
-                            <td> {totalEntreeCaisse} </td>
-                        </tr>
-                        <tr>
-                            <th> Total Sold Caisse</th>
-                            <td> {totalSoldCaisse} </td>
-                        </tr>
+               <div className=" text-center justify-center items-center block">
+                    <div className=" justify-center flex ">
+                        <h3 className="text-2xl font-semibold text-gray-700 block absolute mt-6">Entrée Caisse</h3>
+                        <table className=" border-collapse duration-300 table-fixed font-normal border-2 border-gray-900 my-16">
+                            <tbody>
+                                {displayData}
+                                <tr className="bg-slate-300">
+                                    <th className=" border-2 border-gray-900">Total Entrée</th>
+                                    <td className="border-2 border-gray-900"> {totalEntreeCaisse} </td>
+                                </tr>
+                                <tr>
+                                    <th className=" border-2 border-gray-900"> Total Sold Caisse</th>
+                                    <td className="border-2 border-gray-900"> {totalSoldCaisse} </td>
+                                </tr>
 
-                    </tbody>
-                </table>
-                { foundPrevSold && <>
+                            </tbody>
+                        </table>
+                    </div>
+                    { foundPrevSold && <>
 
-                    <p> Le sold caisse du {prevYear}/{prevMonth}/{prevDay}, n'a pas été trouvé </p>
-                    <label id = {'inputfromUser' + id}> S'il est existant veillez le taper</label>
-                    <input 
-                        type="number"
-                        id = {'inputfromUser' + id}
-                        placeholder="Tapez le precedent sold caisse"
-                        value={prevSoldCaisse}
-                        onChange={(e) => { dispatch(suiviDepenseActions.handleSoldCaisseByUser(Number (e.target.value)))} }
-                    />
-                </>}
-                { !readOnly && <button onClick={() => dispatch(suiviDepenseActions.addProductEntreeCaisse())}> Ajouter un produit</button>}
+                        <p> Le sold caisse du {prevYear}/{prevMonth}/{prevDay}, n'a pas été trouvé </p>
+                        <label id = {'inputfromUser' + id}> S'il est existant veillez le taper</label>
+                        <input 
+                            type="number"
+                            id = {'inputfromUser' + id}
+                            placeholder="Tapez le precedent sold caisse"
+                            value={prevSoldCaisse}
+                            onChange={(e) => { dispatch(suiviDepenseActions.handleSoldCaisseByUser(Number (e.target.value)))} }
+                        />
+                    </>}
+                    { !readOnly && <button onClick={() => dispatch(suiviDepenseActions.addProductEntreeCaisse())}> Ajouter un produit</button>}
                 </div>)
         } else {
             return(

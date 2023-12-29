@@ -8,8 +8,9 @@ export default function EntreeCaisseComp (props){
     const readOnly = useSelector (state => state.suiviDepense.readOnly);
 
     return (<tr>
-      <th>
+      <td className="border-2 border-gray-900">
         <input
+            className="w-32 bg-gray-50 duration-150 focus:scale-105 focus:outline-none focus:border-2 appearance-none border-2 focus:border-indigo-700 " 
             value={props.prev.name}
             id = { props.prev.index}
             name = 'name'
@@ -21,10 +22,11 @@ export default function EntreeCaisseComp (props){
                 dispatch(suiviDepenseActions.HandleEntreeCaisse({name: name, value: value, index: props.index}));
             }}
         />
-      </th>
+      </td>
 
-      <td>
+      <td className="border-2 border-gray-900">
         <input
+            className="w-32 bg-gray-50 duration-150 focus:scale-105 focus:outline-none focus:border-2 appearance-none border-2 focus:border-indigo-700 " 
             value={props.prev.data.amount}
             id = { props.prev.id}
             name = 'amount'

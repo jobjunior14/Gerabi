@@ -7,9 +7,10 @@ export default function DebtDisplay(props) {
     const dispatch = useDispatch();
 
     return (
-        <tr key = {props.tr}>
-            <th key = {props.th}>  
-                <input 
+        <tr className="[&>*:nth-child(even)]:bg-slate-200" key = {props.tr}>
+            <td className="border-2 border-gray-800" key = {props.th}>  
+                <input
+                    className="w-32 bg-gray-50 duration-150 focus:scale-105 focus:outline-none focus:border-2 appearance-none border-2 focus:border-indigo-700 "  
                     value={props.name}
                     id = {props.index + props.id + props.in1}
                     type = 'text'
@@ -24,9 +25,10 @@ export default function DebtDisplay(props) {
                         dispatch(suiviDetteActions.HandleFournisseurs({name: name, value: value, index: props.index}));
                     }}
                 />
-            </th>
-            <td>
-                <input 
+            </td>
+            <td className="border-2 border-gray-800">
+                <input
+                    className="w-32 bg-gray-50 duration-150 focus:scale-105 focus:outline-none focus:border-2 appearance-none border-2 focus:border-indigo-700 "  
                     value={props.data.amount}
                     id = {props.index + props.id + props.in2}
                     type = 'number'
@@ -41,8 +43,9 @@ export default function DebtDisplay(props) {
                     }}
                 />
             </td>
-            <td>
-                <input 
+            <td className="border-2 border-gray-800">
+                <input
+                    className="w-32 bg-gray-50 duration-150 focus:scale-105 focus:outline-none focus:border-2 appearance-none border-2 focus:border-indigo-700 "  
                     value={props.data.payment}
                     id = {props.index + props.id + props.in3}
                     type = 'number'
@@ -57,7 +60,7 @@ export default function DebtDisplay(props) {
                     }}
                 />
             </td>
-            <td>{props.totDebt}</td>
+            <td className="border-2 border-gray-800">{props.totDebt}</td>
         </tr>
     )
 }

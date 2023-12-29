@@ -60,41 +60,55 @@ export default function Clients ({loading}){
    if (!loading && clientsData) {
         if (clientsData.length > 0) {
 
-            return (<div>
-                <h3> Dette Clients </h3>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Nom</th>
-                            <th>Montant</th>
-                            <th>Montant Payé</th>
-                            <th>Total Dette</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {renderDataDisplay()}
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <th>Total</th>
-                            <td> {totalDetteClients} </td>
-                        </tr>
-                    </tfoot>
-                </table>
-                {!readOnly && <button onClick={() => dispatch(suiviDetteActions.addCaseClients())}> Ajouter Un Nom</button>}
+            return (
+            <div className=" text-center justify-center items-center block">
+                <div className=" justify-center flex ">
+                    <h3 className="text-2xl font-semibold text-gray-700 block absolute mt-6"> Dette Clients </h3>
+                    <table className=" border-collapse duration-300 table-fixed font-normal border-2 border-gray-900 my-16">
+                        <thead>
+                            <tr>
+                                <th className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900">Nom</th>
+                                <th className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900">Montant</th>
+                                <th className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900">Montant Payé</th>
+                                <th className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900">Total Dette</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {renderDataDisplay()}
+                        </tbody>
+                        <tfoot>
+                            <tr className=" bg-slate-400">
+                                <th>Total</th>
+                                <td> {totalDetteClients} </td>
+                                <td>.</td>
+                                <td>.</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                <div className="-mt-10">
+                    {!readOnly && <button className="px-5 py-1  bg-gray-500 text-gray-100 rounded-md -mt-8 " onClick={() => dispatch(suiviDetteActions.addCaseClients())}> Ajouter Un Nom</button>}
+                </div>
             </div>)
         } else {
-            return (
-                <div>
-                    <h3> Dette Clients </h3>
-                    <button onClick={() => dispatch(suiviDetteActions.addCaseClients())}> Ajouter Un Nom</button>
+           return (
+                <div className="m-4">
+                    <h3 className="text-2xl font-semibold text-gray-700"> Dette Clients </h3>
                     <h4> Ooouups!!! cette date n'a pas des données </h4>
+                    <button className="px-5 py-1 bg-gray-500 text-gray-100 rounded-md " onClick={() => dispatch(suiviDetteActions.addCaseClients())}> Ajouter Un Nom</button>
                 </div>
             );
         };
    } else {
-    return (
-        <h4> Chargement... </h4>
-    );
+        return (<div className=" justify-center flex">
+                <h3 className="text-2xl font-semibold text-gray-700 block absolute"> Dette Clients</h3>
+                <div className=" items-center justify-center my-40"> 
+                    <div className="flex items-center justify-center space-x-2">
+                        <div className="w-5 h-5 rounded-full animate-pulse dark:bg-indigo-400"></div>
+                        <div className="w-5 h-5 rounded-full animate-pulse dark:bg-indigo-400"></div>
+                        <div className="w-5 h-5 rounded-full animate-pulse dark:bg-indigo-400"></div>
+                    </div>
+            </div>
+        </div>)
    };
 }

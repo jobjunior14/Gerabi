@@ -114,7 +114,6 @@ export default function Product () {
   };
   //search a specifique date 
   function setFilterParams() {
-    console.log ('hey');
     setterDateParams(date);
   };
 
