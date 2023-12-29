@@ -19,7 +19,7 @@ export function MensRepport ({user}) {
     };
 
     return (
-        <div>
+        <div >
             {user === 'rappMens' ? <MensFilter prev = {date} onclick = {setFilterParams}/> : <DailyFilter prev = {date} onclick = {setFilterParams} component = 'daily'/>}
             <SuiviDesVentes  user = {user}/>
             <MensRapSuiviDepense user = {user}/>

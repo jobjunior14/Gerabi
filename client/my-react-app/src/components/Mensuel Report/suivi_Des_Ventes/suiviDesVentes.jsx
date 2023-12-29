@@ -114,11 +114,13 @@ export default function SuiviDesVentes ({user}) {
         )
     } else {
 
-        return (<div>
-            <h2>Suivi Des Ventes</h2>
-            <VenteBar venteDego = {venteDego} />
-            <Approvisionnement />
-            <Benefice depenseEff = {depenseEff} />
+        return (<div className="justify-center flex  ">
+            <h2 className="text-3xl font-bold text-gray-800 mb-5 absolute">Suivi Des Ventes</h2>
+            <div className="bg-slate-200 rounded-lg my-12 w-full ">
+                <VenteBar venteDego = {venteDego} />
+                <Approvisionnement />
+                <Benefice depenseEff = {depenseEff} />
+            </div>
         </div>)
     }
 }

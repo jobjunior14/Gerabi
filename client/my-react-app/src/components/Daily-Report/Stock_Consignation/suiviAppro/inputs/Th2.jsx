@@ -1,5 +1,3 @@
-import React from "react";
-import {tbaleTh} from './css';
 
 export default function InputsTh2 ({providers})
 {

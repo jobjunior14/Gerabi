@@ -22,7 +22,7 @@ export function TableSuivi () {
             
             if (productData && productData.length > 0) {
         
-               setDisplayTdSuivi ( prev => prev = productData.map((prev) => {
+               setDisplayTdSuivi ( prev =>productData.map((prev) => {
                     return (
                         <InputTd
                             prev={prev}
@@ -43,7 +43,7 @@ export function TableSuivi () {
         return (
             <div className="bg-slate-200 w-auto border-2 border-slate-500 rounded-md overflow-x-scroll p-2 font-normal">
 
-                <table className='className=" border-collapse duration-300 table-fixed font-normal border-2 border-gray-900"'>
+                <table className=" border-collapse duration-300 table-fixed font-normal border-2 border-gray-900">
                     <thead>
                         <tr>
                             <th rowSpan= '2' className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900"> Produit </th>
