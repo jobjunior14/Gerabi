@@ -3,9 +3,9 @@ import React   from 'react';
 import useDateParams from '../reuseFunction/dateParams';
 export default function HouseRoutes ({component})
 {
-    const {currentYear, currentMonth, currentDay} = useDateParams()
+    const {currentYear, currentMonth, currentDay} = useDateParams();
     return (
-        <nav className='mb-5 bg-gray-800 p-4 rounded-lg'>
+        <nav className='my-5 bg-gray-800 p-4 rounded-lg w-auto'>
             <NavLink 
                 className = {({isActive}) => isActive ? ' text-gray-50 bg-indigo-500 rounded-lg px-5 py-2 mx-5 duration-300 hover:text-indigo-300 ' : 'text-gray-50 mx-5 py-2 px-5 hover:text-indigo-400 duration-300'} 
                 to = {`/rapportJournalier/${component}/product/bralima?year=${currentYear}&month=${currentMonth}&day=${currentDay} `}

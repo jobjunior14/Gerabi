@@ -4,7 +4,7 @@ export default function FirstHeader ()
 {
     const {currentYear, currentMonth, currentDay} = useDateParams();
     return (
-        <nav className='p-6 max-w-full mx-auto bg-white rounded-xl shadow-lg flex items-center space-x-100 w-screen'>
+        <nav className=' fixed py-6 px-9 z-50 bg-white rounded-xl shadow-lg flex items-center -mt-10'>
             <NavLink 
                 className={ ({isActive}) => isActive ? "px-10 mx-10 text-indigo-500 hover:text-indigo-400 font-bold" : 'px-10 mx-10 text-gray-800 font-bold hover:text-indigo-400'}
                 to = {`/?year=${currentYear}&month=${currentMonth}&day=${currentDay} `}> DEGO. </NavLink>

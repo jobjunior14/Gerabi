@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import InputsTh from './inputs/inputTh';
-import InputsTh2 from './inputs/inputTh2';
+import InputsTh2 from './inputs/Th2';
 import { useSelector } from 'react-redux';
 import InputTd from './inputs/inputTd';
 import useParamsGetter from '../../../reuseFunction/paramsGetter';
-import {table, tbaleTh} from './css';
 
 export function TableSuivi () {
     
@@ -42,18 +41,22 @@ export function TableSuivi () {
 
        
         return (
-            <table className='table1' style={table}>
-                <thead>
-                    <tr>
-                        <th rowSpan= '2' style={tbaleTh}> Produit </th>
-                        <th rowSpan= '2' style={tbaleTh}> Prix Achat Gros  </th>
-                        <th rowSpan= '2' style={tbaleTh}> Nbr Btll  </th>
-                        <InputsTh key  = {0} providers = {providers} />
-                    </tr>
-                    <InputsTh2  key = {1} providers = {providers} />
-                    {displayTdSuivi}
-                </thead>
-            </table>
+            <div className="bg-slate-200 w-auto border-2 border-slate-500 rounded-md overflow-x-scroll p-2 font-normal">
+
+                <table className='className=" border-collapse duration-300 table-fixed font-normal border-2 border-gray-900"'>
+                    <thead>
+                        <tr>
+                            <th rowSpan= '2' className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900"> Produit </th>
+                            <th rowSpan= '2' className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900"> Prix Achat Gros  </th>
+                            <th rowSpan= '2' className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900"> Nbr Btll  </th>
+                            <InputsTh key  = {0} providers = {providers} />
+                        </tr>
+                        <InputsTh2  key = {1} providers = {providers} />
+                        {displayTdSuivi}
+                    </thead>
+                </table>
+            </div>
+
         );
     };
 }

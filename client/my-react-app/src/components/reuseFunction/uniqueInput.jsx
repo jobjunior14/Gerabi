@@ -1,6 +1,6 @@
 export default function UniqueInput ({children}) {
     return (
-        <div>
+        <div className="mb-5">
             {children}
         </div>
     );

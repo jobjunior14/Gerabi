@@ -2,7 +2,6 @@ import React from 'react';
 import { useId } from 'react';
 import { useDispatch } from 'react-redux';
 import { productActions } from '../../../../store/AllProductManager-slice';
-import {tableTd} from './css';
 
 export default function InputTd (props) {
     const dispatch = useDispatch();
@@ -10,11 +9,12 @@ export default function InputTd (props) {
 
     return (
         <tr>
-            <td style={tableTd}> {props.prev.name}</td>
-            <td style={tableTd}> {props.prev.achat_journalier.prix_achat_gros} </td>
-            <td style={tableTd}>  {props.prev.achat_journalier.nbr_btll }</td>
-            <td style={ tableTd}>
-                <input 
+            <td className="border-2 border-gray-800"> {props.prev.name}</td>
+            <td className="border-2 border-gray-800"> {props.prev.achat_journalier.prix_achat_gros} </td>
+            <td className="border-2 border-gray-800">  {props.prev.achat_journalier.nbr_btll }</td>
+            <td className="border-2 border-gray-800" >
+                <input
+                    className="w-32 rounded-md bg-gray-50 duration-150 focus:scale-105 focus:outline-none focus:border-2 appearance-none border-2 focus:border-indigo-700 "  
                     value={props.prev.suivi1.qt_caisse}
                     name = {'qt_caisse'}
                     id = {props.prev.id + id + 'suivi1.qt_caisse'}
@@ -25,10 +25,11 @@ export default function InputTd (props) {
                     }}
                 />
             </td>
-            <td style={tableTd}> {props.prev.suivi1.valeur} </td>
+            <td className="border-2 border-gray-800"> {props.prev.suivi1.valeur} </td>
 
-            <td style={ tableTd}>
-                <input 
+            <td className="border-2 border-gray-800" >
+                <input
+                    className="w-32 rounded-md bg-gray-50 duration-150 focus:scale-105 focus:outline-none focus:border-2 appearance-none border-2 focus:border-indigo-700 "  
                     value={props.prev.suivi2.qt_caisse}
                     name = {'qt_caisse'}
                     id = {props.prev.id + id + "suivi2.qt_caisse"}
@@ -39,10 +40,11 @@ export default function InputTd (props) {
                     }}
                 />
             </td>
-            <td style={tableTd}> {props.prev.suivi2.valeur} </td>
+            <td className="border-2 border-gray-800"> {props.prev.suivi2.valeur} </td>
             
-            <td style={ tableTd}>
-                <input 
+            <td className="border-2 border-gray-800" >
+                <input
+                    className="w-32 rounded-md bg-gray-50 duration-150 focus:scale-105 focus:outline-none focus:border-2 appearance-none border-2 focus:border-indigo-700 "  
                     value={props.prev.suivi3.qt_caisse}
                     name = {'qt_caisse'}
                     id = {props.prev.id + id + "suivi3.qt_caisse"}
@@ -53,10 +55,11 @@ export default function InputTd (props) {
                     }}
                 />
             </td>
-            <td style={tableTd}> {props.prev.suivi3.valeur} </td>
+            <td className="border-2 border-gray-800"> {props.prev.suivi3.valeur} </td>
 
-            { props.providers >= 4 && <td style={ tableTd}>
-                <input 
+            { props.providers >= 4 && <td className="border-2 border-gray-800" >
+                <input
+                    className="w-32 rounded-md bg-gray-50 duration-150 focus:scale-105 focus:outline-none focus:border-2 appearance-none border-2 focus:border-indigo-700 "  
                     value={props.prev.suivi4.qt_caisse}
                     name = {'qt_caisse'}
                     id = {props.prev.id + id + 'suivi4.qt_caisse'}
@@ -67,10 +70,11 @@ export default function InputTd (props) {
                     }}
                 />
             </td>}
-            { props.providers >= 4 && <td style={tableTd}> {props.prev.suivi4.valeur} </td>}
+            { props.providers >= 4 && <td className="border-2 border-gray-800"> {props.prev.suivi4.valeur} </td>}
 
-            { props.providers >= 5 && <td style={ tableTd}>
-                <input 
+            { props.providers >= 5 && <td className="border-2 border-gray-800" >
+                <input
+                    className="w-32 rounded-md bg-gray-50 duration-150 focus:scale-105 focus:outline-none focus:border-2 appearance-none border-2 focus:border-indigo-700 "  
                     value={props.prev.suivi5.qt_caisse}
                     name = {'qt_caisse'}
                     id = {props.prev.id + id + 'suivi5.qt_caisse'}
@@ -81,10 +85,11 @@ export default function InputTd (props) {
                     }}
                 />
             </td>}
-            { props.providers >= 5 && <td style={tableTd}> {props.prev.suivi5.valeur} </td>}
+            { props.providers >= 5 && <td className="border-2 border-gray-800"> {props.prev.suivi5.valeur} </td>}
 
-            { props.providers >= 6 && <td style={ tableTd}>
-                <input 
+            { props.providers >= 6 && <td className="border-2 border-gray-800" >
+                <input
+                    className="w-32 rounded-md bg-gray-50 duration-150 focus:scale-105 focus:outline-none focus:border-2 appearance-none border-2 focus:border-indigo-700 "  
                     value={props.prev.suivi6.qt_caisse}
                     name = {'qt_caisse'}
                     id = {props.prev.id + id + 'suivi6.qt_caisse'}
@@ -95,10 +100,11 @@ export default function InputTd (props) {
                     }}
                 />
             </td>}
-           { props.providers >= 6 && <td style={tableTd}> {props.prev.suivi6.valeur} </td>}
+           { props.providers >= 6 && <td className="border-2 border-gray-800"> {props.prev.suivi6.valeur} </td>}
 
-            { props.providers >= 7 && <td style={ tableTd}>
-                <input 
+            { props.providers >= 7 && <td className="border-2 border-gray-800" >
+                <input
+                    className="w-32 rounded-md bg-gray-50 duration-150 focus:scale-105 focus:outline-none focus:border-2 appearance-none border-2 focus:border-indigo-700 "  
                     value={props.prev.suivi7.qt_caisse}
                     name = {'qt_caisse'}
                     id = {props.prev.id + id + 'suivi7.qt_caisse'}
@@ -109,10 +115,11 @@ export default function InputTd (props) {
                     }}
                 />
             </td>}
-            { props.providers >= 7 && <td style={tableTd}> {props.prev.suivi7.valeur} </td>}
+            { props.providers >= 7 && <td className="border-2 border-gray-800"> {props.prev.suivi7.valeur} </td>}
 
-            { props.providers >= 8 && <td style={ tableTd}>
-                <input 
+            { props.providers >= 8 && <td className="border-2 border-gray-800" >
+                <input
+                    className="w-32 rounded-md bg-gray-50 duration-150 focus:scale-105 focus:outline-none focus:border-2 appearance-none border-2 focus:border-indigo-700 "  
                     value={props.prev.suivi8.qt_caisse}
                     name = {'qt_caisse'}
                     id = {props.prev.id + id + 'suivi8.qt_caisse'}
@@ -123,10 +130,11 @@ export default function InputTd (props) {
                     }}
                 />
             </td>}
-            { props.providers >= 8 && <td style={tableTd}> {props.prev.suivi8.valeur} </td>}
+            { props.providers >= 8 && <td className="border-2 border-gray-800"> {props.prev.suivi8.valeur} </td>}
 
-            { props.providers >= 9 && <td style={ tableTd}>
-                <input 
+            { props.providers >= 9 && <td className="border-2 border-gray-800" >
+                <input
+                    className="w-32 rounded-md bg-gray-50 duration-150 focus:scale-105 focus:outline-none focus:border-2 appearance-none border-2 focus:border-indigo-700 "  
                     value={props.prev.suivi9.qt_caisse}
                     name = {"qt_caisse"}
                     id = {props.prev.id + id + 'suivi9.qt_caisse'}                    placeholder= {'Quantiter caisse'}
@@ -136,10 +144,11 @@ export default function InputTd (props) {
                     }}
                 />
             </td>}
-           { props.providers >= 9 && <td style={tableTd}> {props.prev.suivi9.valeur} </td>}
+           { props.providers >= 9 && <td className="border-2 border-gray-800"> {props.prev.suivi9.valeur} </td>}
 
-            { props.providers >= 10 && <td style={ tableTd}>
-                <input 
+            { props.providers >= 10 && <td className="border-2 border-gray-800" >
+                <input
+                    className="w-32 rounded-md bg-gray-50 duration-150 focus:scale-105 focus:outline-none focus:border-2 appearance-none border-2 focus:border-indigo-700 "  
                     value={props.prev.suivi10.qt_caisse}
                     name = {"qt_caisse"}
                     id = {props.prev.id + id + 'suivi10.qt_caisse'}
@@ -150,10 +159,11 @@ export default function InputTd (props) {
                     }}
                 />
             </td>}
-            { props.providers >= 10 && <td style={tableTd}> {props.prev.suivi10.valeur} </td>}
+            { props.providers >= 10 && <td className="border-2 border-gray-800"> {props.prev.suivi10.valeur} </td>}
 
-            { props.providers >= 11 && <td style={ tableTd}>
-                <input 
+            { props.providers >= 11 && <td className="border-2 border-gray-800" >
+                <input
+                    className="w-32 rounded-md bg-gray-50 duration-150 focus:scale-105 focus:outline-none focus:border-2 appearance-none border-2 focus:border-indigo-700 "  
                     value={props.prev.suivi11.qt_caisse}
                     name = {"qt_caisse"}
                     id = {props.prev.id + id + 'suivi11.qt_caisse'}
@@ -164,10 +174,11 @@ export default function InputTd (props) {
                     }}
                 />
             </td>}
-            { props.providers >= 11 && <td style={tableTd}> {props.prev.suivi11.valeur} </td>}
+            { props.providers >= 11 && <td className="border-2 border-gray-800"> {props.prev.suivi11.valeur} </td>}
 
-           {props.providers >= 12 && <td style={ tableTd}>
-                <input 
+           {props.providers >= 12 && <td className="border-2 border-gray-800" >
+                <input
+                    className="w-32 rounded-md bg-gray-50 duration-150 focus:scale-105 focus:outline-none focus:border-2 appearance-none border-2 focus:border-indigo-700 "  
                     value={props.prev.suivi12.qt_caisse}
                     name = {"qt_caisse"}
                     id = {props.prev.id + id + 'suivi12.qt_caisse'}
@@ -178,10 +189,11 @@ export default function InputTd (props) {
                     }}
                 />
             </td>}
-            { props.providers >= 12 && <td style={tableTd}> {props.prev.suivi12.valeur} </td>}
+            { props.providers >= 12 && <td className="border-2 border-gray-800"> {props.prev.suivi12.valeur} </td>}
         
-            { props.providers >= 13 && <td style={ tableTd}>
-                <input 
+            { props.providers >= 13 && <td className="border-2 border-gray-800" >
+                <input
+                    className="w-32 rounded-md bg-gray-50 duration-150 focus:scale-105 focus:outline-none focus:border-2 appearance-none border-2 focus:border-indigo-700 "  
                     value={props.prev.suivi13.qt_caisse}
                     name = {"qt_caisse"}
                     id = {props.prev.id + id + 'suivi13.qt_caisse'}
@@ -192,10 +204,11 @@ export default function InputTd (props) {
                     }}
                 />
             </td>}
-            { props.providers >= 13 &&<td style={tableTd}> {props.prev.suivi13.valeur} </td>}
+            { props.providers >= 13 &&<td className="border-2 border-gray-800"> {props.prev.suivi13.valeur} </td>}
         
-            {props.providers >= 14 && <td style={ tableTd}>
-                <input 
+            {props.providers >= 14 && <td className="border-2 border-gray-800" >
+                <input
+                    className="w-32 rounded-md bg-gray-50 duration-150 focus:scale-105 focus:outline-none focus:border-2 appearance-none border-2 focus:border-indigo-700 "  
                     value={props.prev.suivi14.qt_caisse}
                     name = {"qt_caisse"}
                     id = {props.prev.id + id + 'suivi14.qt_caisse'}
@@ -206,7 +219,7 @@ export default function InputTd (props) {
                     }}
                 />
             </td>}
-            { props.providers >= 14 && <td style={tableTd}> {props.prev.suivi14.valeur} </td>}
+            { props.providers >= 14 && <td className="border-2 border-gray-800"> {props.prev.suivi14.valeur} </td>}
 
         </tr>
     )

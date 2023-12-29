@@ -12,6 +12,7 @@ import useDataFetcherSuiviStock from "./utils/dataFetcher";
 import usePostAndUpdateData from "./utils/postAndUpdateData";
 import useDateParams from "../../reuseFunction/dateParams";
 import useParamsGetter from "../../reuseFunction/paramsGetter";
+import searchImage from "../../../assets/searchImage.png"
 
 export default function Product () {
 
@@ -147,10 +148,13 @@ export default function Product () {
   if ( (year > currentYear && month > currentMonth && day > currentDay) || (year === currentYear && month > currentMonth && day > currentDay) || (year === currentYear && month === currentMonth && day > currentDay)) {
 
     return (
-    <div>
-      <DailyFilter component = {'allProduct'}  prev = {date} onclick = {setFilterParams}/>
-      <h1> Ouuups vous ne pouvez demander une donnée d'une date inexistante</h1>
-    </div>
+      <>
+        <DailyFilter component = {'allProduct'}  prev = {date} onclick = {setFilterParams}/>
+        <div className=" flex items-center justify-center h-3/4">
+          <img className=" h-96 w-auto" src={searchImage} alt="search image" />
+        </div>
+        <h1 className="text-4xl text-gray-700"> Ouuups!!! vous ne pouvez demander une donnée d'une date inexistante</h1>
+      </>
     );
     } else {
       
@@ -158,45 +162,77 @@ export default function Product () {
 
         if ( productData.length > 0) {
           return (
-            <div>
+            <>
               <DailyFilter component = {'allProduct'}  prev = {date} onclick = {setFilterParams} />
     
               <UniqueInput>
-                <label>Vente Journalière </label>
-                <input ref={venteJournaliereRef} type="number" name="vente" onChange={handleVente} placeholder="Vente Journalière " value={venteDego}/>
+                <label className="font-bold text-gray-700 mr-7">Vente Journalière </label>
+                <input 
+                  className="h-7 w-28 bg-slate-400 appearance-none rounded-lg pl-2 hover:border-indigo-400 border-2 focus:bg-slate-500 text-white foucus:boder-2 focus:border-indigo-400 focus:outline-none border-gray-500 duration-200"
+                  ref={venteJournaliereRef} 
+                  type="number" 
+                  name="vente" 
+                  onChange={handleVente} 
+                  placeholder="Vente Journalière " 
+                  value={venteDego}
+                />
               </UniqueInput>
               
               <ExcelSecLayout toggle = {toggleStoc} />
-              <button onClick={handleToggleBtn} >{ !toggleStoc ? 'Cacher' : 'Afficher' }</button>
-              { !update && <AddProduct stateAction = {stateAction} />}
+              {/* buttons to add more product, extend or not the main table */}
+              <div className="my-5 ">
+                <button 
+                  className="bg-gray-500 duration-200 text-gray-50 py-1 px-4 rounded-lg mx-6 hover:bg-gray-600 focus:bg-gray-800 "
+                  onClick={handleToggleBtn}>
+                  { !toggleStoc ? 'Reduire' : 'Agrandir' }</button>
+                { !update && <AddProduct stateAction = {stateAction} />}
+              </div>
     
               {/* display or hide the suivi appro table basing on the component Name if it's DegoBar we will display it and if not we'll hide it */}
              { stateAction && <span>
-                <h1> Suivi Approvisinnemnt </h1>
+                <h1 className="font-bold text-3xl mt-8 mb-5 text-gray-700"> Suivi Approvisinnemnt </h1>
     
                 <TableSuivi />
-                <button onClick={() => stateAction ? dispatch (productActions.setProvivers()) : dispatch (alimProductActions.setProvivers())}>{ !update ? 'Afficher Ou Ajouter un Fournisseur' : 'Afficher plus de Fournisseur' } </button>
+                <button 
+                  className="bg-gray-500 duration- mt-5 text-gray-50 py-1 px-4 rounded-lg mx-6 hover:bg-gray-600 focus:bg-gray-800 "
+                  onClick={() => stateAction ? dispatch (productActions.setProvivers()) : dispatch (alimProductActions.setProvivers())}>{ !update ? 'Afficher Ou Ajouter un Fournisseur' : 'Afficher plus de Fournisseur' } </button>
               </span>}
-    
-              { !update ? <button onClick={postData}> Enregistrer les Donnees </button> : <button onClick={UpdateData}> Mettre à jour les données</button>}
+              
+              { !update ? 
+                <button 
+                  className="bg-indigo-500 duration-200 text-gray-50 py-1 px-4 rounded-lg mx-6 hover:bg-gray-600 focus:bg-gray-800 "
+                  onClick={postData}> Enregistrer les données 
+                </button> : 
+                
+                <button
+                  className="bg-indigo-500 duration-200 text-gray-50 py-1 px-4 rounded-lg mx-6 hover:bg-gray-600 focus:bg-gray-800 " 
+                  onClick={UpdateData}> Mettre à jour les données
+                </button>}
               {errObj.status && !errObj.errorAllowed ? <h3> {errObj.message} </h3> : <h3> {errObj.message} </h3> }
-            </div>
+            </>
           );
         } else {
           //abillity to modify the current date and the previous date
           return (
-            <div>
+            <>
                 <DailyFilter component = {'allProduct'} prev = {date} onclick = {setFilterParams} />
                 <AddProduct stateAction = {stateAction} />  
-                <h4> Ooouups cette donnée est inexistante veillez clicker sur -Ajouter un Produit- pour la créée</h4>                
-            </div>
+                <div className=" flex items-center justify-center h-3/4">
+                  <img className=" h-96 w-auto" src={searchImage} alt="search image" />
+                </div>
+                <h4 className="text-4xl text-gray-700"> Ooouups!!! cette donnée est inexistante veillez clicker sur -Ajouter un Produit- pour la créée</h4>                
+            </>
           );
-
+          
         };
       } else {
         return (
-          <div> 
-            <h1> Loading...</h1> 
+          <div className="relative items-center justify-center top-40"> 
+            <div className="flex items-center justify-center space-x-2">
+              <div className="w-8 h-8 rounded-full animate-pulse dark:bg-indigo-400"></div>
+              <div className="w-8 h-8 rounded-full animate-pulse dark:bg-indigo-400"></div>
+              <div className="w-8 h-8 rounded-full animate-pulse dark:bg-indigo-400"></div>
+            </div>
             { pAnduError !== "" && <p>{pAnduError.response.data.erro.message}</p>}
             { error !== "" && <p>{error.response.data.erro.message}</p>}
             {(pAnduError !== "" || error !== "") && <h2>Internal server Error</h2>}
@@ -204,4 +240,5 @@ export default function Product () {
         );
       };
     };
-};
+  };
+  
