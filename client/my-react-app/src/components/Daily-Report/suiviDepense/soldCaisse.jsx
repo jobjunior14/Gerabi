@@ -13,17 +13,8 @@ export default function SoldCaisse ({loading}) {
 
         if (sortieCaisseData.length > 0) {
 
-            return (<div>
-                <h3> Sold Caisse</h3>
-                <table>
-                    <tbody>
-                        <tr>
-                            <th>Montant</th>
-                            <td> {soldCaisse} </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+            return (
+                <h3 className="font-bold text-2xl text-indigo-700 p-4"> Sold Caisse: {soldCaisse}</h3>
             )
         }
     } else {

@@ -10,6 +10,7 @@ import useDateParams from "../../reuseFunction/dateParams";
 import usePostAndUpdate from "./utils/postAndData";
 import useDataFetcherSuiviDepense from "./utils/dataFetcher";
 import useParamsGetter from "../../reuseFunction/paramsGetter";
+import searchImage from "../../../assets/searchImage.png";
 
 export default function SuiviDepense (){
 
@@ -152,20 +153,30 @@ export default function SuiviDepense (){
     if (year > currentYear || month > currentMonth || day > currentDay) {
 
         return (
-            <div>
-                <DailyFilter component = {'suiviDepense'} prev = {date} onclick = {setFilterParams} />
-                <h1> Ooouups vous ne pouvez demander une donnee d'une date inexistante </h1>
-            </div>
+            <>
+                <DailyFilter component = {'suiviDepense'}  prev = {date} onclick = {setFilterParams}/>
+                <div className=" flex items-center justify-center h-3/4">
+                <img className=" h-96 w-auto" src={searchImage} alt="search image" />
+                </div>
+                <h1 className="text-4xl text-gray-700"> Ouuups!!! vous ne pouvez demander une donnée d'une date inexistante</h1>
+            </>
         );
     } else {
 
         return (
-            <div>
+            <>
                 <DailyFilter component = {'suiviDepense'} prev = {date} onclick = {setFilterParams} />
 
                 <UniqueInput>
-                    <label name = 'depenseEffectuee' >Depense Effectuées</label>
-                    <input defaultValue= {depenseEff} type="number" name = 'depenseEffectuee' onChange={ e => setDepenseEff(Number (e.target.value))} placeholder="Depense effectuée"/>
+                    <label className="font-bold text-gray-700 mr-7" name = 'depenseEffectuee' >Depense Effectuées</label>
+                    <input 
+                        className="h-7 w-28 bg-slate-400 appearance-none rounded-lg pl-2 hover:border-indigo-400 border-2 focus:bg-slate-500 text-white foucus:boder-2 focus:border-indigo-400 focus:outline-none border-gray-500 duration-200"
+                        defaultValue= {depenseEff} 
+                        type="number" 
+                        name = 'depenseEffectuee' 
+                        onChange={ e => setDepenseEff(Number (e.target.value))} 
+                        placeholder="Depense effectuée"
+                    />
                 </UniqueInput>
                 
                 <EntreeCaisse 
@@ -179,12 +190,10 @@ export default function SuiviDepense (){
                 />
                 <SoriteCaisse key={`sortieCaisse1`} loading = {loading || pLoading} /> 
                 <SoldCaisse key={`soldCaisse1`} loading = {loading || pLoading}/>
-                <p> Total Dette du {day}-{month}-{year}: <b> {totalDailyDebt}</b></p>
-                <p> Ton total Dette du {day}-{month}-{year}: <b> {yourTotalDette}</b> </p>
-                {!update ? <button onClick={postData}> Enregistrer les données</button> : <button onClick={updateData}> Mettre à les données</button> }
-                 {pError !== "" && <h3>{pError.response.data.erro.message}</h3>}
-                {error !== "" && <h3>{error.response.data.erro.message}</h3>} 
-            </div>
+                <p className="font-bold text-xl text-gray-700 p-4"> Total Dette du {day}-{month}-{year}: <b> {totalDailyDebt}</b></p>
+                <p className="font-bold text-xl text-gray-700 p-4"> Ton total Dette du {day}-{month}-{year}: <b> {yourTotalDette}</b> </p>
+                {!update ? <button className="px-5 py-1 bg-gray-500 text-gray-100 rounded-md "  onClick={postData}> Enregistrer les données</button> : <button onClick={updateData}> Mettre à les données</button> }
+            </>
         )
     };
 };
