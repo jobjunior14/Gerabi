@@ -41,20 +41,22 @@ export function TableSuivi () {
 
        
         return (
-            <div className="bg-slate-200 w-auto border-2 border-slate-500 rounded-md overflow-x-scroll p-2 font-normal">
+            <div className='flex justify-center'>
+                <div className="bg-slate-200 w-auto border-2 border-slate-500 max-w-fit rounded-md overflow-x-auto p-3 font-normal">
 
-                <table className=" border-collapse duration-300 table-fixed font-normal border-2 border-gray-900">
-                    <thead>
-                        <tr>
-                            <th rowSpan= '2' className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900"> Produit </th>
-                            <th rowSpan= '2' className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900"> Prix Achat Gros  </th>
-                            <th rowSpan= '2' className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900"> Nbr Btll  </th>
-                            <InputsTh key  = {0} providers = {providers} />
-                        </tr>
-                        <InputsTh2  key = {1} providers = {providers} />
-                        {displayTdSuivi}
-                    </thead>
-                </table>
+                    <table className=" border-collapse duration-300 table-fixed font-normal border-2 border-gray-900">
+                        <thead>
+                            <tr>
+                                <th rowSpan= '2' className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900"> Produit </th>
+                                <th rowSpan= '2' className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900"> Prix Achat Gros  </th>
+                                <th rowSpan= '2' className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900"> Nbr Btll  </th>
+                                <InputsTh key  = {0} providers = {providers} />
+                            </tr>
+                            <InputsTh2  key = {1} providers = {providers} />
+                            {displayTdSuivi}
+                        </thead>
+                    </table>
+                </div>
             </div>
 
         );

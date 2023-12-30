@@ -62,32 +62,34 @@ export default function Musiciens ({loading}){
         if (musiciensData.length > 0) {
 
             return (
-            <div className=" text-center justify-center items-center block">
-                <div className=" justify-center flex ">
-                    <h3 className="text-2xl font-semibold text-gray-700 block absolute mt-6"> Dette Musiciens </h3>
-                    <table className=" border-collapse duration-300 table-fixed font-normal border-2 border-gray-900 my-16">
-                        <thead>
-                            <tr>
-                                <th className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900">Nom</th>
-                                <th className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900">Montant</th>
-                                <th className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900">Montant Payé</th>
-                                <th className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900">Total Dette</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {renderDataDisplay()}
-                        </tbody>
-                        <tfoot>
-                            <tr className=" bg-slate-400">
-                                <th>Total</th>
-                                <td> {totalDetteMusiciens} </td>
-                                <td>.</td>
-                                <td>.</td>
-                            </tr>
-                        </tfoot>
-                    </table>
+            <div className=" text-center justify-center items-center block mt-5">
+                <div className=" flex justify-center mt-10">
+                    <h3 className="text-2xl font-semibold text-gray-700 block -mt-5 absolute"> Dette Musiciens </h3>
+                    <div className="tetx-center border-2 border-slate-600  overflow-x-auto px-4 mt-4 rounded-lg ">
+                        <table className=" border-collapse duration-300 table-fixed font-normal border-2 border-gray-900 my-5">
+                            <thead>
+                                <tr>
+                                    <th className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900">Nom</th>
+                                    <th className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900">Montant</th>
+                                    <th className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900">Montant Payé</th>
+                                    <th className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900">Total Dette</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {renderDataDisplay()}
+                            </tbody>
+                            <tfoot>
+                                <tr className=" bg-slate-400">
+                                    <th>Total</th>
+                                    <td> {totalDetteMusiciens} </td>
+                                    <td>.</td>
+                                    <td>.</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
                 </div>
-                <div className="-mt-10">
+                <div className="mt-5">
                     {!readOnly && <button className="px-5 py-1  bg-gray-500 text-gray-100 rounded-md -mt-8 " onClick={() => dispatch(suiviDetteActions.addCaseMusiciens())}> Ajouter Un Nom</button>}
                 </div>
             </div>)

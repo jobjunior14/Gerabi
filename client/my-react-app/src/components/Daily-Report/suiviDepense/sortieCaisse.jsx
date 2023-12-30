@@ -54,8 +54,8 @@ export default function SoriteCaisse ({loading}) {
                 SavesubTAbleHeadersSortieCaisse.push (<td className="bg-slate-300 border-2 border-gray-900" key={`tdmontant${i}`}> Montant </td>);
             };
             //set the state
-            setTableHeaderSortieCaisse(prev => SavetableHeaderSortieCaisse);
-            setSubTAbleHeadersSortieCaisse(prev => SavesubTAbleHeadersSortieCaisse);
+            setTableHeaderSortieCaisse( SavetableHeaderSortieCaisse );
+            setSubTAbleHeadersSortieCaisse( SavesubTAbleHeadersSortieCaisse );
             
             const savetableRowData = [];
             for (let y = 0; y < sortieCaisse[0].data.length; y++) {
@@ -104,7 +104,7 @@ export default function SoriteCaisse ({loading}) {
                 savetableRowData.push(<tr key={y}>{tableDataSortieCaisse}</tr>); 
             };
 
-            setTableRowData(prev => savetableRowData);
+            setTableRowData( savetableRowData );
         };
 
         //save the varaibale before dispatch it
@@ -132,7 +132,7 @@ export default function SoriteCaisse ({loading}) {
             };
 
             //set the display function
-            setDisplayTotFocnt(prev => saveDisplayTotFocnt);
+            setDisplayTotFocnt( saveDisplayTotFocnt );
     
             //set the sold caisse
             dispatch(suiviDepenseActions.setTotalSortieCaisse(totalSortieCaisse));
@@ -146,10 +146,10 @@ export default function SoriteCaisse ({loading}) {
         if (sortieCaisse.length > 0) {
     
             return (
-                <div className=" text-center justify-center items-center block">
-                    <div className=" justify-center flex ">
-                        <h2 className="text-2xl font-semibold text-gray-700 block absolute mt-6">Sorite Caisse</h2>
-                        <table className=" border-collapse duration-300 table-fixed font-normal border-2 border-gray-900 my-16">
+                <div className=" text-center justify-center items-center mt-5">
+                    <h2 className="text-2xl font-semibold text-gray-700 block mt-1">Sorite Caisse</h2>
+                    <div className="tetx-center border-2 border-slate-600  overflow-x-auto px-4 mt-4 rounded-lg ">
+                        <table className=" border-collapse duration-300 table-fixed font-normal border-2 border-gray-900 my-5">
                             <thead>
 
                                 <tr>
@@ -175,7 +175,7 @@ export default function SoriteCaisse ({loading}) {
                             </tfoot>
                         </table>
                     </div>
-                    <div  className="-mt-10">
+                    <div  className="mt-5">
                         { !readOnly && <button className="px-5 py-1  bg-gray-500 text-gray-100 rounded-md -mt-8  mx-2" onClick={() => dispatch(suiviDepenseActions.addLibelMontantSortie())}> Ajouter un justificatif</button>}
                         { !readOnly && <button className="px-5 py-1  bg-gray-500 text-gray-100 rounded-md -mt-8  mx-2" onClick={() => dispatch(suiviDepenseActions.addFonctionSortie())}> Ajouter une fonction</button>}
                     </div>

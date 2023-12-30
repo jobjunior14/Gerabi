@@ -62,12 +62,11 @@ export default function Agents ({loading}){
         if (agentsData.length > 0) {
 
             return (
-            <div className=" text-center justify-center items-center block">
-
-                <div className=" justify-center flex -mb-5">
-                    <h3 className="text-2xl font-semibold text-gray-700 block absolute"> Dette Agents </h3>
-                    <div className=" text-center items-center justify-center my-10 ">
-                        <table className=" border-collapse duration-300 table-fixed font-normal border-2 border-gray-900">
+            <div className=" text-center justify-center items-center block mt-5">
+                <div className=" flex justify-center mt-10">
+                    <h3 className="text-2xl font-semibold text-gray-700 block -mt-5 absolute"> Dette Agents </h3>
+                    <div className="tetx-center border-2 border-slate-600  overflow-x-auto px-4 mt-4 rounded-lg ">
+                        <table className=" border-collapse duration-300 table-fixed font-normal border-2 border-gray-900 my-5">
                             <thead>
                                 <tr>
                                     <th className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900">Nom</th>
@@ -90,7 +89,7 @@ export default function Agents ({loading}){
                         </table>
                     </div>
                 </div>
-                <div>
+                <div className="mt-5">
                     {!readOnly && <button className="px-5 py-1  bg-gray-500 text-gray-100 rounded-md -mt-8  " onClick={() => dispatch(suiviDetteActions.addCaseAgents())}> Ajouter Un Nom</button>}
                 </div>
             </div>)

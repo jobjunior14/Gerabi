@@ -27,6 +27,8 @@ export function MainNav () {
 
 export function HouseNav () {
 
+    //getting the params data of the current component
+    const {componentName} = useParamsGetter();
     const navigate = useNavigate();
     const match1 = useMatch('/rapportJournalier/degoBar');
     const match2 = useMatch('/rapportJournalier/alimentation');
@@ -38,8 +40,6 @@ export function HouseNav () {
         if (match2) navigate(`/rapportJournalier/alimentation/product/bralima?year=${currentYear}&month=${currentMonth}&day=${currentDay}`);
 
     }, [match1, match2]);
-    //getting the params data of the current component
-    const {componentName} = useParamsGetter();
     return (
         <div>
             <HouseRoutes component = {componentName}/>
