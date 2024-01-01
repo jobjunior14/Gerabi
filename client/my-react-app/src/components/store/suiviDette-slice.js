@@ -4,11 +4,6 @@ const suiviDetteSlice = createSlice ({
 
     name: 'suiviDette',
     initialState: {
-        date: {
-            year: Number(new Date().getFullYear()),
-            month: Number(new Date().getMonth() + 1),
-            day: Number(new Date().getDate()),
-        },
         agents: null,
         clients:null,
         musiciens: null,
@@ -26,29 +21,7 @@ const suiviDetteSlice = createSlice ({
 
     reducers: {
 
-        //change date fields
-        setDate (state, action) {
-
-            if (action.payload.year) {
-
-                state.date = {
-                    year: action.payload.year,
-                    month: action.payload.month,
-                    day: action.payload.day
-                };
-
-            } else {
-                
-                const name = action.payload.name;
-                const value = action.payload.value;
-    
-                state.date = {
-                    ...state.date, [name]: value
-                };
-            }
-        },
-
-         //set read only to some inputs if data comes from the server
+        //set read only to some inputs if data comes from the server
         setReadOnly (state, action) {
 
             state.readOnly = action.payload;

@@ -32,7 +32,7 @@ export function ExcelSecLayout() {
 
     if (!toggleStoc) {
       return (
-        <div className="w-full bg-slate-200 border-2 border-slate-500 rounded-md overflow-x-auto p-2 font-normal">
+        <div className="w-full bg-slate-200 border-2 border-slate-500 rounded-md overflow-x-auto p-4 font-normal">
 
           <table className=" border-collapse duration-300 table-fixed font-normal border-2 border-gray-900" >
             <thead>

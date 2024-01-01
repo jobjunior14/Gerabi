@@ -4,11 +4,6 @@ const suiviDepenseSlice = createSlice ({
 
     name: 'suiviDepense',
     initialState: {
-       date: {
-            year: Number(new Date().getFullYear()),
-            month: Number(new Date().getMonth() + 1),
-            day: Number(new Date().getDate()),
-        },
         entreeCaisse: null,
         sortieCaisse: null,
         soldCaisse: 0,
@@ -22,28 +17,6 @@ const suiviDepenseSlice = createSlice ({
     },
 
     reducers: {
-
-        //change date fields
-        setDate (state, action) {
-
-            if (action.payload.year) {
-
-                state.date = {
-                    year: action.payload.year,
-                    month: action.payload.month,
-                    day: action.payload.day
-                };
-
-            } else {
-                
-                const name = action.payload.name;
-                const value = action.payload.value;
-    
-                state.date = {
-                    ...state.date, [name]: value
-                };
-            }
-        },
 
         //set read only to some inputs if data comes from the server
         setReadOnly (state, action) {
@@ -114,7 +87,7 @@ const suiviDepenseSlice = createSlice ({
         },
 
         //add a new data to entree caisse
-        addProductEntreeCaisse (state, action) {
+        addProductEntreeCaisse (state) {
 
             state.entreeCaisse.push (
                 {

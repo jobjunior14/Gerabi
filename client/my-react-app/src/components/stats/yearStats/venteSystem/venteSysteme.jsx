@@ -3,7 +3,7 @@ import Graphique from "../../graphiques";
 import { comparaisonDataApex } from "./utils/yearsStatsArrayUtils";
 import useDataFetcherYearStats from "./utils/dataFetcher";
 
-export default function VenteSystemGraph ()  {
+export default function VenteSystemGraph ({graphicWidth, checkWidth})  {
 
     const degoBar = 'degoBar';
     const alimentation = 'alimentation';
@@ -43,48 +43,75 @@ export default function VenteSystemGraph ()  {
     //for alimentation
     const alimVenteBarSerie = comparaisonDataApex({autreProduit : alimAutreProduit, liqueurs: alimLiqueurs, bralima: alimBralima, brasimba: alimBrasimba }, 'venteBar');
     const alimBeneficeSerie = comparaisonDataApex({autreProduit : alimAutreProduit, liqueurs: alimLiqueurs, bralima: alimBralima, brasimba: alimBrasimba}, 'benefice');
+    
     return (
         <div>
-            <h1>Comparaison</h1>
-            <h2>DegoBar</h2>
-            <h2>Vente Bar</h2>
-            {!bralima.loading ? <Graphique 
-                options={Degooptions}
-                series = {degoVenteBarSerie}
-                type = 'bar'
-                width = '400'            
-            /> : <h5>Loading</h5>}
-            <h2> Approvisionnement</h2>
-            {!bralima.loading ? <Graphique 
-                options={Degooptions}
-                series = {degoApprovisionnementSerie}
-                type = 'bar'
-                width = '400'            
-            /> : <h5>Loading</h5>}
-            <h2>Benefice</h2>
-            {!bralima.loading ? <Graphique 
-                options={Degooptions}
-                series = {degoBeneficeSerie}
-                type = 'bar'
-                width = '400'            
-            /> : <h5>Loading</h5>}
-
-            <h2>Alimentation</h2>
-            <h2>Vente Bar</h2>
-            {!alimBralima.loading ? <Graphique 
-                options={Alimoptions}
-                series = {alimVenteBarSerie}
-                type = 'bar'
-                width = '400'            
-            /> : <h5>Loading</h5>}
-            
-            <h2>Benefice</h2>
-            {!alimBralima.loading ? <Graphique 
-                options={Alimoptions}
-                series = {alimBeneficeSerie}
-                type = 'bar'
-                width = '400'            
-            /> : <h5>Loading</h5>}
+            <h1 className="text-4xl font-bold text-gray-800 my-5">Comparaison Annuelle</h1>
+            <div className="border-2 border-slate-400 rounded-lg px-5 py-5">
+                <h2 className=" bg-gray-800  rounded-lg p-4 text-3xl font-normal text-gray-200 mb-5">DegoBar</h2>
+                <div className=" px-4" >
+                    <div className="flex justify-center">
+                        <h2 className="text-xl font-light text-gray-600 my-5 absolute">Vente Bar</h2>
+                        <div className="border-2 border-slate-400 p-4 overflow-x-auto max-w-fit mt-14 rounded-lg">
+                            {!bralima.loading ? <Graphique 
+                                options={Degooptions}
+                                series = {degoVenteBarSerie} 
+                                type = 'bar'
+                                width = {`${ !checkWidth ? graphicWidth : 400}`}            
+                            /> : <h5>Loading</h5>}
+                        </div>
+                    </div>
+                    <div className="flex justify-center">
+                        <h2 className="text-xl font-light text-gray-600 my-5 absolute"> Approvisionnement</h2>
+                        <div className="border-2 border-slate-400 p-4 overflow-x-auto max-w-fit mt-14 rounded-lg">
+                            {!bralima.loading ? <Graphique 
+                                options={Degooptions}
+                                series = {degoApprovisionnementSerie}
+                                type = 'bar'
+                                width = {`${ !checkWidth ? graphicWidth : 400}`}            
+                            /> : <h5>Loading</h5>}
+                        </div>
+                    </div>
+                    <div className="flex justify-center">
+                        <h2 className="text-xl font-light text-gray-600 my-5 absolute">Benefice</h2>
+                        <div className="border-2 border-slate-400 p-4 overflow-x-auto max-w-fit mt-14 rounded-lg">
+                            {!bralima.loading ? <Graphique 
+                                options={Degooptions}
+                                series = {degoBeneficeSerie}
+                                type = 'bar'
+                                width = {`${ !checkWidth ? graphicWidth : 400}`}            
+                            /> : <h5>Loading</h5>}
+                        </div>
+                    </div>
+                </div>
+                
+                <h2 className=" bg-gray-800  rounded-lg p-4 text-3xl font-normal text-gray-200 my-5">Alimentation</h2>
+                <div className=" px-4">
+                    <div className="flex justify-center">
+                        <h2 className="text-xl font-light text-gray-600 my-5 absolute">Vente Bar</h2>
+                        <div className="border-2 border-slate-400 p-4 overflow-x-auto max-w-fit mt-14 rounded-lg">
+                            {!alimBralima.loading ? <Graphique 
+                                options={Alimoptions}
+                                series = {alimVenteBarSerie}
+                                type = 'bar'
+                                width = {`${ !checkWidth ? graphicWidth : 400}`}            
+                            /> : <h5>Loading</h5>}
+                        </div>
+                    </div>
+                    
+                    <div className="flex justify-center">
+                        <h2 className="text-xl font-light text-gray-600 my-5 absolute">Benefice</h2>
+                        <div className="border-2 border-slate-400 p-4 overflow-x-auto max-w-fit mt-14 rounded-lg">
+                            {!alimBralima.loading ? <Graphique 
+                                options={Alimoptions}
+                                series = {alimBeneficeSerie}
+                                type = 'bar'
+                                width = {`${ !checkWidth ? graphicWidth : 400}`}            
+                            /> : <h5>Loading</h5>}
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     )
 };

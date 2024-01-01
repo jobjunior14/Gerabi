@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {useSelector, useDispatch } from 'react-redux'
 import { ExcelSecLayout } from "./productComp/Stock_Sec_Layout";
 import { TableSuivi } from "./suiviAppro/SuiviTable";
@@ -37,17 +37,17 @@ export default function Product () {
   //IDs from the server
   const id = useSelector (state => state[sliceName].id);
   
-  //date in forms
-  const date = useSelector (state => state[sliceName].date);
-
   //date query
   const {year, month, day, currentDay, currentMonth, currentYear, setterDateParams} = useDateParams();
+  
+  //date in forms
+  const [date, setDate] = useState({year, month, day});
 
   //vente journaliere
   const venteDego = useSelector (state => state[sliceName].vente);
 
   //custome hooks to post and update Data
-  const {pAnduData, pAnduError, pAnduId, pAnduReadOnly, pAnduUpdate, pAnduLoading, pAnduVente, postAndUpdate} = usePostAndUpdateData(
+  const {pAnduData, pAnduId, pAnduReadOnly, pAnduUpdate, pAnduLoading, pAnduVente, postAndUpdate} = usePostAndUpdateData(
     {
       componentName,
       productName,
@@ -58,7 +58,7 @@ export default function Product () {
   //error message before sending the data to the server
   const {errObj, setTheErrorMessage} = useErroMessage ({refVenteJournaliere: venteJournaliereRef, componentName: componentName});
 
-  const {vente, customId, data, customUpdate, readOnly, error, loading} = useDataFetcherSuiviStock(
+  const {vente, customId, data, customUpdate, readOnly, loading} = useDataFetcherSuiviStock(
     {
       componentName,
       productName,
@@ -92,11 +92,6 @@ export default function Product () {
 
   }, [pAnduData, pAnduId]);
 
-  //change date field 
-  useEffect(() => {
-    stateAction ? dispatch(productActions.setDate({year: year, month: month, day: day})) : dispatch(alimProductActions.setDate({year: year, month: month, day: day}));
-  },[productName, year, month, day, stateAction]);
-
   //post data
   function postData() {
     //call the fuction to verify that there is no erro before posting the data
@@ -112,6 +107,10 @@ export default function Product () {
       );
     };
   };
+  //handle the date's fields
+  function handleDate (name, value) {
+    setDate(prev => ({...prev, [name]: Number(value)}));
+  }
   //search a specifique date 
   function setFilterParams() {
     setterDateParams(date);
@@ -132,23 +131,23 @@ export default function Product () {
       );
     };
 
-  };
+  }
 
   //handle Vente Journaliere
   function handleVente (e) {
     stateAction ? dispatch(productActions.setVenteDego (e.target.value)) : dispatch(alimProductActions.setVenteDego (e.target.value))
-  };
+  }
 
   //handle toggle button
   function handleToggleBtn () {
     stateAction ? dispatch(productActions.setToggleStoc()) : dispatch(alimProductActions.setToggleStoc())
-  };
+  }
 
   if ( (year > currentYear && month > currentMonth && day > currentDay) || (year === currentYear && month > currentMonth && day > currentDay) || (year === currentYear && month === currentMonth && day > currentDay)) {
 
     return (
       <>
-        <DailyFilter component = {'allProduct'}  prev = {date} onclick = {setFilterParams}/>
+        <DailyFilter onchange={handleDate}  prev = {date} onclick = {setFilterParams}/>
         <div className=" flex items-center justify-center h-3/4">
           <img className=" h-96 w-auto" src={searchImage} alt="search image" />
         </div>
@@ -162,10 +161,10 @@ export default function Product () {
         if ( productData.length > 0) {
           return (
             <>
-              <DailyFilter component = {'allProduct'}  prev = {date} onclick = {setFilterParams} />
+              <DailyFilter onchange={handleDate}  prev = {date} onclick = {setFilterParams} />
     
               <UniqueInput>
-                <label className="font-bold text-gray-700 mr-7">Vente Journalière </label>
+                <label className="font-bold text-indigo-600 mr-7">Vente Journalière </label>
                 <input 
                   className="h-7 w-28 bg-slate-400 appearance-none rounded-lg pl-2 hover:border-indigo-400 border-2 focus:bg-slate-500 text-white foucus:boder-2 focus:border-indigo-400 focus:outline-none border-gray-500 duration-200"
                   ref={venteJournaliereRef} 
@@ -221,14 +220,14 @@ export default function Product () {
                     onClick={UpdateData}> Mettre à jour les données
                   </button>}
               </span>}
-              {errObj.status && !errObj.errorAllowed ? <h3> {errObj.message} </h3> : <h3> {errObj.message} </h3> }
+              {errObj.status && !errObj.errorAllowed ? <h3 className="text-2xl text-red-700 mt-6"> {errObj.message} </h3> : <h3> {errObj.message} </h3> }
             </>
           );
         } else {
           //abillity to modify the current date and the previous date
           return (
             <>
-                <DailyFilter component = {'allProduct'} prev = {date} onclick = {setFilterParams} />
+                <DailyFilter onchange={handleDate} prev = {date} onclick = {setFilterParams} />
                 <AddProduct stateAction = {stateAction} />  
                 <div className=" flex items-center justify-center h-3/4">
                   <img className=" h-96 w-auto" src={searchImage} alt="search image" />
@@ -246,9 +245,6 @@ export default function Product () {
               <div className="w-8 h-8 rounded-full animate-pulse dark:bg-indigo-400"></div>
               <div className="w-8 h-8 rounded-full animate-pulse dark:bg-indigo-400"></div>
             </div>
-            { pAnduError !== "" && <p>{pAnduError.response.data.erro.message}</p>}
-            { error !== "" && <p>{error.response.data.erro.message}</p>}
-            {(pAnduError !== "" || error !== "") && <h2>Internal server Error</h2>}
           </div>
         );
       };

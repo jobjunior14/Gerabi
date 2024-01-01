@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { suiviDetteActions } from "../../store/suiviDette-slice";
 import DailyFilter from "../../filter/filterDailyRap";
@@ -24,7 +24,7 @@ export default function SuiviDette () {
     const {year, month, day, currentDay, currentMonth, currentYear, setterDateParams} = useDateParams();
     
     //date in fields
-    const date = useSelector (state => state.suiviDette.date);
+    const [date, setDate] = useState({year, month, day});
     
     const update = useSelector(state => state.suiviDette.update);
     //data 
@@ -35,7 +35,7 @@ export default function SuiviDette () {
     const fournisseurs = useSelector(state => state.suiviDette.fournisseurs);
 
     //data fetcher 
-    const {error, 
+    const {
         loading, 
         customUpdate, 
         readOnly, 
@@ -52,7 +52,6 @@ export default function SuiviDette () {
     } = useDataFetcherSuiviDette({componentName});
 
     const {
-        pError,
         pLoading,
         pCustomUpdate,
         pReadOnly,
@@ -113,9 +112,9 @@ export default function SuiviDette () {
 
     }, [pMusiciensData, pAgentsData, pClientsData, pTotDetailDetteAndPaymentAgents, pTotDetailDetteAndPaymentClients, pTotDetailDetteAndPaymentMusiciens, pYourTotalDebtAndPayment,pYourDebt,pTotalDebt,pYourTotalDetailDebtAndPayment]);
 
-    useEffect(() => {
-        setterDateParams (date);
-    }, [componentName]);
+    function handleDate (name, value) {
+        setDate(prev => ({...prev, [name]: value}));
+    }
     
     function setFilterParams() {
         setterDateParams(date);
@@ -135,7 +134,7 @@ export default function SuiviDette () {
 
         return (
             <>
-                <DailyFilter component = {'suiviDette'}  prev = {date} onclick = {setFilterParams}/>
+                <DailyFilter onchange={handleDate}  prev = {date} onclick = {setFilterParams}/>
                 <div className=" flex items-center justify-center h-3/4">
                     <img className=" h-96 w-auto" src={searchImage} alt="search image" />
                 </div>
@@ -145,7 +144,7 @@ export default function SuiviDette () {
     } else {
         
         return (<div>
-            <DailyFilter component = {'suiviDette'}  prev = {date} onclick = {setFilterParams}/>
+            <DailyFilter onchange={handleDate}  prev = {date} onclick = {setFilterParams}/>
             <Agents loading = {loading || pLoading}/>
             <Clients loading = {loading || pLoading}/>
             <Musiciens loading = {loading || pLoading}/>

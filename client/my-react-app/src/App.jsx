@@ -7,36 +7,38 @@ import SuiviDette from './components/Daily-Report/suiviDette/suiviDette';
 import { MensRepport } from './components/Mensuel Report/mensual&DailyReport';
 import YearStats from './components/stats/yearStats';
 import { HouseNav } from './components/headers/outlet';
+import Documentation from './components/documentation';
 function App() {
 
   return ( 
-  
-    <BrowserRouter>
-      <Routes>
-        
-          <Route path='/' element = {<MainNav/>}>
+    <div className=''>
+      <BrowserRouter>
+        <Routes>
+          
+            <Route path='/' element = {<MainNav/>}>
 
-            <Route path='/rapportJournalier' element = {<DailyRepportNav/>}>
+              <Route path='/rapportJournalier' element = {<DailyRepportNav/>}>
 
-              <Route path=':componentName' element = {<HouseNav />}>
-                <Route path='product/:productName' element = {<Product />}/>
-                <Route path = 'suiviDepense' element = {<SuiviDepense />}/>
-                <Route path ='suiviDette' element = {<SuiviDette />}/>
-                <Route path='dailyRepport' element = {<MensRepport user = 'dailyRap'/>}/>
+                <Route path=':componentName' element = {<HouseNav />}>
+                  <Route path='product/:productName' element = {<Product />}/>
+                  <Route path = 'suiviDepense' element = {<SuiviDepense />}/>
+                  <Route path ='suiviDette' element = {<SuiviDette />}/>
+                  <Route path='dailyRepport' element = {<MensRepport user = 'dailyRap'/>}/>
+                </Route>
+
               </Route>
 
+              <Route path='/rapportMensuel' element = {<MensRepportNav/>}>
+                <Route path='products/:componentName' element = {<MensRepport user = 'rappMens' />}/>
+                <Route path='graphique' element = {<YearStats/>} />
+              </Route>
+              <Route path='/documentation' element= {<Documentation/>}/>
+              
             </Route>
+        </Routes>
 
-            <Route path='/rapportMensuel' element = {<MensRepportNav/>}>
-              <Route path='products/:componentName' element = {<MensRepport user = 'rappMens' />}/>
-              <Route path='graphique' element = {<YearStats/>} />
-            </Route>
-            <Route path='/documentation' element= {<h1>Documentation</h1>}/>
-            
-          </Route>
-      </Routes>
-
-    </BrowserRouter>
+      </BrowserRouter>
+    </div>
 
   );
 }

@@ -1,14 +1,5 @@
-import { useDispatch } from "react-redux";
-import { productActions } from "../store/AllProductManager-slice";
-import { alimProductActions } from "../store/AllProductManagerAlim-slice";
-import { suiviDepenseActions } from "../store/suiviDepense-slice";
-import { suiviDetteActions } from "../store/suiviDette-slice";
-import { mensRapportActions } from "../store/mensRepport-slice";
-import useParamsGetter from "../reuseFunction/paramsGetter";
-export default function DailyFilter ({prev, component, onclick}) {
-
-    const dispatch = useDispatch();
-    const {stateAction} = useParamsGetter();
+/* eslint-disable react/prop-types */
+export default function DailyFilter ({prev, onclick, onchange}) {
 
     return (
         <div className=" flex items-center justify-center mb-5 mt-8">
@@ -23,13 +14,8 @@ export default function DailyFilter ({prev, component, onclick}) {
                         placeholder= "Taper l'année"
                         onChange= { e => {
                             const {name, value} = e.target;
-                            component === 'allProduct' ? 
-                                !stateAction ? dispatch(alimProductActions.setDate({name: name, value: Number (value)})) : 
-                                dispatch(productActions.setDate({name: name, value: Number (value)})) :
-                            component ==='suiviDepense' ? dispatch(suiviDepenseActions.setDate({name: name, value: Number (value)})) : 
-                            component === 'daily' ? dispatch(mensRapportActions.setDate({name: name, value: Number (value)})) :
-                            dispatch(suiviDetteActions.setDate({name: name, value: Number (value)}));
-                            }}
+                            return onchange(name, value);
+                        }}
                         />
                 </div>
                 
@@ -44,13 +30,8 @@ export default function DailyFilter ({prev, component, onclick}) {
                         placeholder= "Taper le mois"
                         onChange= { e => {
                             const {name, value} = e.target;
-                            component === 'allProduct' ? 
-                                !stateAction ? dispatch(alimProductActions.setDate({name: name, value: Number (value)})) : 
-                                dispatch(productActions.setDate({name: name, value: Number (value)})) :
-                            component ==='suiviDepense' ? dispatch(suiviDepenseActions.setDate({name: name, value: Number (value)})) : 
-                            component === 'daily' ? dispatch(mensRapportActions.setDate({name: name, value: Number (value)})) :
-                            dispatch(suiviDetteActions.setDate({name: name, value: Number (value)}));
-                            }}
+                            return onchange(name, value);
+                        }}
                         />
                 </div>
                 
@@ -64,12 +45,7 @@ export default function DailyFilter ({prev, component, onclick}) {
                         placeholder= "Taper le jour"
                         onChange= { e => {
                             const {name, value} = e.target;
-                            component === 'allProduct' ? 
-                                !stateAction ? dispatch(alimProductActions.setDate({name: name, value: Number (value)})) : 
-                                dispatch(productActions.setDate({name: name, value: Number (value)})) :
-                            component ==='suiviDepense' ? dispatch(suiviDepenseActions.setDate({name: name, value: Number (value)})) : 
-                            component === 'daily' ? dispatch(mensRapportActions.setDate({name: name, value: Number (value)})) :
-                            dispatch(suiviDetteActions.setDate({name: name, value: Number (value)}));
+                            return onchange(name, value);
                         }}
                     />
                 </div>

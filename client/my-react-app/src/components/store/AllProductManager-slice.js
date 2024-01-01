@@ -10,11 +10,7 @@ const productSlice = createSlice ({
         update: true,
         id: null,
         vente: null,
-        date: {
-            year: Number(new Date().getFullYear()),
-            month: Number(new Date().getMonth() + 1),
-            day: Number(new Date().getDate()),
-        },
+
     },
 
     reducers: {
@@ -31,7 +27,7 @@ const productSlice = createSlice ({
         },
         
         //toggle btn to hide useless calcul in stock
-        setToggleStoc (state, action ) {
+        setToggleStoc (state ) {
             state.toggleStoc = !state.toggleStoc;
         },
 
@@ -252,30 +248,6 @@ const productSlice = createSlice ({
                     },
                 },
             );
-        },
-
-        //manage date field 
-        setDate (state, action) {
-
-            //this condition verify if the setDate reducer is user by the 
-            //onchange event in our filter components (filterDailyRap or filterMensRap) or other components
-            if (action.payload.year) {
-
-                state.date = {
-                    year: action.payload.year,
-                    month: action.payload.month,
-                    day: action.payload.day
-                };
-
-            } else {
-                
-                const name = action.payload.name;
-                const value = action.payload.value;
-    
-                state.date = {
-                    ...state.date, [name]: value
-                };
-            }
         },
     }
 });

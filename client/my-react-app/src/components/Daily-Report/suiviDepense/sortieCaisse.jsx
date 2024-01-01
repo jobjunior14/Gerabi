@@ -147,33 +147,35 @@ export default function SoriteCaisse ({loading}) {
     
             return (
                 <div className=" text-center justify-center items-center mt-5">
-                    <h2 className="text-2xl font-semibold text-gray-700 block mt-1">Sorite Caisse</h2>
-                    <div className="tetx-center border-2 border-slate-600  overflow-x-auto px-4 mt-4 rounded-lg ">
-                        <table className=" border-collapse duration-300 table-fixed font-normal border-2 border-gray-900 my-5">
-                            <thead>
+                    <div  className=" flex justify-center mt-10">
+                        <h2 className="text-2xl font-semibold text-gray-700 block -mt-5 absolute">Sorite Caisse</h2>
+                        <div className="text-center border-2 border-slate-600  overflow-x-auto px-4 mt-4 rounded-lg ">
+                            <table className=" border-collapse duration-300 table-fixed font-normal border-2 border-gray-900 my-5">
+                                <thead>
 
-                                <tr>
-                                    {tableHeaderSortieCaisse}
-                                </tr>
+                                    <tr>
+                                        {tableHeaderSortieCaisse}
+                                    </tr>
 
-                                <tr>
-                                    {subTAbleHeadersSortieCaisse}
-                                </tr>
-                            </thead>
+                                    <tr>
+                                        {subTAbleHeadersSortieCaisse}
+                                    </tr>
+                                </thead>
 
-                            <tbody>
-                                {tableRowData}
-                            </tbody>
-                            <tfoot >
-                                <tr className="bg-slate-300" key = {'trTotal'}>
-                                    {displayTotFocnt}
-                                </tr>
-                                <tr>
-                                    <th>Total Sortie</th>
-                                    <td colSpan={100000}> {allTotalSortieCaisse} </td>
-                                </tr>
-                            </tfoot>
-                        </table>
+                                <tbody>
+                                    {tableRowData}
+                                </tbody>
+                                <tfoot >
+                                    <tr className="bg-slate-300" key = {'trTotal'}>
+                                        {displayTotFocnt}
+                                    </tr>
+                                    <tr>
+                                        <th>Total Sortie</th>
+                                        <td colSpan={100000}> {allTotalSortieCaisse} </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                    </div>
                     </div>
                     <div  className="mt-5">
                         { !readOnly && <button className="px-5 py-1  bg-gray-500 text-gray-100 rounded-md -mt-8  mx-2" onClick={() => dispatch(suiviDepenseActions.addLibelMontantSortie())}> Ajouter un justificatif</button>}

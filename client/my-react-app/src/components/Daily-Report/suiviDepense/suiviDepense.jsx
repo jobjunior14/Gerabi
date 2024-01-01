@@ -19,11 +19,11 @@ export default function SuiviDepense (){
     //stateAction is here to know wich component is using the data based to current usrl using the Params data
     const {componentName} = useParamsGetter();
 
-    //date in fields
-    const date = useSelector (state => state.suiviDepense.date);
-
     //date params
-    const {year, month, day, currentDay, currentMonth, currentYear, setterDateParams} = useDateParams()  
+    const {year, month, day, currentDay, currentMonth, currentYear, setterDateParams} = useDateParams();
+
+    //date in fields
+    const [date, setDate] = useState ({year, month, day});
     //data 
     const entreeCaisse = useSelector (state => state.suiviDepense.entreeCaisse);
     const sortieCaisse = useSelector (state => state.suiviDepense.sortieCaisse);
@@ -60,7 +60,6 @@ export default function SuiviDepense (){
         customUpdate,
         readOnly,
         loading,
-        error,
         entreeCaisseData,
         sortieCaisseData,
         depense_Eff,
@@ -74,7 +73,6 @@ export default function SuiviDepense (){
         pCustomUpdate,
         pReadOnly,
         pLoading,
-        pError,
         pEntreeCaisse,
         pSoldCaisse,
         pSortieCaisse,
@@ -122,15 +120,18 @@ export default function SuiviDepense (){
          //for entree caisse 
          if (!prevSoldCaisse) {
             
-            setFoundPrevSold(prev => true);
+            setFoundPrevSold(true);
             // set the previous taped  sold caisse by user
             // dispatch(suiviDepenseActions.setPrevSoldCaisse((totalDailyDebt + soldCaisse + totalSortieCaisse) - totalEntreeCaisse));
         } else {
-            setFoundPrevSold(prev => false);
+            setFoundPrevSold(false);
             // dispatch(suiviDepenseActions.setPrevSoldCaisse(prevSoldCaisse.amount));
         };
     },[totalDailyDebt, soldCaisse, totalEntreeCaisse, prevSoldCaisse]);
 
+    function handleDate (name, value) {
+        setDate(prev => ({...prev, [name]: value}));
+    };
     function setFilterParams() {
 
         setterDateParams(date);
@@ -154,7 +155,7 @@ export default function SuiviDepense (){
 
         return (
             <>
-                <DailyFilter component = {'suiviDepense'}  prev = {date} onclick = {setFilterParams}/>
+                <DailyFilter onchange={handleDate}  prev = {date} onclick = {setFilterParams}/>
                 <div className=" flex items-center justify-center h-3/4">
                 <img className=" h-96 w-auto" src={searchImage} alt="search image" />
                 </div>
@@ -165,10 +166,10 @@ export default function SuiviDepense (){
 
         return (
             <>
-                <DailyFilter component = {'suiviDepense'} prev = {date} onclick = {setFilterParams} />
+                <DailyFilter onchange={handleDate} prev = {date} onclick = {setFilterParams} />
 
                 <UniqueInput>
-                    <label className="font-bold text-gray-700 mr-7" name = 'depenseEffectuee' >Depense Effectuées</label>
+                    <label className="font-bold text-indigo-600 mr-7" name = 'depenseEffectuee' >Depense Effectuées</label>
                     <input 
                         className="h-7 w-28 bg-slate-400 appearance-none rounded-lg pl-2 hover:border-indigo-400 border-2 focus:bg-slate-500 text-white foucus:boder-2 focus:border-indigo-400 focus:outline-none border-gray-500 duration-200"
                         defaultValue= {depenseEff} 

@@ -95,7 +95,7 @@ export default function EntreeCaisse ({setTotEntree, foundPrevSold, prevDay, pre
                                 onChange={(e) => { dispatch(suiviDepenseActions.handleSoldCaisseByUser(Number (e.target.value)))} }
                             />
                         </div>}
-                        { !readOnly && <button className="px-5 py-1  bg-gray-500 text-gray-100 rounded-md -mt-8 " onClick={() => dispatch(suiviDepenseActions.addProductEntreeCaisse())}> Ajouter un produit</button>}
+                        { !readOnly && <button className="px-5 py-1  bg-gray-500 text-gray-100 rounded-md -mt-8 " onClick={() => dispatch(suiviDepenseActions.addProductEntreeCaisse())}> Ajouter un Nom</button>}
                     </div>
                 </div>)
         } else {
@@ -103,7 +103,7 @@ export default function EntreeCaisse ({setTotEntree, foundPrevSold, prevDay, pre
                 <div className="m-4">
                     <h3 className="text-2xl font-semibold text-gray-700">Entree Caisse</h3>
                     <h4> Ouuups!! cette date n'a pas de donnee</h4>
-                    <button className="px-5 py-1 bg-gray-500 text-gray-100 rounded-md " onClick={() => dispatch(suiviDepenseActions.addProductEntreeCaisse())}> Ajouter un produit</button>
+                    <button className="px-5 py-1 bg-gray-500 text-gray-100 rounded-md " onClick={() => dispatch(suiviDepenseActions.addProductEntreeCaisse())}> Ajouter un Nom</button>
                 </div>
             )
         };

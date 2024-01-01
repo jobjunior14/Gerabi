@@ -1,9 +1,6 @@
-import React from "react";
-import { useDispatch } from "react-redux";
-import { mensRapportActions } from "../store/mensRepport-slice";
+/* eslint-disable react/prop-types */
 
-export default function MensFilter (props) {
-    const dispatch = useDispatch();
+export default function MensFilter ({prev, onclick, onchange}) {
         
     return (
         <div className=" flex items-center justify-center mb-5 mt-8">
@@ -12,13 +9,13 @@ export default function MensFilter (props) {
                 <label className=" absolute bottom-7 z-40 bg-gray-100 left-4 rounded-full text-ms"> Année</label>
                 <input
                     className="w-16 mx-2 h-10 pl-2 bg-gray-100 appearance-none border-2 border-gray-400 rounded-md focus:outline-none focus:border-indigo-500 focus:border-2 duration-200"
-                    value={props.prev.year}
+                    value={prev.year}
                     name = 'year'
                     type="number"
                     placeholder= "Taper l'année"
                     onChange= { e => {
                         const {name, value} = e.target;
-                        dispatch(mensRapportActions.setDate({name: name, value: Number (value)}));
+                        return onchange(name, value)
                     }}
                 />
             </div>
@@ -27,13 +24,13 @@ export default function MensFilter (props) {
                 <label className=" absolute bottom-7 z-40 bg-gray-100 left-4 rounded-full text-ms"> Mois </label>
                 <input
                     className="w-16 mx-2 h-10 pl-2 bg-gray-100 appearance-none border-2 border-gray-400 rounded-md focus:outline-none focus:border-indigo-500 focus:border-2 duration-200" 
-                    value={props.prev.month}
+                    value={prev.month}
                     name = 'month'
                     type="number"
                     placeholder= "Taper l'année"
                     onChange= { e => {
                         const {name, value} = e.target;
-                        dispatch(mensRapportActions.setDate({name: name, value: Number (value)}));
+                        return onchange(name, value)
                     }}
                 />
             </div>
@@ -41,7 +38,7 @@ export default function MensFilter (props) {
 
             <button 
                 className="bg-gray-500 duration-200 text-gray-50 p-2 rounded-lg mx-6 hover:bg-gray-600 focus:bg-gray-800 "
-                onClick={props.onclick}
+                onClick={onclick}
             >Chercher</button>
         </div>
     );
