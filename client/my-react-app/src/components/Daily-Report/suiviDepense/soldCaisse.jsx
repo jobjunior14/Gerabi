@@ -14,7 +14,7 @@ export default function SoldCaisse ({loading}) {
         if (sortieCaisseData.length > 0) {
 
             return (
-                <h3 className="font-bold text-2xl text-indigo-700 p-4"> Sold Caisse: {soldCaisse}</h3>
+                <h3 className="font-bold text-xl lg:text-2xl text-indigo-700 p-4"> Sold Caisse: {soldCaisse}</h3>
             )
         }
     } else {

@@ -18,7 +18,7 @@ export default function Benefice ({depenseEff}) {
 
             return (<div className=" justify-center flex"> 
 
-                <h3 className="text-2xl font-semibold text-gray-700 block absolute"> BENEFICE </h3>
+                <h3 className="lg:text-2xl text-xl font-semibold text-gray-700 block absolute"> BENEFICE </h3>
                 <div className=" text-center items-center justify-center my-10 ">
 
                     <table className=" border-collapse duration-300 table-fixed font-normal border-2 border-gray-900">
@@ -71,16 +71,16 @@ export default function Benefice ({depenseEff}) {
             </div>)
         } else {
           return (<div className="m-4">
-                <h3 className="text-2xl font-semibold text-gray-700"> BENEFICE</h3>
+                <h3 className="lg:text-2xl text-xl font-semibold text-gray-700"> BENEFICE</h3>
                 <div className=" flex items-center justify-center h-3/4 ">
                   <img className=" h-80 w-auto" src={searchImage} alt="search image" />
                 </div>
-                <h4 className="text-3xl text-gray-700 ">Ouuppss!! cette date n'a pas des donnees</h4>
+                <h4 className="lg:text-3xl text-2xl text-gray-700 ">Ouuppss!! cette date n'a pas des donnees</h4>
             </div>);
         }
     } else {
        return (<div className=" justify-center flex">
-            <h3 className="text-2xl font-semibold text-gray-700 block absolute"> BENEFICE</h3>
+            <h3 className="lg:text-2xl text-xl font-semibold text-gray-700 block absolute"> BENEFICE</h3>
             <div className=" items-center justify-center my-40"> 
                 <div className="flex items-center justify-center space-x-2">
                     <div className="w-5 h-5 rounded-full animate-pulse dark:bg-indigo-400"></div>

@@ -64,7 +64,7 @@ export default function EntreeCaisse ({setTotEntree, foundPrevSold, prevDay, pre
             return (
                <div className=" text-center justify-center items-center block -mt-5">
                     <div className=" justify-center flex -mb-10">
-                        <h3 className="text-2xl font-semibold text-gray-700 block absolute mt-6">Entrée Caisse</h3>
+                        <h3 className="lg:text-2xl text-xl font-semibold text-gray-700 block absolute mt-6">Entrée Caisse</h3>
                         <table className=" border-collapse duration-300 table-fixed font-normal border-2 border-gray-900 my-16">
                             <tbody>
                                 {displayData}
@@ -101,7 +101,7 @@ export default function EntreeCaisse ({setTotEntree, foundPrevSold, prevDay, pre
         } else {
             return(
                 <div className="m-4">
-                    <h3 className="text-2xl font-semibold text-gray-700">Entree Caisse</h3>
+                    <h3 className="lg:text-2xl text-xl font-semibold text-gray-700">Entree Caisse</h3>
                     <h4> Ouuups!! cette date n'a pas de donnee</h4>
                     <button className="px-5 py-1 bg-gray-500 text-gray-100 rounded-md " onClick={() => dispatch(suiviDepenseActions.addProductEntreeCaisse())}> Ajouter un Nom</button>
                 </div>
@@ -109,7 +109,7 @@ export default function EntreeCaisse ({setTotEntree, foundPrevSold, prevDay, pre
         };
     } else {
          return (<div className=" justify-center flex">
-                <h3 className="text-2xl font-semibold text-gray-700 block absolute"> Entree Caisse</h3>
+                <h3 className="lg:text-2xl text-xl font-semibold text-gray-700 block absolute"> Entree Caisse</h3>
                 <div className=" items-center justify-center my-40"> 
                     <div className="flex items-center justify-center space-x-2">
                         <div className="w-5 h-5 rounded-full animate-pulse dark:bg-indigo-400"></div>

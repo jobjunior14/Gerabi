@@ -63,7 +63,7 @@ export default function YourDebts ({loading}){
             return (
             <div className=" text-center justify-center items-center block pb-4 ">
                 <div className=" flex justify-center mt-10">
-                    <h3 className="text-2xl font-semibold text-gray-700 block -mt-5 absolute"> Mes Dettes </h3>
+                    <h3 className="lg:text-2xl text-xl font-semibold text-gray-700 block -mt-5 absolute"> Mes Dettes </h3>
                     <div className="tetx-center border-2 border-slate-600  overflow-x-auto px-4 mt-5 rounded-lg ">
                         <table className=" border-collapse duration-300 table-fixed font-normal border-2 border-gray-900 my-5">
                             <thead>
@@ -95,7 +95,7 @@ export default function YourDebts ({loading}){
         } else {
              return (
                 <div className="m-4">
-                    <h3 className="text-2xl font-semibold text-gray-700"> Dette Musiciens </h3>
+                    <h3 className="lg:text-2xl text-xl font-semibold text-gray-700"> Dette Musiciens </h3>
                     <h4> Ooouups!!! cette date n'a pas des données </h4>
                     <button className="px-5 py-1 bg-gray-500 text-gray-100 rounded-md " onClick={() => dispatch(suiviDetteActions.addCaseFournisseurs())}> Ajouter Un Nom</button>
                 </div>
@@ -103,7 +103,7 @@ export default function YourDebts ({loading}){
         };
    } else {
      return (<div className=" justify-center flex">
-                <h3 className="text-2xl font-semibold text-gray-700 block absolute"> Dette Musiciens</h3>
+                <h3 className="lg:text-2xl text-xl font-semibold text-gray-700 block absolute"> Dette Musiciens</h3>
                 <div className=" items-center justify-center my-40"> 
                     <div className="flex items-center justify-center space-x-2">
                         <div className="w-5 h-5 rounded-full animate-pulse dark:bg-indigo-400"></div>

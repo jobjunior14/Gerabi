@@ -201,7 +201,7 @@ export default function Product () {
     
               {/* display or hide the suivi appro table basing on the component Name if it's DegoBar we will display it and if not we'll hide it */}
              { stateAction && <span>
-                <h1 className="font-bold text-3xl mt-8 mb-5 text-gray-700"> Suivi Approvisinnemnt </h1>
+                <h1 className="font-bold lg:text-3xl text-2xl mt-8 mb-5 text-gray-700"> Suivi Approvisinnemnt </h1>
     
                 <TableSuivi />
                 <button 
@@ -220,7 +220,7 @@ export default function Product () {
                     onClick={UpdateData}> Mettre à jour les données
                   </button>}
               </span>}
-              {errObj.status && !errObj.errorAllowed ? <h3 className="text-2xl text-red-700 mt-6"> {errObj.message} </h3> : <h3> {errObj.message} </h3> }
+              {errObj.status && !errObj.errorAllowed ? <h3 className=" text-lg lg:text-2xl text-red-700 mt-6"> {errObj.message} </h3> : <h3> {errObj.message} </h3> }
             </>
           );
         } else {

@@ -11,7 +11,7 @@ import Documentation from './components/documentation';
 function App() {
 
   return ( 
-    <div className=''>
+    <div className='w-full'>
       <BrowserRouter>
         <Routes>
           

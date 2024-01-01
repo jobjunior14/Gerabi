@@ -1,7 +1,7 @@
 export default function Documentation () {
     return (
         <div className="text-left pt-28">
-            <h1 className="text-3xl font-medium text-gray-800 mb-6">Utilisation de cette Application</h1>
+            <h1 className="lg:text-3xl text-2xl font-medium text-gray-800 mb-6">Utilisation de cette Application</h1>
             <p className="text-xl font-normal text-gray-600 mb-2">En Ouvrant l'application cette Application web, vous tomberai sur la page d'acceuille quie *Rapport Journalier{">"}Dego Bar{">"}Bralima*</p>
             <hr />
             <h2 className="text-2xl text-gray-700">Secetion: <b>Rapport Journalier</b></h2>

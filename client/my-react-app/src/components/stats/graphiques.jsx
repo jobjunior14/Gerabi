@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import Chart from "react-apexcharts";
 
-export default function Graphique ({options, series, type, width}){
+export default function Graphique ({options, series, type, width, height}){
 
     return (
       <div className="app">
