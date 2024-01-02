@@ -14,10 +14,14 @@ export default function useDateParams () {
 
     //boolen value to check the current date and the query parameters
     const dateState = year === currentYear && month === currentMonth && day === currentDay;
+    //check if the date taped is > than the current date 
+    const inexistentDate = (year === currentYear && month === currentMonth && day > currentDay) || 
+    (year === currentYear && month > currentMonth  ) || 
+    (year > currentYear);
 
     function setterDateParams (date) {
         setDateParams(date);
     }
 
-    return {year, month, day, currentDay, currentMonth, currentYear, dateState, setterDateParams};
+    return {year, month, day, currentDay, currentMonth, currentYear, dateState,inexistentDate, setterDateParams};
 }

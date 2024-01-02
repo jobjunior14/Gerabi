@@ -15,7 +15,7 @@ export default function SuiviDesVentes ({user}) {
 
     
     //dependacies of useEffect
-    const {year, month, day, currentDay, currentMonth, currentYear} = useDateParams();
+    const {year, month, day, currentDay, currentMonth, currentYear, inexistentDate} = useDateParams();
 
     //state to stoking the depense effectuee 
     const [depenseEff, setDepenseEff] = useState(0);
@@ -106,12 +106,11 @@ export default function SuiviDesVentes ({user}) {
 
     }, [year, month, componentName, day, currentUser]);
     
-    if (year > currentYear || month > currentMonth || day > currentDay) {
+    if (inexistentDate) {
         
         return (<div>
             <h1>Ooouups vous ne pouvez demander une donnee d'une date inexistante</h1>
-        </div>
-        )
+        </div>)
     } else {
 
         return (<div className="justify-center flex  ">

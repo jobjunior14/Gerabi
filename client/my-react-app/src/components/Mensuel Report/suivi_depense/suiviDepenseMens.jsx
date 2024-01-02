@@ -14,7 +14,7 @@ export default function MensRapSuiviDepense ({user}) {
     const [data, setData] = useState (null);
     //dependacies of useEffect
 
-    const {year, month, day, currentDay, currentMonth, currentYear} = useDateParams();
+    const {year, month, day, currentDay, currentMonth, currentYear, inexistentDate} = useDateParams();
 
     //render data
     const [displayEntreeCaisse, setDisplayEntreeCaisse] = useState(null);
@@ -50,7 +50,7 @@ export default function MensRapSuiviDepense ({user}) {
         };
     }, [data]);
      
-    if (year > currentYear || month > currentMonth || day > currentDay) {
+    if (inexistentDate) {
         
         return (<div>
             <h1>Ooouups vous ne pouvez demander une donnee d'une date inexistante</h1>

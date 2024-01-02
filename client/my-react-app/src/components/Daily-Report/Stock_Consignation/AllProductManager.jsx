@@ -38,7 +38,7 @@ export default function Product () {
   const id = useSelector (state => state[sliceName].id);
   
   //date query
-  const {year, month, day, currentDay, currentMonth, currentYear, setterDateParams} = useDateParams();
+  const {year, month, day, inexistentDate, setterDateParams} = useDateParams();
   
   //date in forms
   const [date, setDate] = useState({year, month, day});
@@ -143,7 +143,7 @@ export default function Product () {
     stateAction ? dispatch(productActions.setToggleStoc()) : dispatch(alimProductActions.setToggleStoc())
   }
 
-  if ( (year > currentYear && month > currentMonth && day > currentDay) || (year === currentYear && month > currentMonth && day > currentDay) || (year === currentYear && month === currentMonth && day > currentDay)) {
+  if ( inexistentDate) {
 
     return (
       <>

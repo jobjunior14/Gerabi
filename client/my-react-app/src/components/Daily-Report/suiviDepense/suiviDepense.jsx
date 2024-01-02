@@ -20,7 +20,7 @@ export default function SuiviDepense (){
     const {componentName} = useParamsGetter();
 
     //date params
-    const {year, month, day, currentDay, currentMonth, currentYear, setterDateParams} = useDateParams();
+    const {year, month, day, inexistentDate, setterDateParams} = useDateParams();
 
     //date in fields
     const [date, setDate] = useState ({year, month, day});
@@ -151,7 +151,7 @@ export default function SuiviDepense (){
         setTotalEntreeCaisse(data);
     };
 
-    if (year > currentYear || month > currentMonth || day > currentDay) {
+    if (inexistentDate) {
 
         return (
             <>

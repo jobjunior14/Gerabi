@@ -9,6 +9,15 @@ const userSchema = new mongoose.Schema ({
         require: true
     },
 
+    email: {
+        
+        type: String,
+        unique: true,
+        require: true,
+        lowercase: true,
+        validate: [validator.isEmail, "Veillez fournir une adresse mail Valide"]
+    },
+
     password: {
 
         type: String,
@@ -19,7 +28,7 @@ const userSchema = new mongoose.Schema ({
     confirmPAssword: {
 
         type: String,
-        require: [true, 'Les mots de passe ne se ressemble pas '],
+        require: [true, 'Les mots de passe ne se ressemble pas'],
     }
 });
 
