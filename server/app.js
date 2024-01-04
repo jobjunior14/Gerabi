@@ -38,6 +38,8 @@ const VenteAlimentationRouter = require ('./routes/alimentation/venteAlimentatio
 const AlimentationSuiviDette = require ('./routes/alimentation/alimentationSuiviDetteRouter');
 const DepenseEffAlim = require ("./routes/alimentation/alimDepenseEff.js");
 const YourAlimentationSuiviDette = require ('./routes/alimentation/yourAlimentationSuiviDetteRouter.js');
+//user
+const userRouter = require ('./routes/userRoutes.js');
 //3) Routes
 //dego Bar
 app.use("/api/v1/degoBar/autreProduit", AutreProduitRouter);
@@ -59,6 +61,10 @@ app.use("/api/v1/alimentation/vente", VenteAlimentationRouter);
 app.use("/api/v1/alimentation/suiviDette", AlimentationSuiviDette);
 app.use ("/api/v1/alimentation/depenseEff", DepenseEffAlim);
 app.use ('/api/v1/alimentation/yourSuiviDette', YourAlimentationSuiviDette);
+//user
+
+
+app.use('/api/v1/user', userRouter);
 
 app.all("*", (req, res, next) => {
   next(new AppError(`Cannot find ${req.originalUrl} this server`, 404));
