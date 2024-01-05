@@ -45,7 +45,7 @@ const DepenseEffAlim = require ("./routes/alimentation/alimDepenseEff.js");
 const YourAlimentationSuiviDette = require ('./routes/alimentation/yourAlimentationSuiviDetteRouter.js');
 //user
 const userRouter = require ('./routes/userRoutes.js');
-//3) Routes
+//3) Routes//
 //dego Bar
 app.use("/api/v1/degoBar/autreProduit", AutreProduitRouter);
 app.use ("/api/v1/degoBar/bralima", BralimaRouter);
