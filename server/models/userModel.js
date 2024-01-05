@@ -38,11 +38,11 @@ const userSchema = new mongoose.Schema ({
     }
 });
 
-userSchema.pre ('save', async function (next){
+userSchema.pre ('save', function (next){
     if (!this.isModified('password')) return next();
 
     //hash the password with the cost of twelve
-    this.password = await bcrypt.hash(this.password, 12);
+    this.password = bcrypt.hash(this.password, 12);
 
     //delete the confirm password and set it to undefined
     this.confirmPassword = undefined;
@@ -51,6 +51,12 @@ userSchema.pre ('save', async function (next){
     next();
 
 });
+
+//compare the taper password and the saved (hashed) password
+userSchema.methods.confirmTapedPassword = function (tapedPassword, userPassword) {
+
+    return bcrypt.compare(tapedPassword, userPassword);
+};
 const User = mongoose.model ( 'user', userSchema);
 
 module.exports = User;

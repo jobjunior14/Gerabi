@@ -18,6 +18,11 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use((req, res, next) => {
+  req.requestTime = new Date().toISOString();
+  next();
+})
+
 //dego Bar
 const AutreProduitRouter = require("./routes/degoBar/AutreProduitroutes");
 const BralimaRouter = require("./routes/degoBar/bralimaRouter");

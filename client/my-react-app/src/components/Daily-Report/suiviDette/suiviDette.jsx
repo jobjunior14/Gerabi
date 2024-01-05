@@ -151,7 +151,7 @@ export default function SuiviDette () {
             <TotDetteDaily day = {day} month = {month} year = {year} />
             <YourDebts loading = {loading || pLoading}/>
             <YourTotDetteDaily day = {day} month = {month} year = {year} />
-            {!update ? <button className="px-5 py-1 bg-indigo-500 text-gray-100 rounded-md " onClick={postData}> Enregistrer les données</button> : <button onClick={updateData}> Mettre à les données</button> }
+            {!update ? <button className="px-5 py-1 bg-indigo-500 text-gray-100 rounded-md " onClick={postData}> Enregistrer les données</button> : <button className="px-5 py-1 bg-indigo-500 text-gray-100 rounded-md " onClick={updateData}> Mettre à les données</button> }
 
         </div>);
     };
