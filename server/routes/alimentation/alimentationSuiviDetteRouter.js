@@ -11,9 +11,11 @@ const {
     totalDette
 } = require('../../controller/alimentation/suiviDette/suiviDetteAlimentationController');
 
+const {protect} = require('../../controller/userAuth');
+
 router
     .route('/rapportJournalier/:year/:month/:day')
-    .get(getSuiviDette)
+    .get(protect, getSuiviDette)
     .post(updateSuiviDette);
 
 router
@@ -22,17 +24,17 @@ router
 
 router
     .route('/lastElement/:year/:month')
-    .get(lastCreatedDataSuiviDette);
+    .get(protect, lastCreatedDataSuiviDette);
 
 router
     .route('/rapportMensuel/all/:year/:month')
-    .get(mensualStasSuiviDette);
+    .get(protect, mensualStasSuiviDette);
 router
     .route('/rapportMensuel/detail/:year/:month')
-    .get(mensualStasSuiviDetteDetail);
+    .get(protect, mensualStasSuiviDetteDetail);
 router
     .route('/rapportJournalier/totDette/:year/:month/:day')
-    .get(totalDette);
+    .get(protect, totalDette);
 
 
 module.exports = router;

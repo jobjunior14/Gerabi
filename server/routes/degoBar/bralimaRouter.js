@@ -13,10 +13,11 @@ const {
   lastCreatedData,
   dailyRapBralima
 } = require("../../controller/degoBar/suiviStockVente/bralimaController");
+const {protect} = require('../../controller/userAuth');
 
 router
   .route("/rapportJournalier/:year/:month/:day")
-  .get(getBralima)
+  .get(protect, getBralima)
   .post(updateDataBralima);
 
 router.route("/rapportJournalier").post(pushDataBralima);
@@ -24,31 +25,31 @@ router.route("/rapportJournalier").post(pushDataBralima);
 // stats
 router
   .route("/rapportMensuel/stats/:year/:month")
-  .get(stastBralima);
+  .get(protect, stastBralima);
 
 router
   .route("/rapportMensuel/Allstast/:year/:month")
-  .get(AllProductStatsBralima);
+  .get(protect, AllProductStatsBralima);
 
 router
   .route("/rapportMensuel/suiviAllStats/:year/:month")
-  .get(suiviAllStatsBralima);
+  .get(protect, suiviAllStatsBralima);
 
 router
   .route("/rapportMensuel/suiviDetailStats/:year/:month")
-  .get(suiviDetailStatsBralima);
+  .get(protect, suiviDetailStatsBralima);
 
 router
   .route("/rapportMensuel/yearStats/:year")
-  .get(yearStatsBralima);
+  .get(protect, yearStatsBralima);
 
   //last created element
 router
   .route("/rapportJournalier/lastElement")
-  .get(lastCreatedData);
+  .get(protect, lastCreatedData);
 
 router
   .route("/rapportJournalier/dailyRap/:year/:month/:day")
-  .get(dailyRapBralima);
+  .get(protect, dailyRapBralima);
 
 module.exports = router;

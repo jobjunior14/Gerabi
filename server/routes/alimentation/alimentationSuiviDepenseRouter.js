@@ -11,9 +11,11 @@ const {
     dailyRepportSuiviDepense
 } = require('../../controller/alimentation/suiviDepense/suiviDepenseAlimentation');
 
+const {protect} = require('../../controller/userAuth');
+
 router
     .route('/rapportJournalier/:year/:month/:day')
-    .get(getSuiviDepense)
+    .get(protect, getSuiviDepense)
     .post(updateSuiviDepense);
 
 router
@@ -22,16 +24,16 @@ router
 
 router
     .route('/lastElement/:year/:month')
-    .get(lastCreatedDataSuiviDepense);
+    .get(protect, lastCreatedDataSuiviDepense);
 
 router
     .route('/rapportMensuel/all/:year/:month')
-    .get(mensualStasSuiviDepense);
+    .get(protect, mensualStasSuiviDepense);
 
 router
     .route ('/rapportMensuel/detail/:year/:month')
-    .get(mensualDetailStatsSuiviDepense);
+    .get(protect, mensualDetailStatsSuiviDepense);
 
-router.route('/rapportJournalier/dailyRap/:year/:month/:day').get(dailyRepportSuiviDepense);
+router.route('/rapportJournalier/dailyRap/:year/:month/:day').get(protect, dailyRepportSuiviDepense);
 
 module.exports = router;

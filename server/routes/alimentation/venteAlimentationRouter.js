@@ -8,10 +8,12 @@ const {
   monthStatsVenteAlimentation,
 } = require("../../controller/alimentation/venteAlimentationController");
 
+const {protect} = require('../../controller/userAuth');
+
 router.route("/").post(pushDataVenteAlimentation);
 
-router.route("/:year/:month/:day").get(getVenteAlimentation).post(updateventeAlimentation);
+router.route("/:year/:month/:day").get(protect, getVenteAlimentation).post(updateventeAlimentation);
 
-router.route("/:year/:month").get(monthStatsVenteAlimentation);
+router.route("/:year/:month").get(protect, monthStatsVenteAlimentation);
 
 module.exports = router;

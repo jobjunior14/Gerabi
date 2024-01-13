@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const {proctect} = require('../../controller/userAuth');
+const {protect} = require('../../controller/userAuth');
 const {
   getDepenseEffAlim,
   pushDataDepenseEffAlim,
@@ -8,11 +8,11 @@ const {
   monthStatsDepenseEffAlim,
 } = require("../../controller/alimentation/depenseEffAlim");
 
-router.route("/").post( pushDataDepenseEffAlim);
+router.route("/").post(pushDataDepenseEffAlim);
 
-router.route("/:year/:month/:day").get( proctect,getDepenseEffAlim).post(updateDepenseEffAlim);
+router.route("/:year/:month/:day").get( protect, getDepenseEffAlim).post( updateDepenseEffAlim);
 
-router.route("/:year/:month").get( proctect,monthStatsDepenseEffAlim);
+router.route("/:year/:month").get( protect, monthStatsDepenseEffAlim);
 
 
 module.exports = router;

@@ -8,10 +8,12 @@ const {
   monthStatsVenteDego,
 } = require("../../controller/degoBar/venteDegoController");
 
+const {protect} = require('../../controller/userAuth');
+
 router.route("/").post(pushDataVenteDego);
 
-router.route("/:year/:month/:day").get(getVenteDego).post(updateventeDego);
+router.route("/:year/:month/:day").get(protect, getVenteDego).post(updateventeDego);
 
-router.route("/:year/:month").get(monthStatsVenteDego);
+router.route("/:year/:month").get(protect, monthStatsVenteDego);
 
 module.exports = router;

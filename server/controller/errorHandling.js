@@ -6,6 +6,8 @@ const handleCastErrorDB = err =>
     return new AppError(message, 404);
 };
 
+const handleJWTError = () => new AppError('Please provide a valide token, login again', 401);
+const handleTokenExpired = () => new AppError('Token Expired, please loggin Again', 401);
 const handleDuplicateFieldDB = err =>
 {
     const message = ` Duplicate:  ${JSON.stringify(err.keyValue).replace(`"`, '')}`;
@@ -78,6 +80,8 @@ else if ( process.env.NODE_ENV === 'production')
     if (err.name === 'CastError') error = handleCastErrorDB (error);
     if (err.code === 11000) error = handleDuplicateFieldDB (error);
     if (err.name === 'ValidationError') error = handleValidationErrorDB (error);
+    if (err.name === 'JsonWebTokenError') error = handleJWTError;
+    if (err.name === "TokenExpiredError") error = handleTokenExpired;
 
     sendErrorProd(error, res);
 }

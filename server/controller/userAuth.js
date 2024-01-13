@@ -3,6 +3,7 @@ const catchAssynch = require ('../utils/catchAssynch');
 const AppError = require('../utils/AppError');
 const User = require ('../models/userModel');
 const jwt = require('jsonwebtoken');
+const { response } = require('express');
 
 const signToken = id => {
     return jwt.sign({id}, process.env.JWT_S, {expiresIn: process.env.EXPIRE_IN});   
@@ -58,20 +59,60 @@ exports.updateUser = catchAssynch(async (req, res, next) => {
     
 });
 
-exports.proctect = catchAssynch(async (req, res, next) => {
+exports.protect = catchAssynch(async (req, res, next) => {
 
     let token;
 
+    //Check if the toke exists in the headers
     if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
         token = req.headers.authorization.split(' ')[1];
     };
 
+    //if not return an error (the token)
     if (!token) {
         return next (new AppError ("Please logged in to get access", 401));
     };
 
+    //check if the token has a valid signature ( if not it returns a false value)
     const decoder = await promisify(jwt.verify)(token, process.env.JWT_S);
 
-    console.log (decoder);
+    //check if the user still exxist in the database
+    const existsUser = await User.findById(decoder.id);
+     
+    if (!existsUser) {
+        return next (new AppError("This user does not belong to this token, please login and try again."));
+    };
+
+    //check if the user has already changed it password
+    if (existsUser.changePasswordAfterIsued(decoder.iat)) {
+        return next (new AppError("This user has already changed their password, please try again.", 401 ));
+    }; 
+
+    //put the user information in the request object
+    req.user = existsUser;
+
     next();
+});
+
+exports.forgetPassword = catchAssynch (async (req, res, next) => {
+
+    const user = await User.findOne({email: req.body.email});
+
+    if (!user) {
+        return next(new AppError("There is no user with that mail", 404));
+    };
+
+    const resetToken = user.createPasswordResetToken();
+
+    await user.save({validateBeforeSave: false});
+
+    res.status(200).json({
+        resetToken
+    });
+     
+});
+
+exports.resetPassword = catchAssynch ( async (req, res, next) => {
+
+
 });

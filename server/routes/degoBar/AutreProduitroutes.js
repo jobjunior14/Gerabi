@@ -14,9 +14,11 @@ const {
   dailyRapAutreProduit
 } = require("../../controller/degoBar/suiviStockVente/autreProduitController");
 
+const {protect} = require('../../controller/userAuth');
+
 router
   .route("/rapportJournalier/:year/:month/:day")
-  .get(getAutreProduit)
+  .get(protect, getAutreProduit)
   .post(updateDataAutreProduit);
 
 router.route("/rapportJournalier/").post(pushDataAutreProduit);
@@ -24,31 +26,31 @@ router.route("/rapportJournalier/").post(pushDataAutreProduit);
 // stats
 router
   .route("/rapportMensuel/stats/:year/:month")
-  .get(stastAutreProduit);
+  .get(protect, stastAutreProduit);
 
 router
   .route("/rapportMensuel/Allstast/:year/:month")
-  .get(AllProductStatsAutreProduit);
+  .get(protect, AllProductStatsAutreProduit);
 
 router
   .route("/rapportMensuel/suiviAllStats/:year/:month")
-  .get(suiviAllStatsAutreProduit);
+  .get(protect, suiviAllStatsAutreProduit);
 
 router
   .route("/rapportMensuel/suiviDetailStats/:year/:month")
-  .get(suiviDetailStatsAutreProduit);
+  .get(protect, suiviDetailStatsAutreProduit);
 
 router
   .route("/rapportMensuel/yearStats/:year")
-  .get(yearStatsAutreProduit);
+  .get(protect, yearStatsAutreProduit);
 
 //last created element
 router
   .route("/rapportJournalier/lastElement")
-  .get(lastCreatedData);
+  .get(protect, lastCreatedData);
 
 router
   .route("/rapportJournalier/dailyRap/:year/:month/:day")
-  .get(dailyRapAutreProduit);
+  .get(protect, dailyRapAutreProduit);
 
 module.exports = router;
