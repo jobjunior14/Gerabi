@@ -12,8 +12,8 @@ const {protect} = require('../../controller/userAuth');
 
 router.route("/").post(pushDataVenteDego);
 
-router.route("/:year/:month/:day").get(protect, getVenteDego).post(updateventeDego);
+router.route("/:year/:month/:day").get( getVenteDego).post(updateventeDego);
 
-router.route("/:year/:month").get(protect, monthStatsVenteDego);
+router.route("/:year/:month").get( monthStatsVenteDego);
 
 module.exports = router;

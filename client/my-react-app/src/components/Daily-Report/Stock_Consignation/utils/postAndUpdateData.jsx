@@ -1,9 +1,7 @@
-import axios from 'axios';
+import axios from '../../../../axiosUrl';
 import { useState } from 'react';
 import useDateParams from '../../../reuseFunction/dateParams';
 import formatDate from '../../../reuseFunction/rightFormatDate';
-//define base url
-axios.defaults.baseURL = "http://localhost:5001/api/v1";
 
 export default function usePostAndUpdateData ({componentName, productName, venteName}) {
 

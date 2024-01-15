@@ -18,7 +18,7 @@ const {protect} = require('../../controller/userAuth');
 
 router
   .route("/rapportJournalier/:year/:month/:day")
-  .get(protect, getAutreProduit)
+  .get( getAutreProduit)
   .post(updateDataAutreProduit);
 
 router.route("/rapportJournalier/").post(pushDataAutreProduit);
@@ -30,27 +30,27 @@ router
 
 router
   .route("/rapportMensuel/Allstast/:year/:month")
-  .get(protect, AllProductStatsAutreProduit);
+  .get( AllProductStatsAutreProduit);
 
 router
   .route("/rapportMensuel/suiviAllStats/:year/:month")
-  .get(protect, suiviAllStatsAutreProduit);
+  .get( suiviAllStatsAutreProduit);
 
 router
   .route("/rapportMensuel/suiviDetailStats/:year/:month")
-  .get(protect, suiviDetailStatsAutreProduit);
+  .get( suiviDetailStatsAutreProduit);
 
 router
   .route("/rapportMensuel/yearStats/:year")
-  .get(protect, yearStatsAutreProduit);
+  .get( yearStatsAutreProduit);
 
 //last created element
 router
   .route("/rapportJournalier/lastElement")
-  .get(protect, lastCreatedData);
+  .get( lastCreatedData);
 
 router
   .route("/rapportJournalier/dailyRap/:year/:month/:day")
-  .get(protect, dailyRapAutreProduit);
+  .get( dailyRapAutreProduit);
 
 module.exports = router;

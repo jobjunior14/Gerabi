@@ -18,7 +18,7 @@ const {protect} = require('../../controller/userAuth');
 
 router
   .route("/rapportJournalier/:year/:month/:day")
-  .get(protect, getBrasimba)
+  .get( getBrasimba)
   .post(updateDataBrasimba);
 
 router.route("/rapportJournalier").post(pushDataBrasimba);
@@ -26,31 +26,31 @@ router.route("/rapportJournalier").post(pushDataBrasimba);
 // stats
 router
   .route("/rapportMensuel/stats/:year/:month")
-  .get(protect, stastBrasimba);
+  .get( stastBrasimba);
 
 router
   .route("/rapportMensuel/Allstast/:year/:month")
-  .get(protect, AllProductStatsBrasimba);
+  .get( AllProductStatsBrasimba);
 
 router
   .route("/rapportMensuel/suiviAllStats/:year/:month")
-  .get(protect, suiviAllStatsBrasimba);
+  .get( suiviAllStatsBrasimba);
 
 router
   .route("/rapportMensuel/suiviDetailStats/:year/:month")
-  .get(protect, suiviDetailStatsBrasimba);
+  .get( suiviDetailStatsBrasimba);
 
 router
   .route("/rapportMensuel/yearStats/:year")
-  .get(protect, yearStatsBrasimba);
+  .get( yearStatsBrasimba);
 
   //last created element
 router
   .route("/rapportJournalier/lastElement")
-  .get(protect, lastCreatedData);
+  .get( lastCreatedData);
 
 router
   .route("/rapportJournalier/dailyRap/:year/:month/:day")
-  .get(protect, dailyRapBrasimba);
+  .get( dailyRapBrasimba);
 
 module.exports = router;

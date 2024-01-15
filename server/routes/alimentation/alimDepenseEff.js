@@ -10,9 +10,9 @@ const {
 
 router.route("/").post(pushDataDepenseEffAlim);
 
-router.route("/:year/:month/:day").get( protect, getDepenseEffAlim).post( updateDepenseEffAlim);
+router.route("/:year/:month/:day").get( getDepenseEffAlim).post( updateDepenseEffAlim);
 
-router.route("/:year/:month").get( protect, monthStatsDepenseEffAlim);
+router.route("/:year/:month").get( monthStatsDepenseEffAlim);
 
 
 module.exports = router;

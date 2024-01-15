@@ -43,11 +43,11 @@ const userSchema = new mongoose.Schema ({
     passwordResetExpires: Date
 });
 
-userSchema.pre ('save', function (next){
+userSchema.pre ('save', async function (next){
     if (!this.isModified('password')) return next();
 
     //hash the password with the cost of twelve
-    this.password = bcrypt.hash(this.password, 12);
+    this.password = await bcrypt.hash(this.password, 12);
 
     //delete the confirm password and set it to undefined
     this.confirmPassword = undefined;
@@ -68,6 +68,7 @@ userSchema.methods.changePasswordAfterIsued = function (JWTTimestamp) {
     if (this.passwordChangedAt) {
         const changedTimestamp = parseInt (this.passwordChangedAt.getTime() / 1000, 10);
 
+        console.log (this.passwordChangedAt)
         return JWTTimestamp < changedTimestamp;
     }
 };

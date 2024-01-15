@@ -15,7 +15,7 @@ const {protect} = require('../../controller/userAuth');
 
 router
     .route('/rapportJournalier/:year/:month/:day')
-    .get(protect, getSuiviDette)
+    .get( getSuiviDette)
     .post(updateSuiviDette);
 
 router
@@ -24,17 +24,17 @@ router
 
 router
     .route('/lastElement/:year/:month')
-    .get(protect, lastCreatedDataSuiviDette);
+    .get( lastCreatedDataSuiviDette);
 
 router
     .route('/rapportMensuel/all/:year/:month')
-    .get(protect, mensualStasSuiviDette);
+    .get( mensualStasSuiviDette);
 router
     .route('/rapportMensuel/detail/:year/:month')
-    .get(protect, mensualStasSuiviDetteDetail);
+    .get( mensualStasSuiviDetteDetail);
 router
     .route('/rapportJournalier/totDette/:year/:month/:day')
-    .get(protect, totalDette);
+    .get( totalDette);
 
 
 module.exports = router;

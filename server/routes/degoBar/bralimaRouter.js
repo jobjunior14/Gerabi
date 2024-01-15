@@ -17,7 +17,7 @@ const {protect} = require('../../controller/userAuth');
 
 router
   .route("/rapportJournalier/:year/:month/:day")
-  .get(protect, getBralima)
+  .get( getBralima)
   .post(updateDataBralima);
 
 router.route("/rapportJournalier").post(pushDataBralima);
@@ -25,31 +25,31 @@ router.route("/rapportJournalier").post(pushDataBralima);
 // stats
 router
   .route("/rapportMensuel/stats/:year/:month")
-  .get(protect, stastBralima);
+  .get( stastBralima);
 
 router
   .route("/rapportMensuel/Allstast/:year/:month")
-  .get(protect, AllProductStatsBralima);
+  .get( AllProductStatsBralima);
 
 router
   .route("/rapportMensuel/suiviAllStats/:year/:month")
-  .get(protect, suiviAllStatsBralima);
+  .get( suiviAllStatsBralima);
 
 router
   .route("/rapportMensuel/suiviDetailStats/:year/:month")
-  .get(protect, suiviDetailStatsBralima);
+  .get( suiviDetailStatsBralima);
 
 router
   .route("/rapportMensuel/yearStats/:year")
-  .get(protect, yearStatsBralima);
+  .get( yearStatsBralima);
 
   //last created element
 router
   .route("/rapportJournalier/lastElement")
-  .get(protect, lastCreatedData);
+  .get( lastCreatedData);
 
 router
   .route("/rapportJournalier/dailyRap/:year/:month/:day")
-  .get(protect, dailyRapBralima);
+  .get( dailyRapBralima);
 
 module.exports = router;
