@@ -4,7 +4,7 @@ const User = require ('../models/userModel');
 const jwt = require('jsonwebtoken');
 const AppError = require('../utils/AppError');
 const sendEmail = require('../utils/email');
-const { sign } = require('crypto');
+const crypto = require('crypto');
 
 const signToken = id => {
     return jwt.sign({id}, process.env.JWT_S, {expiresIn: process.env.EXPIRE_IN});   
@@ -56,10 +56,20 @@ exports.login = catchAssynch (async (req, res, next) => {
 
 })
 exports.updateUser = catchAssynch(async (req, res, next) => {
-
-    const user =  await User.find();
-    /////upcoming
     
+    //create error if user try to update the password
+    if (req.body.password || req.body.confirmPassword) {
+        return next (new AppError('This route cannot be used to update the password', 400));
+    };
+
+    const user = await User.findById(req.user.id);
+
+    user.email = req.body.email;
+    user.name = req.body.name;
+
+    await user.save({validateModifiedOnly: true});
+    
+    tokenSender(200, user, res);
 });
 
 exports.protect = catchAssynch(async (req, res, next) => {
@@ -84,9 +94,9 @@ exports.protect = catchAssynch(async (req, res, next) => {
         return next (new AppError("This user does not belong to this token, please login and try again."));
     };
 
-    //check if the user has already changed it password
-    if (existsUser.changePasswordAfterIsued(decoder.iat)) {
-        return next (new AppError("This user has already changed their password, please try again.", 401 ));
+    //check if the user has already changed it logi information
+    if (existsUser.changePasswordAfterIsued(decoder.iat) || existsUser.changeEmailAfterIsued(decoder.iat)) {
+        return next (new AppError("This user has already changed their password or mail, please try again.", 401 ));
     }; 
 
     //put the user information in the request object
@@ -122,11 +132,11 @@ exports.forgetPassword = catchAssynch (async (req, res, next) => {
         });
     
         res.status(200).json({
-            statusbar: 'success',
+            status: 'success',
             message: 'Token Sent to  email',
         });
     } catch (error) {
-        user.passwrdResetToken = undefined;
+        user.passwordResetToken = undefined;
         user.passwordResetExpires = undefined;
         await user.save({validateBeforeSave: false});
 
@@ -136,7 +146,26 @@ exports.forgetPassword = catchAssynch (async (req, res, next) => {
 
 exports.resetPassword = catchAssynch ( async (req, res, next) => {
 
+    //get the user based on the reset token
+    const hashedToken = crypto.createHash('sha256').update(req.params.token).digest('hex');
 
+    const user = await User.findOne({passwordResetToken: hashedToken,
+        passwordResetExpires: {$gt: Date.now()}
+    });
+
+    if(!user) {
+        return next(new AppError('There is no user belong to this token or this token has expired', 400));
+    };
+
+    //set the new password information
+    user.password = req.body.password;
+    user.confirmPassword = req.body.confirmPassword;
+    console.log (req.body.passwordConfirm, req.body.password);
+    user.passwordResetToken = undefined;
+    user.passwordResetExpires = undefined;
+    await user.save( {validateModifiedOnly: true});
+
+    tokenSender(200, user, res);
 });
 
 exports.updatePassword = catchAssynch ( async (req, res, next) => {
@@ -147,7 +176,7 @@ exports.updatePassword = catchAssynch ( async (req, res, next) => {
 
     //check if the posted password is correct
     if (!req.body.oldPassword || !req.body.newPassword || !req.body.newConfirmPassword) {
-        return next ( new AppError('Please Provide all field',404));
+        return next ( new AppError('Please fill all field',404));
     }
     const confirmPassword = await user?.confirmTapedPassword(req.body.oldPassword, user.password);
 
@@ -157,7 +186,6 @@ exports.updatePassword = catchAssynch ( async (req, res, next) => {
 
     user.password = req.body.newPassword, 
     user.confirmPassword = req.body.newConfirmPassword
-    
     await user.save();
     
     tokenSender(200, user, res);

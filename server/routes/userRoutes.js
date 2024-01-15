@@ -6,7 +6,8 @@ const {signup,
     forgetPassword, 
     resetPassword,
     updatePassword,
-    protect
+    protect,
+    updateUser
 } = require ('../controller/userAuth');
 
 router.route ('/signup').post(signup);
@@ -18,5 +19,7 @@ router.route ('/forgetPassword').post(forgetPassword);
 router.route ('/resetPassword/:token').patch(resetPassword);
 
 router.route ('/updatePassword').patch(protect,updatePassword);
+
+router.route ('/updateUser').patch(protect,updateUser);
 
 module.exports = router;

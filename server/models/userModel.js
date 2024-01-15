@@ -8,7 +8,7 @@ const userSchema = new mongoose.Schema ({
     name: {
 
         type: String,
-        require: true
+        require: [true, 'please veiller taper votre nom']
     },
 
     email: {
@@ -38,13 +38,17 @@ const userSchema = new mongoose.Schema ({
         }
     },
 
+    emailChangedAt: Date,
     passwordChangedAt: Date,
-    passwrdResetToken: String,
+    passwordResetToken: String,
     passwordResetExpires: Date
 });
 
+//crypt the password
 userSchema.pre ('save', async function (next){
+    //check if the password was modified
     if (!this.isModified('password')) return next();
+
 
     //hash the password with the cost of twelve
     this.password = await bcrypt.hash(this.password, 12);
@@ -52,10 +56,27 @@ userSchema.pre ('save', async function (next){
     //delete the confirm password and set it to undefined
     this.confirmPassword = undefined;
 
+    //check if the document is new or not
+    if (!this.isNew) {
+       this.passwordChangedAt = Date.now() - 2000;
+    };
     //then pass to the next milddleware 
     next();
 
 });
+
+//check if the email was changed
+userSchema.pre('save', function(next) {
+    //check if the email was changed
+    if (!this.isModified('email')) return next();
+
+    //check if the document is new or not
+    if(!this.isNew) {
+        this.emailChangedAt = Date.now () - 2000;
+    };
+
+    next();
+})
 
 //compare the taper password and the saved (hashed) password
 userSchema.methods.confirmTapedPassword = function (tapedPassword, userPassword) {
@@ -68,15 +89,24 @@ userSchema.methods.changePasswordAfterIsued = function (JWTTimestamp) {
     if (this.passwordChangedAt) {
         const changedTimestamp = parseInt (this.passwordChangedAt.getTime() / 1000, 10);
 
-        console.log (this.passwordChangedAt)
         return JWTTimestamp < changedTimestamp;
-    }
+    };
 };
 
-userSchema.methods.createPasswordResetToken = function () {
+userSchema.methods.changeEmailAfterIsued = function (JWTTimestamp) {
+    
+    if (this.emailChangedAt) {
+    
+        const changedTimestamp = parseInt (this.emailChangedAt.getTime() / 1000, 10);
+    
+        return JWTTimestamp < changedTimestamp;
+    };
+};
+
+userSchema.methods.createPasswordResetToken = function () { 
 
     const resetToken = crypto.randomBytes(32).toString('hex');
-    this.passwrdResetToken = crypto.createHash('sha256').update(resetToken).digest('hex');
+    this.passwordResetToken = crypto.createHash('sha256').update(resetToken).digest('hex');
     this.passwordResetExpires = Date.now() + 10 * 60 * 1000;
 
     return resetToken;
