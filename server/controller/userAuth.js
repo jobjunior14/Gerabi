@@ -13,6 +13,15 @@ const signToken = id => {
 const tokenSender = (statusCode, user, res ) => {
     const token = signToken(user._id);
 
+    const cookieOptions = {
+        httpOnly: true,
+        expires: new Date (Date.now() + process.env.EXPIRE_COOKIE_IN * 24 * 60 * 60 * 1000)
+    };
+
+    //active the secure cookie's option if we are in the production env
+    if (process.env.NODE_ENV === 'production') cookieOptions.secure = true;
+    //send the token as cookie
+    res.cookie('jwt', token, cookieOptions);
     res.status(statusCode).json({
         status: 'success',
         token: token,
@@ -27,6 +36,8 @@ exports.signup = catchAssynch ( async (req, res) => {
     if (user.length === 0) {
         const newUser = await User.create({name: req.body.name, email: req.body.email, password: req.body.password, confirmPassword: req.body.confirmPassword});
 
+        //to get out the password out of the response sent to the client
+        newUser.password = undefined;
         tokenSender(200, newUser, res);
 
     } else {
@@ -45,13 +56,14 @@ exports.login = catchAssynch (async (req, res, next) => {
     const user = await User.findOne({email}).select('+password');
 
     const correctPassword = await user?.confirmTapedPassword(password, user.password);
-    console.log(correctPassword)
     if (!user || !correctPassword) {
         return next (new AppError('Email ou mot de passe invalide', 401));
     };
 
     //put some information in the request object
     req.loggedIn = true;
+    //to get out the password out of the response sent to the client
+    user.password = undefined;
     tokenSender(200, user, res);
 
 })
@@ -68,7 +80,9 @@ exports.updateUser = catchAssynch(async (req, res, next) => {
     user.name = req.body.name;
 
     await user.save({validateModifiedOnly: true});
-    
+
+    //to get out the password out of the response sent to the client
+    user.password = undefined;
     tokenSender(200, user, res);
 });
 
@@ -160,10 +174,12 @@ exports.resetPassword = catchAssynch ( async (req, res, next) => {
     //set the new password information
     user.password = req.body.password;
     user.confirmPassword = req.body.confirmPassword;
-    console.log (req.body.passwordConfirm, req.body.password);
     user.passwordResetToken = undefined;
     user.passwordResetExpires = undefined;
     await user.save( {validateModifiedOnly: true});
+
+    //to get out the password out of the response sent to the client
+    user.password = undefined;
 
     tokenSender(200, user, res);
 });
@@ -188,6 +204,9 @@ exports.updatePassword = catchAssynch ( async (req, res, next) => {
     user.confirmPassword = req.body.newConfirmPassword
     await user.save();
     
+    //to get out the password out of the response sent to the client
+    user.password = undefined;
+
     tokenSender(200, user, res);
 
 

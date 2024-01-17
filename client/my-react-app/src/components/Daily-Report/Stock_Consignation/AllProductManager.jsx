@@ -178,48 +178,66 @@ export default function Product () {
               
               <ExcelSecLayout toggle = {toggleStoc} />
               {/* buttons to add more product, extend or not the main table */}
-              <div className="my-5 ">
-                <button 
-                  className="bg-gray-500 duration-200 text-gray-50 py-1 px-4 rounded-lg mx-6 hover:bg-gray-600 focus:bg-gray-800 "
-                  onClick={handleToggleBtn}>
-                  { !toggleStoc ? 'Reduire' : 'Agrandir' }</button>
-                { !update && <AddProduct stateAction = {stateAction} />}
-                {/* check what nameComponent is using the component to update the display on the screen  */}
-                { !stateAction && <span>
+              <div className="my-5 block sm:flex justify-center ">
+                {/* reduce or diplay all the data in the suivi stock component */}
+                <div className="mb-3">
+                  <button 
+                    className="bg-gray-500 duration-200 text-gray-50 py-1 px-4 rounded-lg mx-6 hover:bg-gray-600 focus:bg-gray-800 "
+                    onClick={handleToggleBtn}>
+                    { !toggleStoc ? 'Reduire' : 'Agrandir' }</button>
+                </div>
+
+                <div className=" mb-3">
+                  { !update && <AddProduct stateAction = {stateAction} />}
+                </div>
+                {/* check what nameComponent is using the component to update the button's display on the screen  */}
+                { !stateAction && <span className="block sm:flex justify-center">
                   { !update && !stateAction ? 
-                    <button 
-                      className="bg-indigo-500 duration-200 text-gray-50 py-1 px-4 rounded-lg mx-6 hover:bg-gray-600 focus:bg-gray-800 "
-                      onClick={postData}> Enregistrer les données 
-                    </button> : 
-                    
-                    <button
-                      className="bg-indigo-500 duration-200 text-gray-50 py-1 px-4 rounded-lg mx-6 hover:bg-gray-600 focus:bg-gray-800 " 
-                      onClick={UpdateData}> Mettre à jour les données
-                    </button>}
+                    <div className="mt-3">
+                      <button 
+                        className="bg-indigo-500  duration-200 text-gray-50 py-1 px-4 rounded-lg mx-6 hover:bg-gray-600 focus:bg-gray-800 "
+                        onClick={postData}> Enregistrer les données 
+                      </button> 
+                    </div> :
+                    <div className="mt-3">
+                      <button
+                        className="bg-indigo-500 duration-200 text-gray-50 py-1 px-4 rounded-lg mx-6 hover:bg-gray-600 focus:bg-gray-800 " 
+                        onClick={UpdateData}> Mettre à jour les données
+                      </button>
+                    </div>}
                 </span>}
               </div>
     
               {/* display or hide the suivi appro table basing on the component Name if it's DegoBar we will display it and if not we'll hide it */}
-             { stateAction && <span>
-                <h1 className="font-bold lg:text-3xl text-2xl mt-8 mb-5 text-gray-700"> Suivi Approvisinnemnt </h1>
-    
-                <TableSuivi />
-                <button 
-                  className="bg-gray-500 duration- mt-5 text-gray-50 py-1 px-4 rounded-lg mx-6 hover:bg-gray-600 focus:bg-gray-800 "
-                  onClick={() => stateAction ? dispatch (productActions.setProvivers()) : dispatch (alimProductActions.setProvivers())}>{ !update ? 'Afficher Ou Ajouter un Fournisseur' : 'Afficher plus de Fournisseur' } </button>
-              </span>}
-              {stateAction && <span>
-                { !update ? 
-                  <button 
-                    className="bg-indigo-500 duration-200 text-gray-50 py-1 px-4 rounded-lg mx-6 hover:bg-gray-600 focus:bg-gray-800 "
-                    onClick={postData}> Enregistrer les données 
-                  </button> : 
-                  
-                  <button
-                    className="bg-indigo-500 duration-200 text-gray-50 py-1 px-4 rounded-lg mx-6 hover:bg-gray-600 focus:bg-gray-800 " 
-                    onClick={UpdateData}> Mettre à jour les données
-                  </button>}
-              </span>}
+              <div className="">
+
+                { stateAction && <span>
+                    <h1 className="font-bold lg:text-3xl text-2xl mt-8 mb-5 text-gray-700"> Suivi Approvisionnement </h1>
+        
+                    <TableSuivi />
+
+                    <div>
+                      <button 
+                        className="bg-gray-500 duration- mt-5 text-gray-50 py-1 px-4 rounded-lg mx-6 hover:bg-gray-600 focus:bg-gray-800 "
+                        onClick={() => stateAction ? dispatch (productActions.setProvivers()) : dispatch (alimProductActions.setProvivers())}>{ !update ? 'Ajouter un Fournisseur' : 'Afficher plus de Fournisseur' } </button>
+                    </div>
+                  </span>}
+                  {stateAction && <span>
+                    { !update ? 
+                      <div className="my-3">
+                        <button 
+                          className="bg-indigo-500 duration-200 text-gray-50 py-1 px-4 rounded-lg mx-6 hover:bg-gray-600 focus:bg-gray-800 "
+                          onClick={postData}> Enregistrer les données 
+                        </button> 
+                      </div> :
+                      <div>
+                        <button
+                          className="bg-indigo-500 duration-200 text-gray-50 py-1 px-4 rounded-lg mx-6 hover:bg-gray-600 focus:bg-gray-800 " 
+                          onClick={UpdateData}> Mettre à jour les données
+                        </button>
+                      </div>}
+                  </span>}
+              </div>
               {errObj.status && !errObj.errorAllowed ? <h3 className=" text-lg lg:text-2xl text-red-700 mt-6"> {errObj.message} </h3> : <h3> {errObj.message} </h3> }
             </>
           );

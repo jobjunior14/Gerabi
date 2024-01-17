@@ -17,7 +17,7 @@ export function ExcelSecLayout() {
     
     if (productData) {
 
-      setDisplayDataMainExcel(prev => prev = productData.map((prev) => {
+      setDisplayDataMainExcel(prev => productData.map((prev) => {
         return (
           <ExcelMain
             prev={prev}

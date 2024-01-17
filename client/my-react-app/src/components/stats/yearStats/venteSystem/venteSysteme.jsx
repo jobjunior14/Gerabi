@@ -46,10 +46,10 @@ export default function VenteSystemGraph ({graphicWidth, checkWidth})  {
     
     return (
         <div>
-            <h1 className="lg:text-4xl text-3xl font-bold text-gray-800 my-5">Comparaison&nbsp;Annuelle</h1>
-            <div className="border-2 border-slate-400 rounded-lg px-5 py-5">
+            <h1 className="lg:text-4xl text-3xl font-bold text-gray-800 my-3">Comparaison&nbsp;Annuelle</h1>
+            <div className="border-2 border-slate-400 rounded-lg px-1 py-5">
                 <h2 className=" bg-gray-800  rounded-lg p-4 lg:text-3xl text-2xl font-normal text-gray-200 mb-5">DegoBar</h2>
-                <div className=" px-4" >
+                <div className=" px-0.5" >
                     <div className="flex justify-center">
                         <h2 className="lg:text-xl text-lg font-light text-gray-600 my-5 absolute">Vente Bar</h2>
                         <div className="border-2 border-slate-400 p-4 overflow-x-auto max-w-fit mt-14 rounded-lg">
@@ -86,7 +86,7 @@ export default function VenteSystemGraph ({graphicWidth, checkWidth})  {
                 </div>
                 
                 <h2 className=" bg-gray-800  rounded-lg p-4 lg:text-3xl text-2xl font-normal text-gray-200 my-5">Alimentation</h2>
-                <div className=" px-4">
+                <div className=" px-0.5">
                     <div className="flex justify-center">
                         <h2 className="lg:text-xl text-lg font-light text-gray-600 my-5 absolute">Vente Bar</h2>
                         <div className="border-2 border-slate-400 p-4 overflow-x-auto max-w-fit mt-14 rounded-lg">

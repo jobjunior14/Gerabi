@@ -136,7 +136,7 @@ export default function SoriteCaisse ({loading}) {
     
             //set the sold caisse
             dispatch(suiviDepenseActions.setTotalSortieCaisse(totalSortieCaisse));
-        };
+        }
     }, [sortieCaisse, readOnly]);
 
 
@@ -177,9 +177,14 @@ export default function SoriteCaisse ({loading}) {
                             </table>
                     </div>
                     </div>
-                    <div  className="mt-5">
-                        { !readOnly && <button className="px-5 py-1  bg-gray-500 text-gray-100 rounded-md -mt-8  mx-2" onClick={() => dispatch(suiviDepenseActions.addLibelMontantSortie())}> Ajouter un justificatif</button>}
-                        { !readOnly && <button className="px-5 py-1  bg-gray-500 text-gray-100 rounded-md -mt-8  mx-2" onClick={() => dispatch(suiviDepenseActions.addFonctionSortie())}> Ajouter une fonction</button>}
+                    <div  className="mt-5 block sm:flex justify-center">
+                        <div className="mb-3">
+                            { !readOnly && <button className="px-5 py-1  bg-gray-500 text-gray-100 rounded-md -mt-8  mx-2 text-sm sm:text-base" onClick={() => dispatch(suiviDepenseActions.addLibelMontantSortie())}> Ajouter un justificatif</button>}
+                        </div>
+
+                        <div>
+                            { !readOnly && <button className="px-5 py-1  bg-gray-500 text-gray-100 rounded-md -mt-8  mx-2 text-sm sm:text-base" onClick={() => dispatch(suiviDepenseActions.addFonctionSortie())}> Ajouter une fonction</button>}
+                        </div>
                     </div>
                 </div>
             )

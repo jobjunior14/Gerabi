@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useSelector, useDispatch } from "react-redux";
 import { productActions } from "../../../store/AllProductManager-slice";
 import { alimProductActions } from "../../../store/AllProductManagerAlim-slice";
