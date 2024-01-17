@@ -14,6 +14,7 @@ export function ExcelMain(props)
     const dispatch = useDispatch();
     const id = useId();
     
+    const inputStyle = "w-28 bg-gray-50 duration-150 focus:scale-105 focus:outline-none focus:border-2 appearance-none border-2 focus:border-indigo-700 ";
     if (stateAction) {
         
         return (
@@ -40,7 +41,7 @@ export function ExcelMain(props)
                 {
                     <td className="border-2 border-gray-800">
                         <input
-                            className="w-28 bg-gray-50 duration-150 focus:scale-105 focus:outline-none focus:border-2 appearance-none border-2 focus:border-indigo-700 " 
+                            className={inputStyle} 
                             value = { props.prev.achat_journalier.qt_caisse}
                             id = { props.prev.id + id + 'achat_journalier_qtCaisse' }
                             name = 'achat_journalier'
@@ -59,7 +60,7 @@ export function ExcelMain(props)
                 {
                     <td className="border-2 border-gray-800">
                         <input
-                            className="w-28 bg-gray-50 duration-150 focus:scale-105 focus:outline-none focus:border-2 appearance-none border-2 focus:border-indigo-700  focus:border-2 appearance-none border-2 focus:border-indigo-700 foucus:border-indigo-400" 
+                            className="w-28 bg-gray-50 duration-150 focus:scale-105 focus:outline-none focus:border-indigo-700  focus:border-2 appearance-none border-2 " 
                             value = { props.prev.achat_journalier.nbr_btll}
                             id = { props.prev.id + id + 'achat_journalierNbr_Btll' }
                             name = 'achat_journalier'
@@ -80,7 +81,7 @@ export function ExcelMain(props)
                 {
                     <td className="border-2 border-gray-800">
                         <input
-                            className="w-28 bg-gray-50 duration-150 focus:scale-105 focus:outline-none focus:border-2 appearance-none border-2 focus:border-indigo-700  focus:border-2 appearance-none border-2 focus:border-indigo-700 foucus:border-indigo-400" 
+                            className={inputStyle} 
                             value = { props.prev.achat_journalier.prix_achat_gros}
                             id = { props.prev.id + id + "achat_journalierAchatGros" }
                             name = 'achat_journalier'
@@ -107,7 +108,7 @@ export function ExcelMain(props)
                 {
                     <td className="border-2 border-gray-800">
                         <input
-                            className="w-28 bg-gray-50 duration-150 focus:scale-105 focus:outline-none focus:border-2 appearance-none border-2 focus:border-indigo-700  focus:border-2 appearance-none border-2 focus:border-indigo-700 foucus:border-indigo-400" 
+                            className={inputStyle} 
                             value = { props.prev.business_projection.sortie_cave}
                             id = { props.prev.id + id + "business_projectionSortieCave"}
                             name = 'business_projection'
@@ -136,7 +137,7 @@ export function ExcelMain(props)
                 {
                     <td className="border-2 border-gray-800">
                         <input
-                            className="w-28 bg-gray-50 duration-150 focus:scale-105 focus:outline-none focus:border-2 appearance-none border-2 focus:border-indigo-700  focus:border-2 appearance-none border-2 focus:border-indigo-700 foucus:border-indigo-400" 
+                            className={inputStyle} 
                             value = { props.prev.vente_journaliere.ref_prix_det}
                             id = { props.prev.id + id + 'vente_journalierePrixdet'}
                             name = 'vente_journaliere'
@@ -161,7 +162,7 @@ export function ExcelMain(props)
                 {
                     <td className="border-2 border-gray-800">
                         <input
-                            className="w-28 bg-gray-50 duration-150 focus:scale-105 focus:outline-none focus:border-2 appearance-none border-2 focus:border-indigo-700  focus:border-2 appearance-none border-2 focus:border-indigo-700 foucus:border-indigo-400" 
+                            className={inputStyle} 
                             value = { props.prev.stock_consignaions.qt}
                             id = { props.prev.id + id + "stock_consignaionsQt"}
                             name = 'stock_consignaions'
@@ -182,7 +183,7 @@ export function ExcelMain(props)
                 {
                     <td className="border-2 border-gray-800">
                         <input
-                            className="w-28 bg-gray-50 duration-150 focus:scale-105 focus:outline-none focus:border-2 appearance-none border-2 focus:border-indigo-700  focus:border-2 appearance-none border-2 focus:border-indigo-700 foucus:border-indigo-400" 
+                            className={inputStyle} 
                             value = { props.prev.val_precedente.stock_apres_ventente_rest_stock_comptoir_qt_btll}
                             id = { props.prev.id + id + 'val_precedentestock_apres_ventente_rest_stock_comptoir_qt_btll' }
                             name = 'val_precedente'
@@ -201,7 +202,7 @@ export function ExcelMain(props)
                 {
                     <td className="border-2 border-gray-800">
                         <input
-                            className="w-28 bg-gray-50 duration-150 focus:scale-105 focus:outline-none focus:border-2 appearance-none border-2 focus:border-indigo-700  focus:border-2 appearance-none border-2 focus:border-indigo-700 foucus:border-indigo-400" 
+                            className={inputStyle} 
                             value = { props.prev.val_precedente.stock_apres_ventente_rest_stock_depot_qt_btll}
                             id = { props.prev.id + id + "val_precedentestock_apres_ventente_rest_stock_depot_qt_btll"}
                             name = 'val_precedente'
@@ -221,7 +222,7 @@ export function ExcelMain(props)
                     {
                         <td className="border-2 border-gray-800" >
                             <input
-                                className="w-28 bg-gray-50 duration-150 focus:scale-105 focus:outline-none focus:border-2 appearance-none border-2 focus:border-indigo-700  focus:border-2 appearance-none border-2 focus:border-indigo-700 foucus:border-indigo-400" 
+                                className={inputStyle} 
                                 value = { props.prev.stock_apres_vente.reste_stock_comptoir.qt_btll}
                                 id = { props.prev.id + id + 'stock_apres_ventereste_stock_comptoirqt_btll'}
                                 name = 'stock_apres_vente'
@@ -241,7 +242,7 @@ export function ExcelMain(props)
                     {
                         <td className="border-2 border-gray-800">
                             <input
-                                className="w-28 bg-gray-50 duration-150 focus:scale-105 focus:outline-none focus:border-2 appearance-none border-2 focus:border-indigo-700  focus:border-2 appearance-none border-2 focus:border-indigo-700 foucus:border-indigo-400" 
+                                className={inputStyle} 
                                 value = { props.prev.stock_apres_vente.reste_stock_depot.qt_caisses}
                                 id = { props.prev.id + id + "stock_apres_ventereste_stock_depotqt_caisses"}
                                 name = 'stock_apres_vente'
@@ -274,7 +275,7 @@ export function ExcelMain(props)
                 {
                     <td className="border-2 border-gray-800" id = {props.prev.id} name = { `name${props.prev.id}`}>
                         <input
-                            className="w-28 bg-gray-50 duration-150 focus:scale-105 focus:outline-none focus:border-2 appearance-none border-2 focus:border-indigo-700  focus:border-2 appearance-none border-2 focus:border-indigo-700 foucus:border-indigo-400" 
+                            className={inputStyle} 
                             value = { props.prev.name}
                             id = { props.prev.id + id + 'name' }
                             name = 'name' 
@@ -293,7 +294,7 @@ export function ExcelMain(props)
                 {
                     <td className="border-2 border-gray-800">
                         <input
-                            className="w-28 bg-gray-50 duration-150 focus:scale-105 focus:outline-none focus:border-2 appearance-none border-2 focus:border-indigo-700  focus:border-2 appearance-none border-2 focus:border-indigo-700 foucus:border-indigo-400" 
+                            className={inputStyle} 
                             value = { props.prev.achat_journalier.qt_caisse}
                             id = { props.prev.id + id + 'prev.achat_journalier.qt_caisse' }
                             name = 'achat_journalier'
@@ -312,7 +313,7 @@ export function ExcelMain(props)
                 {
                     <td className="border-2 border-gray-800">
                         <input
-                            className="w-28 bg-gray-50 duration-150 focus:scale-105 focus:outline-none focus:border-2 appearance-none border-2 focus:border-indigo-700  focus:border-2 appearance-none border-2 focus:border-indigo-700 foucus:border-indigo-400" 
+                            className={inputStyle} 
                             value = { props.prev.achat_journalier.nbr_btll}
                             id = { props.prev.id + id + 'achat_journalier.nbr_btll'}
                             name = 'achat_journalier'
@@ -333,7 +334,7 @@ export function ExcelMain(props)
                 {
                     <td className="border-2 border-gray-800">
                         <input
-                            className="w-28 bg-gray-50 duration-150 focus:scale-105 focus:outline-none focus:border-2 appearance-none border-2 focus:border-indigo-700  focus:border-2 appearance-none border-2 focus:border-indigo-700 foucus:border-indigo-400" 
+                            className={inputStyle} 
                             value = { props.prev.achat_journalier.prix_achat_gros}
                             id = { props.prev.id + id + 'achat_journalier.prix_achat_gros' }
                             name = 'achat_journalier'
@@ -360,7 +361,7 @@ export function ExcelMain(props)
                 {
                     <td className="border-2 border-gray-800">
                         <input
-                            className="w-28 bg-gray-50 duration-150 focus:scale-105 focus:outline-none focus:border-2 appearance-none border-2 focus:border-indigo-700  focus:border-2 appearance-none border-2 focus:border-indigo-700 foucus:border-indigo-400" 
+                            className={inputStyle} 
                             value = { props.prev.business_projection.sortie_dego}
                             id = { props.prev.id + id + 'business_projection.sortie_dego' }
                             name = 'business_projection'
@@ -389,7 +390,7 @@ export function ExcelMain(props)
                 {
                     <td className="border-2 border-gray-800">
                         <input
-                            className="w-28 bg-gray-50 duration-150 focus:scale-105 focus:outline-none focus:border-2 appearance-none border-2 focus:border-indigo-700  focus:border-2 appearance-none border-2 focus:border-indigo-700 foucus:border-indigo-400" 
+                            className={inputStyle} 
                             value = { props.prev.vente_journaliere.ref_prix_det}
                             id = { props.prev.id + id + 'vente_journaliere.ref_prix_det' }
                             name = 'vente_journaliere'
@@ -414,7 +415,7 @@ export function ExcelMain(props)
                 {
                     <td className="border-2 border-gray-800">
                         <input
-                            className="w-28 bg-gray-50 duration-150 focus:scale-105 focus:outline-none focus:border-2 appearance-none border-2 focus:border-indigo-700  focus:border-2 appearance-none border-2 focus:border-indigo-700 foucus:border-indigo-400" 
+                            className={inputStyle} 
                             value = { props.prev.stock_consignaions.qt}
                             id = { props.prev.id + id + 'stock_consignaions.qt'}
                             name = 'stock_consignaions'
@@ -435,7 +436,7 @@ export function ExcelMain(props)
                 {
                     <td className="border-2 border-gray-800">
                         <input
-                            className="w-28 bg-gray-50 duration-150 focus:scale-105 focus:outline-none focus:border-2 appearance-none border-2 focus:border-indigo-700  focus:border-2 appearance-none border-2 focus:border-indigo-700 foucus:border-indigo-400" 
+                            className={inputStyle} 
                             value = { props.prev.val_precedente.stock_apres_ventente_rest_stock_comptoir_qt_btll}
                             id = { props.prev.id + id + 'val_precedente.stock_apres_ventente_rest_stock_comptoir_qt_btll'}
                             name = 'val_precedente'
@@ -454,7 +455,7 @@ export function ExcelMain(props)
                 {
                     <td className="border-2 border-gray-800">
                         <input
-                            className="w-28 bg-gray-50 duration-150 focus:scale-105 focus:outline-none focus:border-2 appearance-none border-2 focus:border-indigo-700  focus:border-2 appearance-none border-2 focus:border-indigo-700 foucus:border-indigo-400" 
+                            className={inputStyle} 
                             value = { props.prev.val_precedente.stock_apres_ventente_rest_stock_depot_qt_btll}
                             id = { props.prev.id + id + 'val_precedente.stock_apres_ventente_rest_stock_depot_qt_btll'}
                             name = 'val_precedente'
@@ -473,7 +474,7 @@ export function ExcelMain(props)
                 {
                     <td className="border-2 border-gray-800" >
                         <input
-                            className="w-28 bg-gray-50 duration-150 focus:scale-105 focus:outline-none focus:border-2 appearance-none border-2 focus:border-indigo-700  focus:border-2 appearance-none border-2 focus:border-indigo-700 foucus:border-indigo-400" 
+                            className={inputStyle} 
                             value = { props.prev.stock_apres_vente.reste_stock}
                             id = { props.prev.id + id + 'stock_apres_vente.reste_stock'}
                             name = 'stock_apres_vente'
@@ -491,5 +492,5 @@ export function ExcelMain(props)
                 { !toggleStoc && <td className="border-2 border-gray-800">  { props.prev.stock_apres_vente.valeur} </td> } 
             </tr>
         );
-    };
-};
+    }
+}

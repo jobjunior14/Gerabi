@@ -11,7 +11,7 @@ export default function FirstHeader ()
         if (window.innerWidth <= 1024) setToggleBtn(prev => prev === 'hidden' ? 'flex-col' : 'hidden');
     }
 
-   
+    const activeLink = "duration-300 my-9 lg:my-0  hover:text-indigo-300 block lg:flex font-bold text-indigo-600 lg:mx-10";
     return (
         <nav className='justify-between  sticky w-full py-4 px-9 z-50 bg-white rounded-xl shadow-lg flex items-center -top-1 duration-300'>
 
@@ -26,11 +26,11 @@ export default function FirstHeader ()
                 <div className='block lg:flex items-center lg:mr-40 justify-between'>
                     <NavLink 
                         onClick={toggle}
-                        className={ ({isActive}) => isActive ? "duration-300 my-9 lg:my-0  hover:text-indigo-300 block lg:flex font-bold text-indigo-600 lg:mx-10" : 'duration-300 my-9 lg:my-0 block lg:flex hover:text-indigo-300 font-bold text-gray-800 lg:mx-10'}
+                        className={ ({isActive}) => isActive ? activeLink : 'duration-300 my-9 lg:my-0 block lg:flex hover:text-indigo-300 font-bold text-gray-800 lg:mx-10'}
                         to = {`/rapportMensuel?year=${currentYear}&month=${currentMonth}&day=${currentDay} `}> Rapport Mensuel </NavLink>
                     <NavLink 
                         onClick={toggle}
-                        className={ ({isActive}) => isActive ? "duration-300 my-9 lg:my-0  hover:text-indigo-300 block lg:flex font-bold text-indigo-600 lg:mx-10" : 'duration-300 my-9 lg:my-0 hover:text-indigo-300 block lg:flex font-bold text-gray-800 lg:mx-10'}
+                        className={ ({isActive}) => isActive ? activeLink : 'duration-300 my-9 lg:my-0 hover:text-indigo-300 block lg:flex font-bold text-gray-800 lg:mx-10'}
                         to = {`/rapportJournalier?year=${currentYear}&month=${currentMonth}&day=${currentDay} `}> Rapport Journalier </NavLink>
                 </div>
                 <div className=' bg-gray-700 px-3 py-2 block lg:flex justify-center items-center rounded-lg '>

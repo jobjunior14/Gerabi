@@ -36,7 +36,8 @@ export function TableSuivi () {
         }
     }, [productData, providers]);
 
-    
+    const thStyle = " py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900";
+    const rowSpan = 2;
     if (stateAction) {
 
        
@@ -47,9 +48,9 @@ export function TableSuivi () {
                     <table className=" border-collapse duration-300 table-fixed font-normal border-2 border-gray-900">
                         <thead>
                             <tr>
-                                <th rowSpan= '2' className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900"> Produit </th>
-                                <th rowSpan= '2' className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900"> Prix Achat Gros  </th>
-                                <th rowSpan= '2' className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900"> Nbr Btll  </th>
+                                <th rowSpan= {rowSpan} className={thStyle}> Produit </th>
+                                <th rowSpan= {rowSpan} className={thStyle}> Prix Achat Gros  </th>
+                                <th rowSpan= {rowSpan} className={thStyle}> Nbr Btll  </th>
                                 <InputsTh key  = {0} providers = {providers} />
                             </tr>
                             <InputsTh2  key = {1} providers = {providers} />

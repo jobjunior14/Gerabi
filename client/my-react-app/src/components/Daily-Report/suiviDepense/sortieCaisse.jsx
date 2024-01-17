@@ -1,4 +1,3 @@
-import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { suiviDepenseActions } from "../../store/suiviDepense-slice";
 import { useId,useEffect, useState } from "react";
@@ -50,10 +49,11 @@ export default function SoriteCaisse ({loading}) {
                     </th>
                 );
                 //arry of Sub TH
-                SavesubTAbleHeadersSortieCaisse.push(<td className="bg-slate-300 border-2 border-gray-900" key={`tdlibel${i}`}> Libelé </td>);
-                SavesubTAbleHeadersSortieCaisse.push (<td className="bg-slate-300 border-2 border-gray-900" key={`tdmontant${i}`}> Montant </td>);
+                const subThStyle = "bg-slate-300 border-2 border-gray-900";
+                SavesubTAbleHeadersSortieCaisse.push(<td className={subThStyle} key={`tdlibel${i}`}> Libelé </td>);
+                SavesubTAbleHeadersSortieCaisse.push (<td className={subThStyle} key={`tdmontant${i}`}> Montant </td>);
             };
-            //set the state
+            //set the state 
             setTableHeaderSortieCaisse( SavetableHeaderSortieCaisse );
             setSubTAbleHeadersSortieCaisse( SavesubTAbleHeadersSortieCaisse );
             

@@ -14,7 +14,7 @@ export default function useDataFetcherSuiviStock ({componentName, productName, v
     const [customUpdate, setCustomUpdate] = useState(true);
     const [readOnly, setReadOnly] = useState(true);
     const [ loading, setLoading] = useState(false);
-    const [error, setError] = useState('');
+    const [error, setError] = useState(null);
 
     const fetchData = async () =>{
         //reinitialize some state to see the loading page while posting data

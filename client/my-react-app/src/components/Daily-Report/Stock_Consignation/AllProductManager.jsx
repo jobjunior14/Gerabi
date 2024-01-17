@@ -1,5 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
-import {useSelector, useDispatch } from 'react-redux'
+import { useEffect, useRef, useState } from "react";
+import {useSelector, useDispatch } from 'react-redux';
+import { Link } from "react-router-dom";
 import { ExcelSecLayout } from "./productComp/Stock_Sec_Layout";
 import { TableSuivi } from "./suiviAppro/SuiviTable";
 import DailyFilter from "../../filter/filterDailyRap";
@@ -47,7 +48,7 @@ export default function Product () {
   const venteDego = useSelector (state => state[sliceName].vente);
 
   //custome hooks to post and update Data
-  const {pAnduData, pAnduId, pAnduReadOnly, pAnduUpdate, pAnduLoading, pAnduVente, postAndUpdate} = usePostAndUpdateData(
+  const {pAnduData, pAnduId, pAnduReadOnly, pAnduUpdate, pAnduLoading, pAnduVente, postAndUpdate, pAnduError} = usePostAndUpdateData(
     {
       componentName,
       productName,
@@ -58,7 +59,7 @@ export default function Product () {
   //error message before sending the data to the server
   const {errObj, setTheErrorMessage} = useErroMessage ({refVenteJournaliere: venteJournaliereRef, componentName: componentName});
 
-  const {vente, customId, data, customUpdate, readOnly, loading} = useDataFetcherSuiviStock(
+  const {vente, customId, data, customUpdate, readOnly, loading, error} = useDataFetcherSuiviStock(
     {
       componentName,
       productName,
@@ -256,15 +257,37 @@ export default function Product () {
           
         };
       } else {
-        return (
-          <div className="relative items-center justify-center top-40"> 
-            <div className="flex items-center justify-center space-x-2">
-              <div className="w-8 h-8 rounded-full animate-pulse dark:bg-indigo-400"></div>
-              <div className="w-8 h-8 rounded-full animate-pulse dark:bg-indigo-400"></div>
-              <div className="w-8 h-8 rounded-full animate-pulse dark:bg-indigo-400"></div>
+        //the loading page
+        if (loading || pAnduLoading) {
+          return (
+            <div className="relative items-center justify-center top-40"> 
+              <div className="flex items-center justify-center space-x-2">
+                <div className="w-3 h-3 rounded-full animate-pulse dark:bg-indigo-400"></div>
+                <div className="w-3 h-3 rounded-full animate-pulse dark:bg-indigo-400"></div>
+                <div className="w-3 h-3 rounded-full animate-pulse dark:bg-indigo-400"></div>
+              </div>
             </div>
-          </div>
-        );
+          );
+        }
+
+        //the loadind data error page
+        if (error) {
+          return (
+            <div className="my-10">
+              <h2 className="text-2xl text-gray-800">Ces données sont manquantes s&apos;il vous retourner à la page d&apos;<Link className="underline hover:text-indigo-600 text-gray-800" to={'/'}>Acceuil</Link></h2>
+            </div>
+          )
+        }
+        
+        //error on posting Data
+        if (pAnduError) {
+          
+          return (
+            <div className="my-10">
+              <h2 className="text-2xl text-gray-800">Un probleme est survenu lors de la mise à jours des données s&apos;il vous retourner à la page d&apos;<Link className="underline hover:text-indigo-600 text-gray-800" to={'/'}>Acceuil</Link></h2>
+            </div>
+          )
+        }
       };
     };
   };

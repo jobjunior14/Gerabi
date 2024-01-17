@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useSelector } from "react-redux";
 import searchImage from "../../../assets/searchImage.png"
 
@@ -7,9 +8,8 @@ export default function Benefice ({depenseEff}) {
     const data = useSelector(state => state.mensRapport.suiviVente);
     const perte = useSelector(state => state.mensRapport.perte);
     
-    // useEffect(() => {
-
-    // }, [data, perte])
+    const thStyle = " py-1 bg-indigo-200 px-12 border-solid font-normal border-2 border-gray-900";
+    const tdStyle = "border-2 border-gray-800";
     if ( data.bralima && data.brasimba && data.autreProduit && data.liqueurs ) {
 
         if ( data.bralima.length > 0 && data.brasimba.length > 0 && data.autreProduit.length > 0 && data.liqueurs.length > 0 ) {
@@ -24,46 +24,46 @@ export default function Benefice ({depenseEff}) {
                     <table className=" border-collapse duration-300 table-fixed font-normal border-2 border-gray-900">
                         <thead>
                             <tr>
-                                <th className=" py-1 bg-indigo-200 px-12 border-solid font-normal border-2 border-gray-900"> Libelé </th>
-                                <th className=" py-1 bg-indigo-200 px-12 border-solid font-normal border-2 border-gray-900"> Montant </th>
+                                <th className={thStyle}> Libelé </th>
+                                <th className={thStyle}> Montant </th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr className="bg-gray-100">
-                                <td className="border-2 border-gray-800"> Bralima </td>
-                                <td className="border-2 border-gray-800"> {data.bralima[0].benefice}</td>
+                                <td className={tdStyle}> Bralima </td>
+                                <td className={tdStyle}> {data.bralima[0].benefice}</td>
                             </tr>
                             <tr>
-                                <td className="border-2 border-gray-800"> Brasimba </td>
-                                <td className="border-2 border-gray-800"> {data.brasimba[0].benefice}</td>
+                                <td className={tdStyle}> Brasimba </td>
+                                <td className={tdStyle}> {data.brasimba[0].benefice}</td>
                             </tr>
                             <tr className="bg-gray-100">
-                                <td className="border-2 border-gray-800"> Autre Produit </td>
-                                <td className="border-2 border-gray-800"> {data.autreProduit[0].benefice}</td>
+                                <td className={tdStyle}> Autre Produit </td>
+                                <td className={tdStyle}> {data.autreProduit[0].benefice}</td>
                             </tr>
                             <tr>
-                                <td className="border-2 border-gray-800"> Liqueurs </td>
-                                <td className="border-2 border-gray-800"> {data.liqueurs[0].benefice}</td>
+                                <td className={tdStyle}> Liqueurs </td>
+                                <td className={tdStyle}> {data.liqueurs[0].benefice}</td>
                             </tr>
                             <tr className="bg-gray-100">
-                                <td className="border-2 border-gray-800"> Total </td>
-                                <td className="border-2 border-gray-800"> {total}</td>
+                                <td className={tdStyle}> Total </td>
+                                <td className={tdStyle}> {total}</td>
                             </tr>
                             <tr>
-                                <td className="border-2 border-gray-800"> _</td>
-                                <td className="border-2 border-gray-800">_</td>
+                                <td className={tdStyle}> _</td>
+                                <td className={tdStyle}>_</td>
                             </tr>
                             <tr className="bg-red-100">
-                                <td className="border-2 border-gray-800"> Pertes </td>
-                                <td className="border-2 border-gray-800"> {perte}</td>
+                                <td className={tdStyle}> Pertes </td>
+                                <td className={tdStyle}> {perte}</td>
                             </tr>
                             <tr>
-                                <td className="border-2 border-gray-800"> Dépenses éffectuées  </td>
-                                <td className="border-2 border-gray-800"> {depenseEff}</td>
+                                <td className={tdStyle}> Dépenses éffectuées  </td>
+                                <td className={tdStyle}> {depenseEff}</td>
                             </tr>
                             <tr className="bg-green-100">
-                                <td className="border-2 border-gray-800">Benefice net  </td>
-                                <td className="border-2 border-gray-800"> {total - (perte + depenseEff)} </td>
+                                <td className={tdStyle}>Benefice net  </td>
+                                <td className={tdStyle}> {total - (perte + depenseEff)} </td>
                             </tr>
                         </tbody>
                     </table>

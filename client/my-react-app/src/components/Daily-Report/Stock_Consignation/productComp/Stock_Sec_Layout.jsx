@@ -28,6 +28,7 @@ export function ExcelSecLayout() {
     };
   }, [productData]);
 
+  const thStyle = " py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900";
   if (stateAction) {
 
     if (!toggleStoc) {
@@ -37,62 +38,62 @@ export function ExcelSecLayout() {
           <table className=" border-collapse duration-300 table-fixed font-normal border-2 border-gray-900" >
             <thead>
               <tr>
-                <th rowSpan="3" className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900">
+                <th rowSpan="3" className={thStyle}>
                   NOM
                 </th>
-                <th colSpan="4" className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900">
+                <th colSpan="4" className={thStyle}>
                   ACHAT JOURNALIER
                 </th>
-                <th colSpan="3" className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900">
+                <th colSpan="3" className={thStyle}>
                   BENEFICE SUR ACHAT
                 </th>
-                <th colSpan="7" className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900">
+                <th colSpan="7" className={thStyle}>
                   BUSINESS PROJECTION
                 </th>
-                <th colSpan="3" className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900">
+                <th colSpan="3" className={thStyle}>
                   VENTE JOURNALIERE
                 </th>
-                <th rowSpan="2" className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900">
+                <th rowSpan="2" className={thStyle}>
                   BENEFICE SUR VENTE
                 </th>
-                <th colSpan="2" className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900">
+                <th colSpan="2" className={thStyle}>
                   STOCK CONSIGNATION
                 </th>
-                <th colSpan="2" className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900">
+                <th colSpan="2" className={thStyle}>
                   STOCK INITIAL
                 </th>
-                <th colSpan="3" className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900">
+                <th colSpan="3" className={thStyle}>
                   STOCK APRES VENTE
                 </th>
               </tr>
     
               <tr>
-                <th className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900"> QUANTITE CAISSE </th>
-                <th className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900"> QUANTITE Btll </th>
-                <th className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900">Nbr Btll/C</th>
-                <th className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900">Prix d'achat Gros </th>
+                <th className={thStyle}> QUANTITE CAISSE </th>
+                <th className={thStyle}> QUANTITE Btll </th>
+                <th className={thStyle}>Nbr Btll/C</th>
+                <th className={thStyle}>Prix d'achat Gros </th>
     
-                <th className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900">Val Gros Appro</th>
-                <th className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900"> Val Detail</th>
-                <th className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900"> Benefice</th>
+                <th className={thStyle}>Val Gros Appro</th>
+                <th className={thStyle}> Val Detail</th>
+                <th className={thStyle}> Benefice</th>
     
-                <th className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900">STOCK GEN</th>
-                <th className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900">Sortie Cave</th>
-                <th className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900"> Stock Degobar</th>
-                <th className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900">Valeur stock Det</th>
-                <th className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900"> Ref prix Gros</th>
-                <th className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900">Val stock Gros</th>
-                <th className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900">Marge Benef</th>
+                <th className={thStyle}>STOCK GEN</th>
+                <th className={thStyle}>Sortie Cave</th>
+                <th className={thStyle}> Stock Degobar</th>
+                <th className={thStyle}>Valeur stock Det</th>
+                <th className={thStyle}> Ref prix Gros</th>
+                <th className={thStyle}>Val stock Gros</th>
+                <th className={thStyle}>Marge Benef</th>
     
-                <th className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900"> Ref prix Det</th>
-                <th className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900"> Qte Vendue comptoir</th>
-                <th className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900"> Valeur </th>
+                <th className={thStyle}> Ref prix Det</th>
+                <th className={thStyle}> Qte Vendue comptoir</th>
+                <th className={thStyle}> Valeur </th>
     
-                <th className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900">Quantié</th>
-                <th className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900"> Valeur </th>
+                <th className={thStyle}>Quantié</th>
+                <th className={thStyle}> Valeur </th>
     
-                <th className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900"> Reste comptoir qt Btll</th>
-                <th className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900"> Reste depot qt Btll</th>
+                <th className={thStyle}> Reste comptoir qt Btll</th>
+                <th className={thStyle}> Reste depot qt Btll</th>
     
                 <tr>
                   <th
@@ -202,42 +203,42 @@ export function ExcelSecLayout() {
           <table className=" border-collapse duration-300 table-fixed font-normal border-2 border-gray-900">
             <thead>
               <tr>
-                <th rowSpan="3" className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900">
+                <th rowSpan="3" className={thStyle}>
                   NOM
                 </th>
-                <th colSpan="3" className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900">
+                <th colSpan="3" className={thStyle}>
                   ACHAT JOURNALIER
                 </th>
-                <th colSpan="1" className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900">
+                <th colSpan="1" className={thStyle}>
                   Business Projection
                 </th>
-                <th colSpan="1" className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900">
+                <th colSpan="1" className={thStyle}>
                   VENTE JOURNALIERE
                 </th>
-                <th colSpan="1" className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900">
+                <th colSpan="1" className={thStyle}>
                   STOCK CONSIGNATION
                 </th>
-                <th colSpan="2" className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900">
+                <th colSpan="2" className={thStyle}>
                   STOCK INITIAL
                 </th>
-                <th colSpan="3" className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900">
+                <th colSpan="3" className={thStyle}>
                   STOCK APRES VENTE
                 </th>
               </tr>
     
               <tr>
-                <th className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900"> Qt  Caisse </th>
-                <th className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900"> Qt Bouteilles </th>
-                <th className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900">Prix d'achat Gros </th>
+                <th className={thStyle}> Qt  Caisse </th>
+                <th className={thStyle}> Qt Bouteilles </th>
+                <th className={thStyle}>Prix d'achat Gros </th>
     
-                <th className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900">Sortie Cave</th>
+                <th className={thStyle}>Sortie Cave</th>
     
-                <th className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900"> Ref prix Det</th>
+                <th className={thStyle}> Ref prix Det</th>
     
-                <th className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900">Quanté</th>
+                <th className={thStyle}>Quanté</th>
     
-                <th className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900"> Reste comptoir qt Btll</th>
-                <th className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900"> Reste depot qt Btll</th>
+                <th className={thStyle}> Reste comptoir qt Btll</th>
+                <th className={thStyle}> Reste depot qt Btll</th>
     
                 <tr>
                   <th
@@ -306,65 +307,65 @@ export function ExcelSecLayout() {
           <table className=" border-collapse duration-300 table-fixed font-normal border-2 border-gray-900" >
             <thead>
               <tr>
-                <th rowSpan="3" className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900">
+                <th rowSpan="3" className={thStyle}>
                   NOM
                 </th>
-                <th colSpan="4" className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900">
+                <th colSpan="4" className={thStyle}>
                   ACHAT JOURNALIER
                 </th>
-                <th colSpan="3" className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900">
+                <th colSpan="3" className={thStyle}>
                   BENEFICE SUR ACHAT
                 </th>
-                <th colSpan="7" className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900">
+                <th colSpan="7" className={thStyle}>
                   BUSINESS PROJECTION
                 </th>
-                <th colSpan="3" className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900">
+                <th colSpan="3" className={thStyle}>
                   VENTE JOURNALIERE
                 </th>
-                <th rowSpan="2" className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900">
+                <th rowSpan="2" className={thStyle}>
                   BENEFICE SUR VENTE
                 </th>
-                <th colSpan="2" className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900">
+                <th colSpan="2" className={thStyle}>
                   STOCK CONSIGNATION
                 </th>
-                <th colSpan="2" className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900">
+                <th colSpan="2" className={thStyle}>
                   STOCK INITIAL
                 </th>
-                <th colSpan="2" className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900">
+                <th colSpan="2" className={thStyle}>
                   STOCK APRES VENTE
                 </th>
               </tr>
     
               <tr>
-                <th className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900"> QUANTITE CAISSE </th>
-                <th className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900"> QUANTITE Btll </th>
-                <th className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900">Nbr Btll/C</th>
-                <th className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900">Prix d'achat Gros </th>
+                <th className={thStyle}> QUANTITE CAISSE </th>
+                <th className={thStyle}> QUANTITE Btll </th>
+                <th className={thStyle}>Nbr Btll/C</th>
+                <th className={thStyle}>Prix d'achat Gros </th>
     
-                <th className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900">Val Gros Appro</th>
-                <th className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900"> Val Detail</th>
-                <th className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900"> Benefice</th>
+                <th className={thStyle}>Val Gros Appro</th>
+                <th className={thStyle}> Val Detail</th>
+                <th className={thStyle}> Benefice</th>
     
-                <th className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900">STOCK GEN</th>
-                <th className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900">Sortie Dego</th>
-                <th className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900"> Stock Cave</th>
-                <th className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900">Valeur stock Det</th>
-                <th className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900"> Ref prix Gros</th>
-                <th className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900">Val stock Gros</th>
-                <th className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900">Marge Benef</th>
+                <th className={thStyle}>STOCK GEN</th>
+                <th className={thStyle}>Sortie Dego</th>
+                <th className={thStyle}> Stock Cave</th>
+                <th className={thStyle}>Valeur stock Det</th>
+                <th className={thStyle}> Ref prix Gros</th>
+                <th className={thStyle}>Val stock Gros</th>
+                <th className={thStyle}>Marge Benef</th>
     
-                <th className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900"> Ref prix Det</th>
-                <th className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900"> Qte Vendue comptoir</th>
-                <th className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900"> Valeur </th>
+                <th className={thStyle}> Ref prix Det</th>
+                <th className={thStyle}> Qte Vendue comptoir</th>
+                <th className={thStyle}> Valeur </th>
     
-                <th className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900">Quantié</th>
-                <th className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900"> Valeur </th>
+                <th className={thStyle}>Quantié</th>
+                <th className={thStyle}> Valeur </th>
     
-                <th className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900"> Reste comptoir qt Btll</th>
-                <th className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900"> Reste depot qt Btll</th>
+                <th className={thStyle}> Reste comptoir qt Btll</th>
+                <th className={thStyle}> Reste depot qt Btll</th>
 
-                <th className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900"> Reste Stock </th>
-                <th className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900"> Valeur </th>
+                <th className={thStyle}> Reste Stock </th>
+                <th className={thStyle}> Valeur </th>
               </tr>
             </thead>
     
@@ -379,42 +380,42 @@ export function ExcelSecLayout() {
           <table className=" border-collapse duration-300 table-fixed font-normal border-2 border-gray-900" >
             <thead>
               <tr>
-                <th rowSpan="3" className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900">
+                <th rowSpan="3" className={thStyle}>
                   Name
                 </th>
-                <th colSpan="3" className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900">
+                <th colSpan="3" className={thStyle}>
                   ACHAT JOURNALIER
                 </th>
-                <th colSpan="1" className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900">
+                <th colSpan="1" className={thStyle}>
                   Business Projection
                 </th>
-                <th colSpan="1" className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900">
+                <th colSpan="1" className={thStyle}>
                   VENTE JOURNALIERE
                 </th>
-                <th colSpan="1" className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900">
+                <th colSpan="1" className={thStyle}>
                   STOCK CONSIGNATION
                 </th>
-                <th colSpan="2" className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900">
+                <th colSpan="2" className={thStyle}>
                   STOCK INITIAL
                 </th>
-                <th colSpan="1" className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900">
+                <th colSpan="1" className={thStyle}>
                   STOCK APRES VENTE
                 </th>
               </tr>
     
               <tr>
-                <th className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900"> QUANTITE CAISSE </th>
-                <th className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900"> QUANTITE Btll </th>
-                <th className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900">Prix d'achat Gros </th>
+                <th className={thStyle}> QUANTITE CAISSE </th>
+                <th className={thStyle}> QUANTITE Btll </th>
+                <th className={thStyle}>Prix d'achat Gros </th>
     
-                <th className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900">Sortie Cave</th>
+                <th className={thStyle}>Sortie Cave</th>
     
-                <th className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900"> Ref prix Det</th>
+                <th className={thStyle}> Ref prix Det</th>
     
-                <th className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900">Quantié</th>
+                <th className={thStyle}>Quantié</th>
     
-                <th className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900"> Reste comptoir qt Btll</th>
-                <th className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900"> Reste depot qt Btll</th>
+                <th className={thStyle}> Reste comptoir qt Btll</th>
+                <th className={thStyle}> Reste depot qt Btll</th>
     
                 <th> Reste Stock </th>
               </tr>

@@ -6,9 +6,8 @@ export default function Approvisionnement () {
     //data
     const data = useSelector(state => state.mensRapport.suiviVente);
     
-    // useEffect(() => {
-
-    // }, [data])
+    const thStyle = " py-1 bg-indigo-200 px-12 border-solid font-normal border-2 border-gray-900";
+    const tdStyle = "border-2 border-gray-800";
     if (data.bralima && data.brasimba && data.liqueurs && data.autreProduit) {
 
         if (data.bralima.length > 0 && data.brasimba.length > 0 && data.liqueurs.length > 0 && data.autreProduit.length > 0) {
@@ -23,32 +22,32 @@ export default function Approvisionnement () {
 
                         <thead>
                             <tr>
-                                <th className=" py-1 bg-indigo-200 px-12 border-solid font-normal border-2 border-gray-900"> Libelé </th>
-                                <th className=" py-1 bg-indigo-200 px-12 border-solid font-normal border-2 border-gray-900"> Montant </th>
+                                <th className={thStyle}> Libelé </th>
+                                <th className={thStyle}> Montant </th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr className="bg-gray-100">
-                                <td className="border-2 border-gray-800"> Bralima </td>
-                                <td className="border-2 border-gray-800"> {data.bralima[0].approvisionnement}</td>
+                                <td className={tdStyle}> Bralima </td>
+                                <td className={tdStyle}> {data.bralima[0].approvisionnement}</td>
                             </tr>
                             <tr>
-                                <td className="border-2 border-gray-800"> Brasimba </td>
-                                <td className="border-2 border-gray-800"> {data.brasimba[0].approvisionnement}</td>
+                                <td className={tdStyle}> Brasimba </td>
+                                <td className={tdStyle}> {data.brasimba[0].approvisionnement}</td>
                             </tr>
                             <tr className="bg-gray-100">
-                                <td className="border-2 border-gray-800"> Autre Produit </td>
-                                <td className="border-2 border-gray-800"> {data.autreProduit[0].approvisionnement}</td>
+                                <td className={tdStyle}> Autre Produit </td>
+                                <td className={tdStyle}> {data.autreProduit[0].approvisionnement}</td>
                             </tr>
                             <tr >
-                                <td className="border-2 border-gray-800"> Liqueurs </td>
-                                <td className="border-2 border-gray-800"> {data.liqueurs[0].approvisionnement} </td>
+                                <td className={tdStyle}> Liqueurs </td>
+                                <td className={tdStyle}> {data.liqueurs[0].approvisionnement} </td>
                             </tr>
                         </tbody>
                         <tfoot>
                             <tr className="bg-gray-100">
-                                <td className="border-2 border-gray-800"> Total </td>
-                                <td className="border-2 border-gray-800"> {total}</td>
+                                <td className={tdStyle}> Total </td>
+                                <td className={tdStyle}> {total}</td>
                             </tr>
 
                         </tfoot>
@@ -62,7 +61,7 @@ export default function Approvisionnement () {
                 <div className=" flex items-center justify-center h-3/4 ">
                   <img className=" h-80 w-auto" src={searchImage} alt="search image" />
                 </div>
-                <h4 className="lg:text-3xl text-2xl text-gray-700 ">Ouuppss!! cette date n'a pas des donnees</h4>
+                <h4 className="lg:text-3xl text-2xl text-gray-700 ">Ouuppss!! cette date n&apos;a pas des donnees</h4>
             </div>);
         }
     } else {

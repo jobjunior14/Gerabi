@@ -1,4 +1,4 @@
-import { Outlet , useNavigate, useMatch} from "react-router-dom";
+import { Outlet , useNavigate, useMatch, useLocation} from "react-router-dom";
 import { useEffect } from "react";
 import FirstHeader from "./firstHeaders";
 import DailyRepportHeaders from "./dailyRapHeaders";
@@ -10,8 +10,8 @@ export function MainNav () {
 
     const navigate = useNavigate();
     const match = useMatch('/');
-    const {currentDay, currentYear, currentMonth} = useDateParams();
 
+    const {currentDay, currentYear, currentMonth} = useDateParams();
     //the firt use of navigate must be in a useEffect hook
     useEffect(() => {
         if (match) navigate(`/rapportJournalier/degoBar/product/bralima?year=${currentYear}&month=${currentMonth}&day=${currentDay}`);

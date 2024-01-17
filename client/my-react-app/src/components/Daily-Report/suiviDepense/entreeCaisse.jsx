@@ -1,4 +1,5 @@
-import React, {useState, useCallback, useEffect, useId}from "react";
+/* eslint-disable react/prop-types */
+import {useState, useCallback, useEffect, useId}from "react";
 import EntreeCaisseComp from "./components/entreeCaisseComp";
 import { useSelector, useDispatch } from "react-redux";
 import { suiviDepenseActions } from "../../store/suiviDepense-slice";
@@ -27,12 +28,12 @@ export default function EntreeCaisse ({setTotEntree, foundPrevSold, prevDay, pre
                 if (i.name !== "" && i.data.amount !== "") {
                     
                     savetotalEntreeCaisse += i.data.amount;
-                };
-            };
+                }
+            }
             //change the state using the parent's function
             setTotEntree(savetotalEntreeCaisse);
             return savetotalEntreeCaisse;
-        };
+        }
     },[data]);
 
     //side effect render the body's table
@@ -52,11 +53,13 @@ export default function EntreeCaisse ({setTotEntree, foundPrevSold, prevDay, pre
 
             //dispatch the prev taped sold caisse
             dispatch(suiviDepenseActions.setTotalSoldCaisse( memoTotEntreeCaisse() + prevSoldCaisse));
-        };
+        }
         
     }, [memoTotEntreeCaisse(), totalEntreeCaisse, prevSoldCaisse]);
 
-    
+
+    const thStyle = "border-2 border-gray-900";
+
     if (!loading && data) {
         
         if (data.length > 0) {
@@ -69,12 +72,12 @@ export default function EntreeCaisse ({setTotEntree, foundPrevSold, prevDay, pre
                             <tbody>
                                 {displayData}
                                 <tr className="bg-slate-300">
-                                    <th className=" border-2 border-gray-900">Total Entrée</th>
-                                    <td className="border-2 border-gray-900"> {totalEntreeCaisse} </td>
+                                    <th className={thStyle}>Total Entrée</th>
+                                    <td className={thStyle}> {totalEntreeCaisse} </td>
                                 </tr>
                                 <tr>
-                                    <th className=" border-2 border-gray-900"> Total Sold Caisse</th>
-                                    <td className="border-2 border-gray-900"> {totalSoldCaisse} </td>
+                                    <th className={thStyle}> Total Sold Caisse</th>
+                                    <td className={thStyle}> {totalSoldCaisse} </td>
                                 </tr>
 
                             </tbody>
@@ -84,8 +87,8 @@ export default function EntreeCaisse ({setTotEntree, foundPrevSold, prevDay, pre
 
                         { !foundPrevSold && <div className="block mb-5">
 
-                            <p className="font-bold text-gray-600"> Le sold caisse du {prevYear}/{prevMonth}/{prevDay}, n'a pas été trouvé </p>
-                            <label className="font-bold text-gray-800" id = {'inputfromUser' + id}> S'il est existant veillez le taper: </label>
+                            <p className="font-bold text-gray-600"> Le sold caisse du {prevYear}/{prevMonth}/{prevDay}, n&apos;a pas été trouvé </p>
+                            <label className="font-bold text-gray-800" id = {'inputfromUser' + id}> S&apos;il est existant veillez le taper: </label>
                             <input 
                                     className=" pl-1 w-32 bg-slate-400 rounded-lg duration-150 focus:scale-105 focus:outline-none focus:border-2 appearance-none border-2 focus:border-indigo-700 " 
                                 type="number"
@@ -102,11 +105,11 @@ export default function EntreeCaisse ({setTotEntree, foundPrevSold, prevDay, pre
             return(
                 <div className="m-4">
                     <h3 className="lg:text-2xl text-xl font-semibold text-gray-700">Entree Caisse</h3>
-                    <h4> Ouuups!! cette date n'a pas de donnee</h4>
+                    <h4> Ouuups!! cette date n&apos;a pas de donnee</h4>
                     <button className="px-5 py-1 bg-gray-500 text-gray-100 rounded-md " onClick={() => dispatch(suiviDepenseActions.addProductEntreeCaisse())}> Ajouter un Nom</button>
                 </div>
             )
-        };
+        }
     } else {
          return (<div className=" justify-center flex">
                 <h3 className="lg:text-2xl text-xl font-semibold text-gray-700 block absolute"> Entree Caisse</h3>
@@ -118,6 +121,6 @@ export default function EntreeCaisse ({setTotEntree, foundPrevSold, prevDay, pre
                     </div>
             </div>
         </div>)
-    };
+    }
 }
 

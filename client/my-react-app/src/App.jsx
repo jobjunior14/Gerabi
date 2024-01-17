@@ -9,6 +9,8 @@ import YearStats from './components/stats/yearStats';
 import { HouseNav } from './components/headers/outlet';
 import Documentation from './components/documentation';
 import Login from './components/user/login';
+import Signup from './components/user/signup';
+import NotFound from './components/notFound';
 function App() {
 
   return ( 
@@ -31,11 +33,12 @@ function App() {
 
               <Route path='/rapportMensuel' element = {<MensRepportNav/>}>
                 <Route path='products/:componentName' element = {<MensRepport user = 'rappMens' />}/>
-                <Route path='graphique' element = {<YearStats/>} />
+                <Route path='graphique' element = {<Signup/>} />
               </Route>
               <Route path='/documentation' element= {<Documentation/>}/>
               
             </Route>
+            <Route path='*' element= {<NotFound/>}/>
         </Routes>
 
       </BrowserRouter>
