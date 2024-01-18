@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
 import axios from "../../../axiosUrl"
 import { useDispatch } from "react-redux";
@@ -13,9 +14,8 @@ export default function SuiviDesVentes ({user}) {
     //stateAction is here to know wich component is using the data based to current usrl using the Params data
     const {componentName} = useParamsGetter();
 
-    
     //dependacies of useEffect
-    const {year, month, day, currentDay, currentMonth, currentYear, inexistentDate} = useDateParams();
+    const {year, month, day, no_existent} = useDateParams();
 
     //state to stoking the depense effectuee 
     const [depenseEff, setDepenseEff] = useState(0);
@@ -25,20 +25,26 @@ export default function SuiviDesVentes ({user}) {
 
     //set the booelen value based on the current use of the component
     const currentUser = user === 'rappMens' ? true : false;
+    //error loading state and the loading state will
+    const [error, setError] = useState(false);
+    const [loading, setLoading] = useState(true);
     
     //******************************fecth the data*************************************/
     useEffect (() => {
 
+        //initialize the data to set the loading state
         dispatch(mensRapportActions.setSuiviVente({
             bralima: null,
             brasimba: null,
             liqueurs: null,
             autreProduit: null
         }));
-
         const fecthData = async () => {
-
+            
             try {
+                //initialize the error state to false
+                setError(false);
+                setLoading(true);
                 //based on the **currentUser*** variable we get different Data 
                 const bralimaData = currentUser ? await axios.get(`/${componentName}/bralima/rapportMensuel/Allstast/${year}/${month}`) :
                     await axios.get(`/${componentName}/bralima/rapportJournalier/dailyRap/${year}/${month}/${day}`);
@@ -64,21 +70,21 @@ export default function SuiviDesVentes ({user}) {
 
                     if (dataVente.data.stats.stats.length > 0){
                         setVenteDego(dataVente.data.stats.stats[0].venteDego);
-                    };
+                    }
                     //set depense eff
                     if (depenseEffMens.data.stats.stats.length > 0){
                         setDepenseEff(prev => depenseEffMens.data.stats.stats[0].venteDego);
-                    };
+                    }
                 } else {
 
                     //set vente system
                     if (dataVente.data.data.day) {
                         setVenteDego(dataVente.data.data.day.valeur);
-                    };
+                    }
                     //set depense eff
                     if (depenseEffMens.data.data.day) {
                         setDepenseEff(prev => depenseEffMens.data.data.day.valeur);
-                    };
+                    }
                 }
                 
                 currentUser ? dispatch(mensRapportActions.setSuiviVente({
@@ -94,31 +100,27 @@ export default function SuiviDesVentes ({user}) {
                 }));
                
             } catch (err) {
-                if (err.message){
-
-                    console.log (err);
-                } else {
-                    console.log (err);
-
-                };
-            };
+              setLoading(false);
+              setError(err);
+            } finally {
+                setLoading(false);
+            }
         }; fecthData();
 
     }, [year, month, componentName, day, currentUser]);
     
-    if (inexistentDate) {
-        
-        return (<div>
-            <h1>Ooouups vous ne pouvez demander une donnee d'une date inexistante</h1>
+    if (no_existent) {
+        return (<div className="my-20 text-2xl">
+            <h1>Ooouups vous ne pouvez demander une donnee d&apos;une date inexistante</h1>
         </div>)
     } else {
 
-        return (<div className="justify-center flex  ">
+        return (<div className="justify-center flex ">
             <h2 className="lg:text-3xl text-2xl font-bold text-gray-800 mb-5 absolute">Suivi Des Ventes</h2>
             <div className="bg-slate-200 rounded-lg my-12 w-full ">
-                <VenteBar venteDego = {venteDego} />
-                <Approvisionnement />
-                <Benefice depenseEff = {depenseEff} />
+                <VenteBar loading={loading} error={error} venteDego = {venteDego} />
+                <Approvisionnement loading={loading} error={error} />
+                <Benefice loading={loading} error={error} depenseEff = {depenseEff} />
             </div>
         </div>)
     }

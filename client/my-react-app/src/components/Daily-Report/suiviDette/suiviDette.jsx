@@ -2,17 +2,14 @@ import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { suiviDetteActions } from "../../store/suiviDette-slice";
 import DailyFilter from "../../filter/filterDailyRap";
-import Clients from "./clients"
-import Musiciens from "./musiciens";
-import Agents from "./agents";
 import TotDetteDaily from "./totalDetteDaily";
-import YourDebts from "./yourDebt";
 import YourTotDetteDaily from "./yourTotDetteDaily";
 import useDateParams from "../../reuseFunction/dateParams";
 import useDataFetcherSuiviDette from "./utils/dataFetcher";
 import usePostAndUpdata from "./utils/postAndUpadateData";
 import useParamsGetter from "../../reuseFunction/paramsGetter";
 import searchImage from "../../../assets/searchImage.png"
+import AllDebtComp from "./components/allDebtComponent";
 
 export default function SuiviDette () {
 
@@ -21,7 +18,7 @@ export default function SuiviDette () {
     const {componentName} = useParamsGetter();
 
     //params's date using in the whole app
-    const {year, month, day, inexistentDate, setterDateParams} = useDateParams();
+    const {year, month, day, no_existent, setterDateParams} = useDateParams();
     
     //date in fields
     const [date, setDate] = useState({year, month, day});
@@ -48,7 +45,8 @@ export default function SuiviDette () {
         totDetailDetteAndPaymentMusiciens, 
         yourDebt, 
         yourTotalDebtAndPayment, 
-        yourTotalDetailDebtAndPayment
+        yourTotalDetailDebtAndPayment,
+        error
     } = useDataFetcherSuiviDette({componentName});
 
     const {
@@ -65,7 +63,8 @@ export default function SuiviDette () {
         pYourDebt,
         pYourTotalDebtAndPayment,
         pYourTotalDetailDebtAndPayment,
-        postAndUpdate
+        postAndUpdate,
+        pError
     } = usePostAndUpdata({componentName});
 
     //dispatch the fetched data acrosse all the components
@@ -118,19 +117,19 @@ export default function SuiviDette () {
     
     function setFilterParams() {
         setterDateParams(date);
-    };
+    }
 
     function postData () {
 
         postAndUpdate(agents, musiciens, clients, false, fournisseurs);
-    };
+    }
 
     function updateData () {
 
         postAndUpdate(agents, musiciens, clients, true, fournisseurs);
-    };
+    }
 
-    if (inexistentDate) {
+    if (no_existent) {
 
         return (
             <>
@@ -145,11 +144,43 @@ export default function SuiviDette () {
         
         return (<div>
             <DailyFilter onchange={handleDate}  prev = {date} onclick = {setFilterParams}/>
-            <Agents loading = {loading || pLoading}/>
-            <Clients loading = {loading || pLoading}/>
-            <Musiciens loading = {loading || pLoading}/>
-            <TotDetteDaily day = {day} month = {month} year = {year} />
-            <YourDebts loading = {loading || pLoading}/>
+            <AllDebtComp 
+                loading = {loading || pLoading} 
+                error={error} 
+                pError={pError}
+                debtName={'agents'}
+                totalDetailDebtName={'detailTotDetteAgents'}
+                name={"Dette Agents"}
+                dispatchName={'addCaseAgents'}
+            />
+            <AllDebtComp 
+                loading = {loading || pLoading} 
+                error={error} 
+                pError={pError}
+                debtName={'clients'}
+                totalDetailDebtName={'detailTotDetteClients'}
+                name={"Dette Clients"}
+                dispatchName={'addCaseClients'}
+            />
+            <AllDebtComp 
+                loading = {loading || pLoading} 
+                error={error} 
+                pError={pError}
+                debtName={'musiciens'}
+                totalDetailDebtName={'detailTotDetteMusiciens'}
+                name={"Dette Musiciens"}
+                dispatchName={'addCaseMusiciens'}
+            />
+            <TotDetteDaily day = {day} month = {month} year = {year}  error={error} pError={pError}/>
+            <AllDebtComp 
+                loading = {loading || pLoading} 
+                error={error} 
+                pError={pError}
+                debtName={'fournisseurs'}
+                totalDetailDebtName={'detailTotDetteFournisseurs'}
+                name={"Mes Dettes"}
+                dispatchName={'addCaseFournisseurs'}
+            />
             <YourTotDetteDaily day = {day} month = {month} year = {year} />
             {!update ? <button className="px-5 py-1 bg-indigo-500 text-gray-100 rounded-md " onClick={postData}> Enregistrer les données</button> : <button className="px-5 py-1 bg-indigo-500 text-gray-100 rounded-md " onClick={updateData}> Mettre à les données</button> }
 

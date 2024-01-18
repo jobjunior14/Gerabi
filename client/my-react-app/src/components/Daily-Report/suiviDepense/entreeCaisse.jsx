@@ -3,9 +3,10 @@ import {useState, useCallback, useEffect, useId}from "react";
 import EntreeCaisseComp from "./components/entreeCaisseComp";
 import { useSelector, useDispatch } from "react-redux";
 import { suiviDepenseActions } from "../../store/suiviDepense-slice";
-
-
-export default function EntreeCaisse ({setTotEntree, foundPrevSold, prevDay, prevMonth, prevYear, loading }){
+import LoadingError from "../../errorPages/LoadingError";
+import PostAndUpdateError from "../../errorPages/postAndUpdateError";
+import Loading from "../../loading";
+export default function EntreeCaisse ({setTotEntree, foundPrevSold, prevDay, prevMonth, prevYear, loading, error, pError }){
 
     const dispatch = useDispatch ();
     const data = useSelector(state => state.suiviDepense.entreeCaisse);
@@ -60,67 +61,73 @@ export default function EntreeCaisse ({setTotEntree, foundPrevSold, prevDay, pre
 
     const thStyle = "border-2 border-gray-900";
 
-    if (!loading && data) {
-        
-        if (data.length > 0) {
-
-            return (
-               <div className=" text-center justify-center items-center block -mt-5">
-                    <div className=" justify-center flex -mb-10">
-                        <h3 className="lg:text-2xl text-xl font-semibold text-gray-700 block absolute mt-6">Entrée Caisse</h3>
-                        <table className=" border-collapse duration-300 table-fixed font-normal border-2 border-gray-900 my-16">
-                            <tbody>
-                                {displayData}
-                                <tr className="bg-slate-300">
-                                    <th className={thStyle}>Total Entrée</th>
-                                    <td className={thStyle}> {totalEntreeCaisse} </td>
-                                </tr>
-                                <tr>
-                                    <th className={thStyle}> Total Sold Caisse</th>
-                                    <td className={thStyle}> {totalSoldCaisse} </td>
-                                </tr>
-
-                            </tbody>
-                        </table>
-                    </div>
-                    <div className="block" >
-
-                        { !foundPrevSold && <div className="block mb-5">
-
-                            <p className="font-bold text-gray-600"> Le sold caisse du {prevYear}/{prevMonth}/{prevDay}, n&apos;a pas été trouvé </p>
-                            <label className="font-bold text-gray-800" id = {'inputfromUser' + id}> S&apos;il est existant veillez le taper: </label>
-                            <input 
-                                    className=" pl-1 w-32 bg-slate-400 rounded-lg duration-150 focus:scale-105 focus:outline-none focus:border-2 appearance-none border-2 focus:border-indigo-700 " 
-                                type="number"
-                                id = {'inputfromUser' + id}
-                                placeholder="Tapez le precedent sold caisse"
-                                value={prevSoldCaisse}
-                                onChange={(e) => { dispatch(suiviDepenseActions.handleSoldCaisseByUser(Number (e.target.value)))} }
-                            />
-                        </div>}
-                        { !readOnly && <button className="px-5 py-1  bg-gray-500 text-gray-100 rounded-md -mt-8 " onClick={() => dispatch(suiviDepenseActions.addProductEntreeCaisse())}> Ajouter un Nom</button>}
-                    </div>
-                </div>)
-        } else {
-            return(
-                <div className="m-4">
-                    <h3 className="lg:text-2xl text-xl font-semibold text-gray-700">Entree Caisse</h3>
-                    <h4> Ouuups!! cette date n&apos;a pas de donnee</h4>
-                    <button className="px-5 py-1 bg-gray-500 text-gray-100 rounded-md " onClick={() => dispatch(suiviDepenseActions.addProductEntreeCaisse())}> Ajouter un Nom</button>
-                </div>
-            )
-        }
+    if (pError) {
+        return (<PostAndUpdateError message={pError.message}/>);
     } else {
-         return (<div className=" justify-center flex">
-                <h3 className="lg:text-2xl text-xl font-semibold text-gray-700 block absolute"> Entree Caisse</h3>
-                <div className=" items-center justify-center my-40"> 
-                    <div className="flex items-center justify-center space-x-2">
-                        <div className="w-5 h-5 rounded-full animate-pulse dark:bg-indigo-400"></div>
-                        <div className="w-5 h-5 rounded-full animate-pulse dark:bg-indigo-400"></div>
-                        <div className="w-5 h-5 rounded-full animate-pulse dark:bg-indigo-400"></div>
+
+        if (!loading && data) {
+            
+            if (data.length > 0) {
+    
+                return (
+                   <div className=" text-center justify-center items-center block -mt-5">
+                        <div className=" justify-center flex -mb-10">
+                            <h3 className="lg:text-2xl text-xl font-semibold text-gray-700 block absolute mt-6">Entrée Caisse</h3>
+                            <table className=" border-collapse duration-300 table-fixed font-normal border-2 border-gray-900 my-16">
+                                <tbody>
+                                    {displayData}
+                                    <tr className="bg-slate-300">
+                                        <th className={thStyle}>Total Entrée</th>
+                                        <td className={thStyle}> {totalEntreeCaisse} </td>
+                                    </tr>
+                                    <tr>
+                                        <th className={thStyle}> Total Sold Caisse</th>
+                                        <td className={thStyle}> {totalSoldCaisse} </td>
+                                    </tr>
+    
+                                </tbody>
+                            </table>
+                        </div>
+                        <div className="block" >
+    
+                            { !foundPrevSold && <div className="block mb-5">
+    
+                                <p className="font-bold text-gray-600"> Le sold caisse du {prevYear}/{prevMonth}/{prevDay}, n&apos;a pas été trouvé </p>
+                                <label className="font-bold text-gray-800" id = {'inputfromUser' + id}> S&apos;il est existant veillez le taper: </label>
+                                <input 
+                                        className=" pl-1 w-32 bg-slate-400 rounded-lg duration-150 focus:scale-105 focus:outline-none focus:border-2 appearance-none border-2 focus:border-indigo-700 " 
+                                    type="number"
+                                    id = {'inputfromUser' + id}
+                                    placeholder="Tapez le precedent sold caisse"
+                                    value={prevSoldCaisse}
+                                    onChange={(e) => { dispatch(suiviDepenseActions.handleSoldCaisseByUser(Number (e.target.value)))} }
+                                />
+                            </div>}
+                            { !readOnly && <button className="px-5 py-1  bg-gray-500 text-gray-100 rounded-md -mt-8 " onClick={() => dispatch(suiviDepenseActions.addProductEntreeCaisse())}> Ajouter un Nom</button>}
+                        </div>
+                    </div>)
+            } else {
+                return(
+                    <div className="m-4">
+                        <h3 className="lg:text-2xl text-xl font-semibold text-gray-700">Entree Caisse</h3>
+                        <h4> Ouuups!! cette date n&apos;a pas de donnee</h4>
+                        <button className="px-5 py-1 bg-gray-500 text-gray-100 rounded-md " onClick={() => dispatch(suiviDepenseActions.addProductEntreeCaisse())}> Ajouter un Nom</button>
                     </div>
-            </div>
-        </div>)
+                );
+            }
+        } else {
+            //Loading page
+            if (loading) {
+
+             return (<Loading/>);
+            }
+            //the Loading data error Page
+            if(error) {
+                return (
+                    <LoadingError  message={error.message}/>
+                );
+            }
+        }
     }
 }
 

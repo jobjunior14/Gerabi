@@ -1,8 +1,9 @@
 /* eslint-disable react/prop-types */
 import { useSelector } from "react-redux";
-import searchImage from "../../../assets/searchImage.png"
-
-export default function Benefice ({depenseEff}) {
+import No_ExistentDate from "../../errorPages/no_existantDate";
+import LoadingError from "../../errorPages/LoadingError";
+import Loading from "../../loading";
+export default function Benefice ({depenseEff, error, loading}) {
 
     //data
     const data = useSelector(state => state.mensRapport.suiviVente);
@@ -70,25 +71,17 @@ export default function Benefice ({depenseEff}) {
                 </div>
             </div>)
         } else {
-          return (<div className="m-4">
-                <h3 className="lg:text-2xl text-xl font-semibold text-gray-700"> BENEFICE</h3>
-                <div className=" flex items-center justify-center h-3/4 ">
-                  <img className=" h-80 w-auto" src={searchImage} alt="search image" />
-                </div>
-                <h4 className="lg:text-3xl text-2xl text-gray-700 ">Ouuppss!! cette date n'a pas des donnees</h4>
-            </div>);
+          return (<No_ExistentDate/>);
         }
     } else {
-       return (<div className=" justify-center flex">
-            <h3 className="lg:text-2xl text-xl font-semibold text-gray-700 block absolute"> BENEFICE</h3>
-            <div className=" items-center justify-center my-40"> 
-                <div className="flex items-center justify-center space-x-2">
-                    <div className="w-5 h-5 rounded-full animate-pulse dark:bg-indigo-400"></div>
-                    <div className="w-5 h-5 rounded-full animate-pulse dark:bg-indigo-400"></div>
-                    <div className="w-5 h-5 rounded-full animate-pulse dark:bg-indigo-400"></div>
-                </div>
-          </div>
-        </div>)
+
+        if (error) {
+            return (<LoadingError message={error.message}/>);
+        }
+        
+        if (loading) {
+            return (<Loading/>);
+        }
     }
 
 }

@@ -11,7 +11,7 @@ import usePostAndUpdate from "./utils/postAndData";
 import useDataFetcherSuiviDepense from "./utils/dataFetcher";
 import useParamsGetter from "../../reuseFunction/paramsGetter";
 import searchImage from "../../../assets/searchImage.png";
-
+import No_ExistentDate from "../../errorPages/no_existantDate";
 export default function SuiviDepense (){
 
     const dispatch = useDispatch();
@@ -20,7 +20,7 @@ export default function SuiviDepense (){
     const {componentName} = useParamsGetter();
 
     //date params
-    const {year, month, day, inexistentDate, setterDateParams} = useDateParams();
+    const {year, month, day, no_existent, setterDateParams} = useDateParams();
 
     //date in fields
     const [date, setDate] = useState ({year, month, day});
@@ -66,7 +66,8 @@ export default function SuiviDepense (){
         totalDebt,
         yourTotalDebt,
         soldCaisseData,
-        customPrevSoldCaisse
+        customPrevSoldCaisse,
+        error
     } = useDataFetcherSuiviDepense({ componentName});
 
     const {
@@ -77,7 +78,8 @@ export default function SuiviDepense (){
         pSoldCaisse,
         pSortieCaisse,
         pDepense_Eff,
-        postAndUpdateData
+        postAndUpdateData,
+        pError
     } = usePostAndUpdate({componentName});
 
 
@@ -113,53 +115,49 @@ export default function SuiviDepense (){
         
     }, [entreeCaisseData, sortieCaisseData, pDepense_Eff, totalDebt, yourTotalDebt, customPrevSoldCaisse, depense_Eff]);
 
-    // console.log (sortieCaisseData)
     //track the changes state to calculate the previous taped sold caisse by user
     useEffect(() => {
 
          //for entree caisse 
          if (!prevSoldCaisse) {
             
-            setFoundPrevSold(true);
+            setFoundPrevSold(true)
             // set the previous taped  sold caisse by user
             // dispatch(suiviDepenseActions.setPrevSoldCaisse((totalDailyDebt + soldCaisse + totalSortieCaisse) - totalEntreeCaisse));
         } else {
             setFoundPrevSold(false);
             // dispatch(suiviDepenseActions.setPrevSoldCaisse(prevSoldCaisse.amount));
-        };
+        }
     },[totalDailyDebt, soldCaisse, totalEntreeCaisse, prevSoldCaisse]);
 
     function handleDate (name, value) {
         setDate(prev => ({...prev, [name]: value}));
-    };
+    }
     function setFilterParams() {
 
         setterDateParams(date);
-    };
+    }
 
     function postData(){
         //post data or create it 
         postAndUpdateData(entreeCaisse, sortieCaisse, false, totalSoldCaisse, totalDailyDebt,totalSortieCaisse, depenseEff, yourTotalDebt);
-    };
+    }
     
     function updateData() {
         postAndUpdateData(entreeCaisse, sortieCaisse, true, totalSoldCaisse, totalDailyDebt,totalSortieCaisse, depenseEff, yourTotalDebt);
-    };
+    }
 
     //call back to update parent state form entree caisse 
     function setTotEntree(data) {
         setTotalEntreeCaisse(data);
-    };
+    }
 
-    if (inexistentDate) {
+    if (no_existent) {
 
         return (
             <>
                 <DailyFilter onchange={handleDate}  prev = {date} onclick = {setFilterParams}/>
-                <div className=" flex items-center justify-center h-3/4">
-                <img className=" h-96 w-auto" src={searchImage} alt="search image" />
-                </div>
-                <h1 className="text-4xl text-gray-700"> Ouuups!!! vous ne pouvez demander une donnée d'une date inexistante</h1>
+                <No_ExistentDate/>
             </>
         );
     } else {
@@ -188,9 +186,11 @@ export default function SuiviDepense (){
                     setTotEntree = {setTotEntree} 
                     foundPrevSold = {foundPrevSold}
                     loading = {loading || pLoading}
+                    error = {error}
+                    pError = {pError}
                 />
-                <SoriteCaisse key={`sortieCaisse1`} loading = {loading || pLoading} /> 
-                <SoldCaisse key={`soldCaisse1`} loading = {loading || pLoading}/>
+                <SoriteCaisse key={`sortieCaisse1`} loading = {loading || pLoading} error={error} pError = {pError} /> 
+                <SoldCaisse key={`soldCaisse1`} loading = {loading || pLoading} error={error} pError = {pError}/>
                 <p className="font-bold text-lg lg:text-xl text-gray-700 p-4"> Total Dette du {day}-{month}-{year}: <b> {totalDailyDebt}</b></p>
                 <p className="font-bold text-lg lg:text-xl text-gray-700 p-4"> Ton total Dette du {day}-{month}-{year}: <b> {yourTotalDette}</b> </p>
                 {!update ? <button className="px-5 py-1 bg-indigo-500 text-gray-100 rounded-md "  onClick={postData}> Enregistrer les données</button> : <button onClick={updateData}> Mettre à les données</button> }

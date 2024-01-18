@@ -1,8 +1,11 @@
+/* eslint-disable react/prop-types */
 import { useDispatch, useSelector } from "react-redux";
 import { suiviDepenseActions } from "../../store/suiviDepense-slice";
 import { useId,useEffect, useState } from "react";
-
-export default function SoriteCaisse ({loading}) {
+import LoadingError from "../../errorPages/LoadingError";
+import PostAndUpdateError from "../../errorPages/postAndUpdateError";
+import Loading from "../../loading";
+export default function SoriteCaisse ({loading, error, pError}) {
     
     const dispatch = useDispatch();
 
@@ -140,76 +143,79 @@ export default function SoriteCaisse ({loading}) {
     }, [sortieCaisse, readOnly]);
 
 
+
+    //handle the post error's http Method
+    if (pError) {
+       return (<PostAndUpdateError message={pError.message}/>); 
+    } else {
+
+        if (!loading && sortieCaisse) {
     
-   if (!loading && sortieCaisse) {
-
-        if (sortieCaisse.length > 0) {
+            if (sortieCaisse.length > 0) {
+        
+                return (
+                    <div className=" text-center justify-center items-center mt-5">
+                        <div  className=" flex justify-center mt-10">
+                            <h2 className="lg:text-2xl text-xl font-semibold text-gray-700 block -mt-5 absolute">Sorite Caisse</h2>
+                            <div className="text-center border-2 border-slate-600  overflow-x-auto px-4 mt-4 rounded-lg ">
+                                <table className=" border-collapse duration-300 table-fixed font-normal border-2 border-gray-900 my-5">
+                                    <thead>
     
-            return (
-                <div className=" text-center justify-center items-center mt-5">
-                    <div  className=" flex justify-center mt-10">
-                        <h2 className="lg:text-2xl text-xl font-semibold text-gray-700 block -mt-5 absolute">Sorite Caisse</h2>
-                        <div className="text-center border-2 border-slate-600  overflow-x-auto px-4 mt-4 rounded-lg ">
-                            <table className=" border-collapse duration-300 table-fixed font-normal border-2 border-gray-900 my-5">
-                                <thead>
-
-                                    <tr>
-                                        {tableHeaderSortieCaisse}
-                                    </tr>
-
-                                    <tr>
-                                        {subTAbleHeadersSortieCaisse}
-                                    </tr>
-                                </thead>
-
-                                <tbody>
-                                    {tableRowData}
-                                </tbody>
-                                <tfoot >
-                                    <tr className="bg-slate-300" key = {'trTotal'}>
-                                        {displayTotFocnt}
-                                    </tr>
-                                    <tr>
-                                        <th>Total Sortie</th>
-                                        <td colSpan={100000}> {allTotalSortieCaisse} </td>
-                                    </tr>
-                                </tfoot>
-                            </table>
-                    </div>
-                    </div>
-                    <div  className="mt-5 block sm:flex justify-center">
-                        <div className="mb-3">
-                            { !readOnly && <button className="px-5 py-1  bg-gray-500 text-gray-100 rounded-md -mt-8  mx-2 text-sm sm:text-base" onClick={() => dispatch(suiviDepenseActions.addLibelMontantSortie())}> Ajouter un justificatif</button>}
+                                        <tr>
+                                            {tableHeaderSortieCaisse}
+                                        </tr>
+    
+                                        <tr>
+                                            {subTAbleHeadersSortieCaisse}
+                                        </tr>
+                                    </thead>
+    
+                                    <tbody>
+                                        {tableRowData}
+                                    </tbody>
+                                    <tfoot >
+                                        <tr className="bg-slate-300" key = {'trTotal'}>
+                                            {displayTotFocnt}
+                                        </tr>
+                                        <tr>
+                                            <th>Total Sortie</th>
+                                            <td colSpan={100000}> {allTotalSortieCaisse} </td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
                         </div>
-
-                        <div>
-                            { !readOnly && <button className="px-5 py-1  bg-gray-500 text-gray-100 rounded-md -mt-8  mx-2 text-sm sm:text-base" onClick={() => dispatch(suiviDepenseActions.addFonctionSortie())}> Ajouter une fonction</button>}
+                        </div>
+                        <div  className="mt-5 block sm:flex justify-center">
+                            <div className="mb-3">
+                                { !readOnly && <button className="px-5 py-1  bg-gray-500 text-gray-100 rounded-md -mt-8  mx-2 text-sm sm:text-base" onClick={() => dispatch(suiviDepenseActions.addLibelMontantSortie())}> Ajouter un justificatif</button>}
+                            </div>
+    
+                            <div>
+                                { !readOnly && <button className="px-5 py-1  bg-gray-500 text-gray-100 rounded-md -mt-8  mx-2 text-sm sm:text-base" onClick={() => dispatch(suiviDepenseActions.addFonctionSortie())}> Ajouter une fonction</button>}
+                            </div>
                         </div>
                     </div>
-                </div>
-            )
-        } else {
-            
-            return (
-                <div className="m-4">
-                    <h3 className="lg:text-2xl text-xl font-semibold text-gray-700 block absolute">Sortie Caisse</h3>
-                    <h4> Ooouups! cette donnee est inexistante </h4>
-                    <button className="px-5 py-1 bg-gray-500 text-gray-100 rounded-md " onClick={() => dispatch(suiviDepenseActions.addFonctionSortie())}> Ajouter une fonction</button>
-                </div>
-            )
-        };
-   } else {
-
-     return (<div className=" justify-center flex">
-                <h3 className="lg:text-2xl text-xl font-semibold text-gray-700 block absolute"> Sortie Caisse</h3>
-                <div className=" items-center justify-center my-40"> 
-                    <div className="flex items-center justify-center space-x-2">
-                        <div className="w-5 h-5 rounded-full animate-pulse dark:bg-indigo-400"></div>
-                        <div className="w-5 h-5 rounded-full animate-pulse dark:bg-indigo-400"></div>
-                        <div className="w-5 h-5 rounded-full animate-pulse dark:bg-indigo-400"></div>
+                );
+            } else {
+                
+                return (
+                    <div className="m-4">
+                        <h3 className="lg:text-2xl text-xl font-semibold text-gray-700 block absolute">Sortie Caisse</h3>
+                        <h4> Ooouups! cette donnee est inexistante </h4>
+                        <button className="px-5 py-1 bg-gray-500 text-gray-100 rounded-md " onClick={() => dispatch(suiviDepenseActions.addFonctionSortie())}> Ajouter une fonction</button>
                     </div>
-            </div>
-        </div>)
-   }
+                )
+            };
+       } else {
+        //handle the get http method errors
+        if (error) {
+            return (<LoadingError message={error.message}/>);
+        }
+        //loading state 
+        if (loading) {
+            return (<Loading/>);
+        }
+       }
+    }
 
 }

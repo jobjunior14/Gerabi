@@ -3,6 +3,9 @@ import VenteSystemGraph from "./yearStats/venteSystem/venteSysteme";
 import useDateParams from '../reuseFunction/dateParams'
 import searchImage from '../../assets/searchImage.png';
 import MensFilter from "../filter/filterMensRap";
+import No_ExistentDate from "../errorPages/no_existantDate";
+import LoadingError from "../errorPages/LoadingError";
+
 export default function YearStats () {
 
     const {year,month, currentYear, setterDateParams} = useDateParams();
@@ -29,16 +32,7 @@ export default function YearStats () {
 
     if (year > currentYear)  {
 
-        return (
-            <>
-                <MensFilter onchange={handleDate}  prev = {date} onclick = {setFilterParams}/>
-                <div className=" flex items-center justify-center h-3/4">
-                <img className=" h-96 w-auto" src={searchImage} alt="search image" />
-                </div>
-                <h1 className="text-4xl text-gray-700"> Ouuups!!! vous ne pouvez demander une donnée d'une date inexistante</h1>
-            </>
-        );
-
+        return (<No_ExistentDate/>);
     } else {
         return (
             <div>

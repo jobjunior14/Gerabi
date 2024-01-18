@@ -1,11 +1,12 @@
-import React from 'react';
+/* eslint-disable react/prop-types */
 import axios from '../../../axiosUrl';
 import { useEffect, useState } from 'react';
 import useParamsGetter from '../../reuseFunction/paramsGetter';
 import useDateParams from '../../reuseFunction/dateParams';
-import searchImage from "../../../assets/searchImage.png"
-
-export default function MensRapSuiviDepense ({user}) {
+import No_ExistentDate from "../../errorPages/no_existantDate";
+import LoadingError from "../../errorPages/LoadingError";
+import Loading from '../../loading';
+export default function MensRapSuiviDepense ({user, error, loading}) {
 
     //stateAction is here to know wich component is using the data based to current usrl using the Params data
     const {componentName} = useParamsGetter();
@@ -14,7 +15,7 @@ export default function MensRapSuiviDepense ({user}) {
     const [data, setData] = useState (null);
     //dependacies of useEffect
 
-    const {year, month, day, currentDay, currentMonth, currentYear, inexistentDate} = useDateParams();
+    const {year, month, day, no_existent} = useDateParams();
 
     //render data
     const [displayEntreeCaisse, setDisplayEntreeCaisse] = useState(null);
@@ -50,10 +51,10 @@ export default function MensRapSuiviDepense ({user}) {
         };
     }, [data]);
      
-    if (inexistentDate) {
+    if (no_existent) {
         
         return (<div>
-            <h1>Ooouups vous ne pouvez demander une donnee d'une date inexistante</h1>
+            <h1>Ooouups vous ne pouvez demander une donnee d&apos;une date inexistante</h1>
         </div>
         )
     } else {
@@ -87,25 +88,16 @@ export default function MensRapSuiviDepense ({user}) {
                 </div>
             </div>)
         } else {
-            return (<div className="m-4">
-                <h3 className="lg:text-2xl text-xl font-semibold text-gray-700"> VENTE BAR</h3>
-                <div className=" flex items-center justify-center h-3/4 ">
-                  <img className=" h-80 w-auto" src={searchImage} alt="search image" />
-                </div>
-                <h4 className="lg:text-3xl text-2xl text-gray-700 ">Ouuppss!! cette date n'a pas des donnees</h4>
-            </div>);
+            return (<No_ExistentDate/>);
         }
-       } else {
-            return (<div className=" justify-center flex">
-                    <h3 className="lg:text-2xl text-xl font-semibold text-gray-700 block absolute"> VENTE BAR</h3>
-                    <div className=" items-center justify-center my-40"> 
-                        <div className="flex items-center justify-center space-x-2">
-                            <div className="w-5 h-5 rounded-full animate-pulse dark:bg-indigo-400"></div>
-                            <div className="w-5 h-5 rounded-full animate-pulse dark:bg-indigo-400"></div>
-                            <div className="w-5 h-5 rounded-full animate-pulse dark:bg-indigo-400"></div>
-                        </div>
-                </div>
-            </div>)
+        } else {
+            if (error) {
+                return (<LoadingError message={error.message}/>);
+            }
+
+            if (loading) {
+                return (<Loading/>)
+            }
        }
     };
 };

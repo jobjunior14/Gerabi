@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useDispatch } from "react-redux";
 import React from "react";
 import { suiviDetteActions } from "../../../store/suiviDette-slice";

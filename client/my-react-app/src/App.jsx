@@ -10,7 +10,7 @@ import { HouseNav } from './components/headers/outlet';
 import Documentation from './components/documentation';
 import Login from './components/user/login';
 import Signup from './components/user/signup';
-import NotFound from './components/notFound';
+import NotFound from '../src/components/errorPages/notFound';
 function App() {
 
   return ( 

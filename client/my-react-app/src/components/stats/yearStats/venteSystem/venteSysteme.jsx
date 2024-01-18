@@ -1,4 +1,4 @@
-import React from "react";
+/* eslint-disable react/prop-types */
 import Graphique from "../../graphiques";
 import { comparaisonDataApex } from "./utils/yearsStatsArrayUtils";
 import useDataFetcherYearStats from "./utils/dataFetcher";

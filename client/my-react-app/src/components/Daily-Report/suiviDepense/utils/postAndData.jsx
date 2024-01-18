@@ -18,7 +18,7 @@ export default function usePostAndUpdate ({componentName}) {
     const [pSortieCaisse, setSortieCaisse] = useState(null);
     const [pDepense_Eff, setDepenseEff] = useState(0);
     const [pSoldCaisse, setSoldCaisse] = useState(0);
-
+    
     const {year, month, day} = useDateParams();
 
     async function postAndUpdateData (entreeCaisse, sortieCaisse, update, totalSoldCaisse, totDailyDebt, totalSortieCaisse, depenseEff, yourTotalDebt) {
@@ -69,7 +69,7 @@ export default function usePostAndUpdate ({componentName}) {
 
                 //set the depense effectuee data
                 setDepenseEff(responseDepenseEff.data.data.day.valeur);
-            };
+            }
 
         } catch (e) {
             setError(e);

@@ -6,7 +6,7 @@ import formatDate from '../../../reuseFunction/rightFormatDate';
 export default function usePostAndUpdateData ({componentName, productName, venteName}) {
 
     //p and u mean post and update 
-    //means the data from post and update 
+    //means the data from post or update options 
     const [pAnduVente, setPandUVente] = useState (0);
     const [pAnduId, setPandUId] = useState (null);
     const [pAnduData, setPandUData] = useState(null);

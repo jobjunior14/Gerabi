@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import {useSelector, useDispatch } from 'react-redux';
-import { Link } from "react-router-dom";
 import { ExcelSecLayout } from "./productComp/Stock_Sec_Layout";
 import { TableSuivi } from "./suiviAppro/SuiviTable";
 import DailyFilter from "../../filter/filterDailyRap";
@@ -14,7 +13,10 @@ import usePostAndUpdateData from "./utils/postAndUpdateData";
 import useDateParams from "../../reuseFunction/dateParams";
 import useParamsGetter from "../../reuseFunction/paramsGetter";
 import searchImage from "../../../assets/searchImage.png"
-
+import PostAndUpdateError from "../../errorPages/postAndUpdateError";
+import LoadingError from "../../errorPages/LoadingError";
+import No_ExistentDate from '../../errorPages/no_existantDate';
+import Loading from '../../loading';
 export default function Product () {
 
   const dispatch = useDispatch();
@@ -39,7 +41,7 @@ export default function Product () {
   const id = useSelector (state => state[sliceName].id);
   
   //date query
-  const {year, month, day, inexistentDate, setterDateParams} = useDateParams();
+  const {year, month, day, no_existent, setterDateParams} = useDateParams();
   
   //date in forms
   const [date, setDate] = useState({year, month, day});
@@ -66,7 +68,6 @@ export default function Product () {
       venteName
     }
   );
-
   //dispatch the fetched data across all the components 
   useEffect(() => {
     //initialisation of error message
@@ -143,152 +144,136 @@ export default function Product () {
   function handleToggleBtn () {
     stateAction ? dispatch(productActions.setToggleStoc()) : dispatch(alimProductActions.setToggleStoc())
   }
-
-  if ( inexistentDate) {
-
+  //display error on posting Data
+  if (pAnduError) {
     return (
-      <>
-        <DailyFilter onchange={handleDate}  prev = {date} onclick = {setFilterParams}/>
-        <div className=" flex items-center justify-center h-3/4">
-          <img className=" h-96 w-auto" src={searchImage} alt="search image" />
-        </div>
-        <h1 className="text-4xl text-gray-700"> Ouuups!!! vous ne pouvez demander une donnée d'une date inexistante</h1>
-      </>
-    );
-    } else {
-      
-      if (!(loading || pAnduLoading) && productData) {
+      <PostAndUpdateError message={pAnduError.message}/>
+    )
+  } else {
 
-        if ( productData.length > 0) {
-          return (
-            <>
-              <DailyFilter onchange={handleDate}  prev = {date} onclick = {setFilterParams} />
-    
-              <UniqueInput>
-                <label className="font-bold text-indigo-600 mr-7">Vente Journalière </label>
-                <input 
-                  className="h-7 w-28 bg-slate-400 appearance-none rounded-lg pl-2 hover:border-indigo-400 border-2 focus:bg-slate-500 text-white foucus:boder-2 focus:border-indigo-400 focus:outline-none border-gray-500 duration-200"
-                  ref={venteJournaliereRef} 
-                  type="number" 
-                  name="vente" 
-                  onChange={handleVente} 
-                  placeholder="Vente Journalière " 
-                  value={venteDego}
-                />
-              </UniqueInput>
-              
-              <ExcelSecLayout toggle = {toggleStoc} />
-              {/* buttons to add more product, extend or not the main table */}
-              <div className="my-5 block sm:flex justify-center ">
-                {/* reduce or diplay all the data in the suivi stock component */}
-                <div className="mb-3">
-                  <button 
-                    className="bg-gray-500 duration-200 text-gray-50 py-1 px-4 rounded-lg mx-6 hover:bg-gray-600 focus:bg-gray-800 "
-                    onClick={handleToggleBtn}>
-                    { !toggleStoc ? 'Reduire' : 'Agrandir' }</button>
-                </div>
-
-                <div className=" mb-3">
-                  { !update && <AddProduct stateAction = {stateAction} />}
-                </div>
-                {/* check what nameComponent is using the component to update the button's display on the screen  */}
-                { !stateAction && <span className="block sm:flex justify-center">
-                  { !update && !stateAction ? 
-                    <div className="mt-3">
-                      <button 
-                        className="bg-indigo-500  duration-200 text-gray-50 py-1 px-4 rounded-lg mx-6 hover:bg-gray-600 focus:bg-gray-800 "
-                        onClick={postData}> Enregistrer les données 
-                      </button> 
-                    </div> :
-                    <div className="mt-3">
-                      <button
-                        className="bg-indigo-500 duration-200 text-gray-50 py-1 px-4 rounded-lg mx-6 hover:bg-gray-600 focus:bg-gray-800 " 
-                        onClick={UpdateData}> Mettre à jour les données
-                      </button>
-                    </div>}
-                </span>}
-              </div>
-    
-              {/* display or hide the suivi appro table basing on the component Name if it's DegoBar we will display it and if not we'll hide it */}
-              <div className="">
-
-                { stateAction && <span>
-                    <h1 className="font-bold lg:text-3xl text-2xl mt-8 mb-5 text-gray-700"> Suivi Approvisionnement </h1>
+    if ( no_existent) {
+  
+      return (
+        <>
+          <DailyFilter onchange={handleDate}  prev = {date} onclick = {setFilterParams}/>
+          <No_ExistentDate/>
+        </>
+      );
+      } else {
         
-                    <TableSuivi />
-
-                    <div>
-                      <button 
-                        className="bg-gray-500 duration- mt-5 text-gray-50 py-1 px-4 rounded-lg mx-6 hover:bg-gray-600 focus:bg-gray-800 "
-                        onClick={() => stateAction ? dispatch (productActions.setProvivers()) : dispatch (alimProductActions.setProvivers())}>{ !update ? 'Ajouter un Fournisseur' : 'Afficher plus de Fournisseur' } </button>
-                    </div>
-                  </span>}
-                  {stateAction && <span>
-                    { !update ? 
-                      <div className="my-3">
+        if (!(loading || pAnduLoading) && productData) {
+  
+          if ( productData.length > 0) {
+            return (
+              <>
+                <DailyFilter onchange={handleDate}  prev = {date} onclick = {setFilterParams} />
+      
+                <UniqueInput>
+                  <label className="font-bold text-indigo-600 mr-7">Vente Journalière </label>
+                  <input 
+                    className="h-7 w-28 bg-slate-400 appearance-none rounded-lg pl-2 hover:border-indigo-400 border-2 focus:bg-slate-500 text-white foucus:boder-2 focus:border-indigo-400 focus:outline-none border-gray-500 duration-200"
+                    ref={venteJournaliereRef} 
+                    type="number" 
+                    name="vente" 
+                    onChange={handleVente} 
+                    placeholder="Vente Journalière " 
+                    value={venteDego}
+                  />
+                </UniqueInput>
+                
+                <ExcelSecLayout toggle = {toggleStoc} />
+                {/* buttons to add more product, extend or not the main table */}
+                <div className="my-5 block sm:flex justify-center ">
+                  {/* reduce or diplay all the data in the suivi stock component */}
+                  <div className="mb-3">
+                    <button 
+                      className="bg-gray-500 duration-200 text-gray-50 py-1 px-4 rounded-lg mx-6 hover:bg-gray-600 focus:bg-gray-800 "
+                      onClick={handleToggleBtn}>
+                      { !toggleStoc ? 'Reduire' : 'Agrandir' }</button>
+                  </div>
+  
+                  <div className=" mb-3">
+                    { !update && <AddProduct stateAction = {stateAction} />}
+                  </div>
+                  {/* check what nameComponent is using the component to update the button's display on the screen  */}
+                  { !stateAction && <span className="block sm:flex justify-center">
+                    { !update && !stateAction ? 
+                      <div className="mt-3">
                         <button 
-                          className="bg-indigo-500 duration-200 text-gray-50 py-1 px-4 rounded-lg mx-6 hover:bg-gray-600 focus:bg-gray-800 "
+                          className="bg-indigo-500  duration-200 text-gray-50 py-1 px-4 rounded-lg mx-6 hover:bg-gray-600 focus:bg-gray-800 "
                           onClick={postData}> Enregistrer les données 
                         </button> 
                       </div> :
-                      <div>
+                      <div className="mt-3">
                         <button
                           className="bg-indigo-500 duration-200 text-gray-50 py-1 px-4 rounded-lg mx-6 hover:bg-gray-600 focus:bg-gray-800 " 
                           onClick={UpdateData}> Mettre à jour les données
                         </button>
                       </div>}
                   </span>}
-              </div>
-              {errObj.status && !errObj.errorAllowed ? <h3 className=" text-lg lg:text-2xl text-red-700 mt-6"> {errObj.message} </h3> : <h3> {errObj.message} </h3> }
-            </>
-          );
-        } else {
-          //abillity to modify the current date and the previous date
-          return (
-            <>
-                <DailyFilter onchange={handleDate} prev = {date} onclick = {setFilterParams} />
-                <AddProduct stateAction = {stateAction} />  
-                <div className=" flex items-center justify-center h-3/4">
-                  <img className=" h-96 w-auto" src={searchImage} alt="search image" />
                 </div>
-                <h4 className="text-4xl text-gray-700"> Ooouups!!! cette donnée est inexistante veillez clicker sur -Ajouter un Produit- pour la créée</h4>                
-            </>
-          );
+      
+                {/* display or hide the suivi appro table basing on the component Name if it's DegoBar we will display it and if not we'll hide it */}
+                <div className="">
+  
+                  { stateAction && <span>
+                      <h1 className="font-bold lg:text-3xl text-2xl mt-8 mb-5 text-gray-700"> Suivi Approvisionnement </h1>
           
-        };
-      } else {
-        //the loading page
-        if (loading || pAnduLoading) {
-          return (
-            <div className="relative items-center justify-center top-40"> 
-              <div className="flex items-center justify-center space-x-2">
-                <div className="w-3 h-3 rounded-full animate-pulse dark:bg-indigo-400"></div>
-                <div className="w-3 h-3 rounded-full animate-pulse dark:bg-indigo-400"></div>
-                <div className="w-3 h-3 rounded-full animate-pulse dark:bg-indigo-400"></div>
-              </div>
-            </div>
-          );
+                      <TableSuivi />
+  
+                      <div>
+                        <button 
+                          className="bg-gray-500 duration- mt-5 text-gray-50 py-1 px-4 rounded-lg mx-6 hover:bg-gray-600 focus:bg-gray-800 "
+                          onClick={() => stateAction ? dispatch (productActions.setProvivers()) : dispatch (alimProductActions.setProvivers())}>{ !update ? 'Ajouter un Fournisseur' : 'Afficher plus de Fournisseur' } </button>
+                      </div>
+                    </span>}
+                    {stateAction && <span>
+                      { !update ? 
+                        <div className="my-3">
+                          <button 
+                            className="bg-indigo-500 duration-200 text-gray-50 py-1 px-4 rounded-lg mx-6 hover:bg-gray-600 focus:bg-gray-800 "
+                            onClick={postData}> Enregistrer les données 
+                          </button> 
+                        </div> :
+                        <div>
+                          <button
+                            className="bg-indigo-500 duration-200 text-gray-50 py-1 px-4 rounded-lg mx-6 hover:bg-gray-600 focus:bg-gray-800 " 
+                            onClick={UpdateData}> Mettre à jour les données
+                          </button>
+                        </div>}
+                    </span>}
+                </div>
+                {errObj.status && !errObj.errorAllowed ? <h3 className=" text-lg lg:text-2xl text-red-700 mt-6"> {errObj.message} </h3> : <h3> {errObj.message} </h3> }
+              </>
+            );
+          } else {
+            //abillity to modify the current date and the previous date
+            return (
+              <>
+                  <DailyFilter onchange={handleDate} prev = {date} onclick = {setFilterParams} />
+                  <AddProduct stateAction = {stateAction} />  
+                  <div className=" flex items-center justify-center h-3/4">
+                    <img className=" h-96 w-auto" src={searchImage} alt="search image" />
+                  </div>
+                  <h4 className="text-4xl text-gray-700"> Ooouups!!! cette donnée est inexistante veillez clicker sur -Ajouter un Produit- pour la créée</h4>                
+              </>
+            );
+            
+          };
+        } else {
+          //the loading page
+          if (loading || pAnduLoading) {
+            return (<Loading/>);
+          }
+  
+          //the loadind data error page
+          if (error) {
+            return (
+              <LoadingError message= {error.message}/>
+            );
+          }
         }
-
-        //the loadind data error page
-        if (error) {
-          return (
-            <div className="my-10">
-              <h2 className="text-2xl text-gray-800">Ces données sont manquantes s&apos;il vous retourner à la page d&apos;<Link className="underline hover:text-indigo-600 text-gray-800" to={'/'}>Acceuil</Link></h2>
-            </div>
-          )
-        }
-        
-        //error on posting Data
-        if (pAnduError) {
-          
-          return (
-            <div className="my-10">
-              <h2 className="text-2xl text-gray-800">Un probleme est survenu lors de la mise à jours des données s&apos;il vous retourner à la page d&apos;<Link className="underline hover:text-indigo-600 text-gray-800" to={'/'}>Acceuil</Link></h2>
-            </div>
-          )
-        }
-      };
-    };
-  };
+      }
+  }
+}
   
