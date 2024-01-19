@@ -7,7 +7,8 @@ const helmet = require ('helmet');
 const mongoSanitizer = require ('express-mongo-sanitize');
 const xss = require ('xss-clean');
 const app = express();
-
+const dotenv = require ('dotenv');
+dotenv.config ({ path: 'config.env'});
 //Global Middleware
 
 //set the security http headers
@@ -20,9 +21,9 @@ app.use(mongoSanitizer());
 //Data sanitization against XSS attacks
 app.use(xss());
 //development logging
-// if (process.env.node_env === 'development') {
+if (process.env.node_env === 'development') {
   app.use(morgan("dev"));
-// }
+}
 //security thhp headers
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");

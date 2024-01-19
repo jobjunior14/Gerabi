@@ -3,11 +3,12 @@ const mailer = require('nodemailer');
 const sendEmail = async options => {
     // create a transporter
 
-    const transporter = mailer.b({
+    console.log (process.env.EMAIL_USERNAME)
+    const transporter = mailer.createTransport({
         service: 'Gmail',
         auth: {
-            user: process.env.EMAIL_USERNAME,
-            pass: process.env.EMAIL_PASSWORD
+            user: `${process.env.EMAIL_USERNAME}`,
+            pass: `${process.env.EMAIL_PASSWORD}`
         }
     });
 
@@ -18,7 +19,13 @@ const sendEmail = async options => {
         text: options.message,
     };
 
-    await transporter.sendMail(mailOptions)
+    await transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+            console.error(error);
+        } else {
+            console.log ('email sent' + info.response);
+        }
+    });
 };
 
 module.exports = sendEmail;

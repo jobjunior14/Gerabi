@@ -1,9 +1,17 @@
 import { useState } from "react";
 import axios from '../../axiosUrl';
+import {useNavigate} from 'react-router-dom'
+import useDateParams from "../reuseFunction/dateParams";
 export default function Login () {
 
+    const navigate = useNavigate();
+    const {currentDay, currentYear, currentMonth} = useDateParams();
+
     const [userData, setUserData] = useState({email: "", password: ""});
-    const [error, setError] = useState(null);
+    const [formError, setFormError] = useState(null);
+    const [loginError, setLoginError] = useState(null);
+    const [loading, setLoading] = useState(false);
+
     //check if the email is valid or not 
     function isValidEmail (email) {
         return /\S+@\S+\.\S+/.test(email);
@@ -11,55 +19,81 @@ export default function Login () {
     //handler for the input field
     const handleChange = (name, value) => {
         
-        if (name === 'email') setError( userData.email === '' ? false : !isValidEmail(value));
+        if (name === 'email') setFormError( userData.email === '' ? false : !isValidEmail(value));
 
         setUserData(prev => ({...prev, [name]: value}));
     };
 
+
+    //fetch the data to the server
     const loginButton = e => {
 
+        const fecthData = async () => {
+
+            setLoading(true);
+            try {
+                const authorisation = await axios.post ('/user/login', userData);
+
+                //if response is OK, redirect to the home page
+                console.log (authorisation);
+                if (authorisation.status) {
+                    navigate(`/rapportJournalier/degoBar/product/bralima?year=${currentYear}&month=${currentMonth}&day=${currentDay}`);
+                }
+
+            } catch (error) {
+                setLoading(false);
+                setLoginError(error);
+                console.log(error);
+            } finally {
+                setLoading(false);
+            }
+
+        }; fecthData()
         e.preventDefault();
-    }
+    };
     
+    const createAcount = () => {
+        navigate('/signup');
+    };
+
     return (
-        <div className=" flex justify-center mt-10 ">
+        <div className='flex justify-center'>
 
-            <div className= " bg-white border-2 border-slate-400 rounded-md w-96 px-5 py-5">
-                <div>
-                    <input 
-                        id="email" 
-                        name="email" 
-                        placeholder="Adresse E-Mail" 
-                        type="text"
-                        value={userData.email}
-                        className={`px-2  ${error ? 'border-red-700' : 'border-gray-800'} duration-200  appearance-none border-2 w-full h-12 my-3 rounded-lg`}
-                        onChange={ e => handleChange(e.target.name, e.target.value)} 
-                    />
-                </div>
+            <div className=" flex justify-center mt-10 bg-white border-2 border-slate-400 rounded-md w-96 px-5 py-5">
 
                 <div>
-                    <input 
-                        id="password" 
-                        name="password" 
-                        placeholder="Mot De Passe" 
-                        type="password"
-                        value={userData.password}
-                        className={`px-2 border-2 'border-gray-800' duration-200  appearance-none w-full h-12 my-3 rounded-lg`}
-                        onChange={ e => handleChange(e.target.name, e.target.value)} 
-                    />
-                </div>
+                    {/* display the errorMessage */}
+                    {loginError && <p className='text-red-700 text-sm'>{loginError.response.data.message}</p>}
+                    <form onSubmit={e => loginButton(e)} className=" w-96 px-5 py-5 ">
 
-                <div >
-                    <button className="bg-indigo-500 py-2 px-4 w-full text-white text-xl font-bold my-4 rounded-md"> Se Connecter</button>
-                </div>
+                        <input 
+                            id="email" 
+                            name="email" 
+                            placeholder="Adresse E-Mail" 
+                            type="text"
+                            value={userData.email}
+                            className={`px-2  ${formError ? 'border-red-700' : 'border-gray-800'} duration-200  appearance-none border-2 w-full h-12 my-3 rounded-lg`}
+                            onChange={ e => handleChange(e.target.name, e.target.value)} 
+                        />
+                        <input 
+                            id="password" 
+                            name="password" 
+                            placeholder="Mot De Passe" 
+                            type="password"
+                            value={userData.password}
+                            className={`px-2 border-2 'border-gray-800' duration-200  appearance-none w-full h-12 my-3 rounded-lg`}
+                            onChange={ e => handleChange(e.target.name, e.target.value)} 
+                        />
 
-                <div>
+                        <button className="bg-indigo-500 py-2 px-4 w-full text-white text-xl font-bold my-4 rounded-md">{loading ? '...' : 'Se Connecter' }</button>
+                    </form>
+
                     <button className=" text-indigo-500 mb-4"> Mot De passe Oublié</button>
-                </div>
-                <hr />
-                <button className=" bg-slate-600 max-w-72 mt-6 rounded-md py-2 px-4 text-white text-xl font-medium">Créer Un Compte</button>
-            </div>
+                    <hr />
+                    <button onClick={createAcount} className=" bg-slate-600 max-w-72 mt-6 rounded-md py-2 px-4 text-white text-xl font-medium">Créer Un Compte</button>
 
+                </div>
+            </div>
         </div>
     )
 }

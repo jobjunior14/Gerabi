@@ -65,7 +65,6 @@ exports.login = catchAssynch (async (req, res, next) => {
     //to get out the password out of the response sent to the client
     user.password = undefined;
     tokenSender(200, user, res);
-
 })
 exports.updateUser = catchAssynch(async (req, res, next) => {
     

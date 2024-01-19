@@ -30,17 +30,23 @@ export default function Signup () {
 
         if (error.email === true || error.password === true|| userData.email === '' || userData.password === '' || userData.confirmPassword === '' || userData.name === '') {
             setErrorMessage( true);
+
         } else {
+
             setErrorMessage(false);
             e.preventDefault();
         }
     }
     
     return (
-        <div className=" flex justify-center mt-10 ">
+        <div className=" flex justify-center">
 
-            <div className= " bg-white border-2 border-slate-400 rounded-md w-96 px-5 py-5">
-                <div>
+        <div className=" flex justify-center mt-10 bg-white border-2 border-slate-400 rounded-md w-96 px-5 py-5">
+
+            <div>
+
+                <form onSubmit={signUp} className= "  w-96 px-5 py-5">
+
                     <input 
                         id="name" 
                         name="name" 
@@ -49,10 +55,8 @@ export default function Signup () {
                         value={userData.name}
                         className={`px-2 border-2 'border-gray-800' duration-200  appearance-none w-full h-12 my-3 rounded-lg`}
                         onChange={ e => handleChange(e.target.name, e.target.value)} 
-                        />
-                </div>
+                    />
 
-                <div>
                     <input 
                         id="email" 
                         name="email" 
@@ -63,8 +67,6 @@ export default function Signup () {
                         onChange={ e => handleChange(e.target.name, e.target.value)} 
                     />
 
-                </div>
-                <div>
                     <input 
                         id="password" 
                         name="password" 
@@ -73,9 +75,8 @@ export default function Signup () {
                         value={userData.password}
                         className={`px-2 border-2 'border-gray-800' duration-200  appearance-none w-full h-12 my-3 rounded-lg`}
                         onChange={ e => handleChange(e.target.name, e.target.value)} 
-                        />
-                </div>
-                <div>
+                    />
+
                     <input 
                         id="confirmPassword" 
                         name="confirmPassword" 
@@ -85,17 +86,13 @@ export default function Signup () {
                         className={`px-2  ${error.password ? 'border-red-700' : 'border-gray-800'} duration-200  appearance-none border-2 w-full h-12 my-3 rounded-lg`}
                         onChange={ e => handleChange(e.target.name, e.target.value)} 
                     />
-                </div>
-                {errorMessage && <p className="text-red-700 sm:text-base text-xs">Verifier que tout les champ sont bien remplis</p>}
-                <div >
+                    {errorMessage && <p className="text-red-700 sm:text-base text-xs">Verifier que tout les champ sont bien remplis</p>}
                     <button onClick={ e => signUp(e)} className="bg-indigo-500 py-2 px-4 w-full text-white sm:text-xl text-lg font-bold my-4 rounded-md"> Créer un compte</button>
-                </div>
 
-                <div>
-                    <button className=" text-indigo-500 mb-4"> J&apos;ai deja un compte</button>
-                </div>
+                </form>
+                <button className=" text-indigo-500 mb-4"> J&apos;ai deja un compte</button>
             </div>
 
         </div>
-    )
+    </div>)
 }
