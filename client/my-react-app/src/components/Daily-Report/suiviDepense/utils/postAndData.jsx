@@ -23,7 +23,7 @@ export default function usePostAndUpdate ({componentName}) {
 
     const headers = {
         headers: {
-            "content-type": "application/json", withCrudential: true,
+            "content-type": "application/json", 'withCredentials': true,
             'authorization': `Bearer ${localStorage.getItem('jwtA')}`
         }
     };

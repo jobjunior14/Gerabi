@@ -20,7 +20,7 @@ export default function usePostAndUpdateData ({componentName, productName, vente
 
     const headers = {
         headers: {
-            "content-type": "application/json", withCrudential: true,
+            "content-type": "application/json", "withCredentials": true,
             'authorization': `Bearer ${localStorage.getItem('jwtA')}`
         }
     };

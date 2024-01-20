@@ -30,6 +30,12 @@ export default function usePostAndUpdata ({componentName}) {
     //params date using in the whole app
     const {year, month, day} = useDateParams();
 
+     const headers = {
+      headers: {
+          "content-type": "application/json", 'withCredentials': true,
+          'authorization': `Bearer ${localStorage.getItem('jwtA')}`
+      }
+    };
     async function postAndUpdate (agents, musiciens, clients, update, yourDebt) {
         
         try {
@@ -57,13 +63,13 @@ export default function usePostAndUpdata ({componentName}) {
                     }
                 }
             };
-            const responseSuiviDette = !update ? await axios.post(`/${componentName}/suiviDette/rapportJournalier?year=${year}&month=${month}&day=${day}`, newDataSuiviDette) : 
-                await axios.post(`/${componentName}/suiviDette/rapportJournalier/${year}/${month}/${day}`, newDataSuiviDette);
-            const responseYourSuiviDette = !update ? await axios.post(`/${componentName}/yourSuiviDette/rapportJournalier?year=${year}&month=${month}&day=${day}`, newDataYourSuiviDette) : 
-                await axios.post(`/${componentName}/yourSuiviDette/rapportJournalier/${year}/${month}/${day}`, newDataYourSuiviDette);
+            const responseSuiviDette = !update ? await axios.post(`/${componentName}/suiviDette/rapportJournalier?year=${year}&month=${month}&day=${day}`, newDataSuiviDette, headers) : 
+                await axios.post(`/${componentName}/suiviDette/rapportJournalier/${year}/${month}/${day}`, newDataSuiviDette, headers);
+            const responseYourSuiviDette = !update ? await axios.post(`/${componentName}/yourSuiviDette/rapportJournalier?year=${year}&month=${month}&day=${day}`, newDataYourSuiviDette, headers) : 
+                await axios.post(`/${componentName}/yourSuiviDette/rapportJournalier/${year}/${month}/${day}`, newDataYourSuiviDette, headers);
     
-            const totDetailDetteAndPayment = await axios.get (`/${componentName}/suiviDette/rapportMensuel/detail/${year}/${month}`);
-            const yourTotDetailDetteAndPayment = await axios.get (`/${componentName}/yourSuiviDette/rapportMensuel/detail/${year}/${month}`);
+            const totDetailDetteAndPayment = await axios.get (`/${componentName}/suiviDette/rapportMensuel/detail/${year}/${month}`, headers);
+            const yourTotDetailDetteAndPayment = await axios.get (`/${componentName}/yourSuiviDette/rapportMensuel/detail/${year}/${month}`, headers);
             //set the all the total amout dabt and payments
             setTotDetailDetteAndPaymentAgents(totDetailDetteAndPayment.data.data.agents);
             setTotDetailDetteAndPaymentClients(totDetailDetteAndPayment.data.data.clients);

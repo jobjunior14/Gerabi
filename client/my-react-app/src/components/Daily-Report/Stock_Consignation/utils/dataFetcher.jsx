@@ -19,7 +19,7 @@ export default function useDataFetcherSuiviStock ({componentName, productName, v
 
     const headers = {
         headers: {
-            "content-type": "application/json", withCrudential: true,
+            "content-type": "application/json", "withCredentials": true,
             'Authorization': `Bearer ${localStorage.getItem('jwtA')}`
         }
     };
