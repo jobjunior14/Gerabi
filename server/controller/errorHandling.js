@@ -49,7 +49,7 @@ const sendErrorProd = (err, res) =>
         );
     }
 
-    //Programming  or unknow error: don't lea to the client
+    //Programming  or unknow error: don't send to the client
     else
     {
         //1) Log the error
@@ -80,8 +80,8 @@ else if ( process.env.NODE_ENV === 'production')
     if (err.name === 'CastError') error = handleCastErrorDB (error);
     if (err.code === 11000) error = handleDuplicateFieldDB (error);
     if (err.name === 'ValidationError') error = handleValidationErrorDB (error);
-    if (err.name === 'JsonWebTokenError') error = handleJWTError;
-    if (err.name === "TokenExpiredError") error = handleTokenExpired;
+    if (err.name === 'JsonWebTokenError') error = handleJWTError();
+    if (err.name === "TokenExpiredError") error = handleTokenExpired();
 
     sendErrorProd(error, res);
 }

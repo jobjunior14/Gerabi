@@ -15,26 +15,26 @@ const {protect} = require('../../controller/userAuth');
 
 router
     .route('/rapportJournalier/:year/:month/:day')
-    .get( getSuiviDepense)
-    .post(updateSuiviDepense);
+    .get(protect, getSuiviDepense)
+    .post(protect,updateSuiviDepense);
 
 router
     .route('/rapportJournalier')
-    .post(pushSuiviDepense);
+    .post(protect,pushSuiviDepense);
 
 router
     .route('/lastElement/:year/:month')
-    .get( lastCreatedDataSuiviDepense);
+    .get(protect, lastCreatedDataSuiviDepense);
 
 router
     .route('/rapportMensuel/all/:year/:month')
-    .get( mensualStasSuiviDepense);
+    .get(protect, mensualStasSuiviDepense);
 
 router
     .route ('/rapportMensuel/detail/:year/:month')
-    .get( mensualDetailStasSuiviDepense);
+    .get(protect, mensualDetailStasSuiviDepense);
 
-router.route('/rapportJournalier/dailyRap/:year/:month/:day').get( dailyRepportSuiviDepense);
+router.route('/rapportJournalier/dailyRap/:year/:month/:day').get(protect, dailyRepportSuiviDepense);
 
 
 

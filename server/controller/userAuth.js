@@ -38,10 +38,10 @@ exports.signup = catchAssynch ( async (req, res) => {
 
         //to get out the password out of the response sent to the client
         newUser.password = undefined;
-        tokenSender(200, newUser, res);
+        tokenSender(201, newUser, res);
 
     } else {
-        return next (new AppError("Cette Application ne peut avoir plus d'un seul compte", 404))
+        return next (new AppError("Cette Application ne peut avoir plus d'un seul compte", 406))
     };
 });
 
@@ -86,9 +86,8 @@ exports.updateUser = catchAssynch(async (req, res, next) => {
 });
 
 exports.protect = catchAssynch(async (req, res, next) => {
-
     let token;
-
+    
     //Check if the toke exists in the headers
     if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
         token = req.headers.authorization.split(' ')[1];
@@ -97,14 +96,14 @@ exports.protect = catchAssynch(async (req, res, next) => {
     if (!token) {
         return next (new AppError ("Please logged in to get access", 401));
     };
-
+    
     //check if the token has a valid signature ( if not it returns a false value)
     const decoder = await promisify(jwt.verify)(token, process.env.JWT_S);
     //check if the user still exxist in the database
     const existsUser = await User.findById(decoder.id);
      
     if (!existsUser) {
-        return next (new AppError("This user does not belong to this token, please login and try again."));
+        return next (new AppError("This user does not belong to this token, please login and try again.", 400));
     };
 
     //check if the user has already changed it logi information
@@ -114,7 +113,6 @@ exports.protect = catchAssynch(async (req, res, next) => {
 
     //put the user information in the request object
     req.user = existsUser;
-
     next();
 });
 
@@ -207,6 +205,4 @@ exports.updatePassword = catchAssynch ( async (req, res, next) => {
     user.password = undefined;
 
     tokenSender(200, user, res);
-
-
 });

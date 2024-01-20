@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import useDateParams from "../../../../reuseFunction/dateParams";
 import axios from '../../../../../axiosUrl';
 import { dateSetter } from "./yearsStatsArrayUtils";
-
+import useTokenError from '../../../../errorPages/tokenError'
 export default function useDataFetcherYearStats ({componentName, productName}) {
 
    
@@ -16,10 +16,17 @@ export default function useDataFetcherYearStats ({componentName, productName}) {
     //date params
     const {year} = useDateParams();
 
+    const headers = {
+        headers: {
+            "content-type": "application/json", withCrudential: true,
+            'authorization': `Bearer ${localStorage.getItem('jwtA')}`
+        }
+    };
+
     const fetchData = async () => {
         setLoading(true);
         try {
-            const apiData = await axios.get (`/${componentName}/${productName}/rapportMensuel/yearStats/${year}`);
+            const apiData = await axios.get (`/${componentName}/${productName}/rapportMensuel/yearStats/${year}`, headers);
             setData(apiData.data.stats.stats);
 
         } catch (e) {
@@ -40,7 +47,7 @@ export default function useDataFetcherYearStats ({componentName, productName}) {
                 saveVenteBar.push(i.vente_bar);
                 saveAppro.push(i.approvisionnement);
                 saveBenef.push(i.benefice);
-            };
+            }
             setVenteBar(saveVenteBar);
             setApprovisionnement(saveAppro);
             setBenefice(saveBenef); 
@@ -52,12 +59,17 @@ export default function useDataFetcherYearStats ({componentName, productName}) {
             setBenefice([]); 
             setMonth([]);
         }
-    };
+    }
 }, [data]);
 
     useEffect (() => {
         fetchData();
     }, [year]);
+
+    //****************redirect to the login page if login error************* */
+            useTokenError(error);
+    /////////////////////*************/////////////////// */
+
 
     return {venteBar, approvisionnement, benefice, month, loading, error};
 }

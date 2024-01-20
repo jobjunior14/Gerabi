@@ -8,6 +8,7 @@ import Benefice from "./benefice";
 import VenteBar from "./venteBar";
 import useParamsGetter from "../../reuseFunction/paramsGetter";
 import useDateParams from "../../reuseFunction/dateParams";
+import useTokenError from '../../errorPages/tokenError'
 export default function SuiviDesVentes ({user}) {
 
     const dispatch = useDispatch();
@@ -29,6 +30,13 @@ export default function SuiviDesVentes ({user}) {
     const [error, setError] = useState(false);
     const [loading, setLoading] = useState(true);
     
+
+    const headers = {
+        headers: {
+            "content-type": "application/json", withCrudential: true,
+            'authorization': `Bearer ${localStorage.getItem('jwtA')}`
+        }
+    };
     //******************************fecth the data*************************************/
     useEffect (() => {
 
@@ -46,24 +54,24 @@ export default function SuiviDesVentes ({user}) {
                 setError(false);
                 setLoading(true);
                 //based on the **currentUser*** variable we get different Data 
-                const bralimaData = currentUser ? await axios.get(`/${componentName}/bralima/rapportMensuel/Allstast/${year}/${month}`) :
-                    await axios.get(`/${componentName}/bralima/rapportJournalier/dailyRap/${year}/${month}/${day}`);
+                const bralimaData = currentUser ? await axios.get(`/${componentName}/bralima/rapportMensuel/Allstast/${year}/${month}`, headers) :
+                    await axios.get(`/${componentName}/bralima/rapportJournalier/dailyRap/${year}/${month}/${day}`, headers);
 
-                const brasimbaData = user === "rappMens" ? await axios.get(`/${componentName}/brasimba/rapportMensuel/Allstast/${year}/${month}`) :
-                    await axios.get(`/${componentName}/brasimba/rapportJournalier/dailyRap/${year}/${month}/${day}`);
+                const brasimbaData = user === "rappMens" ? await axios.get(`/${componentName}/brasimba/rapportMensuel/Allstast/${year}/${month}`, headers) :
+                    await axios.get(`/${componentName}/brasimba/rapportJournalier/dailyRap/${year}/${month}/${day}`, headers);
 
-                const liqueursData = currentUser ? await axios.get(`/${componentName}/liqueurs/rapportMensuel/Allstast/${year}/${month}`) :
-                    await axios.get(`/${componentName}/liqueurs/rapportJournalier/dailyRap/${year}/${month}/${day}`);
+                const liqueursData = currentUser ? await axios.get(`/${componentName}/liqueurs/rapportMensuel/Allstast/${year}/${month}`, headers) :
+                    await axios.get(`/${componentName}/liqueurs/rapportJournalier/dailyRap/${year}/${month}/${day}`, headers);
 
-                const autreProduitData = currentUser ? await axios.get(`/${componentName}/autreProduit/rapportMensuel/Allstast/${year}/${month}`) :
-                    await axios.get(`/${componentName}/autreProduit/rapportJournalier/dailyRap/${year}/${month}/${day}`);
+                const autreProduitData = currentUser ? await axios.get(`/${componentName}/autreProduit/rapportMensuel/Allstast/${year}/${month}`, headers) :
+                    await axios.get(`/${componentName}/autreProduit/rapportJournalier/dailyRap/${year}/${month}/${day}`, headers);
 
                 //depense Effectuees
-                const depenseEffMens = currentUser ? await axios.get(`/${componentName}/depenseEff/${year}/${month}`) :
-                    await axios.get(`/${componentName}/depenseEff/${year}/${month}/${day}`);
+                const depenseEffMens = currentUser ? await axios.get(`/${componentName}/depenseEff/${year}/${month}`, headers) :
+                    await axios.get(`/${componentName}/depenseEff/${year}/${month}/${day}`, headers);
                 //vente system
-                const dataVente = currentUser ? await axios.get(`/${componentName}/vente/${year}/${month}`) :
-                    await axios.get(`/${componentName}/vente/${year}/${month}/${day}`);
+                const dataVente = currentUser ? await axios.get(`/${componentName}/vente/${year}/${month}`, headers) :
+                    await axios.get(`/${componentName}/vente/${year}/${month}/${day}`, headers);
 
                 //set vente system
                 if (currentUser) {
@@ -73,7 +81,7 @@ export default function SuiviDesVentes ({user}) {
                     }
                     //set depense eff
                     if (depenseEffMens.data.stats.stats.length > 0){
-                        setDepenseEff(prev => depenseEffMens.data.stats.stats[0].venteDego);
+                        setDepenseEff(depenseEffMens.data.stats.stats[0].venteDego);
                     }
                 } else {
 
@@ -83,7 +91,7 @@ export default function SuiviDesVentes ({user}) {
                     }
                     //set depense eff
                     if (depenseEffMens.data.data.day) {
-                        setDepenseEff(prev => depenseEffMens.data.data.day.valeur);
+                        setDepenseEff(depenseEffMens.data.data.day.valeur);
                     }
                 }
                 
@@ -107,8 +115,12 @@ export default function SuiviDesVentes ({user}) {
             }
         }; fecthData();
 
+        
+        
     }, [year, month, componentName, day, currentUser]);
-    
+    /****************redirect to the login page if login error************* */
+                useTokenError(error);
+    /////////////////////*************/////////////////// */
     if (no_existent) {
         return (<div className="my-20 text-2xl">
             <h1>Ooouups vous ne pouvez demander une donnee d&apos;une date inexistante</h1>

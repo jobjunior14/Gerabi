@@ -8,11 +8,11 @@ const {
   monthStatsDepenseEffAlim,
 } = require("../../controller/alimentation/depenseEffAlim");
 
-router.route("/").post(pushDataDepenseEffAlim);
+router.route("/").post(protect,pushDataDepenseEffAlim);
 
-router.route("/:year/:month/:day").get( getDepenseEffAlim).post( updateDepenseEffAlim);
+router.route("/:year/:month/:day").get(protect, getDepenseEffAlim).post(protect, updateDepenseEffAlim);
 
-router.route("/:year/:month").get( monthStatsDepenseEffAlim);
+router.route("/:year/:month").get(protect, monthStatsDepenseEffAlim);
 
 
 module.exports = router;

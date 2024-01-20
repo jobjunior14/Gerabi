@@ -1,10 +1,8 @@
-import axios from 'axios';
+import axios from '../../../../axiosUrl';
 import { useEffect, useState } from 'react';
 import useDateParams from '../../../reuseFunction/dateParams';
 import indexSetter from '../../../reuseFunction/indexSetter';
-
-axios.defaults.baseURL = "http://localhost:5001/api/v1";
-
+import useTokenError from '../../../errorPages/tokenError';
 export default function useDataFetcherSuiviDepense ({componentName}) {
     
   const [error, setError] = useState('');
@@ -25,17 +23,23 @@ export default function useDataFetcherSuiviDepense ({componentName}) {
   //params date using in the whole app
   const {year, month, day} = useDateParams();
 
+    const headers = {
+      headers: {
+          "content-type": "application/json", withCrudential: true,
+          'authorization': `Bearer ${localStorage.getItem('jwtA')}`
+      }
+    };
   const fetchData = async () => {
 
     setError('');
     try {
       //reinitialize some state to see the loading page while fetching data
 
-      const suiviDetteData = await axios.get(`/${componentName}/suiviDette/rapportJournalier/${year}/${month}/${day}`);
-      const totDetailDetteAndPayment = await axios.get (`/${componentName}/suiviDette/rapportMensuel/detail/${year}/${month}`);
+      const suiviDetteData = await axios.get(`/${componentName}/suiviDette/rapportJournalier/${year}/${month}/${day}`, headers);
+      const totDetailDetteAndPayment = await axios.get (`/${componentName}/suiviDette/rapportMensuel/detail/${year}/${month}`, headers);
       //*your* refer to the owner of the application 
-      const yourSuiviDetteData = await axios.get (`/${componentName}/yourSuiviDette/rapportJournalier/${year}/${month}/${day}`);
-      const yourTotDetailDetteAndPayment = await axios.get (`/${componentName}/yourSuiviDette/rapportMensuel/detail/${year}/${month}`);
+      const yourSuiviDetteData = await axios.get (`/${componentName}/yourSuiviDette/rapportJournalier/${year}/${month}/${day}`, headers);
+      const yourTotDetailDetteAndPayment = await axios.get (`/${componentName}/yourSuiviDette/rapportMensuel/detail/${year}/${month}`, headers);
 
       if (suiviDetteData.data.data.agents.length > 0 || suiviDetteData.data.data.musiciens.length > 0 || suiviDetteData.data.data.clients.length > 0 ) {
 
@@ -55,7 +59,7 @@ export default function useDataFetcherSuiviDepense ({componentName}) {
         setReadOnly(false);
 
         //getting the last created data (specifically name and their total amout on the month)
-        const lastCreatedData = await axios.get(`/${componentName}/suiviDette/lastElement/${year}/${month}`);
+        const lastCreatedData = await axios.get(`/${componentName}/suiviDette/lastElement/${year}/${month}`, headers);
 
         if (lastCreatedData.data.data) {
 
@@ -75,8 +79,8 @@ export default function useDataFetcherSuiviDepense ({componentName}) {
           setAgentsData([]);
           setClientsData([]);
           setMusiciensData([]);
-        };
-      };
+        }
+      }
 
       //**your debt*/
       if (yourSuiviDetteData.data.data.fournisseurs.length > 0) {
@@ -86,7 +90,7 @@ export default function useDataFetcherSuiviDepense ({componentName}) {
 
       } else {
         
-        const yourLastCreatedData = await axios.get(`${componentName}/yourSuiviDette/lastElement/${year}/${month}`);
+        const yourLastCreatedData = await axios.get(`${componentName}/yourSuiviDette/lastElement/${year}/${month}`, headers);
         if (yourLastCreatedData.data.data) {
 
           setYourDebt(indexSetter(yourLastCreatedData.data.data.fournisseurs));
@@ -97,7 +101,7 @@ export default function useDataFetcherSuiviDepense ({componentName}) {
           setYourTotalaDetailDebtAndPayment([]);
           setYourTotalDebtAndPayment(0);
         }
-      };
+      }
 
 
     } catch (error) {
@@ -105,12 +109,16 @@ export default function useDataFetcherSuiviDepense ({componentName}) {
       setLoading(false);
     } finally {
       setLoading(false);
-    };
+    }
   };
 
   useEffect (() => {
     fetchData();
   }, [year, month, day, componentName]);
+
+    //****************redirect to the login page if login error************* */
+              useTokenError(error);
+  /////////////////////*************/////////////////// */
 
   return {error, 
     loading, 

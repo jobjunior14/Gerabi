@@ -3,8 +3,9 @@ import axios from "../../../../axiosUrl";
 import objProvider from "./objProvider";
 import useDateParams from "../../../reuseFunction/dateParams";
 import indexSetter from "../../../reuseFunction/indexSetter";
-
+import useTokenError from "../../../errorPages/tokenError";
 export default function useDataFetcherSuiviStock ({componentName, productName, venteName}) {
+
     //the date using in the query string and the current date 
     const {year, month, day, currentDay, currentMonth, currentYear} = useDateParams();
     //data
@@ -16,43 +17,49 @@ export default function useDataFetcherSuiviStock ({componentName, productName, v
     const [ loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
+    const headers = {
+        headers: {
+            "content-type": "application/json", withCrudential: true,
+            'Authorization': `Bearer ${localStorage.getItem('jwtA')}`
+        }
+    };
     const fetchData = async () =>{
         //reinitialize some state to see the loading page while posting data
         setLoading(true);
-        setError('');
+        setError(null);
         try {
 
             if (year < currentYear || month < currentMonth || day < currentDay) {
 
                 //the main data
-                const apiData = await axios.get(`/${componentName}/${productName}/rapportJournalier/${year}/${month}/${day}`);
-                const venteData = await axios.get(`/${componentName}/vente/${year}/${month}/${day}`);
+                const apiData = await axios.get(`/${componentName}/${productName}/rapportJournalier/${year}/${month}/${day}`, headers);
+                const venteData = await axios.get(`/${componentName}/vente/${year}/${month}/${day}`, headers);
                 //if there is an existing data 
             
                 if (apiData.data.data.day.length > 0) {
-                    setVente(prev => venteData.data.data.day.valeur);
-                    setData(prev => indexSetter(apiData.data.data.day));
-                    setCustomId(prev => apiData.data.data.id);
-                    setCustomUpdate(prev => true);
-                    setReadOnly(prev => true);
+                    setVente(venteData.data.data.day.valeur);
+                    setData(indexSetter(apiData.data.data.day));
+                    setCustomId(apiData.data.data.id);
+                    setCustomUpdate(true);
+                    setReadOnly(true);
                     
                 } else {
                     //if there is no data on the current day
                     //we call an api how give use the lastet date created from the server
-                    const lastcreatedData = await axios.get(`/${componentName}/${productName}/rapportJournalier/lastElement`);
+                    const lastcreatedData = await axios.get(`/${componentName}/${productName}/rapportJournalier/lastElement`, headers);
 
                     if (lastcreatedData.data.data) {
 
-                        setVente(prev => 0);
-                        setData (prev => lastcreatedData.data.data.map((el, index) =>  objProvider(componentName, el, index)));
-                        setCustomUpdate(prev => false);
-                        setReadOnly(prev => false);
+                        setVente(0);
+                        setData (lastcreatedData.data.data.map((el, index) =>  objProvider(componentName, el, index)));
+                        setCustomUpdate(false);
+                        setReadOnly(false);
                     } else {
-                        setVente(prev => 0);
-                        setData(prev => []);
-                        setCustomId(prev => []);
-                        setCustomUpdate(prev => false);
-                        setReadOnly(prev => false);
+                        setVente(0);
+                        setData([]);
+                        setCustomId([]);
+                        setCustomUpdate(false);
+                        setReadOnly(false);
                     }
                 }
 
@@ -69,51 +76,55 @@ export default function useDataFetcherSuiviStock ({componentName, productName, v
                     setVente (dataVenteFromLocalStorage);
                     setData(dataFromLocalStorage.data);
                     setCustomId (dataFromLocalStorage.id);
-                    setCustomUpdate(prev => true);
-                    setReadOnly (prev => true);
+                    setCustomUpdate(true);
+                    setReadOnly (true);
 
 
                 } else {
                         
                     //the main data
-                    const apiData = await axios.get(`/${componentName}/${productName}/rapportJournalier/${year}/${month}/${day}`);
-                    const venteData = await axios.get(`/${componentName}/vente/${year}/${month}/${day}`); 
+                    const apiData = await axios.get(`/${componentName}/${productName}/rapportJournalier/${year}/${month}/${day}`, headers);
+                    const venteData = await axios.get(`/${componentName}/vente/${year}/${month}/${day}`, headers); 
+                    
                     if (apiData.data.data.day.length === 0) {
                         
                         //if there is no data on the current day
                         //we call an api how give use the lastet date created from the server
-                        const lastcreatedData = await axios.get(`/${componentName}/${productName}/rapportJournalier/lastElement`);
+                        const lastcreatedData = await axios.get(`/${componentName}/${productName}/rapportJournalier/lastElement`, headers);
                         
-                        venteData.data.data.day ? setVente (prev => venteData.data.data.day.valeur) :
-                            setVente(prev => 0);
-                        setCustomUpdate(prev => false);
-                        setReadOnly (prev => false);
+                        venteData.data.data.day ? setVente ( venteData.data.data.day.valeur) :
+                            setVente(0);
+                        setCustomUpdate( false);
+                        setReadOnly ( false);
                         
-                        lastcreatedData.data.data ? setData (prev => lastcreatedData.data.data.map((el, index) => objProvider(componentName, el, index))) : 
-                        setData(prev => []);
+                        lastcreatedData.data.data ? setData (lastcreatedData.data.data.map((el, index) => objProvider(componentName, el, index))) : 
+                        setData( []);
                         
                     } else {
                         
                         //setting the existing data
-                        venteData.data.data.day ? setVente(prev => venteData.data.data.day.valeur) :  setVente(prev => 0)
-                        setData(prev => indexSetter(apiData.data.data.day));
-                        setCustomId(prev => apiData.data.data.id);
-                        setCustomUpdate(prev => true);
-                        setReadOnly(prev => true);
-                    };
-                };
-            };
+                        venteData.data.data.day ? setVente(venteData.data.data.day.valeur) :  setVente(0)
+                        setData(indexSetter(apiData.data.data.day));
+                        setCustomId(apiData.data.data.id);
+                        setCustomUpdate(true);
+                        setReadOnly(true);
+                    }
+                }
+            }
         } catch (err) {
             setError(err);
             setLoading(false);
         } finally {
             setLoading(false);
-        };
+        }
     };
 
     useEffect(() => {
         fetchData();
     }, [year, month, day, productName, componentName, venteName]);
 
+        //****************redirect to the login page if login error************* */
+                    useTokenError(error);
+        /////////////////////*************/////////////////// */
     return {vente, customId, data, customUpdate, readOnly, loading, error};
 }

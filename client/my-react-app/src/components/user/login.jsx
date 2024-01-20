@@ -32,13 +32,13 @@ export default function Login () {
 
             setLoading(true);
             try {
-                const authorisation = await axios.post ('/user/login', userData);
-
-                //if response is OK, redirect to the home page
-                console.log (authorisation);
-                if (authorisation.status) {
-                    navigate(`/rapportJournalier/degoBar/product/bralima?year=${currentYear}&month=${currentMonth}&day=${currentDay}`);
-                }
+                    const authorisation = await axios.post ('/user/login', userData);
+    
+                    //if response is OK, redirect to the home page
+                    if (authorisation.status) {
+                        localStorage.setItem('jwtA', authorisation.data.token);
+                        navigate(`/rapportJournalier/degoBar/product/bralima?year=${currentYear}&month=${currentMonth}&day=${currentDay}`);
+                    }
 
             } catch (error) {
                 setLoading(false);
@@ -55,16 +55,16 @@ export default function Login () {
     const createAcount = () => {
         navigate('/signup');
     };
-
+    
     return (
         <div className='flex justify-center'>
 
-            <div className=" flex justify-center mt-10 bg-white border-2 border-slate-400 rounded-md w-96 px-5 py-5">
+            <div className=" flex justify-center mt-10 bg-white border-2 border-slate-400 rounded-md min-w-70 px-5 py-5">
 
                 <div>
                     {/* display the errorMessage */}
-                    {loginError && <p className='text-red-700 text-sm'>{loginError.response.data.message}</p>}
-                    <form onSubmit={e => loginButton(e)} className=" w-96 px-5 py-5 ">
+                    {loginError && <p className='text-red-700 text-sm'>{loginError.response ? `${loginError.response.data.message}` : `${loginError.message}`}</p>}
+                    <form onSubmit={e => loginButton(e)} className=" w-70 px-5 py-5 ">
 
                         <input 
                             id="email" 
@@ -72,7 +72,7 @@ export default function Login () {
                             placeholder="Adresse E-Mail" 
                             type="text"
                             value={userData.email}
-                            className={`px-2  ${formError ? 'border-red-700' : 'border-gray-800'} duration-200  appearance-none border-2 w-full h-12 my-3 rounded-lg`}
+                            className={`px-2  ${formError ? 'border-red-700' : 'border-gray-800'} duration-200  appearance-none border-2 w-4/5 h-12 my-3 rounded-lg`}
                             onChange={ e => handleChange(e.target.name, e.target.value)} 
                         />
                         <input 
@@ -81,11 +81,11 @@ export default function Login () {
                             placeholder="Mot De Passe" 
                             type="password"
                             value={userData.password}
-                            className={`px-2 border-2 'border-gray-800' duration-200  appearance-none w-full h-12 my-3 rounded-lg`}
+                            className={`px-2 border-2 'border-gray-800' duration-200  appearance-none w-4/5 h-12 my-3 rounded-lg`}
                             onChange={ e => handleChange(e.target.name, e.target.value)} 
                         />
 
-                        <button className="bg-indigo-500 py-2 px-4 w-full text-white text-xl font-bold my-4 rounded-md">{loading ? '...' : 'Se Connecter' }</button>
+                        <button className="bg-indigo-500 py-2 px-4 w-4/5 text-white text-xl font-bold my-4 rounded-md">{loading ? '...' : 'Se Connecter' }</button>
                     </form>
 
                     <button className=" text-indigo-500 mb-4"> Mot De passe Oublié</button>

@@ -10,10 +10,10 @@ const {
 
 const {protect} = require('../../controller/userAuth');
 
-router.route("/").post(pushDataVenteDego);
+router.route("/").post(protect,pushDataVenteDego);
 
-router.route("/:year/:month/:day").get( getVenteDego).post(updateventeDego);
+router.route("/:year/:month/:day").get(protect, getVenteDego).post(protect,updateventeDego);
 
-router.route("/:year/:month").get( monthStatsVenteDego);
+router.route("/:year/:month").get(protect, monthStatsVenteDego);
 
 module.exports = router;

@@ -10,10 +10,10 @@ const {
 
 const {protect} = require('../../controller/userAuth');
 
-router.route("/").post(pushDataDepenseEff);
+router.route("/").post(protect,pushDataDepenseEff);
 
-router.route("/:year/:month/:day").get( getDepenseEff).post(updateDepenseEff);
+router.route("/:year/:month/:day").get(protect, getDepenseEff).post(protect,updateDepenseEff);
 
-router.route("/:year/:month").get(monthStatsDepenseEff);
+router.route("/:year/:month").get(protect,monthStatsDepenseEff);
 
 module.exports = router;

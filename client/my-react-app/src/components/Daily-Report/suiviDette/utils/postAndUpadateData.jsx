@@ -5,6 +5,7 @@ import formatData from '../../../reuseFunction/rightFormatDate';
 import { deleteEmptyName } from './arrayUtils';
 import { dateSetter } from './arrayUtils';
 import indexSetter from '../../../reuseFunction/indexSetter';
+import useTokenError from '../../../errorPages/tokenError';
 
 axios.defaults.baseURL = "http://localhost:5001/api/v1";
 
@@ -89,8 +90,14 @@ export default function usePostAndUpdata ({componentName}) {
             setLoading(false);
         } finally {
             setLoading(false);
-        };
-    };
+        }
+    }
+
+    //****************redirect to the login page if login error************* */
+     useTokenError(pError);
+    ////    /////////////////*************/////////////////// */
+
+
 
     return {
         pError,

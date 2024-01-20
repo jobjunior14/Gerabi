@@ -6,6 +6,7 @@ import useDateParams from '../../reuseFunction/dateParams';
 import No_ExistentDate from "../../errorPages/no_existantDate";
 import LoadingError from "../../errorPages/LoadingError";
 import Loading from '../../loading';
+import useTokenError from '../../errorPages/tokenError'
 export default function MensRapSuiviDepense ({user, error, loading}) {
 
     //stateAction is here to know wich component is using the data based to current usrl using the Params data
@@ -24,6 +25,12 @@ export default function MensRapSuiviDepense ({user, error, loading}) {
     //current user
     const currentUser = user === 'rappMens' ? true : false;
 
+    const headers = {
+        headers: {
+            "content-type": "application/json", withCrudential: true,
+            'authorization': `Bearer ${localStorage.getItem('jwtA')}`
+        }
+    };
     //fetch the data 
     useEffect(() => {
         
@@ -31,26 +38,30 @@ export default function MensRapSuiviDepense ({user, error, loading}) {
             try {
                 setData(null);
 
-                const apiData = currentUser ? await axios.get (`/${componentName}/suiviDepense/rapportMensuel/detail/${year}/${month}`) :
-                    await axios.get (`/${componentName}/suiviDepense/rapportJournalier/dailyRap/${year}/${month}/${day}`); 
+                const apiData = currentUser ? await axios.get (`/${componentName}/suiviDepense/rapportMensuel/detail/${year}/${month}`, headers) :
+                    await axios.get (`/${componentName}/suiviDepense/rapportJournalier/dailyRap/${year}/${month}/${day}`, headers); 
                 
                 setData(apiData.data.data);
             } catch (error) {
                 
                 console.log(error);
-            };
+            }
         };fecthData();
     }, [year, month, componentName, currentUser]);
-
+    
+    //****************redirect to the login page if login error************* */
+        useTokenError(error);
+    /////////////////////*************/////////////////// */
     //map the list to display it //side effect
     useEffect(() => {
 
         if (data) {
             setDisplayEntreeCaisse(data.entreeCaisse.map (el => <tr className='[&>*:nth-child(even)]:bg-slate-200' key={`entreeCaisse${el._id}`}><td className="border-2 border-gray-800 px-10">{el._id}</td> <td className="border-2 border-gray-800 px-10">{el.valeur}</td></tr> ));
             setDisplaySortieCaisse( data.sortieCaisse.map (el => <tr className='[&>*:nth-child(even)]:bg-slate-200' key = {`sortieCaisse${el._id}`} ><td className="border-2 border-gray-800 px-10">{el._id}</td> <td className="border-2 border-gray-800 px-10">{el.valeur}</td></tr> ));
-        };
+        }
     }, [data]);
-     
+
+
     if (no_existent) {
         
         return (<div>

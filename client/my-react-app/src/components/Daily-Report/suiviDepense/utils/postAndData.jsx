@@ -6,7 +6,7 @@ import { deleteEmptyNameSortieCaisse } from "./sortieCaisseUtils";
 import formatDate from "../../../reuseFunction/rightFormatDate";
 import axios from "../../../../axiosUrl";
 import indexSetter from "../../../reuseFunction/indexSetter";
-
+import useTokenError from "../../../errorPages/tokenError";
 
 export default function usePostAndUpdate ({componentName}) {
 
@@ -20,6 +20,14 @@ export default function usePostAndUpdate ({componentName}) {
     const [pSoldCaisse, setSoldCaisse] = useState(0);
     
     const {year, month, day} = useDateParams();
+
+    const headers = {
+        headers: {
+            "content-type": "application/json", withCrudential: true,
+            'authorization': `Bearer ${localStorage.getItem('jwtA')}`
+        }
+    };
+
 
     async function postAndUpdateData (entreeCaisse, sortieCaisse, update, totalSoldCaisse, totDailyDebt, totalSortieCaisse, depenseEff, yourTotalDebt) {
 
@@ -49,10 +57,10 @@ export default function usePostAndUpdate ({componentName}) {
             };
 
 
-            const responseSuiviDepense = !update ?  await axios.post(`/${componentName}/suiviDepense/rapportJournalier?year=${year}&month=${month}&day=${day}`, suiviDepenseData) : 
-                await axios.post(`/${componentName}/suiviDepense/rapportJournalier/${year}/${month}/${day}`, suiviDepenseData);
-            const responseDepenseEff = update ? await axios.post( `/${componentName}/depenseEff/${year}/${month}/${day}`, {valeur: depenseEff, createdAt: createdAt} ) : 
-                await axios.post( `/${componentName}/depenseEff?year=${year}&month=${month}&day=${day}`, {valeur: depenseEff, createdAt: createdAt});
+            const responseSuiviDepense = !update ?  await axios.post(`/${componentName}/suiviDepense/rapportJournalier?year=${year}&month=${month}&day=${day}`, suiviDepenseData, headers) : 
+                await axios.post(`/${componentName}/suiviDepense/rapportJournalier/${year}/${month}/${day}`, suiviDepenseData, headers);
+            const responseDepenseEff = update ? await axios.post( `/${componentName}/depenseEff/${year}/${month}/${day}`, {valeur: depenseEff, createdAt: createdAt}, headers ) : 
+                await axios.post( `/${componentName}/depenseEff?year=${year}&month=${month}&day=${day}`, {valeur: depenseEff, createdAt: createdAt}, headers);
 
             if (responseSuiviDepense.data.data.sortieCaisse) {
 
@@ -76,8 +84,13 @@ export default function usePostAndUpdate ({componentName}) {
             setLoading(false);
         } finally {
             setLoading(false);
-        };
-    };
+        }
+    }
+
+    //****************redirect to the login page if login error************* */
+            useTokenError(pError);
+    /////////////////////*************/////////////////// */
+
 
     return {
         pCustomUpdate,

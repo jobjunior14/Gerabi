@@ -41,7 +41,9 @@ const userSchema = new mongoose.Schema ({
     emailChangedAt: Date,
     passwordChangedAt: Date,
     passwordResetToken: String,
-    passwordResetExpires: Date
+    passwordResetExpires: Date,
+    confirmEmailToken: String,
+    confirmPasswordTokenExpire: Date,
 });
 
 //crypt the password
