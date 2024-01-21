@@ -1,9 +1,11 @@
 import axios from 'axios';
-// 192.168.43.231:
+
+// https://degobar.onrender.com
 const axiosUrl = 
 
         axios.create({
-        baseURL: 'http://localhost:5001/api/v1/',
+        baseURL: 'https://degobar.onrender.com/api/v1/',
     });
+
 
 export default axiosUrl;

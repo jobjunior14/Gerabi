@@ -90,7 +90,7 @@ export default function EntreeCaisse ({setTotEntree, foundPrevSold, prevDay, pre
                         </div>
                         <div className="block" >
     
-                            { !foundPrevSold && <div className="block mb-5">
+                            { foundPrevSold && <div className="block mb-5">
     
                                 <p className="font-bold text-gray-600"> Le sold caisse du {prevYear}/{prevMonth}/{prevDay}, n&apos;a pas été trouvé </p>
                                 <label className="font-bold text-gray-800" id = {'inputfromUser' + id}> S&apos;il est existant veillez le taper: </label>

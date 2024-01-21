@@ -1,10 +1,17 @@
 import { useState } from "react";
 import axios from '../../axiosUrl';
+import { useNavigate } from "react-router-dom";
+import useDateParams from "../reuseFunction/dateParams";
 export default function Signup () {
+
+    const {currentDay, currentMonth, currentYear} = useDateParams();
+    const navigate = useNavigate();
 
     const [userData, setUserData] = useState({email: "", password: "", confirmPassword: "", name: "",});
     const [error, setError] = useState({email: null, password: null});
     const [errorMessage, setErrorMessage] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [signupError, setSignupError] = useState(false);
 
     //check if the email is valid or not 
     function isValidEmail (email) {
@@ -12,14 +19,14 @@ export default function Signup () {
     }
     //handler for the input field
     const handleChange = (name, value) => {
+        //handle all the user data 
+        setUserData(prev => ({...prev, [name]: value}));
         //handle the valid email field
         if (name === 'email') {
             setError(prev => {
                 return {...prev, email: userData.email === '' ? false : !isValidEmail(value) }
             });
         }
-        //handle all the user data 
-        setUserData(prev => ({...prev, [name]: value}));
     };
 
     const signUp = e => {
@@ -34,6 +41,28 @@ export default function Signup () {
         } else {
 
             setErrorMessage(false);
+
+            const fecthData = async () => {
+    
+                setLoading(true);
+                try {
+                        const authorisation = await axios.post ('/user/signup', userData);
+        
+                        //if response is OK, redirect to the home page
+                        if (authorisation.status) {
+                            localStorage.setItem('jwtA', authorisation.data.token);
+                            navigate(`/rapportJournalier/degoBar/product/bralima?year=${currentYear}&month=${currentMonth}&day=${currentDay}`);
+                        }
+    
+                } catch (error) {
+                    setLoading(false);
+                    setSignupError(error);
+                } finally {
+                    setLoading(false);
+                }
+    
+            }; fecthData()
+            e.preventDefault();
             e.preventDefault();
         }
     }
@@ -41,10 +70,11 @@ export default function Signup () {
     return (
         <div className=" flex justify-center">
 
-        <div className=" flex justify-center mt-10 bg-white border-2 border-slate-400 rounded-md w-96 px-5 py-5">
+        <div className=" flex justify-center mt-10 bg-white border-2 border-slate-400 rounded-md min-w-60 px-5 py-5">
 
             <div>
-
+                {/* display the errorMessage */}
+                {signupError && <p className='text-red-700 text-sm'>{signupError.response ? `${signupError.response.data.message}` : `${signupError.message}`}</p>}
                 <form onSubmit={signUp} className= "  w-96 px-5 py-5">
 
                     <input 
@@ -87,7 +117,7 @@ export default function Signup () {
                         onChange={ e => handleChange(e.target.name, e.target.value)} 
                     />
                     {errorMessage && <p className="text-red-700 sm:text-base text-xs">Verifier que tout les champ sont bien remplis</p>}
-                    <button onClick={ e => signUp(e)} className="bg-indigo-500 py-2 px-4 w-full text-white sm:text-xl text-lg font-bold my-4 rounded-md"> Créer un compte</button>
+                    <button disabled={loading || errorMessage} onClick={ e => signUp(e)} className="bg-indigo-500 py-2 px-4 w-full text-white sm:text-xl text-lg font-bold my-4 rounded-md"> {loading ? '...' : 'Créer un compte'} </button>
 
                 </form>
                 <button className=" text-indigo-500 mb-4"> J&apos;ai deja un compte</button>

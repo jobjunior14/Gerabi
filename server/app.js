@@ -59,6 +59,7 @@ const SuiviDepenseRouter = require("./routes/degoBar/suiviDepenseRoutes.js");
 const SuiviDetteRouter = require("./routes/degoBar/suiviDetteRouter.js");
 const DepenseEff = require ('./routes/degoBar/depenseEffRoutes.js');
 const YourSuiviDetteRouter = require('./routes/degoBar/yourSuiviDetteRouter.js');
+const PrevSoldCaisse = require ('./routes/degoBar/prevSoldCaisse.js');
 //routes for Alimentation
 const AlimentationAutrePRodduitRouter = require('./routes/alimentation/alimentationAutreProduitRouter.js');
 const AlimentationBralima = require('./routes/alimentation/alimentationBralimaRouter.js');
@@ -69,6 +70,7 @@ const VenteAlimentationRouter = require ('./routes/alimentation/venteAlimentatio
 const AlimentationSuiviDette = require ('./routes/alimentation/alimentationSuiviDetteRouter');
 const DepenseEffAlim = require ("./routes/alimentation/alimDepenseEff.js");
 const YourAlimentationSuiviDette = require ('./routes/alimentation/yourAlimentationSuiviDetteRouter.js');
+const AlimentationPrevSoldCaisse = require('./routes/alimentation/alimPrevSoldCaisse.js');
 //user's routes
 const userRouter = require ('./routes/userRoutes.js');
 //3) Routes//
@@ -82,6 +84,7 @@ app.use("/api/v1/degoBar/suiviDepense", SuiviDepenseRouter);
 app.use ("/api/v1/degoBar/suiviDette", SuiviDetteRouter);
 app.use ("/api/v1/degoBar/depenseEff", DepenseEff);
 app.use("/api/v1/degoBar/yourSuiviDette", YourSuiviDetteRouter);
+app.use('/api/v1/degoBar/prevSoldCaisse', PrevSoldCaisse);
 //alimentation
 app.use("/api/v1/alimentation/autreProduit", AlimentationAutrePRodduitRouter );
 app.use("/api/v1/alimentation/bralima", AlimentationBralima );
@@ -92,6 +95,7 @@ app.use("/api/v1/alimentation/vente", VenteAlimentationRouter);
 app.use("/api/v1/alimentation/suiviDette", AlimentationSuiviDette);
 app.use ("/api/v1/alimentation/depenseEff", DepenseEffAlim);
 app.use ('/api/v1/alimentation/yourSuiviDette', YourAlimentationSuiviDette);
+app.use('/api/v1/alimentation/prevSoldCaisse', AlimentationPrevSoldCaisse);
 //user
 app.use('/api/v1/user', userRouter);
 

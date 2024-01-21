@@ -43,8 +43,6 @@ export default function SuiviDepense (){
     const [foundPrevSold, setFoundPrevSold] = useState(false);
     const soldCaisse = useSelector (state => state.suiviDepense.soldCaisse);
     const [totalEntreeCaisse, setTotalEntreeCaisse] = useState(0);
-    //state for precedent sold caisse 
-    const [prevSoldCaisse, setPrevSoldCaisse] = useState(null);
 
     //get the previous date 
     const prevDate = new Date(year, month -1, day);
@@ -66,8 +64,10 @@ export default function SuiviDepense (){
         totalDebt,
         yourTotalDebt,
         soldCaisseData,
-        customPrevSoldCaisse,
-        error
+        prevSoldCaisse,
+        error,
+        addedSoldCaisse,
+        setAddedSoldCaisses
     } = useDataFetcherSuiviDepense({ componentName});
 
     const {
@@ -109,25 +109,23 @@ export default function SuiviDepense (){
         dispatch(suiviDepenseActions.setTotalDette(totalDebt));
         dispatch(suiviDepenseActions.setYourTotalDette(yourTotalDebt));
         //depense effectuee data
-        setDepenseEff(depense_Eff);
-        //set the prev Sold Caisse
-        setPrevSoldCaisse(customPrevSoldCaisse)
-        
-    }, [entreeCaisseData, sortieCaisseData, pDepense_Eff, totalDebt, yourTotalDebt, customPrevSoldCaisse, depense_Eff]);
+        setDepenseEff(depense_Eff);   
+
+        //for entree caisse 
+        if (!prevSoldCaisse) {
+           
+           setFoundPrevSold(true)
+           // set the previous taped  sold caisse by user
+           dispatch(suiviDepenseActions.setPrevSoldCaisse(addedSoldCaisse.amount));
+       } else {
+           setFoundPrevSold(false);
+           dispatch(suiviDepenseActions.setPrevSoldCaisse(prevSoldCaisse.amount));
+       }
+    }, [entreeCaisseData, sortieCaisseData, pDepense_Eff, totalDebt, yourTotalDebt, prevSoldCaisse, depense_Eff]);
 
     //track the changes state to calculate the previous taped sold caisse by user
     useEffect(() => {
 
-         //for entree caisse 
-         if (!prevSoldCaisse) {
-            
-            setFoundPrevSold(true)
-            // set the previous taped  sold caisse by user
-            // dispatch(suiviDepenseActions.setPrevSoldCaisse((totalDailyDebt + soldCaisse + totalSortieCaisse) - totalEntreeCaisse));
-        } else {
-            setFoundPrevSold(false);
-            // dispatch(suiviDepenseActions.setPrevSoldCaisse(prevSoldCaisse.amount));
-        }
     },[totalDailyDebt, soldCaisse, totalEntreeCaisse, prevSoldCaisse]);
 
     function handleDate (name, value) {

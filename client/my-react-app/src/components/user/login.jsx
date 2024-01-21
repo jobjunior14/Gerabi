@@ -28,38 +28,43 @@ export default function Login () {
     //fetch the data to the server
     const loginButton = e => {
 
-        const fecthData = async () => {
-
-            setLoading(true);
-            try {
-                    const authorisation = await axios.post ('/user/login', userData);
+        if (!formError) {
+            const fecthData = async () => {
     
-                    //if response is OK, redirect to the home page
-                    if (authorisation.status) {
-                        localStorage.setItem('jwtA', authorisation.data.token);
-                        navigate(`/rapportJournalier/degoBar/product/bralima?year=${currentYear}&month=${currentMonth}&day=${currentDay}`);
-                    }
-
-            } catch (error) {
-                setLoading(false);
-                setLoginError(error);
-                console.log(error);
-            } finally {
-                setLoading(false);
-            }
-
-        }; fecthData()
-        e.preventDefault();
+                setLoading(true);
+                try {
+                        const authorisation = await axios.post ('/user/login', userData);
+        
+                        //if response is OK, redirect to the home page
+                        if (authorisation.status) {
+                            localStorage.setItem('jwtA', authorisation.data.token);
+                            localStorage.setItem('degoUser', authorisation.data.data.name)
+                            navigate(`/rapportJournalier/degoBar/product/bralima?year=${currentYear}&month=${currentMonth}&day=${currentDay}`);
+                        }
+    
+                } catch (error) {
+                    setLoading(false);
+                    setLoginError(error);
+                } finally {
+                    setLoading(false);
+                }
+    
+            }; fecthData()
+            e.preventDefault();
+        }
     };
     
     const createAcount = () => {
         navigate('/signup');
     };
+    const forgetPassword = () => {
+        navigate('/forgetPassword');
+    };
     
     return (
         <div className='flex justify-center'>
 
-            <div className=" flex justify-center mt-10 bg-white border-2 border-slate-400 rounded-md min-w-70 px-5 py-5">
+            <div className=" flex justify-center mt-10 bg-white border-2 border-slate-400 rounded-md min-w-60 px-5 py-5">
 
                 <div>
                     {/* display the errorMessage */}
@@ -85,10 +90,10 @@ export default function Login () {
                             onChange={ e => handleChange(e.target.name, e.target.value)} 
                         />
 
-                        <button className="bg-indigo-500 py-2 px-4 w-4/5 text-white text-xl font-bold my-4 rounded-md">{loading ? '...' : 'Se Connecter' }</button>
+                        <button disabled={loading || formError} className="bg-indigo-500 py-2 px-4 w-4/5 text-white text-xl font-bold my-4 rounded-md">{loading ? '...' : 'Se Connecter' }</button>
                     </form>
 
-                    <button className=" text-indigo-500 mb-4"> Mot De passe Oublié</button>
+                    <button onClick={forgetPassword} className=" text-indigo-500 mb-4"> Mot De passe Oublié</button>
                     <hr />
                     <button onClick={createAcount} className=" bg-slate-600 max-w-72 mt-6 rounded-md py-2 px-4 text-white text-xl font-medium">Créer Un Compte</button>
 

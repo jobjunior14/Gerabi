@@ -1,5 +1,5 @@
 import './App.css';
-import { BrowserRouter, Routes, Route, createBrowserRouter, createRoutesFromElements, RouterProvider} from 'react-router-dom';
+import { Route, createBrowserRouter, createRoutesFromElements, RouterProvider} from 'react-router-dom';
 import Product from '../src/components/Daily-Report/Stock_Consignation/AllProductManager'
 import { MainNav, DailyRepportNav, MensRepportNav } from './components/headers/outlet';
 import SuiviDepense from './components/Daily-Report/suiviDepense/suiviDepense'
@@ -11,6 +11,9 @@ import Documentation from './components/documentation';
 import Login from './components/user/login';
 import Signup from './components/user/signup';
 import NotFound from '../src/components/errorPages/notFound';
+import ForgetPassword from './components/user/forgetPassword';
+import ResetPassword from './components/user/resetPassword';
+import UserPage from './components/user/userPage';
 
 function App() {
 
@@ -20,6 +23,10 @@ function App() {
       
       <Route path='login' element={<Login/>}/>
       <Route path='signup' element={<Signup/>}/>
+      <Route path='forgetPassword' element={<ForgetPassword/>}/>
+      <Route path='resetPassword/:resetToken' element={<ResetPassword/>}/>
+      <Route path='user' element={<UserPage/>}/>
+  
 
       <Route path='/rapportJournalier' element = {<DailyRepportNav/>}>
   

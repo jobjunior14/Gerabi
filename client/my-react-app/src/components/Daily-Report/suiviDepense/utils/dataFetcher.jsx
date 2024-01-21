@@ -17,7 +17,8 @@ export default function useDataFetcherSuiviDepense ({componentName}) {
     const [totalDebt, setTotalDebt] = useState(0);
     const [yourTotalDebt, setYourTotalDebt] = useState(0);
     const [soldCaisseData, setSoldCaisse] = useState(0);
-    const [customPrevSoldCaisse, setPrevSoldCaisse] = useState(0);
+    const [prevSoldCaisse, setPrevSoldCaisse] = useState(0);
+    const [addedSoldCaisse, setAddedSoldCaisses] = useState(0);
 
     const headers = {
         headers: {
@@ -46,10 +47,14 @@ export default function useDataFetcherSuiviDepense ({componentName}) {
             const totDette = await axios.get (`/${componentName}/suiviDette/rapportJournalier/totDette/${year}/${month}/${day}`, headers);
             const yourTotDette = await axios.get (`/${componentName}/yourSuiviDette/rapportJournalier/totDette/${year}/${month}/${day}`, headers);
             const depenseEffData = await axios.get (`/${componentName}/depenseEff/${year}/${month}/${day}`, headers);
+            //the added manually sold caisse
+            const addedSoldCaisse = await axios.get (`/${componentName}/prevSoldCaisse/${year}/${month}/${day}`, headers);
             //previous sold caisse for entree caisse 
             const prevSuiviDepenseData = await axios.get (`/${componentName}/suiviDepense/rapportJournalier/${prevYear}/${prevMonth}/${prevDay}`, headers);
             //set the deppense effectuée section
             if (depenseEffData.data.data.day) setDepenseEff(depenseEffData.data.data.day.valeur);
+            //set the previous effectuée section
+            if (addedSoldCaisse.data.data.day) setAddedSoldCaisses(addedSoldCaisse.data.data.day.valeur);
             //set the total amout of debt
             setTotalDebt(totDette.data.data);
             //set *your* total amount debt 
@@ -125,6 +130,8 @@ export default function useDataFetcherSuiviDepense ({componentName}) {
         totalDebt,
         yourTotalDebt,
         soldCaisseData,
-        customPrevSoldCaisse
+        prevSoldCaisse,
+        addedSoldCaisse,
+        setAddedSoldCaisses
     }
 }

@@ -1,6 +1,7 @@
 import { NavLink } from 'react-router-dom';
 import useDateParams from '../reuseFunction/dateParams'
 import { useState } from 'react';
+import profil from '../../assets/profil.jpg'
 export default function FirstHeader ()
 {
     const {currentYear, currentMonth, currentDay} = useDateParams();
@@ -33,17 +34,25 @@ export default function FirstHeader ()
                         className={ ({isActive}) => isActive ? activeLink : 'duration-300 my-9 lg:my-0 hover:text-indigo-300 block lg:flex font-bold text-gray-800 lg:mx-10'}
                         to = {`/rapportJournalier?year=${currentYear}&month=${currentMonth}&day=${currentDay} `}> Rapport Journalier </NavLink>
                 </div>
-                <div className=' bg-gray-700 px-3 py-2 block lg:flex justify-center items-center rounded-lg '>
+                <div className=' bg-gray-700 px-1 py-2 block lg:flex justify-center items-center rounded-lg '>
                     <NavLink 
                         onClick={toggle}
-                        className={ ({isActive}) => isActive ? "mx-5 font-bold bg-indigo-600 rounded-lg px-4 py-1 duration-200 text-gray-100" : 'mx-5 font-bold text-gray-100 px-4 py-1'}
+                        className= 'mx-2 lg:flex hidden font-bold rounded-lg text-gray-100 '
+                        to = {`/user?year=${currentYear}&month=${currentMonth}&day=${currentDay} `}><img className='w-10 h-10 rounded-2xl' src={profil} alt='profil'/></NavLink>
+                    <NavLink 
+                        onClick={toggle}
+                        className={ ({isActive}) => isActive ? "mx-2 font-bold bg-indigo-600 rounded-lg px-3 py-1 duration-200 text-gray-100" : 'mx-2 font-bold text-gray-100 px-4 py-1'}
                         to = {`/documentation?year=${currentYear}&month=${currentMonth}&day=${currentDay} `}> Docs </NavLink>
                     <button 
-                        className= 'mx-5 font-bold text-gray-100'
-                        to = {`/..?year=${currentYear}&month=${currentMonth}&day=${currentDay} `}> Mode </button>
+                        className= 'mx-2 font-bold text-gray-100'
+                        to = {`/..?year=${currentYear}&month=${currentMonth}&day=${currentDay} `}> Mode  </button>
                 </div>
             </div>
-            <div className='flex lg:hidden'>
+            <div className='flex lg:hidden justify-center items-center'>
+                    <NavLink 
+
+                        className= 'mx-5 font-bold rounded-lg text-gray-100 hover:scale-105 duration-150 '
+                        to = {`/user?year=${currentYear}&month=${currentMonth}&day=${currentDay} `}><img className='w-10 h-10 rounded-2xl' src={profil} alt='profil'/></NavLink>
                     <i onClick={toggle} className="uil uil-bars  scale-150 hover:bg-gray-100 rounded-xl px-2 duration-300 hover:cursor-pointer "></i>
             </div>
         </nav>

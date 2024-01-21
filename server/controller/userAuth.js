@@ -75,6 +75,11 @@ exports.updateUser = catchAssynch(async (req, res, next) => {
 
     const user = await User.findById(req.user.id);
 
+    if (!req.body.name || !req.body.email || req.body.name === '' || req.body.email === '') {
+
+        return next (new AppError('Please send a valid email and name ', 400));
+    };
+
     user.email = req.body.email;
     user.name = req.body.name;
 
