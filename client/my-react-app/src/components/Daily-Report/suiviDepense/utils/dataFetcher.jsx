@@ -51,8 +51,10 @@ export default function useDataFetcherSuiviDepense ({componentName}) {
             const addedSoldCaisse = await axios.get (`/${componentName}/prevSoldCaisse/${year}/${month}/${day}`, headers);
             //previous sold caisse for entree caisse 
             const prevSuiviDepenseData = await axios.get (`/${componentName}/suiviDepense/rapportJournalier/${prevYear}/${prevMonth}/${prevDay}`, headers);
+            
             //set the deppense effectuée section
             if (depenseEffData.data.data.day) setDepenseEff(depenseEffData.data.data.day.valeur);
+            
             //set the previous effectuée section
             if (addedSoldCaisse.data.data.day) setAddedSoldCaisses(addedSoldCaisse.data.data.day.valeur);
             //set the total amout of debt
@@ -132,6 +134,5 @@ export default function useDataFetcherSuiviDepense ({componentName}) {
         soldCaisseData,
         prevSoldCaisse,
         addedSoldCaisse,
-        setAddedSoldCaisses
     }
 }

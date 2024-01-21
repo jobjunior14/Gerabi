@@ -213,7 +213,7 @@ export default function SoriteCaisse ({loading, error, pError}) {
         }
         //loading state 
         if (loading) {
-            return (<Loading/>);
+            return (<h1 className="text-xl my-5 font-semibold">Chargement...</h1>);
         }
        }
     }

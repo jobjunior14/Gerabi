@@ -6,14 +6,13 @@ import { suiviDepenseActions } from "../../store/suiviDepense-slice";
 import LoadingError from "../../errorPages/LoadingError";
 import PostAndUpdateError from "../../errorPages/postAndUpdateError";
 import Loading from "../../loading";
-export default function EntreeCaisse ({setTotEntree, foundPrevSold, prevDay, prevMonth, prevYear, loading, error, pError }){
+export default function EntreeCaisse ({ foundPrevSold, prevDay, prevMonth, prevYear, loading, error, pError }){
 
     const dispatch = useDispatch ();
     const data = useSelector(state => state.suiviDepense.entreeCaisse);
     const prevSoldCaisse = useSelector(state => state.suiviDepense.prevSoldCaisse);
     const readOnly = useSelector (state => state.suiviDepense.readOnly);
     const id  = useId();
-
     //data for sold caisse
     const totalSoldCaisse = useSelector (state => state.suiviDepense.totalSoldCaisse);
     const [totalEntreeCaisse, setTotalEntreeCaisse] = useState(0);
@@ -32,7 +31,6 @@ export default function EntreeCaisse ({setTotEntree, foundPrevSold, prevDay, pre
                 }
             }
             //change the state using the parent's function
-            setTotEntree(savetotalEntreeCaisse);
             return savetotalEntreeCaisse;
         }
     },[data]);
@@ -99,7 +97,7 @@ export default function EntreeCaisse ({setTotEntree, foundPrevSold, prevDay, pre
                                     type="number"
                                     id = {'inputfromUser' + id}
                                     placeholder="Tapez le precedent sold caisse"
-                                    value={prevSoldCaisse}
+                                    defaultValue={prevSoldCaisse}
                                     onChange={(e) => { dispatch(suiviDepenseActions.handleSoldCaisseByUser(Number (e.target.value)))} }
                                 />
                             </div>}
@@ -118,8 +116,7 @@ export default function EntreeCaisse ({setTotEntree, foundPrevSold, prevDay, pre
         } else {
             //Loading page
             if (loading) {
-
-             return (<Loading/>);
+                return (<h1 className="text-xl my-5 font-semibold animate-pulse">Chargement...</h1>);
             }
             //the Loading data error Page
             if(error) {

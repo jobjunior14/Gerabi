@@ -10,7 +10,6 @@ import useDateParams from "../../reuseFunction/dateParams";
 import usePostAndUpdate from "./utils/postAndData";
 import useDataFetcherSuiviDepense from "./utils/dataFetcher";
 import useParamsGetter from "../../reuseFunction/paramsGetter";
-import searchImage from "../../../assets/searchImage.png";
 import No_ExistentDate from "../../errorPages/no_existantDate";
 export default function SuiviDepense (){
 
@@ -41,8 +40,6 @@ export default function SuiviDepense (){
     //data for entree caisse
     //message and input fields if prevSold is not found
     const [foundPrevSold, setFoundPrevSold] = useState(false);
-    const soldCaisse = useSelector (state => state.suiviDepense.soldCaisse);
-    const [totalEntreeCaisse, setTotalEntreeCaisse] = useState(0);
 
     //get the previous date 
     const prevDate = new Date(year, month -1, day);
@@ -67,7 +64,6 @@ export default function SuiviDepense (){
         prevSoldCaisse,
         error,
         addedSoldCaisse,
-        setAddedSoldCaisses
     } = useDataFetcherSuiviDepense({ componentName});
 
     const {
@@ -79,54 +75,60 @@ export default function SuiviDepense (){
         pSortieCaisse,
         pDepense_Eff,
         postAndUpdateData,
-        pError
+        pError,
+        pAddedSoldCaisse
     } = usePostAndUpdate({componentName});
 
 
     // track post and update data
     useEffect (() => {
 
-        dispatch(suiviDepenseActions.setUpdate(pCustomUpdate));
-        dispatch(suiviDepenseActions.setReadOnly(pReadOnly));
-        //data
-        dispatch(suiviDepenseActions.setEntreeCaisse(pEntreeCaisse));
-        dispatch(suiviDepenseActions.setSortieCaisse(pSortieCaisse));
-        dispatch(suiviDepenseActions.setSoldCaisse(pSoldCaisse));
-        //depense effectuee data
-        setDepenseEff(pDepense_Eff);
-              
+        //this condition allows us to limit to render the component 
+        if (pEntreeCaisse && pSoldCaisse) {
+
+            dispatch(suiviDepenseActions.setUpdate(pCustomUpdate));
+            dispatch(suiviDepenseActions.setReadOnly(pReadOnly));
+            //data
+            dispatch(suiviDepenseActions.setEntreeCaisse(pEntreeCaisse));
+            dispatch(suiviDepenseActions.setSortieCaisse(pSortieCaisse));
+            dispatch(suiviDepenseActions.setSoldCaisse(pSoldCaisse));
+            //depense effectuee data
+            setDepenseEff(pDepense_Eff);
+            dispatch(suiviDepenseActions.setPrevSoldCaisse(pAddedSoldCaisse));
+        }
+    
     }, [pEntreeCaisse, pSortieCaisse, pDepense_Eff, pSoldCaisse, pCustomUpdate, pReadOnly ]);
+    
 
     //the fetched data 
     useEffect (() => {
 
-        dispatch(suiviDepenseActions.setUpdate(customUpdate));
-        dispatch(suiviDepenseActions.setReadOnly(readOnly));
-        //data
-        dispatch(suiviDepenseActions.setEntreeCaisse(entreeCaisseData));
-        dispatch(suiviDepenseActions.setSortieCaisse(sortieCaisseData));
-        dispatch(suiviDepenseActions.setSoldCaisse(soldCaisseData));
-        dispatch(suiviDepenseActions.setTotalDette(totalDebt));
-        dispatch(suiviDepenseActions.setYourTotalDette(yourTotalDebt));
-        //depense effectuee data
-        setDepenseEff(depense_Eff);   
+        if (entreeCaisseData && sortieCaisseData) {
 
-        //for entree caisse 
-        if (!prevSoldCaisse) {
-           
-           setFoundPrevSold(true)
-           // set the previous taped  sold caisse by user
-           dispatch(suiviDepenseActions.setPrevSoldCaisse(addedSoldCaisse.amount));
-       } else {
-           setFoundPrevSold(false);
-           dispatch(suiviDepenseActions.setPrevSoldCaisse(prevSoldCaisse.amount));
-       }
+            dispatch(suiviDepenseActions.setUpdate(customUpdate));
+            dispatch(suiviDepenseActions.setReadOnly(readOnly));
+            //data
+            dispatch(suiviDepenseActions.setEntreeCaisse(entreeCaisseData));
+            dispatch(suiviDepenseActions.setSortieCaisse(sortieCaisseData));
+            dispatch(suiviDepenseActions.setSoldCaisse(soldCaisseData));
+            dispatch(suiviDepenseActions.setTotalDette(totalDebt));
+            dispatch(suiviDepenseActions.setYourTotalDette(yourTotalDebt));
+            //depense effectuee data
+            setDepenseEff(depense_Eff);   
+    
+            //for entree caisse 
+            if (!prevSoldCaisse) {
+               
+               setFoundPrevSold(true)
+               // set the previous taped  sold caisse by user
+               dispatch(suiviDepenseActions.setPrevSoldCaisse(addedSoldCaisse));
+           } else {
+               setFoundPrevSold(false);
+               dispatch(suiviDepenseActions.setPrevSoldCaisse(prevSoldCaisse.amount));
+           }
+        }
     }, [entreeCaisseData, sortieCaisseData, pDepense_Eff, totalDebt, yourTotalDebt, prevSoldCaisse, depense_Eff]);
 
-    //track the changes state to calculate the previous taped sold caisse by user
-    useEffect(() => {
-
-    },[totalDailyDebt, soldCaisse, totalEntreeCaisse, prevSoldCaisse]);
 
     function handleDate (name, value) {
         setDate(prev => ({...prev, [name]: value}));
@@ -138,16 +140,29 @@ export default function SuiviDepense (){
 
     function postData(){
         //post data or create it 
-        postAndUpdateData(entreeCaisse, sortieCaisse, false, totalSoldCaisse, totalDailyDebt,totalSortieCaisse, depenseEff, yourTotalDebt);
+        postAndUpdateData(entreeCaisse, 
+            sortieCaisse, 
+            false, 
+            totalSoldCaisse, 
+            totalDailyDebt,
+            totalSortieCaisse, 
+            depenseEff, 
+            yourTotalDebt, 
+            foundPrevSold
+        );
     }
     
     function updateData() {
-        postAndUpdateData(entreeCaisse, sortieCaisse, true, totalSoldCaisse, totalDailyDebt,totalSortieCaisse, depenseEff, yourTotalDebt);
-    }
-
-    //call back to update parent state form entree caisse 
-    function setTotEntree(data) {
-        setTotalEntreeCaisse(data);
+        postAndUpdateData(entreeCaisse, 
+            sortieCaisse, 
+            true, 
+            totalSoldCaisse, 
+            totalDailyDebt,
+            totalSortieCaisse, 
+            depenseEff, 
+            yourTotalDebt, 
+            foundPrevSold
+        );
     }
 
     if (no_existent) {
@@ -181,7 +196,6 @@ export default function SuiviDepense (){
                     prevYear = {prevYear} 
                     prevMonth = {prevMonth} 
                     prevDay = {prevDay} 
-                    setTotEntree = {setTotEntree} 
                     foundPrevSold = {foundPrevSold}
                     loading = {loading || pLoading}
                     error = {error}
@@ -191,7 +205,7 @@ export default function SuiviDepense (){
                 <SoldCaisse key={`soldCaisse1`} loading = {loading || pLoading} error={error} pError = {pError}/>
                 <p className="font-bold text-lg lg:text-xl text-gray-700 p-4"> Total Dette du {day}-{month}-{year}: <b> {totalDailyDebt}</b></p>
                 <p className="font-bold text-lg lg:text-xl text-gray-700 p-4"> Ton total Dette du {day}-{month}-{year}: <b> {yourTotalDette}</b> </p>
-                {!update ? <button className="px-5 py-1 bg-indigo-500 text-gray-100 rounded-md "  onClick={postData}> Enregistrer les données</button> : <button onClick={updateData}> Mettre à les données</button> }
+                {!update ? <button className="px-5 py-1 bg-indigo-500 text-gray-100 rounded-md "  onClick={postData}> Enregistrer les données</button> : <button className="px-5 py-1 bg-indigo-500 text-gray-100 rounded-md " onClick={updateData}> Mettre à les données</button> }
             </>
         )
     };

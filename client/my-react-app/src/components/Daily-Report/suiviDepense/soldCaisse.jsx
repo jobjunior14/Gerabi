@@ -26,7 +26,7 @@ export default function SoldCaisse ({loading, error, pError}) {
             
             if (loading) {
 
-                return (<h4> Chargement...</h4>);
+                return (<h1 className="text-xl my-5 font-semibold animate-pulse">Chargement...</h1>);
             }
             if (error) {
                 return (<LoadingError message={error.message}/>);

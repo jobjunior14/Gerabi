@@ -7,6 +7,8 @@ import formatDate from "../../../reuseFunction/rightFormatDate";
 import axios from "../../../../axiosUrl";
 import indexSetter from "../../../reuseFunction/indexSetter";
 import useTokenError from "../../../errorPages/tokenError";
+import { useSelector } from "react-redux";
+
 
 export default function usePostAndUpdate ({componentName}) {
 
@@ -18,7 +20,10 @@ export default function usePostAndUpdate ({componentName}) {
     const [pSortieCaisse, setSortieCaisse] = useState(null);
     const [pDepense_Eff, setDepenseEff] = useState(0);
     const [pSoldCaisse, setSoldCaisse] = useState(0);
-    
+    const [pAddedSoldCaisse, setAddedSoldCaisse] = useState(0);
+
+    const prevSoldCaisse = useSelector(state => state.suiviDepense.prevSoldCaisse);
+
     const {year, month, day} = useDateParams();
 
     const headers = {
@@ -29,7 +34,7 @@ export default function usePostAndUpdate ({componentName}) {
     };
 
 
-    async function postAndUpdateData (entreeCaisse, sortieCaisse, update, totalSoldCaisse, totDailyDebt, totalSortieCaisse, depenseEff, yourTotalDebt) {
+    async function postAndUpdateData (entreeCaisse, sortieCaisse, update, totalSoldCaisse, totDailyDebt, totalSortieCaisse, depenseEff, yourTotalDebt, foundPrevSold) {
 
         setLoading(true);
         try {
@@ -61,6 +66,14 @@ export default function usePostAndUpdate ({componentName}) {
                 await axios.post(`/${componentName}/suiviDepense/rapportJournalier/${year}/${month}/${day}`, suiviDepenseData, headers);
             const responseDepenseEff = update ? await axios.post( `/${componentName}/depenseEff/${year}/${month}/${day}`, {valeur: depenseEff, createdAt: createdAt}, headers ) : 
                 await axios.post( `/${componentName}/depenseEff?year=${year}&month=${month}&day=${day}`, {valeur: depenseEff, createdAt: createdAt}, headers);
+                
+                if (foundPrevSold) {
+                    
+                    const addedSoldCaiise = update ? await axios.post( `/${componentName}/prevSoldCaisse/${year}/${month}/${day}`, {valeur: prevSoldCaisse, createdAt: createdAt}, headers ) : 
+                        await axios.post( `/${componentName}/prevSoldCaisse?year=${year}&month=${month}&day=${day}`, {valeur: prevSoldCaisse, createdAt: createdAt}, headers);
+
+                        setAddedSoldCaisse(addedSoldCaiise.data.data.day.valeur);
+                }
 
             if (responseSuiviDepense.data.data.sortieCaisse) {
 
@@ -101,6 +114,7 @@ export default function usePostAndUpdate ({componentName}) {
         pSoldCaisse,
         pSortieCaisse,
         pDepense_Eff,
+        pAddedSoldCaisse,
         postAndUpdateData
     };
 }
