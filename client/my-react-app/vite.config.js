@@ -9,4 +9,3 @@ export default defineConfig({
     chunkSizeWarningLimit: 1600, // Adjust this value as needed
   },
 })
-cd 
