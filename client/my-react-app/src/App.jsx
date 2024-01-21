@@ -1,4 +1,5 @@
 import './App.css';
+import  './build.css'
 import { Route, createBrowserRouter, createRoutesFromElements, RouterProvider} from 'react-router-dom';
 import Product from '../src/components/Daily-Report/Stock_Consignation/AllProductManager'
 import { MainNav, DailyRepportNav, MensRepportNav } from './components/headers/outlet';
