@@ -17,9 +17,6 @@ import ResetPassword from './components/user/resetPassword';
 import UserPage from './components/user/userPage';
 
 function App() {
-console.log (import.meta.env.VITE_ENDP_POIND, 'hey');
-// import.meta.env.DEV = 'heyye';
-// console.log (import.meta.env.DEV);
 
   const router = createBrowserRouter(createRoutesFromElements(
 
