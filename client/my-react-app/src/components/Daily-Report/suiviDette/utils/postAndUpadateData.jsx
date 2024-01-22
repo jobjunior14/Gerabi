@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from '../../../../axiosUrl';
 import { useState } from 'react';
 import useDateParams from '../../../reuseFunction/dateParams';
 import formatData from '../../../reuseFunction/rightFormatDate';
@@ -6,8 +6,6 @@ import { deleteEmptyName } from './arrayUtils';
 import { dateSetter } from './arrayUtils';
 import indexSetter from '../../../reuseFunction/indexSetter';
 import useTokenError from '../../../errorPages/tokenError';
-
-axios.defaults.baseURL = "http://localhost:5001/api/v1";
 
 export default function usePostAndUpdata ({componentName}) {
 
