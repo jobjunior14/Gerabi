@@ -11,7 +11,7 @@ export default function UserPage () {
     //to update the password if the user is logged in
     const [userDataPassword, setUserDataPassword] = useState({newPassword: '', newConfirmPassword: '', oldPassword: ''});
     const [userDataInfo, setUserDataInfo] = useState({email: '', name: ''});
-    const [formError, setFormError] = useState({email: null, password: null});
+    const formError = {email: null, password: null};
     const [loginError, setLoginError] = useState(null);
     const [loading, setLoading] = useState(false);
     //state define if user wants to update password or it informations
@@ -34,20 +34,18 @@ export default function UserPage () {
 
         if (updateInfo) {
             setUserDataInfo(prev => ({...prev, [name]: value}));
-            if (name === 'email') setFormError( prev => ({...prev, email: userDataInfo.email === '' ? false : !isValidEmail(value) }));
             
         } else if (updatePassword) {
 
             setUserDataPassword(prev => ({...prev, [name]: value}));
-            if (userDataPassword.newPassword !== userDataPassword.newConfirmPassword && userDataPassword.newConfirmPassword !== '') {
-                setFormError(prev => ({...prev, password: true}));
-            } else {
-                
-                setFormError(prev => ({...prev, password: false}));
-            }
         }
     };
+    
+    //handle validation form fields
+    formError.email = userDataInfo.email === '' ? false : !isValidEmail(userDataInfo.email);
+    formError.password = userDataPassword.newConfirmPassword === "" ? false : userDataPassword.newConfirmPassword !== userDataPassword.newPassword;
 
+    console.log(formError.password);
     //fetch the data to the server
     const updateInformation = e => {
 
@@ -114,13 +112,16 @@ export default function UserPage () {
                 <div className=" flex justify-center mt-10 bg-white border-2 border-slate-400 rounded-md min-w-60 -px-10 py-5 relative">
 
                     <div>
-                        <div className="relative flex ">
-                            <button onClick={homeUserPage} className="pb-1 pr-px text-gray-700 hover:bg-slate-400 duration-150 text-xl rigth-50 place-content-end mx-5 bg-slate-200 w-8 h-8 rounded-full"> {'<'}</button>
+                        <div className="relative flex">
+                            <div className="relative flex justify-center items-center ">
+                                <button onClick={homeUserPage} className=" pr-px text-gray-700 hover:bg-slate-400 duration-150 text-xl place-content-end mx-5 bg-slate-200 w-8 h-8 rounded-full"> {'<'}</button>
+                            </div>
                         </div>
                         <p className="my-2 text-gray-700 text-xl font-bold">Bievenue {localStorage.getItem('degoUser')}</p>
+                        <p className="my-2 text-gray-700">Mettez à jour votre mot de passe</p>
                         {/* display the errorMessage */}
                         {loginError && <p className='text-red-700 text-sm'>{loginError.response ? `${loginError.response.data.message}` : `erreur de connection`}</p>}
-                        {formError.password && <p className='text-red-700 text-sm'>Vos mots de passe ne correspondent pas</p>}
+                        {formError.password && <p className='text-red-700 text-sm'>Le nouveau mot de passe doit correspondre au <b> &apos;confirmer mot de passe&apos;</b></p>}
                         <form onSubmit={e => updateInformation(e)} className=" w-70 px-5 py-5 ">
     
                             <input 
@@ -150,7 +151,7 @@ export default function UserPage () {
                                 className={`px-2  ${formError.password ? 'border-red-700' : 'border-gray-800'} duration-200  appearance-none border-2 w-4/5 h-12 my-3 rounded-lg`}
                                 onChange={ e => handleChange(e.target.name, e.target.value)} 
                             />
-                            <button disabled={loading} className="bg-indigo-500 py-2 px-4 w-4/5 text-white text-xl font-bold my-4 rounded-md">{loading ? '...' : 'Envoyer' }</button>
+                            <button disabled={loading || formError.password} className={`${loading ? 'bg-indigo-200' : 'bg-indigo-500'} py-2 px-4 w-4/5 text-white text-xl font-bold my-4 rounded-md`}>{loading ? '...' : 'Envoyer' }</button>
                         </form>
     
                         <button onClick={homePage} className=" text-indigo-500 mb-4"> Page d&apos;acceuille</button>
@@ -167,10 +168,13 @@ export default function UserPage () {
                 <div className=" flex justify-center mt-10 bg-white border-2 border-slate-400 rounded-md min-w-60 -px-10 py-5">
 
                     <div>
-                        <div className="relative flex ">
-                            <button onClick={homeUserPage} className="pb-1 pr-px text-gray-700 hover:bg-slate-400 duration-150 text-xl rigth-50 place-content-end mx-5 bg-slate-200 w-8 h-8 rounded-full"> {'<'}</button>
+                        <div className="relative flex">
+                            <div className="relative flex justify-center items-center ">
+                                <button onClick={homeUserPage} className=" pr-px text-gray-700 hover:bg-slate-400 duration-150 text-xl place-content-end mx-5 bg-slate-200 w-8 h-8 rounded-full"> {'<'}</button>
+                            </div>
                         </div>
                         <p className="my-2 text-gray-700 text-xl font-bold">Bievenue {localStorage.getItem('degoUser')}</p>
+                        <p className="my-1 text-gray-700 ">Mettre à jour vos informations</p>
                         {/* display the errorMessage */}
                         {loginError && <p className='text-red-700 text-sm'>{loginError.response ? `${loginError.response.data.message}` : `${loginError.message}`}</p>}
                         {formError.email && <p className='text-red-700 text-sm'>Verifier votre adresse email</p>}
@@ -194,7 +198,7 @@ export default function UserPage () {
                                 className={`px-2  ${formError.email ? 'border-red-700' : 'border-gray-800'} duration-200  appearance-none border-2 w-4/5 h-12 my-3 rounded-lg`}
                                 onChange={ e => handleChange(e.target.name, e.target.value)} 
                             />
-                            <button disabled={loading} className="bg-indigo-500 py-2 px-4 w-4/5 text-white text-xl font-bold my-4 rounded-md">{loading ? '...' : 'Envoyer' }</button>
+                            <button disabled={loading || formError.email} className={` ${loading ? 'bg-indigo-200' : 'bg-indigo-500'} py-2 px-4 w-4/5 text-white text-xl font-bold my-4 rounded-md`}>{loading ? '...' : 'Envoyer' }</button>
                         </form>
     
                         <button onClick={homePage} className=" text-indigo-500 mb-4"> Page d&apos;acceuille</button>

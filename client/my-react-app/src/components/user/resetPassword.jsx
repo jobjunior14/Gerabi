@@ -11,24 +11,21 @@ export default function ForgetPassword () {
 
 
     const [userData, setUserData] = useState({newPassword: '', newConfirmPassword: ''});
-    const [formError, setFormError] = useState(null);
     const [loginError, setLoginError] = useState(null);
     const [loading, setLoading] = useState(false);
+    const formError = userData.newConfirmPassword === "" ? false : userData.newPassword !== userData.newConfirmPassword ;
 
     //handler for the input field
     const handleChange = (name, value) => {
         setUserData(prev => ({...prev, [name]: value}));
 
-        if (userData.newPassword !== userData.newConfirmPassword) {
-            setFormError(true);
-        }
     };
-
+    
     //fetch the data to the server
     const resetPasswordButton = e => {
-
+    
         const fecthData = async () => {
-
+            
             setLoading(true);
             try {
 
@@ -48,6 +45,7 @@ export default function ForgetPassword () {
 
         }; fecthData()
         e.preventDefault();
+        
     };
     
     const loginPage = () => {
@@ -71,7 +69,7 @@ export default function ForgetPassword () {
                             placeholder="Votre nouveau mot de passe" 
                             type="password" 
                             value={userData.newPassword}
-                            className={`px-2  ${formError ? 'border-red-700' : 'border-gray-800'} duration-200  appearance-none border-2 w-4/5 h-12 my-3 rounded-lg`}
+                            className={`px-2  border-gray-800 duration-200  appearance-none border-2 w-4/5 h-12 my-3 rounded-lg`}
                             onChange={ e => handleChange(e.target.name, e.target.value)} 
                         />
                         <input 
@@ -83,7 +81,8 @@ export default function ForgetPassword () {
                             className={`px-2  ${formError ? 'border-red-700' : 'border-gray-800'} duration-200  appearance-none border-2 w-4/5 h-12 my-3 rounded-lg`}
                             onChange={ e => handleChange(e.target.name, e.target.value)} 
                         />
-                        <button disabled={loading || formError} className="bg-indigo-500 py-2 px-4 w-4/5 text-white text-xl font-bold my-4 rounded-md">{loading ? '...' : 'Envoyer' }</button>
+                        {formError && <p className="text-red-700">Vos mots de passe doivent correspondre</p>}
+                        <button disabled={loading || formError} className={`${ loading ? 'bg-indigo-200' : 'bg-indigo-500'}  py-2 px-4 w-4/5 text-white text-xl font-bold my-4 rounded-md`}>{loading ? '...' : 'Envoyer' }</button>
                     </form>
 
                     <button onClick={loginPage} className=" text-indigo-500 mb-4"> J&apos;ai deja un compte</button>

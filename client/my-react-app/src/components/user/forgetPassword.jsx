@@ -8,7 +8,7 @@ export default function ForgetPassword () {
     const navigate = useNavigate();
 
     const [email, setEmail] = useState('');
-    const [formError, setFormError] = useState(null);
+    let formError = null;
     const [loginError, setLoginError] = useState(null);
     const [loading, setLoading] = useState(false);
     const [blankPage, setBlankPage] = useState(false);
@@ -20,7 +20,7 @@ export default function ForgetPassword () {
     //handler for the input field
     const handleChange = (name, value) => {
         
-        if (name === 'email') setFormError( email === '' ? false : !isValidEmail(value));
+        if (name === 'email') formError = ( email === '' ? false : !isValidEmail(value));
 
         setEmail(value);
     };

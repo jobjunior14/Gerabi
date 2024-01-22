@@ -8,7 +8,7 @@ export default function Login () {
     const {currentDay, currentYear, currentMonth} = useDateParams();
 
     const [userData, setUserData] = useState({email: "", password: ""});
-    const [formError, setFormError] = useState(null);
+    let formError = null;
     const [loginError, setLoginError] = useState(null);
     const [loading, setLoading] = useState(false);
 
@@ -16,14 +16,12 @@ export default function Login () {
     function isValidEmail (email) {
         return /\S+@\S+\.\S+/.test(email);
     }
+    //handle the form field error
+    formError = ( userData.email === '' ? false : !isValidEmail(userData.email));
     //handler for the input field
     const handleChange = (name, value) => {
-        
-        if (name === 'email') setFormError( userData.email === '' ? false : !isValidEmail(value));
-
         setUserData(prev => ({...prev, [name]: value}));
     };
-
 
     //fetch the data to the server
     const loginButton = e => {
@@ -77,7 +75,7 @@ export default function Login () {
                             placeholder="Adresse E-Mail" 
                             type="text"
                             value={userData.email}
-                            className={`px-2  ${formError ? 'border-red-700' : 'border-gray-800'} duration-200  appearance-none border-2 w-4/5 h-12 my-3 rounded-lg`}
+                            className={`px-2  ${formError ? 'border-red-700' : 'border-gray-800'} duration-200  appearance-none border-2 w-4/5 h-12 my-3 rounded-lg `}
                             onChange={ e => handleChange(e.target.name, e.target.value)} 
                         />
                         <input 

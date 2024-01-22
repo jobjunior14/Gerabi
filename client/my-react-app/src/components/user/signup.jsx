@@ -8,7 +8,7 @@ export default function Signup () {
     const navigate = useNavigate();
 
     const [userData, setUserData] = useState({email: "", password: "", confirmPassword: "", name: "",});
-    const [error, setError] = useState({email: null, password: null});
+    let error = {email: null, password: null};
     const [errorMessage, setErrorMessage] = useState(false);
     const [loading, setLoading] = useState(false);
     const [signupError, setSignupError] = useState(false);
@@ -22,18 +22,13 @@ export default function Signup () {
         //handle all the user data 
         setUserData(prev => ({...prev, [name]: value}));
         //handle the valid email field
-        if (name === 'email') {
-            setError(prev => {
-                return {...prev, email: userData.email === '' ? false : !isValidEmail(value) }
-            });
-        }
     };
+    //handle the error's field
+    error.email = userData.email === '' ? false : !isValidEmail(userData.email); 
+    error.password = userData.confirmPassword === '' ? false : userData.password !== userData.confirmPassword ? true : false;
 
     const signUp = e => {
         //handle the confirm password field
-        setError(prev => {
-            return {...prev, password: userData.confirmPassword === '' ? false : userData.password !== userData.confirmPassword ? true : false}
-        });
 
         if (error.email === true || error.password === true|| userData.email === '' || userData.password === '' || userData.confirmPassword === '' || userData.name === '') {
             setErrorMessage( true);
@@ -116,7 +111,7 @@ export default function Signup () {
                         className={`px-2  ${error.password ? 'border-red-700' : 'border-gray-800'} duration-200  appearance-none border-2 w-full h-12 my-3 rounded-lg`}
                         onChange={ e => handleChange(e.target.name, e.target.value)} 
                     />
-                    {errorMessage && <p className="text-red-700 sm:text-base text-xs">Verifier que tout les champ sont bien remplis</p>}
+                    {errorMessage && <p className="text-red-700 sm:text-base text-xs">{error.email ? 'Veillez taper une Adresse mail valide' : 'vos mots de passe ne correspondent pas'}</p>}
                     <button disabled={loading || errorMessage} onClick={ e => signUp(e)} className="bg-indigo-500 py-2 px-4 w-full text-white sm:text-xl text-lg font-bold my-4 rounded-md"> {loading ? '...' : 'Créer un compte'} </button>
 
                 </form>
