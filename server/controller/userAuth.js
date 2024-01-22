@@ -137,7 +137,7 @@ exports.forgetPassword = catchAssynch (async (req, res, next) => {
     await user.save({validateBeforeSave: false});
 
     //send the reset url and the token to the user's email
-    const resetURL = `${req.protocol}://${req.get('host')}/api/v1/resetPassword/${resetToken}`
+    const resetURL = `https://degobar-83mg.onrender.com/resetPassword/${resetToken}`
 
     const message = `Forget password?  Please provide your new password to: ${resetURL}.\n Thanks to do not share the link and your new password 
     and if you did't forget your password ignore this email.`
