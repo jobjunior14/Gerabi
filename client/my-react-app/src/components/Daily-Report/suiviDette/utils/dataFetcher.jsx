@@ -32,6 +32,7 @@ export default function useDataFetcherSuiviDepense ({componentName}) {
   const fetchData = async () => {
 
     setError('');
+    setLoading(true);
     try {
       //reinitialize some state to see the loading page while fetching data
 

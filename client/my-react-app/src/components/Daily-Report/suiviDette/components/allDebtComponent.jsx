@@ -107,23 +107,14 @@ export default function AllDebtComp ({loading, error, pError, debtName, totalDet
                         <button className="px-5 py-1 bg-gray-500 text-gray-100 rounded-md " onClick={() => dispatch(suiviDetteActions[dispatchName]())}> Ajouter Un Nom</button>
                     </div>
                 );
-            };
+            }
         } else {
             
             if ( error) {
                 return (<LoadingError message={error.message}/>);
             }
             if (loading) {
-                return (<div className=" justify-center flex">
-                        <h3 className="lg:text-2xl text-xl font-semibold text-gray-700 block absolute"> {name}</h3>
-                        <div className=" items-center justify-center my-28"> 
-                            <div className="flex items-center justify-center space-x-2">
-                                <div className="w-2 h-2 rounded-full animate-pulse dark:bg-indigo-400"></div>
-                                <div className="w-2 h-2 rounded-full animate-pulse dark:bg-indigo-400"></div>
-                                <div className="w-2 h-2 rounded-full animate-pulse dark:bg-indigo-400"></div>
-                            </div>
-                    </div>
-                </div>);
+                return (<h1 className="text-xl my-5 font-semibold animate-pulse">Chargement...</h1>);
             }
        }
     }

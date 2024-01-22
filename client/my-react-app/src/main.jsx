@@ -7,6 +7,7 @@ import store from './components/store';
 import {disableReactDevTools} from '@fvilers/disable-react-devtools';
 
 if (import.meta.env.VITE_ENV === 'production') disableReactDevTools();
+console.log (import.meta.env.VITE_ENV)
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <Provider store = {store}>
