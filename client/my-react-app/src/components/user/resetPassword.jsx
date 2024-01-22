@@ -62,7 +62,7 @@ export default function ForgetPassword () {
 
                 <div>
                     {/* display the errorMessage */}
-                    {loginError && <p className='text-red-700 text-sm'>{loginError.response ? `${loginError.response.data.message}` : `${loginError.message}`}</p>}
+                    {loginError && <p className='text-red-700 text-sm'>{loginError.response ? `${loginError.response.data.message}` : `erreur de connexion`}</p>}
                     <form onSubmit={e => resetPasswordButton(e)} className=" w-70 px-5 py-5 ">
 
                         <input 

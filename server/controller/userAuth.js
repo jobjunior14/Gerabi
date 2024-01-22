@@ -15,13 +15,15 @@ const tokenSender = (statusCode, user, res ) => {
 
     const cookieOptions = {
         httpOnly: true,
-        expires: new Date (Date.now() + process.env.EXPIRE_COOKIE_IN * 24 * 60 * 60 * 1000)
+        expires: new Date (Date.now() + process.env.EXPIRE_COOKIE_IN * 24 * 60 * 60 * 1000),
+        path: '/',
+        secure: true
     };
 
     //active the secure cookie's option if we are in the production env
-    if (process.env.NODE_ENV === 'production') cookieOptions.secure = true;
+    if (process.env.NODE_ENV === 'development') cookieOptions.secure = false;
     //send the token as cookie
-    res.cookie('jwt', token, cookieOptions);
+    res.cookie('jwtDegoBar', token, cookieOptions);
     res.status(statusCode).json({
         status: 'success',
         token: token,

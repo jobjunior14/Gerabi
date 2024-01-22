@@ -74,7 +74,7 @@ export default function Signup () {
 
             <div>
                 {/* display the errorMessage */}
-                {signupError && <p className='text-red-700 text-sm'>{signupError.response ? `${signupError.response.data.message}` : `${signupError.message}`}</p>}
+                {signupError && <p className='text-red-700 text-sm'>{signupError.response ? `${signupError.response.data.message}` : `erreur de connexion`}</p>}
                 <form onSubmit={signUp} className= "  w-96 px-5 py-5">
 
                     <input 

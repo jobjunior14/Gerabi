@@ -66,7 +66,7 @@ export default function ForgetPassword () {
 
                     <div>
                         {/* display the errorMessage */}
-                        {loginError && <p className='text-red-700 text-sm'>{loginError.response ? `${loginError.response.data.message}` : `${loginError.message}`}</p>}
+                        {loginError && <p className='text-red-700 text-sm'>{loginError.response ? `${loginError.response.data.message}` : `erreur de connexion`}</p>}
                         <form onSubmit={e => forgetPasswordButton(e)} className=" w-70 px-5 py-5 ">
 
                             <input 
@@ -78,7 +78,7 @@ export default function ForgetPassword () {
                                 className={`px-2  ${formError ? 'border-red-700' : 'border-gray-800'} duration-200  appearance-none border-2 w-4/5 h-12 my-3 rounded-lg`}
                                 onChange={ e => handleChange(e.target.name, e.target.value)} 
                             />
-                            <button disabled={loading} className="bg-indigo-500 py-2 px-4 w-4/5 text-white text-xl font-bold my-4 rounded-md">{loading ? '...' : 'Envoyer' }</button>
+                            <button disabled={loading} className={`${loading ? 'bg-indigo-200' : 'bg-indigo-500'} py-2 px-4 w-4/5 text-white text-xl font-bold my-4 rounded-md`}>{loading ? '...' : 'Envoyer' }</button>
                         </form>
 
                         <button onClick={loginPage} className=" text-indigo-500 mb-4"> J&apos;ai deja un compte</button>

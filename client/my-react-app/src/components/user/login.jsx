@@ -68,7 +68,7 @@ export default function Login () {
 
                 <div>
                     {/* display the errorMessage */}
-                    {loginError && <p className='text-red-700 text-sm'>{loginError.response ? `${loginError.response.data.message}` : `${loginError.message}`}</p>}
+                    {loginError && <p className='text-red-700 text-sm'>{loginError.response ? `${loginError.response.data.message}` : `Erreur de connecion`}</p>}
                     <form onSubmit={e => loginButton(e)} className=" w-70 px-5 py-5 ">
 
                         <input 
@@ -90,7 +90,7 @@ export default function Login () {
                             onChange={ e => handleChange(e.target.name, e.target.value)} 
                         />
 
-                        <button disabled={loading || formError} className="bg-indigo-500 py-2 px-4 w-4/5 text-white text-xl font-bold my-4 rounded-md">{loading ? '...' : 'Se Connecter' }</button>
+                        <button disabled={loading || formError} className={` ${loading ? 'bg-indigo-200' : 'bg-indigo-500'} py-2 px-4 w-4/5 text-white text-xl font-bold my-4 rounded-md`}>{loading ? '...' : 'Se Connecter' }</button>
                     </form>
 
                     <button onClick={forgetPassword} className=" text-indigo-500 mb-4"> Mot De passe Oublié</button>

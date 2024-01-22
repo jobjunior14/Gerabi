@@ -119,7 +119,7 @@ export default function UserPage () {
                         </div>
                         <p className="my-2 text-gray-700 text-xl font-bold">Bievenue {localStorage.getItem('degoUser')}</p>
                         {/* display the errorMessage */}
-                        {loginError && <p className='text-red-700 text-sm'>{loginError.response ? `${loginError.response.data.message}` : `${loginError.message}`}</p>}
+                        {loginError && <p className='text-red-700 text-sm'>{loginError.response ? `${loginError.response.data.message}` : `erreur de connection`}</p>}
                         {formError.password && <p className='text-red-700 text-sm'>Vos mots de passe ne correspondent pas</p>}
                         <form onSubmit={e => updateInformation(e)} className=" w-70 px-5 py-5 ">
     

@@ -8,9 +8,13 @@ const mongoSanitizer = require ('express-mongo-sanitize');
 const xss = require ('xss-clean');
 const app = express();
 const dotenv = require ('dotenv');
+const cookieParser = require('cookie-parser')
+
 dotenv.config ({ path: 'config.env'});
 //Global Middleware
 
+//cookie parser
+app.use (cookieParser());
 //set the security http headers
 app.use(helmet());
 
