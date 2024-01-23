@@ -25,7 +25,7 @@ export default function objProvider (componentName, el, index) {
         },
         benefice_sur_vente: 0,
         val_precedente: {
-            stock_apres_ventente_rest_stock_comptoir_qt_btll: el.val_precedente.stock_apres_ventente_rest_stock_comptoir_qt_btll ||0,
+            stock_apres_ventente_rest_stock_comptoir_qt_btll: el.val_precedente.stock_apres_ventente_rest_stock_comptoir_qt_btll || 0,
             stock_apres_ventente_rest_stock_depot_qt_btll: el.val_precedente.stock_apres_ventente_rest_stock_depot_qt_btll || 0,
         },
     }
@@ -126,7 +126,7 @@ export default function objProvider (componentName, el, index) {
                 valeur: 0
             },
         };
-    };
+    }
     return data;
-};
+}
 

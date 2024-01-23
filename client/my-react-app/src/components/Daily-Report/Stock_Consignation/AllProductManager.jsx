@@ -41,7 +41,7 @@ export default function Product () {
   const id = useSelector (state => state[sliceName].id);
   
   //date query
-  const {year, month, day, no_existent, setterDateParams} = useDateParams();
+  const {year, month, day, no_existent, setterDateParams, currentDay, currentMonth, currentYear} = useDateParams();
   
   //date in forms
   const [date, setDate] = useState({year, month, day});
@@ -111,13 +111,16 @@ export default function Product () {
   };
   //handle the date's fields
   function handleDate (name, value) {
-    setDate(prev => ({...prev, [name]: Number(value)}));
+    //don't allow user to set a negative date or equal to 0
+    if (value <= 0) value = '';
+
+    setDate(prev => ({...prev, [name]: value}));
   }
   //search a specifique date 
   function setFilterParams() {
+    if (date.year !== '' && date.month !== '' && date.day !== '')
     setterDateParams(date);
-  };
-
+  }
   //update data
   function UpdateData() {
     //calling the function to verify that there is no error before updating the data

@@ -96,7 +96,7 @@ export default function EntreeCaisse ({ foundPrevSold, prevDay, prevMonth, prevY
                                     type="number"
                                     id = {'inputfromUser' + id}
                                     placeholder="Tapez le precedent sold caisse"
-                                    defaultValue={prevSoldCaisse}
+                                    value={prevSoldCaisse}
                                     onChange={(e) => { dispatch(suiviDepenseActions.handleSoldCaisseByUser(Number (e.target.value)))} }
                                 />
                             </div>}

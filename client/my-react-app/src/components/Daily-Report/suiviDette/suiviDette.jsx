@@ -112,7 +112,10 @@ export default function SuiviDette () {
     }, [pMusiciensData, pAgentsData, pClientsData, pTotDetailDetteAndPaymentAgents, pTotDetailDetteAndPaymentClients, pTotDetailDetteAndPaymentMusiciens, pYourTotalDebtAndPayment,pYourDebt,pTotalDebt,pYourTotalDetailDebtAndPayment]);
 
     function handleDate (name, value) {
+        //don't allow user to set a negative date or equal to 0
+        if (value <= 0) value = '';
         setDate(prev => ({...prev, [name]: value}));
+        
     }
     
     function setFilterParams() {
