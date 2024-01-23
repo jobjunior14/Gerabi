@@ -78,6 +78,7 @@ export default function Login () {
                             className={`px-2  ${formError ? 'border-red-700' : 'border-gray-800'} duration-200  appearance-none border-2 w-4/5 h-12 my-3 rounded-lg `}
                             onChange={ e => handleChange(e.target.name, e.target.value)} 
                         />
+                        {formError && <p className="text-red-500">Verifier votre adress mail</p>}
                         <input 
                             id="password" 
                             name="password" 
