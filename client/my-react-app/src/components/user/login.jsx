@@ -62,7 +62,7 @@ export default function Login () {
     return (
         <div className='flex justify-center'>
 
-            <div className=" flex justify-center mt-10 bg-white border-2 border-slate-400 rounded-md min-w-60 px-5 py-5">
+            <div className=" flex justify-center mt-10 bg-white dark:bg-gray-800 border-2 border-slate-400 rounded-md min-w-60 px-5 py-5">
 
                 <div>
                     {/* display the errorMessage */}
