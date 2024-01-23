@@ -1,5 +1,4 @@
 /* eslint-disable react/prop-types */
-import React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { suiviDepenseActions } from '../../../store/suiviDepense-slice';
 
@@ -8,9 +7,9 @@ export default function EntreeCaisseComp (props){
     const dispatch = useDispatch();
     const readOnly = useSelector (state => state.suiviDepense.readOnly);
 
-    const inputStyle = "w-32 bg-gray-50 duration-150 focus:scale-105 focus:outline-none focus:border-2 appearance-none border-2 focus:border-indigo-700 "
+    const inputStyle = "w-32 bg-gray-50 dark:bg-gray-800 dark:text-gray-50 rounded-md duration-150 focus:scale-105 focus:outline-none focus:border-2 appearance-none border-2 focus:border-indigo-700 "
     return (<tr>
-      <td className="border-2 border-gray-900">
+      <td className="border-2 border-gray-900 dark:border-gray-50 p-1">
         <input
             className={inputStyle} 
             value={props.prev.name}
@@ -26,7 +25,7 @@ export default function EntreeCaisseComp (props){
         />
       </td>
 
-      <td className="border-2 border-gray-900">
+      <td className="border-2 border-gray-500 dark:border-gray-50 p-1">
         <input
             className={inputStyle} 
             value={props.prev.data.amount}

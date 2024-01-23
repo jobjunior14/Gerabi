@@ -36,16 +36,17 @@ export function TableSuivi () {
         }
     }, [productData, providers]);
 
-    const thStyle = " py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900";
+    const thStyle = " py-1 bg-indigo-200  dark:bg-violet-400 dark:text-gray-100 px-3 border-solid font-normal border-2 border-gray-900";
+
     const rowSpan = 2;
     if (stateAction) {
 
        
         return (
             <div className='flex justify-center'>
-                <div className="bg-slate-200 w-auto border-2 border-slate-500 max-w-fit rounded-md overflow-x-auto p-3 font-normal">
+                <div className="bg-slate-200 dark:bg-gray-600 w-auto border-2 border-slate-500 max-w-fit rounded-md overflow-x-auto p-3 font-normal">
 
-                    <table className=" border-collapse duration-300 table-fixed font-normal border-2 border-gray-900">
+                    <table className=" border-collapse  duration-300 table-fixed font-normal border-2 border-gray-900">
                         <thead>
                             <tr>
                                 <th rowSpan= {rowSpan} className={thStyle}> Produit </th>

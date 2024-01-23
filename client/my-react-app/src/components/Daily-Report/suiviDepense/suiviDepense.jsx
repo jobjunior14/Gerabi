@@ -203,8 +203,8 @@ export default function SuiviDepense (){
                 />
                 <SoriteCaisse key={`sortieCaisse1`} loading = {loading || pLoading} error={error} pError = {pError} /> 
                 <SoldCaisse key={`soldCaisse1`} loading = {loading || pLoading} error={error} pError = {pError}/>
-                <p className="font-bold text-lg lg:text-xl text-gray-700 p-4"> Total Dette du {day}-{month}-{year}: <b> {totalDailyDebt}</b></p>
-                <p className="font-bold text-lg lg:text-xl text-gray-700 p-4"> Ton total Dette du {day}-{month}-{year}: <b> {yourTotalDette}</b> </p>
+                <p className="font-bold text-lg lg:text-xl text-gray-700 p-4 dark:text-gray-100"> Total Dette du {day}-{month}-{year}: <b> {totalDailyDebt}</b></p>
+                <p className="font-bold text-lg lg:text-xl text-gray-700 p-4 dark:text-gray-100"> Ton total Dette du {day}-{month}-{year}: <b> {yourTotalDette}</b> </p>
                 {!update ? <button className="px-5 py-1 bg-indigo-500 text-gray-100 rounded-md "  onClick={postData}> Enregistrer les données</button> : <button className="px-5 py-1 bg-indigo-500 text-gray-100 rounded-md " onClick={updateData}> Mettre à les données</button> }
             </>
         )

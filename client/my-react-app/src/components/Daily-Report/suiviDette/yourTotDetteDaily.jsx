@@ -27,5 +27,5 @@ export default function YourTotDetteDaily (props) {
 
     }, [fournisseurs]);
 
-    return (<p className="font-bold lg:text-2xl text-xl text-gray-700 p-4"> Total dette du {props.day}-{props.month}-{props.year} : <b> {yourTotDette} </b> </p>)
+    return (<p className="font-bold lg:text-2xl text-xl text-gray-700 p-4 dark:text-fuchsia-100"> Total dette du {props.day}-{props.month}-{props.year} : <b> {yourTotDette} </b> </p>)
 };

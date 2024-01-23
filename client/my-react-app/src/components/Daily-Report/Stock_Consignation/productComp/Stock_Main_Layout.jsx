@@ -14,15 +14,15 @@ export function ExcelMain(props)
     const dispatch = useDispatch();
     const id = useId();
     
-    const inputStyle = "w-28 bg-gray-50 duration-150 focus:scale-105 focus:outline-none focus:border-2 appearance-none border-2 focus:border-indigo-700 ";
+    const inputStyle = "w-28 bg-gray-50 dark:text-gray-50 dark:bg-gray-800 rounded-md  duration-150 focus:scale-105 focus:outline-none focus:border-2 appearance-none border-2 focus:border-indigo-700 ";
     if (stateAction) {
         
         return (
             <tr>
                 {
-                    <td className="border-2 border-gray-800" id = {props.prev.id} name = { `name${props.prev.id}`}>
+                    <td className="border-2 border-gray-800 dark:text-gray-50" id = {props.prev.id} name = { `name${props.prev.id}`}>
                         <input
-                            className="w-32 bg-gray-50 duration-150 focus:scale-105 focus:outline-none focus:border-2 appearance-none border-2 focus:border-indigo-700 " 
+                            className="w-32 bg-gray-50 dark:text-gray-50 dark:bg-gray-800 rounded-md duration-150 focus:scale-105 focus:outline-none focus:border-2 appearance-none border-2 focus:border-indigo-700 " 
                             value = { props.prev.name}
                             id = { props.prev.id + id + 'name' }
                             name = 'name' 
@@ -39,7 +39,7 @@ export function ExcelMain(props)
                 }
     
                 {
-                    <td className="border-2 border-gray-800">
+                    <td className="border-2 border-gray-800 dark:text-gray-50">
                         <input
                             className={inputStyle} 
                             value = { props.prev.achat_journalier.qt_caisse}
@@ -58,9 +58,9 @@ export function ExcelMain(props)
                 }
     
                 {
-                    <td className="border-2 border-gray-800">
+                    <td className="border-2 border-gray-800 dark:text-gray-50">
                         <input
-                            className="w-28 bg-gray-50 duration-150 focus:scale-105 focus:outline-none focus:border-indigo-700  focus:border-2 appearance-none border-2 " 
+                            className={inputStyle}
                             value = { props.prev.achat_journalier.nbr_btll}
                             id = { props.prev.id + id + 'achat_journalierNbr_Btll' }
                             name = 'achat_journalier'
@@ -76,10 +76,10 @@ export function ExcelMain(props)
                     </td>
                 }
     
-                { !toggleStoc && <td className="border-2 border-gray-800"> { props.prev.achat_journalier.qt_btll} </td> }
+                { !toggleStoc && <td className="border-2 border-gray-800 dark:text-gray-50"> { props.prev.achat_journalier.qt_btll} </td> }
     
                 {
-                    <td className="border-2 border-gray-800">
+                    <td className="border-2 border-gray-800 dark:text-gray-50">
                         <input
                             className={inputStyle} 
                             value = { props.prev.achat_journalier.prix_achat_gros}
@@ -97,16 +97,16 @@ export function ExcelMain(props)
                     </td>
                 }
     
-                { !toggleStoc && <td className="border-2 border-gray-800"> { props.prev.benefice_sur_achat.val_gros_approvisionnement} </td> }
+                { !toggleStoc && <td className="border-2 border-gray-800 dark:text-gray-50"> { props.prev.benefice_sur_achat.val_gros_approvisionnement} </td> }
     
-                { !toggleStoc && <td className="border-2 border-gray-800"> { props.prev.benefice_sur_achat.val_det} </td> }
+                { !toggleStoc && <td className="border-2 border-gray-800 dark:text-gray-50"> { props.prev.benefice_sur_achat.val_det} </td> }
     
-                { !toggleStoc && <td className="border-2 border-gray-800"> { props.prev.benefice_sur_achat.benefice} </td> }
+                { !toggleStoc && <td className="border-2 border-gray-800 dark:text-gray-50"> { props.prev.benefice_sur_achat.benefice} </td> }
     
-                { !toggleStoc && <td className="border-2 border-gray-800"> { props.prev.business_projection.stock_gen} </td> }
+                { !toggleStoc && <td className="border-2 border-gray-800 dark:text-gray-50"> { props.prev.business_projection.stock_gen} </td> }
                 
                 {
-                    <td className="border-2 border-gray-800">
+                    <td className="border-2 border-gray-800 dark:text-gray-50">
                         <input
                             className={inputStyle} 
                             value = { props.prev.business_projection.sortie_cave}
@@ -124,18 +124,18 @@ export function ExcelMain(props)
                     </td>
                 }
     
-                { !toggleStoc && <td className="border-2 border-gray-800"> { props.prev.business_projection.stock_dego} </td> }
+                { !toggleStoc && <td className="border-2 border-gray-800 dark:text-gray-50"> { props.prev.business_projection.stock_dego} </td> }
                        
-                { !toggleStoc && <td className="border-2 border-gray-800"> { props.prev.business_projection.val_stock_det} </td> }
+                { !toggleStoc && <td className="border-2 border-gray-800 dark:text-gray-50"> { props.prev.business_projection.val_stock_det} </td> }
     
-                { !toggleStoc && <td className="border-2 border-gray-800"> { props.prev.business_projection.ref_prix_gros} </td> }
+                { !toggleStoc && <td className="border-2 border-gray-800 dark:text-gray-50"> { props.prev.business_projection.ref_prix_gros} </td> }
     
-                { !toggleStoc && <td className="border-2 border-gray-800"> { props.prev.business_projection.val_stock_gros} </td> }
+                { !toggleStoc && <td className="border-2 border-gray-800 dark:text-gray-50"> { props.prev.business_projection.val_stock_gros} </td> }
     
-                { !toggleStoc && <td className="border-2 border-gray-800"> { props.prev.business_projection.marge_beneficiaire} </td> }
+                { !toggleStoc && <td className="border-2 border-gray-800 dark:text-gray-50"> { props.prev.business_projection.marge_beneficiaire} </td> }
     
                 {
-                    <td className="border-2 border-gray-800">
+                    <td className="border-2 border-gray-800 dark:text-gray-50">
                         <input
                             className={inputStyle} 
                             value = { props.prev.vente_journaliere.ref_prix_det}
@@ -153,14 +153,14 @@ export function ExcelMain(props)
                     </td>
                 }
     
-                { !toggleStoc && <td className="border-2 border-gray-800"> { props.prev.vente_journaliere.qt_vendue_comptoir} </td> }
+                { !toggleStoc && <td className="border-2 border-gray-800 dark:text-gray-50"> { props.prev.vente_journaliere.qt_vendue_comptoir} </td> }
     
-                { !toggleStoc && <td className="border-2 border-gray-800"> { props.prev.vente_journaliere.valeur} </td> }
+                { !toggleStoc && <td className="border-2 border-gray-800 dark:text-gray-50"> { props.prev.vente_journaliere.valeur} </td> }
     
-                { !toggleStoc && <td className="border-2 border-gray-800">  {props.prev.benefice_sur_vente} </td> }
+                { !toggleStoc && <td className="border-2 border-gray-800 dark:text-gray-50">  {props.prev.benefice_sur_vente} </td> }
                     
                 {
-                    <td className="border-2 border-gray-800">
+                    <td className="border-2 border-gray-800 dark:text-gray-50">
                         <input
                             className={inputStyle} 
                             value = { props.prev.stock_consignaions.qt}
@@ -178,10 +178,10 @@ export function ExcelMain(props)
                     </td>
                 }
     
-                { !toggleStoc && <td className="border-2 border-gray-800"> { props.prev.stock_consignaions.valeur} </td> }
+                { !toggleStoc && <td className="border-2 border-gray-800 dark:text-gray-50"> { props.prev.stock_consignaions.valeur} </td> }
     
                 {
-                    <td className="border-2 border-gray-800">
+                    <td className="border-2 border-gray-800 dark:text-gray-50">
                         <input
                             className={inputStyle} 
                             value = { props.prev.val_precedente.stock_apres_ventente_rest_stock_comptoir_qt_btll}
@@ -200,7 +200,7 @@ export function ExcelMain(props)
                 }
     
                 {
-                    <td className="border-2 border-gray-800">
+                    <td className="border-2 border-gray-800 dark:text-gray-50">
                         <input
                             className={inputStyle} 
                             value = { props.prev.val_precedente.stock_apres_ventente_rest_stock_depot_qt_btll}
@@ -220,7 +220,7 @@ export function ExcelMain(props)
                 <tr>
                         
                     {
-                        <td className="border-2 border-gray-800" >
+                        <td className="border-2 border-gray-800 dark:text-gray-50" >
                             <input
                                 className={inputStyle} 
                                 value = { props.prev.stock_apres_vente.reste_stock_comptoir.qt_btll}
@@ -237,10 +237,10 @@ export function ExcelMain(props)
                         </td>
                     }
     
-                    { !toggleStoc && <td className="border-2 border-gray-800">  { props.prev.stock_apres_vente.reste_stock_comptoir.valeur} </td> }
+                    { !toggleStoc && <td className="border-2 border-gray-800 dark:text-gray-50">  { props.prev.stock_apres_vente.reste_stock_comptoir.valeur} </td> }
     
                     {
-                        <td className="border-2 border-gray-800">
+                        <td className="border-2 border-gray-800 dark:text-gray-50">
                             <input
                                 className={inputStyle} 
                                 value = { props.prev.stock_apres_vente.reste_stock_depot.qt_caisses}
@@ -258,11 +258,11 @@ export function ExcelMain(props)
                         </td>
                     }
     
-                    { !toggleStoc && <td className="border-2 border-gray-800"> { props.prev.stock_apres_vente.reste_stock_depot.qt_btll} </td> }
+                    { !toggleStoc && <td className="border-2 border-gray-800 dark:text-gray-50"> { props.prev.stock_apres_vente.reste_stock_depot.qt_btll} </td> }
     
-                    { !toggleStoc && <td className="border-2 border-gray-800"> { props.prev.stock_apres_vente.reste_stock_depot.valeur} </td> }
+                    { !toggleStoc && <td className="border-2 border-gray-800 dark:text-gray-50"> { props.prev.stock_apres_vente.reste_stock_depot.valeur} </td> }
     
-                    { !toggleStoc && <td className="border-2 border-gray-800"> { props.prev.stock_apres_vente.valeur_stock} </td> }
+                    { !toggleStoc && <td className="border-2 border-gray-800 dark:text-gray-50"> { props.prev.stock_apres_vente.valeur_stock} </td> }
     
                 </tr>    
                
@@ -273,7 +273,7 @@ export function ExcelMain(props)
         return (
             <tr>
                 {
-                    <td className="border-2 border-gray-800" id = {props.prev.id} name = { `name${props.prev.id}`}>
+                    <td className="border-2 border-gray-800 dark:text-gray-50" id = {props.prev.id} name = { `name${props.prev.id}`}>
                         <input
                             className={inputStyle} 
                             value = { props.prev.name}
@@ -292,7 +292,7 @@ export function ExcelMain(props)
                 }
     
                 {
-                    <td className="border-2 border-gray-800">
+                    <td className="border-2 border-gray-800 dark:text-gray-50">
                         <input
                             className={inputStyle} 
                             value = { props.prev.achat_journalier.qt_caisse}
@@ -311,7 +311,7 @@ export function ExcelMain(props)
                 }
     
                 {
-                    <td className="border-2 border-gray-800">
+                    <td className="border-2 border-gray-800 dark:text-gray-50">
                         <input
                             className={inputStyle} 
                             value = { props.prev.achat_journalier.nbr_btll}
@@ -329,10 +329,10 @@ export function ExcelMain(props)
                     </td>
                 }
     
-                { !toggleStoc && <td className="border-2 border-gray-800"> { props.prev.achat_journalier.qt_btll} </td> }
+                { !toggleStoc && <td className="border-2 border-gray-800 dark:text-gray-50"> { props.prev.achat_journalier.qt_btll} </td> }
     
                 {
-                    <td className="border-2 border-gray-800">
+                    <td className="border-2 border-gray-800 dark:text-gray-50">
                         <input
                             className={inputStyle} 
                             value = { props.prev.achat_journalier.prix_achat_gros}
@@ -350,16 +350,16 @@ export function ExcelMain(props)
                     </td>
                 }
     
-                { !toggleStoc && <td className="border-2 border-gray-800"> { props.prev.benefice_sur_achat.val_gros_approvisionnement} </td> }
+                { !toggleStoc && <td className="border-2 border-gray-800 dark:text-gray-50"> { props.prev.benefice_sur_achat.val_gros_approvisionnement} </td> }
     
-                { !toggleStoc && <td className="border-2 border-gray-800"> { props.prev.benefice_sur_achat.val_det} </td> }
+                { !toggleStoc && <td className="border-2 border-gray-800 dark:text-gray-50"> { props.prev.benefice_sur_achat.val_det} </td> }
     
-                { !toggleStoc && <td className="border-2 border-gray-800"> { props.prev.benefice_sur_achat.benefice} </td> }
+                { !toggleStoc && <td className="border-2 border-gray-800 dark:text-gray-50"> { props.prev.benefice_sur_achat.benefice} </td> }
     
-                { !toggleStoc && <td className="border-2 border-gray-800"> { props.prev.business_projection.stock_gen} </td> }
+                { !toggleStoc && <td className="border-2 border-gray-800 dark:text-gray-50"> { props.prev.business_projection.stock_gen} </td> }
                 
                 {
-                    <td className="border-2 border-gray-800">
+                    <td className="border-2 border-gray-800 dark:text-gray-50">
                         <input
                             className={inputStyle} 
                             value = { props.prev.business_projection.sortie_dego}
@@ -377,18 +377,18 @@ export function ExcelMain(props)
                     </td>
                 }
                            
-                { !toggleStoc && <td className="border-2 border-gray-800"> { props.prev.business_projection.stock_cave} </td> }
+                { !toggleStoc && <td className="border-2 border-gray-800 dark:text-gray-50"> { props.prev.business_projection.stock_cave} </td> }
     
-                { !toggleStoc && <td className="border-2 border-gray-800"> { props.prev.business_projection.val_stock_det} </td> }
+                { !toggleStoc && <td className="border-2 border-gray-800 dark:text-gray-50"> { props.prev.business_projection.val_stock_det} </td> }
     
-                { !toggleStoc && <td className="border-2 border-gray-800"> { props.prev.business_projection.ref_prix_gros} </td> }
+                { !toggleStoc && <td className="border-2 border-gray-800 dark:text-gray-50"> { props.prev.business_projection.ref_prix_gros} </td> }
     
-                { !toggleStoc && <td className="border-2 border-gray-800"> { props.prev.business_projection.val_stock_gros} </td> }
+                { !toggleStoc && <td className="border-2 border-gray-800 dark:text-gray-50"> { props.prev.business_projection.val_stock_gros} </td> }
 
-                { !toggleStoc && <td className="border-2 border-gray-800"> { props.prev.business_projection.marge_beneficiaire} </td> }
+                { !toggleStoc && <td className="border-2 border-gray-800 dark:text-gray-50"> { props.prev.business_projection.marge_beneficiaire} </td> }
     
                 {
-                    <td className="border-2 border-gray-800">
+                    <td className="border-2 border-gray-800 dark:text-gray-50">
                         <input
                             className={inputStyle} 
                             value = { props.prev.vente_journaliere.ref_prix_det}
@@ -406,14 +406,14 @@ export function ExcelMain(props)
                     </td>
                 }
     
-                { !toggleStoc && <td className="border-2 border-gray-800"> { props.prev.vente_journaliere.qt_vendue} </td> }
+                { !toggleStoc && <td className="border-2 border-gray-800 dark:text-gray-50"> { props.prev.vente_journaliere.qt_vendue} </td> }
     
-                { !toggleStoc && <td className="border-2 border-gray-800"> { props.prev.vente_journaliere.valeur} </td> }
+                { !toggleStoc && <td className="border-2 border-gray-800 dark:text-gray-50"> { props.prev.vente_journaliere.valeur} </td> }
     
-                { !toggleStoc && <td className="border-2 border-gray-800">  {props.prev.benefice_sur_vente} </td> }
+                { !toggleStoc && <td className="border-2 border-gray-800 dark:text-gray-50">  {props.prev.benefice_sur_vente} </td> }
                     
                 {
-                    <td className="border-2 border-gray-800">
+                    <td className="border-2 border-gray-800 dark:text-gray-50">
                         <input
                             className={inputStyle} 
                             value = { props.prev.stock_consignaions.qt}
@@ -431,10 +431,10 @@ export function ExcelMain(props)
                     </td>
                 }
     
-                { !toggleStoc && <td className="border-2 border-gray-800"> { props.prev.stock_consignaions.valeur} </td> }
+                { !toggleStoc && <td className="border-2 border-gray-800 dark:text-gray-50"> { props.prev.stock_consignaions.valeur} </td> }
     
                 {
-                    <td className="border-2 border-gray-800">
+                    <td className="border-2 border-gray-800 dark:text-gray-50">
                         <input
                             className={inputStyle} 
                             value = { props.prev.val_precedente.stock_apres_ventente_rest_stock_comptoir_qt_btll}
@@ -453,7 +453,7 @@ export function ExcelMain(props)
                 }
     
                 {
-                    <td className="border-2 border-gray-800">
+                    <td className="border-2 border-gray-800 dark:text-gray-50">
                         <input
                             className={inputStyle} 
                             value = { props.prev.val_precedente.stock_apres_ventente_rest_stock_depot_qt_btll}
@@ -472,7 +472,7 @@ export function ExcelMain(props)
                 }
                         
                 {
-                    <td className="border-2 border-gray-800" >
+                    <td className="border-2 border-gray-800 dark:text-gray-50" >
                         <input
                             className={inputStyle} 
                             value = { props.prev.stock_apres_vente.reste_stock}
@@ -489,7 +489,7 @@ export function ExcelMain(props)
                     </td>
                 }
 
-                { !toggleStoc && <td className="border-2 border-gray-800">  { props.prev.stock_apres_vente.valeur} </td> } 
+                { !toggleStoc && <td className="border-2 border-gray-800 dark:text-gray-50">  { props.prev.stock_apres_vente.valeur} </td> } 
             </tr>
         );
     }

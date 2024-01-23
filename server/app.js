@@ -37,10 +37,12 @@ app.use((req, res, next) => {
   next();
 });
 
+//set the trust proxy
+app.set('trust proxy', 1);
 //limit requests from the same API
 const limiter = expressLimiter({
   max: 1500,
-  windowMs: 30 * 60 * 1000,
+  windowMs: 50 * 60 * 1000,
   message: "Too many requests, please try again in 30 minutes"
 });
 app.use('/api', limiter);

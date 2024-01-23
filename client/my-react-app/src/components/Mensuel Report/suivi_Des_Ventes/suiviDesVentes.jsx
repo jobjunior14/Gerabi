@@ -123,12 +123,12 @@ export default function SuiviDesVentes ({user}) {
     /////////////////////*************/////////////////// */
     if (no_existent) {
         return (<div className="my-20 text-2xl">
-            <h1>Ooouups vous ne pouvez demander une donnee d&apos;une date inexistante</h1>
+            <h1 className="dark:text-gray-50">Ooouups vous ne pouvez demander une donnee d&apos;une date inexistante</h1>
         </div>)
     } else {
 
         return (<div className="justify-center flex ">
-            <h2 className="lg:text-3xl text-2xl font-bold text-gray-800 mb-5 absolute">Suivi Des Ventes</h2>
+            <h2 className="lg:text-3xl text-2xl font-bold text-gray-800 mb-5 absolute dark:text-gray-50">Suivi Des Ventes</h2>
             <div className="bg-slate-200 rounded-lg my-12 w-full ">
                 <VenteBar loading={loading} error={error} venteDego = {venteDego} />
                 <Approvisionnement loading={loading} error={error} />

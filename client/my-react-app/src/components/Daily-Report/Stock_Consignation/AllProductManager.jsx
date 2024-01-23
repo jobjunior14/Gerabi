@@ -169,7 +169,7 @@ export default function Product () {
                 <DailyFilter onchange={handleDate}  prev = {date} onclick = {setFilterParams} />
       
                 <UniqueInput>
-                  <label className="font-bold text-indigo-600 mr-7">Vente Journalière </label>
+                  <label className="font-bold text-indigo-600 dark:text-fuchsia-400 lg:text-xl  mr-7">Vente Journalière </label>
                   <input 
                     className="h-7 w-28 bg-slate-400 appearance-none rounded-lg pl-2 hover:border-indigo-400 border-2 focus:bg-slate-500 text-white foucus:boder-2 focus:border-indigo-400 focus:outline-none border-gray-500 duration-200"
                     ref={venteJournaliereRef} 
@@ -217,7 +217,7 @@ export default function Product () {
                 <div className="">
   
                   { stateAction && <span>
-                      <h1 className="font-bold lg:text-3xl text-2xl mt-8 mb-5 text-gray-700"> Suivi Approvisionnement </h1>
+                      <h1 className="font-bold lg:text-3xl text-2xl mt-8 mb-5 text-gray-700 dark:text-gray-50"> Suivi Approvisionnement </h1>
           
                       <TableSuivi />
   
@@ -255,7 +255,7 @@ export default function Product () {
                   <div className=" flex items-center justify-center h-3/4">
                     <img className=" h-96 w-auto" src={searchImage} alt="search image" />
                   </div>
-                  <h4 className="text-4xl text-gray-700"> Ooouups!!! cette donnée est inexistante veillez clicker sur -Ajouter un Produit- pour la créée</h4>                
+                  <h4 className="lg:text-4xl text-xl :text-gray-700 dark:text-gray-50"> Ooouups!!! cette donnée est inexistante veillez clicker sur -Ajouter un Produit- pour la créée</h4>                
               </>
             );
             
@@ -263,7 +263,9 @@ export default function Product () {
         } else {
           //the loading page
           if (loading || pAnduLoading) {
-            return (<Loading/>);
+            return (<div className="-mt-20">
+              <Loading/>
+            </div>);
           }
   
           //the loadind data error page

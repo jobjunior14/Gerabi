@@ -9,7 +9,6 @@ export default function Signup () {
 
     const [userData, setUserData] = useState({email: "", password: "", confirmPassword: "", name: "",});
     let error = {email: null, password: null};
-    const [errorMessage, setErrorMessage] = useState(false);
     const [loading, setLoading] = useState(false);
     const [signupError, setSignupError] = useState(false);
 
@@ -25,41 +24,33 @@ export default function Signup () {
     };
     //handle the error's field
     error.email = userData.email === '' ? false : !isValidEmail(userData.email); 
-    error.password = userData.confirmPassword === '' ? false : userData.password !== userData.confirmPassword ? true : false;
+    error.password = userData.confirmPassword === '' ? false : userData.password !== userData.confirmPassword;
 
     const signUp = e => {
         //handle the confirm password field
 
-        if (error.email === true || error.password === true|| userData.email === '' || userData.password === '' || userData.confirmPassword === '' || userData.name === '') {
-            setErrorMessage( true);
+        const fecthData = async () => {
 
-        } else {
+            setLoading(true);
+            try {
+                    const authorisation = await axios.post ('/user/signup', userData);
+    
+                    //if response is OK, redirect to the home page
+                    if (authorisation.status) {
+                        localStorage.setItem('jwtA', authorisation.data.token);
+                        navigate(`/rapportJournalier/degoBar/product/bralima?year=${currentYear}&month=${currentMonth}&day=${currentDay}`);
+                    }
 
-            setErrorMessage(false);
+            } catch (error) {
+                setLoading(false);
+                setSignupError(error);
+            } finally {
+                setLoading(false);
+            }
 
-            const fecthData = async () => {
-    
-                setLoading(true);
-                try {
-                        const authorisation = await axios.post ('/user/signup', userData);
-        
-                        //if response is OK, redirect to the home page
-                        if (authorisation.status) {
-                            localStorage.setItem('jwtA', authorisation.data.token);
-                            navigate(`/rapportJournalier/degoBar/product/bralima?year=${currentYear}&month=${currentMonth}&day=${currentDay}`);
-                        }
-    
-                } catch (error) {
-                    setLoading(false);
-                    setSignupError(error);
-                } finally {
-                    setLoading(false);
-                }
-    
-            }; fecthData()
-            e.preventDefault();
-            e.preventDefault();
-        }
+        }; fecthData()
+        e.preventDefault();
+        e.preventDefault();
     }
     
     return (
@@ -111,8 +102,8 @@ export default function Signup () {
                         className={`px-2  ${error.password ? 'border-red-700' : 'border-gray-800'} duration-200  appearance-none border-2 w-full h-12 my-3 rounded-lg`}
                         onChange={ e => handleChange(e.target.name, e.target.value)} 
                     />
-                    {errorMessage && <p className="text-red-700 sm:text-base text-xs">{error.email ? 'Veillez taper une Adresse mail valide' : 'vos mots de passe ne correspondent pas'}</p>}
-                    <button disabled={loading || errorMessage} onClick={ e => signUp(e)} className="bg-indigo-500 py-2 px-4 w-full text-white sm:text-xl text-lg font-bold my-4 rounded-md"> {loading ? '...' : 'Créer un compte'} </button>
+                    <p className="text-red-700 sm:text-base text-xs">{error.email ? 'Veillez taper une Adresse mail valide' : error.password ? 'vos mots de passe ne correspondent pas' : ''}</p>
+                    <button disabled={loading || error.email || error.password} onClick={ e => signUp(e)} className="bg-indigo-500 py-2 px-4 w-full text-white sm:text-xl text-lg font-bold my-4 rounded-md"> {loading ? '...' : 'Créer un compte'} </button>
 
                 </form>
                 <button className=" text-indigo-500 mb-4"> J&apos;ai deja un compte</button>

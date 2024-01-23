@@ -60,6 +60,7 @@ export default function AllDebtComp ({loading, error, pError, debtName, totalDet
         }
     }, [nameData,readOnly, savetotalDetteAndPaymentName]);
 
+    const thStyle = " py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900 dark:bg-violet-400 dark:text-gray-50";
     if (pError) {
         return (<PostAndUpdateError message={pError.message}/>);
     } else {
@@ -70,15 +71,15 @@ export default function AllDebtComp ({loading, error, pError, debtName, totalDet
                 return (
                 <div className=" text-center justify-center items-center block mt-5">
                     <div className=" flex justify-center mt-10">
-                        <h3 className="lg:text-2xl text-xl font-semibold text-gray-700 block -mt-5 absolute"> {name} </h3>
+                        <h3 className="lg:text-2xl text-xl font-semibold text-gray-700 dark:text-gray-50 block -mt-5 absolute"> {name} </h3>
                         <div className="tetx-center border-2 border-slate-600  overflow-x-auto px-4 mt-4 rounded-lg ">
                             <table className=" border-collapse duration-300 table-fixed font-normal border-2 border-gray-900 my-5">
                                 <thead>
                                     <tr>
-                                        <th className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900">Nom</th>
-                                        <th className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900">Montant</th>
-                                        <th className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900">Montant Payé</th>
-                                        <th className=" py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900">Total Dette</th>
+                                        <th className={thStyle}>Nom</th>
+                                        <th className={thStyle}>Montant</th>
+                                        <th className={thStyle}>Montant Payé</th>
+                                        <th className={thStyle}>Total Dette</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -102,8 +103,8 @@ export default function AllDebtComp ({loading, error, pError, debtName, totalDet
             } else {
                 return (
                     <div className="m-4">
-                        <h3 className="lg:text-2xl text-xl font-semibold text-gray-700"> {name} </h3>
-                        <h4> Ooouups!!! cette date n&apos;a pas des données </h4>
+                        <h3 className="lg:text-2xl text-xl font-semibold text-gray-700 dark:text-gray-50"> {name} </h3>
+                        <h4 className="dark:text-gray-50"> Ooouups!!! cette date n&apos;a pas des données </h4>
                         <button className="px-5 py-1 bg-gray-500 text-gray-100 rounded-md " onClick={() => dispatch(suiviDetteActions[dispatchName]())}> Ajouter Un Nom</button>
                     </div>
                 );

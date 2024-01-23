@@ -56,8 +56,8 @@ export default function MensRapSuiviDepense ({user, error, loading}) {
     useEffect(() => {
 
         if (data) {
-            setDisplayEntreeCaisse(data.entreeCaisse.map (el => <tr className='[&>*:nth-child(even)]:bg-slate-200' key={`entreeCaisse${el._id}`}><td className="border-2 border-gray-800 px-10">{el._id}</td> <td className="border-2 border-gray-800 px-10">{el.valeur}</td></tr> ));
-            setDisplaySortieCaisse( data.sortieCaisse.map (el => <tr className='[&>*:nth-child(even)]:bg-slate-200' key = {`sortieCaisse${el._id}`} ><td className="border-2 border-gray-800 px-10">{el._id}</td> <td className="border-2 border-gray-800 px-10">{el.valeur}</td></tr> ));
+            setDisplayEntreeCaisse(data.entreeCaisse.map (el => <tr className='[&>*:nth-child(even)]:bg-slate-200 border-2 [&>*:nth-child(even)]:dark:border-gray-50 ' key={`entreeCaisse${el._id}`}><td className="border-2 border-gray-800 px-10 dark:border-gray-50 dark:text-gray-50">{el._id}</td> <td className="border-2 border-gray-800 px-10">{el.valeur}</td></tr> ));
+            setDisplaySortieCaisse( data.sortieCaisse.map (el => <tr className='[&>*:nth-child(even)]:bg-slate-200 border-2 [&>*:nth-child(even)]:dark:border-gray-50 ' key = {`sortieCaisse${el._id}`} ><td className="border-2 border-gray-800 px-10 dark:border-gray-50 dark:text-gray-50">{el._id}</td> <td className="border-2 border-gray-800 px-10">{el.valeur}</td></tr> ));
         }
     }, [data]);
 
@@ -65,7 +65,7 @@ export default function MensRapSuiviDepense ({user, error, loading}) {
     if (no_existent) {
         
         return (<div>
-            <h1>Ooouups vous ne pouvez demander une donnee d&apos;une date inexistante</h1>
+            <h1 className='dark:text-gray-50'>Ooouups vous ne pouvez demander une donnee d&apos;une date inexistante</h1>
         </div>
         )
     } else {
@@ -75,12 +75,12 @@ export default function MensRapSuiviDepense ({user, error, loading}) {
         if (data.entreeCaisse.length > 0 && data.sortieCaisse.length > 0 ) {
         
             return (<div className=" justify-center flex">
-                <h2 className="lg:text-3xl text-2xl font-bold text-gray-800 mb-5 absolute"> Suivi Depense</h2>
+                <h2 className="lg:text-3xl text-2xl font-bold text-gray-800 mb-7 absolute dark:text-gray-50 "> Suivi Depense</h2>
                 <div className=" text-center items-center justify-center my-10 ">
-                    <table className=" border-collapse duration-300 table-fixed font-normal border-2 border-gray-900">
+                    <table className=" border-collapse duration-300 table-fixed font-normal border-2 border-gray-900 dark:border-gray-50">
                         <thead>
                             <tr>
-                                <th colSpan={2} className=" py-1 bg-indigo-200 px-12 border-solid font-normal border-2 border-gray-900">Entree Caisse</th>
+                                <th colSpan={2} className=" py-1 bg-indigo-200 px-12 border-solid font-normal border-2 border-gray-900 dark:border-gray-50">Entree Caisse</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -88,7 +88,7 @@ export default function MensRapSuiviDepense ({user, error, loading}) {
                         </tbody>
                         <thead>
                             <tr>
-                                <th colSpan={2} className=" py-1 bg-indigo-200 px-12 border-solid font-normal border-2 border-gray-900">Sortie Caisse</th>
+                                <th colSpan={2} className=" py-1 bg-indigo-200 px-12 border-solid font-normal border-2 border-gray-900 dark:border-gray-50">Sortie Caisse</th>
                             </tr>
                         </thead>
                         <tbody>

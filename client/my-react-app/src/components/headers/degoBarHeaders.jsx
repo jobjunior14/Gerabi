@@ -9,7 +9,7 @@ export default function HouseRoutes ({component})
     const inactiveLik = 'text-gray-300 mx-5 py-2 px-3 hover:text-indigo-400 duration-300';
     const divStyle = 'my-3 lg:my-0';
     return (
-        <nav className='my-5 bg-gray-800 p-4 rounded-lg w-auto block lg:flex justify-center items-center sc'>
+        <nav className={`my-5 dark:bg-gray-600 bg-gray-800 p-4 rounded-lg w-auto block lg:flex justify-center items-center sc`}>
             <div className={divStyle}>
                 <NavLink 
                     className = {({isActive}) => isActive ? activeLink : inactiveLik} 

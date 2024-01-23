@@ -35,7 +35,7 @@ export default function SoriteCaisse ({loading, error, pError}) {
                     <th className="bg-slate-600 border-2 border-gray-900" key={`thSortie${i}`} colSpan={2}> 
                     
                         <input 
-                            className="pl-2 bg-gray-50 duration-150 focus:scale-105 focus:outline-none focus:border-2 appearance-none border-2 focus:border-indigo-700 " 
+                            className="pl-2 bg-gray-50 dark:bg-gray-800 text-center rounded-md dark:text-gray-50 duration-150 focus:scale-105 focus:outline-none focus:border-2 appearance-none border-2 focus:border-indigo-700 " 
                             type="text"
                             value={sortieCaisse[i].name}
                             id= {tableHeaderSortieCaisse.length + id + `sortieCaisse[${i}].name`}
@@ -70,7 +70,7 @@ export default function SoriteCaisse ({loading, error, pError}) {
                         tableDataSortieCaisse.push(
                             <td className="border-2 border-gray-900" key={`tdSortie${j}`}>
                                 <input
-                                    className="w-32 bg-gray-50 duration-150 focus:scale-105 focus:outline-none focus:border-2 appearance-none border-2 focus:border-indigo-700 " 
+                                    className="w-32 bg-gray-50 duration-150 dark:bg-gray-800 rounded-md dark:text-gray-50 focus:scale-105 focus:outline-none focus:border-2 appearance-none border-2 focus:border-indigo-700 " 
                                     value={sortieCaisse[j].data[y].libel}
                                     id = {tableDataSortieCaisse.length + id + `sortieCaisse[${j}].data[${y}].libel`}
                                     name = 'libel'
@@ -88,7 +88,7 @@ export default function SoriteCaisse ({loading, error, pError}) {
                         tableDataSortieCaisse.push(
                             <td className="border-2 border-gray-900" key = {`tdsortie${j}`}>
                                 <input
-                                    className="w-32 bg-gray-50 duration-150 focus:scale-105 focus:outline-none focus:border-2 appearance-none border-2 focus:border-indigo-700 " 
+                                    className="w-32 bg-gray-50 duration-150 dark:bg-gray-800 rounded-md dark:text-gray-50 focus:scale-105 focus:outline-none focus:border-2 appearance-none border-2 focus:border-indigo-700 " 
                                     value={sortieCaisse[j].data[y].amount}
                                     id = {tableDataSortieCaisse.length + id + 'amount' + `sortieCaisse[${j}].data[${y}].amount`}
                                     name = 'amount'
@@ -156,7 +156,7 @@ export default function SoriteCaisse ({loading, error, pError}) {
                 return (
                     <div className="text-center justify-center items-center block mt-5">
                         <div  className=" flex justify-center mt-10">
-                            <h2 className="lg:text-2xl text-xl font-semibold text-gray-700 block absolute -mt-6 ">Sorite Caisse</h2>
+                            <h2 className="lg:text-2xl text-xl font-semibold text-gray-700 block absolute -mt-6 dark:text-gray-50 ">Sorite Caisse</h2>
                             <div className="text-center border-2 border-slate-600  overflow-x-auto px-4 mt-4 rounded-lg ">
                                 <table className=" border-collapse duration-300 table-fixed font-normal border-2 border-gray-900 my-5">
                                     <thead>
@@ -178,8 +178,8 @@ export default function SoriteCaisse ({loading, error, pError}) {
                                             {displayTotFocnt}
                                         </tr>
                                         <tr>
-                                            <th>Total Sortie</th>
-                                            <td colSpan={100000}> {allTotalSortieCaisse} </td>
+                                            <th className="font-semibold  dark:text-gray-50">Total Sortie</th>
+                                            <td colSpan={100000} className="font-bold dark:text-gray-50"> {allTotalSortieCaisse} </td>
                                         </tr>
                                     </tfoot>
                                 </table>
@@ -200,7 +200,7 @@ export default function SoriteCaisse ({loading, error, pError}) {
                 
                 return (
                     <div className="m-4">
-                        <h3 className="lg:text-2xl text-xl font-semibold text-gray-700">Sortie Caisse</h3>
+                        <h3 className="lg:text-2xl text-xl font-semibold text-gray-700 dark:text-gray-50">Sortie Caisse</h3>
                         <h4> Ooouups! cette donnee est inexistante </h4>
                         <button className="px-5 py-1 bg-gray-500 text-gray-100 rounded-md " onClick={() => dispatch(suiviDepenseActions.addFonctionSortie())}> Ajouter une fonction</button>
                     </div>

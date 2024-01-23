@@ -28,12 +28,12 @@ export function ExcelSecLayout() {
     };
   }, [productData]);
 
-  const thStyle = " py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900";
+  const thStyle = " py-1 bg-indigo-200 dark:bg-violet-400 dark:text-gray-100  px-3 border-solid font-normal border-2 border-gray-900";
   if (stateAction) {
 
     if (!toggleStoc) {
       return (
-        <div className="w-full bg-slate-200 border-2 border-slate-500 rounded-md overflow-x-auto p-4 font-normal">
+        <div className="w-full dark:bg-gray-600  bg-slate-200 border-2 border-slate-500 rounded-md overflow-x-auto p-4 font-normal">
 
           <table className=" border-collapse duration-300 table-fixed font-normal border-2 border-gray-900" >
             <thead>

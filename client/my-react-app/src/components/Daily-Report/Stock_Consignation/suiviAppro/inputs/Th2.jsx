@@ -2,7 +2,7 @@
 
 export default function InputsTh2 ({providers})
 {
-    const thStyle = "py-1 bg-indigo-200 px-3 border-solid font-normal border-2 border-gray-900";
+    const thStyle = "py-1 bg-indigo-200  dark:bg-violet-400 dark:text-white  px-3 border-solid font-normal border-2 border-gray-900";
     return (
         <tr>
             <th className={thStyle}> Qt Caisse  </th>

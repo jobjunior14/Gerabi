@@ -5,7 +5,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { suiviDepenseActions } from "../../store/suiviDepense-slice";
 import LoadingError from "../../errorPages/LoadingError";
 import PostAndUpdateError from "../../errorPages/postAndUpdateError";
-import Loading from "../../loading";
 export default function EntreeCaisse ({ foundPrevSold, prevDay, prevMonth, prevYear, loading, error, pError }){
 
     const dispatch = useDispatch ();
@@ -57,7 +56,7 @@ export default function EntreeCaisse ({ foundPrevSold, prevDay, prevMonth, prevY
     }, [memoTotEntreeCaisse(), totalEntreeCaisse, prevSoldCaisse]);
 
 
-    const thStyle = "border-2 border-gray-900";
+    const thStyle = "border-2 border-gray-900 dark:border-gray-50";
 
     if (pError) {
         return (<PostAndUpdateError message={pError.message}/>);
@@ -70,28 +69,28 @@ export default function EntreeCaisse ({ foundPrevSold, prevDay, prevMonth, prevY
                 return (
                    <div className=" text-center justify-center items-center block -mt-5">
                         <div className=" justify-center flex -mb-10">
-                            <h3 className="lg:text-2xl text-xl font-semibold text-gray-700 block absolute mt-6">Entrée Caisse</h3>
-                            <table className=" border-collapse duration-300 table-fixed font-normal border-2 border-gray-900 my-16">
-                                <tbody>
-                                    {displayData}
-                                    <tr className="bg-slate-300">
-                                        <th className={thStyle}>Total Entrée</th>
-                                        <td className={thStyle}> {totalEntreeCaisse} </td>
-                                    </tr>
-                                    <tr>
-                                        <th className={thStyle}> Total Sold Caisse</th>
-                                        <td className={thStyle}> {totalSoldCaisse} </td>
-                                    </tr>
-    
-                                </tbody>
-                            </table>
+                            <h3 className="lg:text-2xl text-xl font-semibold text-gray-700 dark:text-gray-50 block absolute mt-6">Entrée Caisse</h3>
+                                <table className=" border-collapse duration-300 table-fixed font-normal border-2 dark:border-gray-50  border-gray-900 my-16">
+                                    <tbody>
+                                        {displayData}
+                                        <tr className="bg-slate-300">
+                                            <th className={thStyle}>Total Entrée</th>
+                                            <td className={thStyle}> {totalEntreeCaisse} </td>
+                                        </tr>
+                                        <tr>
+                                            <th className="border-2 border-gray-900 dark:text-gray-50 dark:bg-violet-400 font-semibold dark:border-gray-50"> Total Sold Caisse</th>
+                                            <td className="border-2 border-gray-900 dark:text-gray-50 dark:bg-violet-400 font-semibold dark:border-gray-50"> {totalSoldCaisse} </td>
+                                        </tr>
+        
+                                    </tbody>
+                                </table>
                         </div>
                         <div className="block" >
     
                             { foundPrevSold && <div className="block mb-5">
     
-                                <p className="font-bold text-gray-600"> Le sold caisse du {prevYear}/{prevMonth}/{prevDay}, n&apos;a pas été trouvé </p>
-                                <label className="font-bold text-gray-800" id = {'inputfromUser' + id}> S&apos;il est existant veillez le taper: </label>
+                                <p className="font-semibold text-gray-600 dark:text-gray-200"> Le sold caisse du {prevYear}/{prevMonth}/{prevDay}, n&apos;a pas été trouvé </p>
+                                <label className="font-semibold text-gray-800 dark:text-gray-200" id = {'inputfromUser' + id}> S&apos;il est existant veillez le taper: </label>
                                 <input 
                                         className=" pl-1 w-32 bg-slate-400 rounded-lg duration-150 focus:scale-105 focus:outline-none focus:border-2 appearance-none border-2 focus:border-indigo-700 " 
                                     type="number"
