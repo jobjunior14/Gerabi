@@ -266,7 +266,7 @@ export default function Product () {
         } else {
           //the loading page
           if (loading || pAnduLoading) {
-            return (<div className="-mt-20">
+            return (<div className="mt-20">
               <Loading/>
             </div>);
           }
