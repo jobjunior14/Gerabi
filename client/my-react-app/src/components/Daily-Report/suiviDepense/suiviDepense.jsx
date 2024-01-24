@@ -131,6 +131,9 @@ export default function SuiviDepense (){
 
 
     function handleDate (name, value) {
+        //don't allow user to set a negative date or equal to 0
+        if (value <= 0) value = '';
+
         setDate(prev => ({...prev, [name]: value}));
     }
     function setFilterParams() {

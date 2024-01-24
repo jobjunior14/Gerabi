@@ -38,6 +38,7 @@ export default function Signup () {
                     //if response is OK, redirect to the home page
                     if (authorisation.status) {
                         localStorage.setItem('jwtA', authorisation.data.token);
+                        localStorage.setItem('degoUser', authorisation.data.data.name)
                         navigate(`/rapportJournalier/degoBar/product/bralima?year=${currentYear}&month=${currentMonth}&day=${currentDay}`);
                     }
 
@@ -56,7 +57,7 @@ export default function Signup () {
     return (
         <div className=" flex justify-center">
 
-        <div className=" flex justify-center mt-10 bg-white border-2 border-slate-400 rounded-md min-w-60 px-5 py-5">
+        <div className=" flex justify-center mt-10 bg-white dark:bg-gray-800 border-2 border-slate-400 rounded-md min-w-60 px-5 py-5">
 
             <div>
                 {/* display the errorMessage */}

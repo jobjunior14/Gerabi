@@ -31,7 +31,7 @@ export default function AllDebtComp ({loading, error, pError, debtName, totalDet
             }
             for (let i = 0; i < nameData.length; i++) {
                 //total {name}
-                savetotalDetteName += nameData[i].data.amount;
+                savetotalDetteName += Number (nameData[i].data.amount);
             }
         }
         //set the total Dette agent

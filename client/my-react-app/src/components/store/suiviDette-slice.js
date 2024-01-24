@@ -67,7 +67,7 @@ const suiviDetteSlice = createSlice ({
             } else {
 
                 state.clients[index] = {...state.clients[index], data: {...state.clients[index]['data'], [name]: value} };
-            };
+            }
         },
         //handle data in clients
         HandleAgents (state, action) {

@@ -12,7 +12,10 @@ export function MensRepport ({user}) {
     const [date, setDate] = useState({year, month, day});
 
     function handleDate (name, value) {
-        setDate (prev => ({...prev, [name]: Number (value)}));
+        //don't allow user to set a negative date or equal to 0
+            if (value <= 0) value = '';
+
+        setDate(prev => ({...prev, [name]: value}));    
     }
     
     //a fucntion we're gonna pass to the date controller filds cause 
