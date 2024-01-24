@@ -46,68 +46,68 @@ export default function VenteSystemGraph ({graphicWidth, checkWidth})  {
     
     return (
         <div>
-            <h1 className="lg:text-4xl text-3xl font-bold text-gray-800 my-3">Comparaison&nbsp;Annuelle</h1>
+            <h1 className="lg:text-4xl text-3xl dark:text-gray-50 font-bold text-gray-800 my-3">Comparaison&nbsp;Annuelle</h1>
             <div className="border-2 border-slate-400 rounded-lg px-1 py-5">
-                <h2 className=" bg-gray-800  rounded-lg p-4 lg:text-3xl text-2xl font-normal text-gray-200 mb-5">DegoBar</h2>
+                <h2 className=" bg-gray-800 rounded-lg p-4 lg:text-3xl text-2xl dark:bg-gray-500 font-normal text-gray-200 mb-5">DegoBar</h2>
                 <div className=" px-0.5" >
                     <div className="flex justify-center">
-                        <h2 className="lg:text-xl text-lg font-light text-gray-600 my-5 absolute">Vente Bar</h2>
+                        <h2 className="lg:text-xl text-lg dark:text-gray-50 font-light text-gray-600 my-5 absolute">Vente Bar</h2>
                         <div className="border-2 border-slate-400 p-4 overflow-x-auto max-w-fit mt-14 rounded-lg">
                             {!bralima.loading ? <Graphique 
                                 options={Degooptions}
                                 series = {degoVenteBarSerie} 
                                 type = 'bar'
                                 width = {`${ !checkWidth ? graphicWidth : 400}`}          
-                            /> : <h5>Loading</h5>}
+                            /> : <h5 className="dark:text-gray-50">Loading</h5>}
                         </div>
                     </div>
                     <div className="flex justify-center">
-                        <h2 className="lg:text-xl text-lg font-light text-gray-600 my-5 absolute"> Approvisionnement</h2>
+                        <h2 className="lg:text-xl text-lg dark:text-gray-50 font-light text-gray-600 my-5 absolute"> Approvisionnement</h2>
                         <div className="border-2 border-slate-400 p-4 overflow-x-auto max-w-fit mt-14 rounded-lg">
                             {!bralima.loading ? <Graphique 
                                 options={Degooptions}
                                 series = {degoApprovisionnementSerie}
                                 type = 'bar'
                                 width = {`${ !checkWidth ? graphicWidth : 400}`}            
-                            /> : <h5>Loading</h5>}
+                            /> : <h5 className="dark:text-gray-50">Loading</h5>}
                         </div>
                     </div>
                     <div className="flex justify-center">
-                        <h2 className="lg:text-xl text-lg font-light text-gray-600 my-5 absolute">Benefice</h2>
+                        <h2 className="lg:text-xl text-lg dark:text-gray-50 font-light text-gray-600 my-5 absolute">Benefice</h2>
                         <div className="border-2 border-slate-400 p-4 overflow-x-auto max-w-fit mt-14 rounded-lg">
                             {!bralima.loading ? <Graphique 
                                 options={Degooptions}
                                 series = {degoBeneficeSerie}
                                 type = 'bar'
                                 width = {`${ !checkWidth ? graphicWidth : 400}`}            
-                            /> : <h5>Loading</h5>}
+                            /> : <h5 className="dark:text-gray-50">Loading</h5>}
                         </div>
                     </div>
                 </div>
                 
-                <h2 className=" bg-gray-800  rounded-lg p-4 lg:text-3xl text-2xl font-normal text-gray-200 my-5">Alimentation</h2>
+                <h2 className=" bg-gray-800  rounded-lg p-4 lg:text-3xl text-2xl dark:bg-gray-500 font-normal text-gray-200 my-5">Alimentation</h2>
                 <div className=" px-0.5">
                     <div className="flex justify-center">
-                        <h2 className="lg:text-xl text-lg font-light text-gray-600 my-5 absolute">Vente Bar</h2>
+                        <h2 className="lg:text-xl text-lg dark:text-gray-50 font-light text-gray-600 my-5 absolute">Vente Bar</h2>
                         <div className="border-2 border-slate-400 p-4 overflow-x-auto max-w-fit mt-14 rounded-lg">
                             {!alimBralima.loading ? <Graphique 
                                 options={Alimoptions}
                                 series = {alimVenteBarSerie}
                                 type = 'bar'
                                 width = {`${ !checkWidth ? graphicWidth : 400}`}            
-                            /> : <h5>Loading</h5>}
+                            /> : <h5 className="dark:text-gray-50">Loading</h5>}
                         </div>
                     </div>
                     
                     <div className="flex justify-center">
-                        <h2 className="lg:text-xl text-lg font-light text-gray-600 my-5 absolute">Benefice</h2>
+                        <h2 className="lg:text-xl text-lg dark:text-gray-50 font-light text-gray-600 my-5 absolute">Benefice</h2>
                         <div className="border-2 border-slate-400 p-4 overflow-x-auto max-w-fit mt-14 rounded-lg">
                             {!alimBralima.loading ? <Graphique 
                                 options={Alimoptions}
                                 series = {alimBeneficeSerie}
                                 type = 'bar'
                                 width = {`${ !checkWidth ? graphicWidth : 400}`}            
-                            /> : <h5>Loading</h5>}
+                            /> : <h5 className="dark:text-gray-50">Loading</h5>}
                         </div>
                     </div>
                 </div>

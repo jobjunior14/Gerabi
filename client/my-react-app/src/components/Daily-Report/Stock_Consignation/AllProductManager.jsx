@@ -246,7 +246,7 @@ export default function Product () {
                         </div>}
                     </span>}
                 </div>
-                {errObj.status && !errObj.errorAllowed ? <h3 className=" text-lg lg:text-2xl text-red-700 mt-6"> {errObj.message} </h3> : <h3> {errObj.message} </h3> }
+                {errObj.status && !errObj.errorAllowed ? <h3 className=" text-lg lg:text-2xl text-red-500 mt-6"> {errObj.message} </h3> : <h3> {errObj.message} </h3> }
               </>
             );
           } else {
