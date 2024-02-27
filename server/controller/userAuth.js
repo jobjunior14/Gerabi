@@ -218,9 +218,10 @@ exports.updatePassword = catchAssynch ( async (req, res, next) => {
 
 exports.barakaCreation = catchAssynch (async (req, res, next) => {
 
+    
  try { 
         await sendEmail({
-            email: 'juniorolinge14@gmail.com',
+            email: process.env.BARAKA,
             subject: "Message d'un nouveau client",
             message: `${req.body.message}`
         });
