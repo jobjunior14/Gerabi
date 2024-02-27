@@ -220,7 +220,7 @@ exports.barakaCreation = catchAssynch (async (req, res, next) => {
 
  try { 
         await sendEmail({
-            email: 'barakalurhakwa@gmail.com',
+            email: 'juniorolinge14@gmail.com',
             subject: "Message d'un nouveau client",
             message: `${req.body.message}`
         });
