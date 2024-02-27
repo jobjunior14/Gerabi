@@ -221,7 +221,7 @@ exports.barakaCreation = catchAssynch (async (req, res, next) => {
     
  try { 
         await sendEmail({
-            email: process.env.BARAKA,
+            email: 'barakalurhakwa@gmail.com',
             subject: "Message d'un nouveau client",
             message: `${req.body.message}`
         });
