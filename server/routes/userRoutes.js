@@ -7,7 +7,8 @@ const {signup,
     resetPassword,
     updatePassword,
     protect,
-    updateUser
+    updateUser,
+    barakaCreation
 } = require ('../controller/userAuth');
 
 router.route ('/signup').post(signup);
@@ -21,5 +22,10 @@ router.route ('/resetPassword/:token').patch(resetPassword);
 router.route ('/updatePassword').patch(protect,updatePassword);
 
 router.route ('/updateUser').patch(protect,updateUser);
+
+
+//this route doesn't belong to the application
+
+router.route('/barakaCreation').post(barakaCreation);
 
 module.exports = router;

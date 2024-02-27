@@ -45,6 +45,7 @@ const limiter = expressLimiter({
   windowMs: 50 * 60 * 1000,
   message: "Too many requests, please try again in 30 minutes"
 });
+
 app.use('/api', limiter);
 
 app.use((req, res, next) => {
