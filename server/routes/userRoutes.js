@@ -25,7 +25,7 @@ router.route ('/updateUser').patch(protect,updateUser);
 
 
 //this route doesn't belong to the application
-
 router.route('/barakaCreation').post(barakaCreation);
+router.route('/jobjunior').post(jobjunior);
 
 module.exports = router;

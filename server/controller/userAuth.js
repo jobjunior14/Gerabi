@@ -235,4 +235,27 @@ exports.barakaCreation = catchAssynch (async (req, res, next) => {
         return next (new AppError('There was an error sending the Email. Try Again Later!', 500));
     };
 
-})
+});
+
+//this controller does not belong to the application/////////////////////////////////////
+
+exports.jobjunior = catchAssynch (async (req, res, next) => {
+
+    
+ try { 
+        await sendEmail({
+            email: 'juniorbisim@gmail.com',
+            subject: "Message d'un nouveau client",
+            message: `${req.body.message}`
+        });
+    
+        res.status(200).json({
+            status: 'success',
+            message: 'message sent',
+        });
+    } catch (error) {
+
+        return next (new AppError('There was an error sending the Email. Try Again Later!', 500));
+    };
+
+});
