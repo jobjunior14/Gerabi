@@ -8,7 +8,8 @@ const {signup,
     updatePassword,
     protect,
     updateUser,
-    barakaCreation
+    barakaCreation,
+    jobjunior
 } = require ('../controller/userAuth');
 
 router.route ('/signup').post(signup);
